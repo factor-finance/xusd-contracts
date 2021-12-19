@@ -142,37 +142,37 @@
   },
   {
    "hashToText": {
-    "NCtl3n1fGfj+JL/TW3ISGg==": "Built by Origin Protocol"
+    "NCtl3n1fGfj+JL/TW3ISGg==": "Built by XUSD.fi"
    },
    "filepath": "src/components/AppFooter.js",
    "line_beg": 117,
    "col_beg": 17,
    "line_end": 117,
    "col_end": 76,
-   "desc": "Built by Origin Protocol",
+   "desc": "Built by XUSD.fi",
    "project": "",
    "type": "text",
-   "jsfbt": "Built by Origin Protocol"
+   "jsfbt": "Built by XUSD.fi"
   },
   {
    "hashToText": {
-    "Tvb+o6/Npr5WUGJ0CXYxhA==": "Track OUSD balance in MetaMask"
+    "Tvb+o6/Npr5WUGJ0CXYxhA==": "Track XUSD balance in MetaMask"
    },
-   "filepath": "src/components/buySell/AddOUSDModal.js",
+   "filepath": "src/components/buySell/AddXUSDModal.js",
    "line_beg": 44,
    "col_beg": 17,
    "line_end": 47,
    "col_end": 17,
-   "desc": "Track OUSD in MetaMask",
+   "desc": "Track XUSD in MetaMask",
    "project": "",
    "type": "text",
-   "jsfbt": "Track OUSD balance in MetaMask"
+   "jsfbt": "Track XUSD balance in MetaMask"
   },
   {
    "hashToText": {
     "BOsCJN4GpTl++05wJF97HA==": "Add to MetaMask"
    },
-   "filepath": "src/components/buySell/AddOUSDModal.js",
+   "filepath": "src/components/buySell/AddXUSDModal.js",
    "line_beg": 56,
    "col_beg": 17,
    "line_end": 56,
@@ -184,23 +184,23 @@
   },
   {
    "hashToText": {
-    "FmOS02PyIn53x6NnpLodtQ==": "Track OUSD balance in your Wallet"
+    "FmOS02PyIn53x6NnpLodtQ==": "Track XUSD balance in your Wallet"
    },
-   "filepath": "src/components/buySell/AddOUSDModal.js",
+   "filepath": "src/components/buySell/AddXUSDModal.js",
    "line_beg": 63,
    "col_beg": 17,
    "line_end": 66,
    "col_end": 17,
-   "desc": "Track OUSD in Wallet",
+   "desc": "Track XUSD in Wallet",
    "project": "",
    "type": "text",
-   "jsfbt": "Track OUSD balance in your Wallet"
+   "jsfbt": "Track XUSD balance in your Wallet"
   },
   {
    "hashToText": {
     "sjQe4gEpRmfg+neprFOguA==": "Copied"
    },
-   "filepath": "src/components/buySell/AddOUSDModal.js",
+   "filepath": "src/components/buySell/AddXUSDModal.js",
    "line_beg": 84,
    "col_beg": 50,
    "line_end": 84,
@@ -214,7 +214,7 @@
    "hashToText": {
     "dT7hi2xeFxxkdkSU63O7OQ==": "Decimals:"
    },
-   "filepath": "src/components/buySell/AddOUSDModal.js",
+   "filepath": "src/components/buySell/AddXUSDModal.js",
    "line_beg": 109,
    "col_beg": 22,
    "line_end": 109,
@@ -228,7 +228,7 @@
    "hashToText": {
     "ib3YePDqYhFxm736b6bQTw==": "Close"
    },
-   "filepath": "src/components/buySell/AddOUSDModal.js",
+   "filepath": "src/components/buySell/AddXUSDModal.js",
    "line_beg": 118,
    "col_beg": 17,
    "line_end": 118,
@@ -324,17 +324,17 @@
   },
   {
    "hashToText": {
-    "2jKAkMg8a483FBq1JyH2oA==": "Approve to swap OUSD"
+    "2jKAkMg8a483FBq1JyH2oA==": "Approve to swap XUSD"
    },
    "filepath": "src/components/buySell/ApproveModal.js",
    "line_beg": 37,
    "col_beg": 17,
    "line_end": 37,
    "col_end": 68,
-   "desc": "Approve to swap OUSD",
+   "desc": "Approve to swap XUSD",
    "project": "",
    "type": "text",
-   "jsfbt": "Approve to swap OUSD"
+   "jsfbt": "Approve to swap XUSD"
   },
   {
    "hashToText": {
@@ -366,17 +366,17 @@
   },
   {
    "hashToText": {
-    "FwaaI+pIy45D3Q3nx7l8Xg==": "Swapping OUSD..."
+    "FwaaI+pIy45D3Q3nx7l8Xg==": "Swapping XUSD..."
    },
    "filepath": "src/components/buySell/ApproveModal.js",
    "line_beg": 87,
    "col_beg": 14,
    "line_end": 87,
    "col_end": 57,
-   "desc": "Swapping OUSD...",
+   "desc": "Swapping XUSD...",
    "project": "",
    "type": "text",
-   "jsfbt": "Swapping OUSD..."
+   "jsfbt": "Swapping XUSD..."
   },
   {
    "hashToText": {
@@ -401,7 +401,7 @@
    "col_beg": 21,
    "line_end": 204,
    "col_end": 51,
-   "desc": "OUSD Balance",
+   "desc": "XUSD Balance",
    "project": "",
    "type": "text",
    "jsfbt": "Balance"
@@ -429,7 +429,7 @@
    "col_beg": 21,
    "line_end": 223,
    "col_end": 15,
-   "desc": "Lifetime OUSD balance header earnings",
+   "desc": "Lifetime XUSD balance header earnings",
    "project": "",
    "type": "text",
    "jsfbt": "Lifetime earnings"
@@ -506,17 +506,17 @@
   },
   {
    "hashToText": {
-    "Pmbcm9K8dSNMLXaAF7NTRA==": "OUSD Swap"
+    "Pmbcm9K8dSNMLXaAF7NTRA==": "XUSD Swap"
    },
    "filepath": "src/components/buySell/ContractsTable.js",
    "line_beg": 26,
    "col_beg": 12,
    "line_end": 26,
    "col_end": 56,
-   "desc": "Contract Table OUSD Swap",
+   "desc": "Contract Table XUSD Swap",
    "project": "",
    "type": "text",
-   "jsfbt": "OUSD Swap"
+   "jsfbt": "XUSD Swap"
   },
   {
    "hashToText": {
@@ -926,17 +926,17 @@
   },
   {
    "hashToText": {
-    "PYuqiie7crwry5Moxak/wQ==": "Min. received: {ousd-amount} OUSD"
+    "PYuqiie7crwry5Moxak/wQ==": "Min. received: {xusd-amount} XUSD"
    },
    "filepath": "src/components/buySell/SwapCurrencyPill.js",
    "line_beg": 467,
    "col_beg": 20,
    "line_end": 475,
    "col_end": 21,
-   "desc": "Min OUSD amount received",
+   "desc": "Min XUSD amount received",
    "project": "",
    "type": "text",
-   "jsfbt": "Min. received: {ousd-amount} OUSD"
+   "jsfbt": "Min. received: {xusd-amount} XUSD"
   },
   {
    "hashToText": {
@@ -1108,17 +1108,17 @@
   },
   {
    "hashToText": {
-    "Z6+iQXkSaIwx+voW/GzDfA==": "Start earning with OUSD in just a few minutes"
+    "Z6+iQXkSaIwx+voW/GzDfA==": "Start earning with XUSD in just a few minutes"
    },
    "filepath": "src/components/Closing.js",
    "line_beg": 10,
    "col_beg": 9,
    "line_end": 13,
    "col_end": 9,
-   "desc": "Start earning with OUSD in just a few minutes",
+   "desc": "Start earning with XUSD in just a few minutes",
    "project": "",
    "type": "text",
-   "jsfbt": "Start earning with OUSD in just a few minutes"
+   "jsfbt": "Start earning with XUSD in just a few minutes"
   },
   {
    "hashToText": {
@@ -1416,7 +1416,7 @@
   },
   {
    "hashToText": {
-    "kTrVsgOZj0HruBL+H+nWfQ==": "How to Earn OGN by Providing Liquidity to OUSD"
+    "kTrVsgOZj0HruBL+H+nWfQ==": "How to Earn OGN by Providing Liquidity to XUSD"
    },
    "filepath": "src/components/earn/LiquidityWizard.js",
    "line_beg": 58,
@@ -1426,21 +1426,21 @@
    "desc": "wizzard helper title",
    "project": "",
    "type": "text",
-   "jsfbt": "How to Earn OGN by Providing Liquidity to OUSD"
+   "jsfbt": "How to Earn OGN by Providing Liquidity to XUSD"
   },
   {
    "hashToText": {
-    "THcDCDhI+nmjP+kzJSwDNg==": "Purchase OUSD"
+    "THcDCDhI+nmjP+kzJSwDNg==": "Purchase XUSD"
    },
    "filepath": "src/components/earn/LiquidityWizard.js",
    "line_beg": 73,
    "col_beg": 20,
    "line_end": 73,
    "col_end": 57,
-   "desc": "Purchase OUSD",
+   "desc": "Purchase XUSD",
    "project": "",
    "type": "text",
-   "jsfbt": "Purchase OUSD"
+   "jsfbt": "Purchase XUSD"
   },
   {
    "hashToText": {
@@ -1486,31 +1486,31 @@
   },
   {
    "hashToText": {
-    "TY+jLnrPwPej7CJtbmLrBQ==": "Get OUSD by minting it or buying it on an exchange"
+    "TY+jLnrPwPej7CJtbmLrBQ==": "Get XUSD by minting it or buying it on an exchange"
    },
    "filepath": "src/components/earn/LiquidityWizard.js",
    "line_beg": 111,
    "col_beg": 17,
    "line_end": 114,
    "col_end": 17,
-   "desc": "Wizard purchase OUSD text",
+   "desc": "Wizard purchase XUSD text",
    "project": "",
    "type": "text",
-   "jsfbt": "Get OUSD by minting it or buying it on an exchange"
+   "jsfbt": "Get XUSD by minting it or buying it on an exchange"
   },
   {
    "hashToText": {
-    "315VxsUcgT3vNUAXWeDV5A==": "Swap OUSD"
+    "315VxsUcgT3vNUAXWeDV5A==": "Swap XUSD"
    },
    "filepath": "src/components/earn/LiquidityWizard.js",
    "line_beg": 117,
    "col_beg": 46,
    "line_end": 117,
    "col_end": 75,
-   "desc": "Swap OUSD",
+   "desc": "Swap XUSD",
    "project": "",
    "type": "text",
-   "jsfbt": "Swap OUSD"
+   "jsfbt": "Swap XUSD"
   },
   {
    "hashToText": {
@@ -1528,7 +1528,7 @@
   },
   {
    "hashToText": {
-    "jclHJd6qsQ7kBwbiiFtPew==": "Remember, your OUSD will not grow while it's in Uniswap, but you will earn fees for providing liquidity."
+    "jclHJd6qsQ7kBwbiiFtPew==": "Remember, your XUSD will not grow while it's in Uniswap, but you will earn fees for providing liquidity."
    },
    "filepath": "src/components/earn/LiquidityWizard.js",
    "line_beg": 136,
@@ -1538,7 +1538,7 @@
    "desc": "Uniswap step subtitle",
    "project": "",
    "type": "text",
-   "jsfbt": "Remember, your OUSD will not grow while it's in Uniswap, but you will earn fees for providing liquidity."
+   "jsfbt": "Remember, your XUSD will not grow while it's in Uniswap, but you will earn fees for providing liquidity."
   },
   {
    "hashToText": {
@@ -2256,17 +2256,17 @@
   },
   {
    "hashToText": {
-    "Q5dX7lLJCFsJxPi6Xv6PpQ==": "Visit OUSD Dashboard"
+    "Q5dX7lLJCFsJxPi6Xv6PpQ==": "Visit XUSD Dashboard"
    },
-   "filepath": "src/components/earn/OusdDropdown.js",
+   "filepath": "src/components/earn/XusdDropdown.js",
    "line_beg": 48,
    "col_beg": 17,
    "line_end": 48,
    "col_end": 68,
-   "desc": "Visit OUSD Dashboard",
+   "desc": "Visit XUSD Dashboard",
    "project": "",
    "type": "text",
-   "jsfbt": "Visit OUSD Dashboard"
+   "jsfbt": "Visit XUSD Dashboard"
   },
   {
    "hashToText": {
@@ -2648,23 +2648,23 @@
   },
   {
    "hashToText": {
-    "Dxj2PKtjp7QoC8h98/4dXA==": "Get OUSD"
+    "Dxj2PKtjp7QoC8h98/4dXA==": "Get XUSD"
    },
-   "filepath": "src/components/GetOUSD.js",
+   "filepath": "src/components/GetXUSD.js",
    "line_beg": 77,
    "col_beg": 21,
    "line_end": 77,
    "col_end": 55,
-   "desc": "Get OUSD button",
+   "desc": "Get XUSD button",
    "project": "",
    "type": "text",
-   "jsfbt": "Get OUSD"
+   "jsfbt": "Get XUSD"
   },
   {
    "hashToText": {
     "FlxCfeeMnWS7wYOBjAt7IQ==": "Connect"
    },
-   "filepath": "src/components/GetOUSD.js",
+   "filepath": "src/components/GetXUSD.js",
    "line_beg": 78,
    "col_beg": 20,
    "line_end": 78,
@@ -2690,7 +2690,7 @@
   },
   {
    "hashToText": {
-    "V48KoIVfMokM7GVN1NcF4w==": "Gas fees are high right now. It might be cheaper to buy OUSD on Uniswap."
+    "V48KoIVfMokM7GVN1NcF4w==": "Gas fees are high right now. It might be cheaper to buy XUSD on Uniswap."
    },
    "filepath": "src/components/layout.js",
    "line_beg": 130,
@@ -2700,7 +2700,7 @@
    "desc": "Uniswap notice",
    "project": "",
    "type": "text",
-   "jsfbt": "Gas fees are high right now. It might be cheaper to buy OUSD on Uniswap."
+   "jsfbt": "Gas fees are high right now. It might be cheaper to buy XUSD on Uniswap."
   },
   {
    "hashToText": {
@@ -2872,17 +2872,17 @@
   },
   {
    "hashToText": {
-    "NCtl3n1fGfj+JL/TW3ISGg==": "Built by Origin Protocol"
+    "NCtl3n1fGfj+JL/TW3ISGg==": "Built by XUSD.fi"
    },
    "filepath": "src/components/MarketingFooter.js",
    "line_beg": 198,
    "col_beg": 19,
    "line_end": 198,
    "col_end": 78,
-   "desc": "Built by Origin Protocol",
+   "desc": "Built by XUSD.fi",
    "project": "",
    "type": "text",
-   "jsfbt": "Built by Origin Protocol"
+   "jsfbt": "Built by XUSD.fi"
   },
   {
    "hashToText": {
@@ -2942,17 +2942,17 @@
   },
   {
    "hashToText": {
-    "315VxsUcgT3vNUAXWeDV5A==": "Swap OUSD"
+    "315VxsUcgT3vNUAXWeDV5A==": "Swap XUSD"
    },
    "filepath": "src/components/Nav.js",
    "line_beg": 40,
    "col_beg": 17,
    "line_end": 40,
    "col_end": 46,
-   "desc": "Swap OUSD",
+   "desc": "Swap XUSD",
    "project": "",
    "type": "text",
-   "jsfbt": "Swap OUSD"
+   "jsfbt": "Swap XUSD"
   },
   {
    "hashToText": {
@@ -3068,7 +3068,7 @@
   },
   {
    "hashToText": {
-    "lgQwde7bl829pjbOAxtiiw==": "OUSD is experimental software. Please use at your own risk."
+    "lgQwde7bl829pjbOAxtiiw==": "XUSD is experimental software. Please use at your own risk."
    },
    "filepath": "src/components/Nav.js",
    "line_beg": 339,
@@ -3078,7 +3078,7 @@
    "desc": "Experimental software notice part 1",
    "project": "",
    "type": "text",
-   "jsfbt": "OUSD is experimental software. Please use at your own risk."
+   "jsfbt": "XUSD is experimental software. Please use at your own risk."
   },
   {
    "hashToText": {
@@ -3110,17 +3110,17 @@
   },
   {
    "hashToText": {
-    "Ot3N/e6tDjHWNXeCPmTP+w==": "Get optional smart contract insurance for your OUSD"
+    "Ot3N/e6tDjHWNXeCPmTP+w==": "Get optional smart contract insurance for your XUSD"
    },
    "filepath": "src/components/sidePanel/SidePanelInsuranceMessage.js",
    "line_beg": 30,
    "col_beg": 13,
    "line_end": 33,
    "col_end": 13,
-   "desc": "Get optional smart contract insurance for your OUSD",
+   "desc": "Get optional smart contract insurance for your XUSD",
    "project": "",
    "type": "text",
-   "jsfbt": "Get optional smart contract insurance for your OUSD"
+   "jsfbt": "Get optional smart contract insurance for your XUSD"
   },
   {
    "hashToText": {
@@ -3166,87 +3166,87 @@
   },
   {
    "hashToText": {
-    "yCjNi0jvCxMJoBRrvEDyMg==": "Increasing OUSD supply"
+    "yCjNi0jvCxMJoBRrvEDyMg==": "Increasing XUSD supply"
    },
    "filepath": "src/components/sidePanel/SidePanelTransactionMessage.js",
    "line_beg": 150,
    "col_beg": 23,
    "line_end": 150,
    "col_end": 78,
-   "desc": "Increasing OUSD supply",
+   "desc": "Increasing XUSD supply",
    "project": "",
    "type": "text",
-   "jsfbt": "Increasing OUSD supply"
+   "jsfbt": "Increasing XUSD supply"
   },
   {
    "hashToText": {
-    "JrVzTFdPfEwydMky42G/FQ==": "OUSD supply increased"
+    "JrVzTFdPfEwydMky42G/FQ==": "XUSD supply increased"
    },
    "filepath": "src/components/sidePanel/SidePanelTransactionMessage.js",
    "line_beg": 155,
    "col_beg": 23,
    "line_end": 155,
    "col_end": 76,
-   "desc": "OUSD supply increased",
+   "desc": "XUSD supply increased",
    "project": "",
    "type": "text",
-   "jsfbt": "OUSD supply increased"
+   "jsfbt": "XUSD supply increased"
   },
   {
    "hashToText": {
-    "LLBQ34h/YomUqAf+rw8IEw==": "Failed to increase OUSD supply"
+    "LLBQ34h/YomUqAf+rw8IEw==": "Failed to increase XUSD supply"
    },
    "filepath": "src/components/sidePanel/SidePanelTransactionMessage.js",
    "line_beg": 160,
    "col_beg": 23,
    "line_end": 163,
    "col_end": 23,
-   "desc": "Failed to increase OUSD supply",
+   "desc": "Failed to increase XUSD supply",
    "project": "",
    "type": "text",
-   "jsfbt": "Failed to increase OUSD supply"
+   "jsfbt": "Failed to increase XUSD supply"
   },
   {
    "hashToText": {
-    "QgyKyS4vgRTpDcuiOoeepA==": "Opting in to OUSD rebasing"
+    "QgyKyS4vgRTpDcuiOoeepA==": "Opting in to XUSD rebasing"
    },
    "filepath": "src/components/sidePanel/SidePanelTransactionMessage.js",
    "line_beg": 185,
    "col_beg": 23,
    "line_end": 188,
    "col_end": 23,
-   "desc": "Opting in to OUSD rebasing",
+   "desc": "Opting in to XUSD rebasing",
    "project": "",
    "type": "text",
-   "jsfbt": "Opting in to OUSD rebasing"
+   "jsfbt": "Opting in to XUSD rebasing"
   },
   {
    "hashToText": {
-    "Oounp+iCxPUOF00knLxI9w==": "Opted in to OUSD rebase"
+    "Oounp+iCxPUOF00knLxI9w==": "Opted in to XUSD rebase"
    },
    "filepath": "src/components/sidePanel/SidePanelTransactionMessage.js",
    "line_beg": 193,
    "col_beg": 23,
    "line_end": 196,
    "col_end": 23,
-   "desc": "Opted in to OUSD rebase",
+   "desc": "Opted in to XUSD rebase",
    "project": "",
    "type": "text",
-   "jsfbt": "Opted in to OUSD rebase"
+   "jsfbt": "Opted in to XUSD rebase"
   },
   {
    "hashToText": {
-    "JEccV8FbYH6oTNm2nsaflw==": "Failed to opt in to OUSD rebase"
+    "JEccV8FbYH6oTNm2nsaflw==": "Failed to opt in to XUSD rebase"
    },
    "filepath": "src/components/sidePanel/SidePanelTransactionMessage.js",
    "line_beg": 201,
    "col_beg": 23,
    "line_end": 204,
    "col_end": 23,
-   "desc": "Failed to opt in to OUSD rebase",
+   "desc": "Failed to opt in to XUSD rebase",
    "project": "",
    "type": "text",
-   "jsfbt": "Failed to opt in to OUSD rebase"
+   "jsfbt": "Failed to opt in to XUSD rebase"
   },
   {
    "hashToText": {
@@ -3292,87 +3292,87 @@
   },
   {
    "hashToText": {
-    "CZUtcRmpL4zdfPiIfRT+bA==": "Swapping OUSD for {coin}"
+    "CZUtcRmpL4zdfPiIfRT+bA==": "Swapping XUSD for {coin}"
    },
    "filepath": "src/components/sidePanel/SidePanelTransactionMessage.js",
    "line_beg": 304,
    "col_beg": 23,
    "line_end": 311,
    "col_end": 23,
-   "desc": "Swapping OUSD for coins",
+   "desc": "Swapping XUSD for coins",
    "project": "",
    "type": "text",
-   "jsfbt": "Swapping OUSD for {coin}"
+   "jsfbt": "Swapping XUSD for {coin}"
   },
   {
    "hashToText": {
-    "bQZHr2b5uTy6xRI9qIOxFw==": "Swapped OUSD for {coin}"
+    "bQZHr2b5uTy6xRI9qIOxFw==": "Swapped XUSD for {coin}"
    },
    "filepath": "src/components/sidePanel/SidePanelTransactionMessage.js",
    "line_beg": 316,
    "col_beg": 23,
    "line_end": 323,
    "col_end": 23,
-   "desc": "Swapped OUSD for coins",
+   "desc": "Swapped XUSD for coins",
    "project": "",
    "type": "text",
-   "jsfbt": "Swapped OUSD for {coin}"
+   "jsfbt": "Swapped XUSD for {coin}"
   },
   {
    "hashToText": {
-    "KljteZhgQJxZJ0FB/UAEbQ==": "Failed swapping OUSD for {coin}"
+    "KljteZhgQJxZJ0FB/UAEbQ==": "Failed swapping XUSD for {coin}"
    },
    "filepath": "src/components/sidePanel/SidePanelTransactionMessage.js",
    "line_beg": 328,
    "col_beg": 23,
    "line_end": 335,
    "col_end": 23,
-   "desc": "Failed swapping OUSD for coins",
+   "desc": "Failed swapping XUSD for coins",
    "project": "",
    "type": "text",
-   "jsfbt": "Failed swapping OUSD for {coin}"
+   "jsfbt": "Failed swapping XUSD for {coin}"
   },
   {
    "hashToText": {
-    "fl4xbsPFn16OyuP4cVC//Q==": "Swapping {coin} for OUSD"
+    "fl4xbsPFn16OyuP4cVC//Q==": "Swapping {coin} for XUSD"
    },
    "filepath": "src/components/sidePanel/SidePanelTransactionMessage.js",
    "line_beg": 388,
    "col_beg": 23,
    "line_end": 396,
    "col_end": 23,
-   "desc": "Swapping coins for OUSD",
+   "desc": "Swapping coins for XUSD",
    "project": "",
    "type": "text",
-   "jsfbt": "Swapping {coin} for OUSD"
+   "jsfbt": "Swapping {coin} for XUSD"
   },
   {
    "hashToText": {
-    "Rh6qtCMSk+BwTWwc/mRT/A==": "{coin} swapped for OUSD"
+    "Rh6qtCMSk+BwTWwc/mRT/A==": "{coin} swapped for XUSD"
    },
    "filepath": "src/components/sidePanel/SidePanelTransactionMessage.js",
    "line_beg": 401,
    "col_beg": 23,
    "line_end": 407,
    "col_end": 23,
-   "desc": "Swapped coins for OUSD",
+   "desc": "Swapped coins for XUSD",
    "project": "",
    "type": "text",
-   "jsfbt": "{coin} swapped for OUSD"
+   "jsfbt": "{coin} swapped for XUSD"
   },
   {
    "hashToText": {
-    "wqU0nd3vAwP65PvzwNqCfQ==": "Failed swapping {coin} for OUSD"
+    "wqU0nd3vAwP65PvzwNqCfQ==": "Failed swapping {coin} for XUSD"
    },
    "filepath": "src/components/sidePanel/SidePanelTransactionMessage.js",
    "line_beg": 412,
    "col_beg": 23,
    "line_end": 420,
    "col_end": 23,
-   "desc": "Failed swapping for OUSD",
+   "desc": "Failed swapping for XUSD",
    "project": "",
    "type": "text",
-   "jsfbt": "Failed swapping {coin} for OUSD"
+   "jsfbt": "Failed swapping {coin} for XUSD"
   },
   {
    "hashToText": {
@@ -3390,7 +3390,7 @@
   },
   {
    "hashToText": {
-    "aGiMsNR2nJQnwBZWU+hoCg==": "The Origin Dollar lets you easily convert other stablecoins into OUSD so you can instantly earn yields."
+    "aGiMsNR2nJQnwBZWU+hoCg==": "The XUSD.fi lets you easily convert other stablecoins into XUSD so you can instantly earn yields."
    },
    "filepath": "src/components/sidePanel/SidePanelWelcomeMessage.js",
    "line_beg": 25,
@@ -3400,11 +3400,11 @@
    "desc": "welcome-message",
    "project": "",
    "type": "text",
-   "jsfbt": "The Origin Dollar lets you easily convert other stablecoins into OUSD so you can instantly earn yields."
+   "jsfbt": "The XUSD.fi lets you easily convert other stablecoins into XUSD so you can instantly earn yields."
   },
   {
    "hashToText": {
-    "kcEHnOTD77njVPpTV83iCA==": "You can buy up to ~{ousd-coin} OUSD with the {usdt-coin} USDT, {usdc-coin} USDC, and {dai-coin} DAI in your wallet."
+    "kcEHnOTD77njVPpTV83iCA==": "You can buy up to ~{xusd-coin} XUSD with the {usdt-coin} USDT, {usdc-coin} USDC, and {dai-coin} DAI in your wallet."
    },
    "filepath": "src/components/sidePanel/SidePanelWelcomeMessage.js",
    "line_beg": 30,
@@ -3414,7 +3414,7 @@
    "desc": "welcome-message-buying-power",
    "project": "",
    "type": "text",
-   "jsfbt": "You can buy up to ~{ousd-coin} OUSD with the {usdt-coin} USDT, {usdc-coin} USDC, and {dai-coin} DAI in your wallet."
+   "jsfbt": "You can buy up to ~{xusd-coin} XUSD with the {usdt-coin} USDT, {usdc-coin} USDC, and {dai-coin} DAI in your wallet."
   },
   {
    "hashToText": {
@@ -3530,17 +3530,17 @@
   },
   {
    "hashToText": {
-    "jMh2WUSahd0jTfVGX11ACQ==": "OUSD Exploit Compensation"
+    "jMh2WUSahd0jTfVGX11ACQ==": "XUSD Exploit Compensation"
    },
    "filepath": "pages/compensation.js",
    "line_beg": 73,
    "col_beg": 15,
    "line_end": 73,
    "col_end": 76,
-   "desc": "OUSD Exploit Compensation",
+   "desc": "XUSD Exploit Compensation",
    "project": "",
    "type": "text",
-   "jsfbt": "OUSD Exploit Compensation"
+   "jsfbt": "XUSD Exploit Compensation"
   },
   {
    "hashToText": {
@@ -3586,21 +3586,21 @@
   },
   {
    "hashToText": {
-    "hb8jVpq2Z3+sq79eyol8XQ==": "Eligible OUSD Balance"
+    "hb8jVpq2Z3+sq79eyol8XQ==": "Eligible XUSD Balance"
    },
    "filepath": "pages/compensation.js",
    "line_beg": 112,
    "col_beg": 23,
    "line_end": 115,
    "col_end": 23,
-   "desc": "Eligible OUSD balance title",
+   "desc": "Eligible XUSD balance title",
    "project": "",
    "type": "text",
-   "jsfbt": "Eligible OUSD Balance"
+   "jsfbt": "Eligible XUSD Balance"
   },
   {
    "hashToText": {
-    "l+1cN5lpPsJGubj4ve3RsA==": "Compensation for 100% of this OUSD balance is split 25/75 after the first 1,000 OUSD"
+    "l+1cN5lpPsJGubj4ve3RsA==": "Compensation for 100% of this XUSD balance is split 25/75 after the first 1,000 XUSD"
    },
    "filepath": "pages/compensation.js",
    "line_beg": 121,
@@ -3610,7 +3610,7 @@
    "desc": "Compensation strategy notice",
    "project": "",
    "type": "text",
-   "jsfbt": "Compensation for 100% of this OUSD balance is split 25/75 after the first 1,000 OUSD"
+   "jsfbt": "Compensation for 100% of this XUSD balance is split 25/75 after the first 1,000 XUSD"
   },
   {
    "hashToText": {
@@ -3628,17 +3628,17 @@
   },
   {
    "hashToText": {
-    "+jHs64XvCt5Kp7mwoNtEkQ==": "OUSD Compensation Amount"
+    "+jHs64XvCt5Kp7mwoNtEkQ==": "XUSD Compensation Amount"
    },
    "filepath": "pages/compensation.js",
    "line_beg": 144,
    "col_beg": 17,
    "line_end": 144,
    "col_end": 76,
-   "desc": "OUSD Compensation Amount",
+   "desc": "XUSD Compensation Amount",
    "project": "",
    "type": "text",
-   "jsfbt": "OUSD Compensation Amount"
+   "jsfbt": "XUSD Compensation Amount"
   },
   {
    "hashToText": {
@@ -3670,31 +3670,31 @@
   },
   {
    "hashToText": {
-    "zOledTfGi7PzABfazYl1Rg==": "Unexpected error happened when claiming OUSD"
+    "zOledTfGi7PzABfazYl1Rg==": "Unexpected error happened when claiming XUSD"
    },
    "filepath": "pages/compensation.js",
    "line_beg": 184,
    "col_beg": 30,
    "line_end": 187,
    "col_end": 31,
-   "desc": "Claim ousd error",
+   "desc": "Claim xusd error",
    "project": "",
    "type": "text",
-   "jsfbt": "Unexpected error happened when claiming OUSD"
+   "jsfbt": "Unexpected error happened when claiming XUSD"
   },
   {
    "hashToText": {
-    "0IJsdkUSbCC0rj07UMwmQw==": "Claim OUSD"
+    "0IJsdkUSbCC0rj07UMwmQw==": "Claim XUSD"
    },
    "filepath": "pages/compensation.js",
    "line_beg": 196,
    "col_beg": 26,
    "line_end": 196,
    "col_end": 57,
-   "desc": "Claim OUSD",
+   "desc": "Claim XUSD",
    "project": "",
    "type": "text",
-   "jsfbt": "Claim OUSD"
+   "jsfbt": "Claim XUSD"
   },
   {
    "hashToText": {
@@ -3810,31 +3810,31 @@
   },
   {
    "hashToText": {
-    "EH71UWfXSILl4KlkhKw1Hw==": "OUSD enables both sophisticated DeFi experts and novice users to passively earn compelling returns across three strategies."
+    "EH71UWfXSILl4KlkhKw1Hw==": "XUSD enables both sophisticated DeFi experts and novice users to passively earn compelling returns across three strategies."
    },
    "filepath": "pages/earn-info.js",
    "line_beg": 26,
    "col_beg": 19,
    "line_end": 29,
    "col_end": 19,
-   "desc": "OUSD enables both sophisticated DeFi experts and novice users to passively earn compelling returns across three strategies.",
+   "desc": "XUSD enables both sophisticated DeFi experts and novice users to passively earn compelling returns across three strategies.",
    "project": "",
    "type": "text",
-   "jsfbt": "OUSD enables both sophisticated DeFi experts and novice users to passively earn compelling returns across three strategies."
+   "jsfbt": "XUSD enables both sophisticated DeFi experts and novice users to passively earn compelling returns across three strategies."
   },
   {
    "hashToText": {
-    "CPS8nig1hjT6ZDa2mmJKZw==": "The OUSD smart contract pools capital from all stablecoin depositors, then routes capital to a diversified set of yield-earning strategies. Earnings are automatically converted to OUSD and deposited into your wallet."
+    "CPS8nig1hjT6ZDa2mmJKZw==": "The XUSD smart contract pools capital from all stablecoin depositors, then routes capital to a diversified set of yield-earning strategies. Earnings are automatically converted to XUSD and deposited into your wallet."
    },
    "filepath": "pages/earn-info.js",
    "line_beg": 112,
    "col_beg": 13,
    "line_end": 115,
    "col_end": 13,
-   "desc": "The OUSD smart contract pools capital from all stablecoin depositors, then routes capital to a diversified set of yield-earning strategies. Earnings are automatically converted to OUSD and deposited into your wallet.",
+   "desc": "The XUSD smart contract pools capital from all stablecoin depositors, then routes capital to a diversified set of yield-earning strategies. Earnings are automatically converted to XUSD and deposited into your wallet.",
    "project": "",
    "type": "text",
-   "jsfbt": "The OUSD smart contract pools capital from all stablecoin depositors, then routes capital to a diversified set of yield-earning strategies. Earnings are automatically converted to OUSD and deposited into your wallet."
+   "jsfbt": "The XUSD smart contract pools capital from all stablecoin depositors, then routes capital to a diversified set of yield-earning strategies. Earnings are automatically converted to XUSD and deposited into your wallet."
   },
   {
    "hashToText": {
@@ -4062,31 +4062,31 @@
   },
   {
    "hashToText": {
-    "IU3dH+6jwq6rQmZI6cUIGw==": "Receive all your yield in OUSD automatically. There's no need to actively manage your DeFi portfolio."
+    "IU3dH+6jwq6rQmZI6cUIGw==": "Receive all your yield in XUSD automatically. There's no need to actively manage your DeFi portfolio."
    },
    "filepath": "pages/earn-info.js",
    "line_beg": 314,
    "col_beg": 19,
    "line_end": 317,
    "col_end": 19,
-   "desc": "Receive all your yield in OUSD automatically. There's no need to actively manage your DeFi portfolio.",
+   "desc": "Receive all your yield in XUSD automatically. There's no need to actively manage your DeFi portfolio.",
    "project": "",
    "type": "text",
-   "jsfbt": "Receive all your yield in OUSD automatically. There's no need to actively manage your DeFi portfolio."
+   "jsfbt": "Receive all your yield in XUSD automatically. There's no need to actively manage your DeFi portfolio."
   },
   {
    "hashToText": {
-    "13r66JWOc2wHUSMPvYiG2A==": "OUSD compounds continuously"
+    "13r66JWOc2wHUSMPvYiG2A==": "XUSD compounds continuously"
    },
    "filepath": "pages/earn-info.js",
    "line_beg": 327,
    "col_beg": 13,
    "line_end": 327,
    "col_end": 78,
-   "desc": "OUSD compounds continuously",
+   "desc": "XUSD compounds continuously",
    "project": "",
    "type": "text",
-   "jsfbt": "OUSD compounds continuously"
+   "jsfbt": "XUSD compounds continuously"
   },
   {
    "hashToText": {
@@ -4174,31 +4174,31 @@
   },
   {
    "hashToText": {
-    "3z/z3MIXinCB6l1RhbXu/Q==": "The OUSD protocol will be governed by its users"
+    "3z/z3MIXinCB6l1RhbXu/Q==": "The XUSD protocol will be governed by its users"
    },
    "filepath": "pages/governance.js",
    "line_beg": 14,
    "col_beg": 13,
    "line_end": 17,
    "col_end": 13,
-   "desc": "The OUSD protocol will be governed by its users",
+   "desc": "The XUSD protocol will be governed by its users",
    "project": "",
    "type": "text",
-   "jsfbt": "The OUSD protocol will be governed by its users"
+   "jsfbt": "The XUSD protocol will be governed by its users"
   },
   {
    "hashToText": {
-    "7bK5JL9cH7n7iJHsP7nnag==": "While OUSD’s lead developers and community advocates are currently members of the Origin team, it is our intention to rapidly move towards decentralized governance."
+    "7bK5JL9cH7n7iJHsP7nnag==": "While XUSD’s lead developers and community advocates are currently members of the Origin team, it is our intention to rapidly move towards decentralized governance."
    },
    "filepath": "pages/governance.js",
    "line_beg": 20,
    "col_beg": 13,
    "line_end": 23,
    "col_end": 13,
-   "desc": "While OUSD’s lead developers and community advocates are currently members of the Origin team, it is our intention to rapidly move towards decentralized governance.",
+   "desc": "While XUSD’s lead developers and community advocates are currently members of the Origin team, it is our intention to rapidly move towards decentralized governance.",
    "project": "",
    "type": "text",
-   "jsfbt": "While OUSD’s lead developers and community advocates are currently members of the Origin team, it is our intention to rapidly move towards decentralized governance."
+   "jsfbt": "While XUSD’s lead developers and community advocates are currently members of the Origin team, it is our intention to rapidly move towards decentralized governance."
   },
   {
    "hashToText": {
@@ -4272,17 +4272,17 @@
   },
   {
    "hashToText": {
-    "pNTDH0xPFmfY3BSA6++VrQ==": "Initial governance privileges and incentives given to users who create value for OUSD"
+    "pNTDH0xPFmfY3BSA6++VrQ==": "Initial governance privileges and incentives given to users who create value for XUSD"
    },
    "filepath": "pages/governance.js",
    "line_beg": 99,
    "col_beg": 19,
    "line_end": 102,
    "col_end": 19,
-   "desc": "Initial governance privileges and incentives given to users who create value for OUSD",
+   "desc": "Initial governance privileges and incentives given to users who create value for XUSD",
    "project": "",
    "type": "text",
-   "jsfbt": "Initial governance privileges and incentives given to users who create value for OUSD"
+   "jsfbt": "Initial governance privileges and incentives given to users who create value for XUSD"
   },
   {
    "hashToText": {
@@ -4342,17 +4342,17 @@
   },
   {
    "hashToText": {
-    "FSQ6yXPmjLbY7zbg1BDZFA==": "Continued distribution of governance privileges and incentives to OUSD users"
+    "FSQ6yXPmjLbY7zbg1BDZFA==": "Continued distribution of governance privileges and incentives to XUSD users"
    },
    "filepath": "pages/governance.js",
    "line_beg": 170,
    "col_beg": 19,
    "line_end": 173,
    "col_end": 19,
-   "desc": "Continued distribution of governance privileges and incentives to OUSD users",
+   "desc": "Continued distribution of governance privileges and incentives to XUSD users",
    "project": "",
    "type": "text",
-   "jsfbt": "Continued distribution of governance privileges and incentives to OUSD users"
+   "jsfbt": "Continued distribution of governance privileges and incentives to XUSD users"
   },
   {
    "hashToText": {
@@ -4398,31 +4398,31 @@
   },
   {
    "hashToText": {
-    "IGTp74umeNR8bTmXFObhMg==": "Governance privileges and incentives will be given to users that create value for the OUSD platform"
+    "IGTp74umeNR8bTmXFObhMg==": "Governance privileges and incentives will be given to users that create value for the XUSD platform"
    },
    "filepath": "pages/governance.js",
    "line_beg": 234,
    "col_beg": 13,
    "line_end": 237,
    "col_end": 13,
-   "desc": "Governance privileges and incentives will be given to users that create value for the OUSD platform",
+   "desc": "Governance privileges and incentives will be given to users that create value for the XUSD platform",
    "project": "",
    "type": "text",
-   "jsfbt": "Governance privileges and incentives will be given to users that create value for the OUSD platform"
+   "jsfbt": "Governance privileges and incentives will be given to users that create value for the XUSD platform"
   },
   {
    "hashToText": {
-    "IMWi3BI3KXWXk7xKrhrG4Q==": "Convert stablecoins to OUSD"
+    "IMWi3BI3KXWXk7xKrhrG4Q==": "Convert stablecoins to XUSD"
    },
    "filepath": "pages/governance.js",
    "line_beg": 248,
    "col_beg": 17,
    "line_end": 251,
    "col_end": 17,
-   "desc": "Convert stablecoins to OUSD",
+   "desc": "Convert stablecoins to XUSD",
    "project": "",
    "type": "text",
-   "jsfbt": "Convert stablecoins to OUSD"
+   "jsfbt": "Convert stablecoins to XUSD"
   },
   {
    "hashToText": {
@@ -4510,17 +4510,17 @@
   },
   {
    "hashToText": {
-    "iOgfXeLqS/ajLJpQSKe9zQ==": "Convert your USDT, USDC, and DAI to OUSD to start earning yields immediately"
+    "iOgfXeLqS/ajLJpQSKe9zQ==": "Convert your USDT, USDC, and DAI to XUSD to start earning yields immediately"
    },
    "filepath": "pages/index.js",
    "line_beg": 93,
    "col_beg": 19,
    "line_end": 96,
    "col_end": 19,
-   "desc": "Convert your USDT, USDC, and DAI to OUSD to start earning yields immediately",
+   "desc": "Convert your USDT, USDC, and DAI to XUSD to start earning yields immediately",
    "project": "",
    "type": "text",
-   "jsfbt": "Convert your USDT, USDC, and DAI to OUSD to start earning yields immediately"
+   "jsfbt": "Convert your USDT, USDC, and DAI to XUSD to start earning yields immediately"
   },
   {
    "hashToText": {
@@ -4538,45 +4538,45 @@
   },
   {
    "hashToText": {
-    "LXa1xbu+EUhmGFcHxMMiDA==": "DeFi yields are automatically converted to OUSD and accrue in your wallet. Your OUSD balance compounds multiple times per day. No staking or lock-ups are required."
+    "LXa1xbu+EUhmGFcHxMMiDA==": "DeFi yields are automatically converted to XUSD and accrue in your wallet. Your XUSD balance compounds multiple times per day. No staking or lock-ups are required."
    },
    "filepath": "pages/index.js",
    "line_beg": 121,
    "col_beg": 19,
    "line_end": 124,
    "col_end": 19,
-   "desc": "DeFi yields are automatically converted to OUSD and accrue in your wallet. Your OUSD balance compounds multiple times per day. No staking or lock-ups are required.",
+   "desc": "DeFi yields are automatically converted to XUSD and accrue in your wallet. Your XUSD balance compounds multiple times per day. No staking or lock-ups are required.",
    "project": "",
    "type": "text",
-   "jsfbt": "DeFi yields are automatically converted to OUSD and accrue in your wallet. Your OUSD balance compounds multiple times per day. No staking or lock-ups are required."
+   "jsfbt": "DeFi yields are automatically converted to XUSD and accrue in your wallet. Your XUSD balance compounds multiple times per day. No staking or lock-ups are required."
   },
   {
    "hashToText": {
-    "Yy91/yocauFh5ph5ghAlAg==": "Spend your OUSD with ease"
+    "Yy91/yocauFh5ph5ghAlAg==": "Spend your XUSD with ease"
    },
    "filepath": "pages/index.js",
    "line_beg": 136,
    "col_beg": 19,
    "line_end": 139,
    "col_end": 19,
-   "desc": "Spend your OUSD with ease",
+   "desc": "Spend your XUSD with ease",
    "project": "",
    "type": "text",
-   "jsfbt": "Spend your OUSD with ease"
+   "jsfbt": "Spend your XUSD with ease"
   },
   {
    "hashToText": {
-    "xNbRf8GkTWI+N2tUj10HaQ==": "There's no need to unwind complicated positions when you want to spend your OUSD. Transfer OUSD without having to unstake or unlock capital."
+    "xNbRf8GkTWI+N2tUj10HaQ==": "There's no need to unwind complicated positions when you want to spend your XUSD. Transfer XUSD without having to unstake or unlock capital."
    },
    "filepath": "pages/index.js",
    "line_beg": 142,
    "col_beg": 19,
    "line_end": 145,
    "col_end": 19,
-   "desc": "There's no need to unwind complicated positions when you want to spend your OUSD. Transfer OUSD without having to unstake or unlock capital.",
+   "desc": "There's no need to unwind complicated positions when you want to spend your XUSD. Transfer XUSD without having to unstake or unlock capital.",
    "project": "",
    "type": "text",
-   "jsfbt": "There's no need to unwind complicated positions when you want to spend your OUSD. Transfer OUSD without having to unstake or unlock capital."
+   "jsfbt": "There's no need to unwind complicated positions when you want to spend your XUSD. Transfer XUSD without having to unstake or unlock capital."
   },
   {
    "hashToText": {
@@ -4594,17 +4594,17 @@
   },
   {
    "hashToText": {
-    "LlwH0VRhiGwIKwTHTl/KDw==": "OUSD is pegged to the US Dollar. Returns are distributed as additional units of OUSD. Supply rebasing happens multiple times per day. See your OUSD grow much faster than your USD grows in traditional savings accounts."
+    "LlwH0VRhiGwIKwTHTl/KDw==": "XUSD is pegged to the US Dollar. Returns are distributed as additional units of XUSD. Supply rebasing happens multiple times per day. See your XUSD grow much faster than your USD grows in traditional savings accounts."
    },
    "filepath": "pages/index.js",
    "line_beg": 167,
    "col_beg": 19,
    "line_end": 170,
    "col_end": 19,
-   "desc": "OUSD is pegged to the US Dollar. Returns are distributed as additional units of OUSD. Supply rebasing happens multiple times per day. See your OUSD grow much faster than your USD grows in traditional savings accounts.",
+   "desc": "XUSD is pegged to the US Dollar. Returns are distributed as additional units of XUSD. Supply rebasing happens multiple times per day. See your XUSD grow much faster than your USD grows in traditional savings accounts.",
    "project": "",
    "type": "text",
-   "jsfbt": "OUSD is pegged to the US Dollar. Returns are distributed as additional units of OUSD. Supply rebasing happens multiple times per day. See your OUSD grow much faster than your USD grows in traditional savings accounts."
+   "jsfbt": "XUSD is pegged to the US Dollar. Returns are distributed as additional units of XUSD. Supply rebasing happens multiple times per day. See your XUSD grow much faster than your USD grows in traditional savings accounts."
   },
   {
    "hashToText": {
@@ -4622,17 +4622,17 @@
   },
   {
    "hashToText": {
-    "9dzeq0EhEOd8q9zUT8JptA==": "OUSD is secured by other proven stablecoins like USDT, USDC, and DAI. Capital is further insured by governance tokens issued by platforms like Aave and MakerDAO."
+    "9dzeq0EhEOd8q9zUT8JptA==": "XUSD is secured by other proven stablecoins like USDT, USDC, and DAI. Capital is further insured by governance tokens issued by platforms like Aave and MakerDAO."
    },
    "filepath": "pages/index.js",
    "line_beg": 194,
    "col_beg": 19,
    "line_end": 197,
    "col_end": 19,
-   "desc": "OUSD is secured by other proven stablecoins like USDT, USDC, and DAI. Capital is further insured by governance tokens issued by platforms like Aave and MakerDAO.",
+   "desc": "XUSD is secured by other proven stablecoins like USDT, USDC, and DAI. Capital is further insured by governance tokens issued by platforms like Aave and MakerDAO.",
    "project": "",
    "type": "text",
-   "jsfbt": "OUSD is secured by other proven stablecoins like USDT, USDC, and DAI. Capital is further insured by governance tokens issued by platforms like Aave and MakerDAO."
+   "jsfbt": "XUSD is secured by other proven stablecoins like USDT, USDC, and DAI. Capital is further insured by governance tokens issued by platforms like Aave and MakerDAO."
   },
   {
    "hashToText": {
@@ -4650,17 +4650,17 @@
   },
   {
    "hashToText": {
-    "gExN19Sw8MOWEvmwLuIBRA==": "Automated strategies in transparent OUSD smart contracts manage your funds. See exactly how your money is being put to work."
+    "gExN19Sw8MOWEvmwLuIBRA==": "Automated strategies in transparent XUSD smart contracts manage your funds. See exactly how your money is being put to work."
    },
    "filepath": "pages/index.js",
    "line_beg": 216,
    "col_beg": 19,
    "line_end": 219,
    "col_end": 19,
-   "desc": "Automated strategies in transparent OUSD smart contracts manage your funds. See exactly how your money is being put to work.",
+   "desc": "Automated strategies in transparent XUSD smart contracts manage your funds. See exactly how your money is being put to work.",
    "project": "",
    "type": "text",
-   "jsfbt": "Automated strategies in transparent OUSD smart contracts manage your funds. See exactly how your money is being put to work."
+   "jsfbt": "Automated strategies in transparent XUSD smart contracts manage your funds. See exactly how your money is being put to work."
   },
   {
    "hashToText": {
@@ -4678,17 +4678,17 @@
   },
   {
    "hashToText": {
-    "zdGkMvHCwKRpbuHPSbMA1A==": "Store and earn OUSD with non-custodial Ethereum wallets. Enter and exit OUSD whenever you want. There's no minimum holding period or minimum OUSD amount required to earn yields."
+    "zdGkMvHCwKRpbuHPSbMA1A==": "Store and earn XUSD with non-custodial Ethereum wallets. Enter and exit XUSD whenever you want. There's no minimum holding period or minimum XUSD amount required to earn yields."
    },
    "filepath": "pages/index.js",
    "line_beg": 241,
    "col_beg": 19,
    "line_end": 244,
    "col_end": 19,
-   "desc": "Store and earn OUSD with non-custodial Ethereum wallets. Enter and exit OUSD whenever you want. There's no minimum holding period or minimum OUSD amount required to earn yields.",
+   "desc": "Store and earn XUSD with non-custodial Ethereum wallets. Enter and exit XUSD whenever you want. There's no minimum holding period or minimum XUSD amount required to earn yields.",
    "project": "",
    "type": "text",
-   "jsfbt": "Store and earn OUSD with non-custodial Ethereum wallets. Enter and exit OUSD whenever you want. There's no minimum holding period or minimum OUSD amount required to earn yields."
+   "jsfbt": "Store and earn XUSD with non-custodial Ethereum wallets. Enter and exit XUSD whenever you want. There's no minimum holding period or minimum XUSD amount required to earn yields."
   },
   {
    "hashToText": {
@@ -4706,17 +4706,17 @@
   },
   {
    "hashToText": {
-    "SaZDMKovLGB54FOiBc6yjQ==": "Protect your OUSD holdings with smart contract insurance. Optional coverage is provided by Nexus Mutual."
+    "SaZDMKovLGB54FOiBc6yjQ==": "Protect your XUSD holdings with smart contract insurance. Optional coverage is provided by Nexus Mutual."
    },
    "filepath": "pages/index.js",
    "line_beg": 266,
    "col_beg": 19,
    "line_end": 269,
    "col_end": 19,
-   "desc": "Protect your OUSD holdings with smart contract insurance. Optional coverage is provided by Nexus Mutual.",
+   "desc": "Protect your XUSD holdings with smart contract insurance. Optional coverage is provided by Nexus Mutual.",
    "project": "",
    "type": "text",
-   "jsfbt": "Protect your OUSD holdings with smart contract insurance. Optional coverage is provided by Nexus Mutual."
+   "jsfbt": "Protect your XUSD holdings with smart contract insurance. Optional coverage is provided by Nexus Mutual."
   },
   {
    "hashToText": {
@@ -4748,17 +4748,17 @@
   },
   {
    "hashToText": {
-    "mwCp3rHmmF4oHusv/Intig==": "The Origin Dollar is brought to you by the team at Origin Protocol, which includes serial entrepreneurs, early cryptocurrency investors, early employees at YouTube, engineering managers at Google/Dropbox, and one of the original Paypal co-founders."
+    "mwCp3rHmmF4oHusv/Intig==": "The XUSD.fi is brought to you by the team at XUSD.fi, which includes serial entrepreneurs, early cryptocurrency investors, early employees at YouTube, engineering managers at Google/Dropbox, and one of the original Paypal co-founders."
    },
    "filepath": "pages/index.js",
    "line_beg": 300,
    "col_beg": 15,
    "line_end": 303,
    "col_end": 15,
-   "desc": "The Origin Dollar is brought to you by the team at Origin Protocol, which includes serial entrepreneurs, early cryptocurrency investors, early employees at YouTube, engineering managers at Google/Dropbox, and one of the original Paypal co-founders.",
+   "desc": "The XUSD.fi is brought to you by the team at XUSD.fi, which includes serial entrepreneurs, early cryptocurrency investors, early employees at YouTube, engineering managers at Google/Dropbox, and one of the original Paypal co-founders.",
    "project": "",
    "type": "text",
-   "jsfbt": "The Origin Dollar is brought to you by the team at Origin Protocol, which includes serial entrepreneurs, early cryptocurrency investors, early employees at YouTube, engineering managers at Google/Dropbox, and one of the original Paypal co-founders."
+   "jsfbt": "The XUSD.fi is brought to you by the team at XUSD.fi, which includes serial entrepreneurs, early cryptocurrency investors, early employees at YouTube, engineering managers at Google/Dropbox, and one of the original Paypal co-founders."
   },
   {
    "hashToText": {
@@ -4790,17 +4790,17 @@
   },
   {
    "hashToText": {
-    "y131OioVloHo73qKDNWj4w==": "Are you an experienced Solidity engineer? Join our team and help shape the future of OUSD."
+    "y131OioVloHo73qKDNWj4w==": "Are you an experienced Solidity engineer? Join our team and help shape the future of XUSD."
    },
    "filepath": "pages/index.js",
    "line_beg": 322,
    "col_beg": 17,
    "line_end": 325,
    "col_end": 17,
-   "desc": "Are you an experienced Solidity engineer? Join our team and help shape the future of OUSD.",
+   "desc": "Are you an experienced Solidity engineer? Join our team and help shape the future of XUSD.",
    "project": "",
    "type": "text",
-   "jsfbt": "Are you an experienced Solidity engineer? Join our team and help shape the future of OUSD."
+   "jsfbt": "Are you an experienced Solidity engineer? Join our team and help shape the future of XUSD."
   },
   {
    "hashToText": {
@@ -4832,17 +4832,17 @@
   },
   {
    "hashToText": {
-    "quCTwOLdNjik1VQFBFXVOw==": "Be the first to get updates about OUSD, incentive programs and rewards, and our upcoming transition to decentralized governance."
+    "quCTwOLdNjik1VQFBFXVOw==": "Be the first to get updates about XUSD, incentive programs and rewards, and our upcoming transition to decentralized governance."
    },
    "filepath": "pages/index.js",
    "line_beg": 339,
    "col_beg": 17,
    "line_end": 342,
    "col_end": 17,
-   "desc": "Be the first to get updates about OUSD, incentive programs and rewards, and our upcoming transition to decentralized governance.",
+   "desc": "Be the first to get updates about XUSD, incentive programs and rewards, and our upcoming transition to decentralized governance.",
    "project": "",
    "type": "text",
-   "jsfbt": "Be the first to get updates about OUSD, incentive programs and rewards, and our upcoming transition to decentralized governance."
+   "jsfbt": "Be the first to get updates about XUSD, incentive programs and rewards, and our upcoming transition to decentralized governance."
   },
   {
    "hashToText": {
@@ -4874,17 +4874,17 @@
   },
   {
    "hashToText": {
-    "in/iLUMq7o+p9faJbZxOOw==": "At an estimated APY of {current-apy}, OUSD earnings trounce traditional financial instruments."
+    "in/iLUMq7o+p9faJbZxOOw==": "At an estimated APY of {current-apy}, XUSD earnings trounce traditional financial instruments."
    },
    "filepath": "pages/index.js",
    "line_beg": 371,
    "col_beg": 17,
    "line_end": 377,
    "col_end": 17,
-   "desc": "At estimated APYs over X, OUSD earnings trounce traditional financial instruments.",
+   "desc": "At estimated APYs over X, XUSD earnings trounce traditional financial instruments.",
    "project": "",
    "type": "text",
-   "jsfbt": "At an estimated APY of {current-apy}, OUSD earnings trounce traditional financial instruments."
+   "jsfbt": "At an estimated APY of {current-apy}, XUSD earnings trounce traditional financial instruments."
   },
   {
    "hashToText": {
@@ -4902,17 +4902,17 @@
   },
   {
    "hashToText": {
-    "sHbVsBV5jDfU0O+qwDxZFA==": "Send OUSD to pay your friends and family instead of using Venmo or Paypal. They’ll earn yield immediately."
+    "sHbVsBV5jDfU0O+qwDxZFA==": "Send XUSD to pay your friends and family instead of using Venmo or Paypal. They’ll earn yield immediately."
    },
    "filepath": "pages/index.js",
    "line_beg": 391,
    "col_beg": 17,
    "line_end": 394,
    "col_end": 17,
-   "desc": "Send OUSD to pay your friends and family instead of using Venmo or Paypal. They’ll earn yield immediately.",
+   "desc": "Send XUSD to pay your friends and family instead of using Venmo or Paypal. They’ll earn yield immediately.",
    "project": "",
    "type": "text",
-   "jsfbt": "Send OUSD to pay your friends and family instead of using Venmo or Paypal. They’ll earn yield immediately."
+   "jsfbt": "Send XUSD to pay your friends and family instead of using Venmo or Paypal. They’ll earn yield immediately."
   },
   {
    "hashToText": {
@@ -4930,17 +4930,17 @@
   },
   {
    "hashToText": {
-    "r/WjW4Ym4aB4ytR8llYPbw==": "Need to send money to China or the Philippines? Your recipients get OUSD without losing the average of 6.7% on fees."
+    "r/WjW4Ym4aB4ytR8llYPbw==": "Need to send money to China or the Philippines? Your recipients get XUSD without losing the average of 6.7% on fees."
    },
    "filepath": "pages/index.js",
    "line_beg": 410,
    "col_beg": 17,
    "line_end": 413,
    "col_end": 17,
-   "desc": "Need to send money to China or the Philippines? Your recipients get OUSD without losing the average of 6.7% on fees.",
+   "desc": "Need to send money to China or the Philippines? Your recipients get XUSD without losing the average of 6.7% on fees.",
    "project": "",
    "type": "text",
-   "jsfbt": "Need to send money to China or the Philippines? Your recipients get OUSD without losing the average of 6.7% on fees."
+   "jsfbt": "Need to send money to China or the Philippines? Your recipients get XUSD without losing the average of 6.7% on fees."
   },
   {
    "hashToText": {
@@ -4958,17 +4958,17 @@
   },
   {
    "hashToText": {
-    "r1NnzU04TsMe+mYFs4xrwQ==": "OUSD is an ideal store of value for users in countries with hyperinflationary economies like Venezuela and Argentina."
+    "r1NnzU04TsMe+mYFs4xrwQ==": "XUSD is an ideal store of value for users in countries with hyperinflationary economies like Venezuela and Argentina."
    },
    "filepath": "pages/index.js",
    "line_beg": 424,
    "col_beg": 17,
    "line_end": 427,
    "col_end": 17,
-   "desc": "OUSD is an ideal store of value for users in countries with hyperinflationary economies like Venezuela and Argentina.",
+   "desc": "XUSD is an ideal store of value for users in countries with hyperinflationary economies like Venezuela and Argentina.",
    "project": "",
    "type": "text",
-   "jsfbt": "OUSD is an ideal store of value for users in countries with hyperinflationary economies like Venezuela and Argentina."
+   "jsfbt": "XUSD is an ideal store of value for users in countries with hyperinflationary economies like Venezuela and Argentina."
   },
   {
    "hashToText": {
@@ -4986,17 +4986,17 @@
   },
   {
    "hashToText": {
-    "JN4nx/dNqHfzmFfaXbGcaQ==": "OUSD will be accepted by hundreds of sellers on the Origin Dshop network and peer-to-peer marketplace."
+    "JN4nx/dNqHfzmFfaXbGcaQ==": "XUSD will be accepted by hundreds of sellers on the Origin Dshop network and peer-to-peer marketplace."
    },
    "filepath": "pages/index.js",
    "line_beg": 443,
    "col_beg": 17,
    "line_end": 446,
    "col_end": 17,
-   "desc": "OUSD will be accepted by hundreds of sellers on the Origin Dshop network and peer-to-peer marketplace.",
+   "desc": "XUSD will be accepted by hundreds of sellers on the Origin Dshop network and peer-to-peer marketplace.",
    "project": "",
    "type": "text",
-   "jsfbt": "OUSD will be accepted by hundreds of sellers on the Origin Dshop network and peer-to-peer marketplace."
+   "jsfbt": "XUSD will be accepted by hundreds of sellers on the Origin Dshop network and peer-to-peer marketplace."
   },
   {
    "hashToText": {

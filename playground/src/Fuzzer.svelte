@@ -34,7 +34,7 @@
   }
 
   async function _redeem(name, amount, coin) {
-    await blockRun([name, "Vault", "redeem", amount + "OUSD"]);
+    await blockRun([name, "Vault", "redeem", amount + "XUSD"]);
   }
 
   function play() {

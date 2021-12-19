@@ -23,7 +23,7 @@ const ContractsTable = () => {
 
   const swapContracts = {
     flipper: {
-      name: fbt('OUSD Swap', 'Contract Table OUSD Swap'),
+      name: fbt('XUSD Swap', 'Contract Table XUSD Swap'),
     },
     vault: {
       name: fbt('Origin Vault', 'Contract Table Origin Vault'),

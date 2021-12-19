@@ -5,7 +5,7 @@ const { threepoolVaultFixture } = require("../_fixture");
 const {
   daiUnits,
   usdtUnits,
-  ousdUnits,
+  xusdUnits,
   units,
   loadFixture,
   expectApproxSupply,
@@ -18,7 +18,7 @@ describe("3Pool Strategy", function () {
   }
 
   let anna,
-    ousd,
+    xusd,
     vault,
     governor,
     crv,
@@ -42,7 +42,7 @@ describe("3Pool Strategy", function () {
     const fixture = await loadFixture(threepoolVaultFixture);
     anna = fixture.anna;
     vault = fixture.vault;
-    ousd = fixture.ousd;
+    xusd = fixture.xusd;
     governor = fixture.governor;
     crv = fixture.crv;
     crvMinter = fixture.crvMinter;
@@ -63,10 +63,10 @@ describe("3Pool Strategy", function () {
 
   describe("Mint", function () {
     it("Should stake USDT in Curve gauge via 3pool", async function () {
-      await expectApproxSupply(ousd, ousdUnits("200"));
+      await expectApproxSupply(xusd, xusdUnits("200"));
       await mint("30000.00", usdt);
-      await expectApproxSupply(ousd, ousdUnits("30200"));
-      await expect(anna).to.have.a.balanceOf("30000", ousd);
+      await expectApproxSupply(xusd, xusdUnits("30200"));
+      await expect(anna).to.have.a.balanceOf("30000", xusd);
       await expect(threePoolGauge).has.an.approxBalanceOf(
         "30000",
         threePoolToken
@@ -74,10 +74,10 @@ describe("3Pool Strategy", function () {
     });
 
     it("Should stake USDC in Curve gauge via 3pool", async function () {
-      await expectApproxSupply(ousd, ousdUnits("200"));
+      await expectApproxSupply(xusd, xusdUnits("200"));
       await mint("50000.00", usdc);
-      await expectApproxSupply(ousd, ousdUnits("50200"));
-      await expect(anna).to.have.a.balanceOf("50000", ousd);
+      await expectApproxSupply(xusd, xusdUnits("50200"));
+      await expect(anna).to.have.a.balanceOf("50000", xusd);
       await expect(threePoolGauge).has.an.approxBalanceOf(
         "50000",
         threePoolToken
@@ -99,12 +99,12 @@ describe("3Pool Strategy", function () {
 
   describe("Redeem", function () {
     it("Should be able to unstake from gauge and return USDT", async function () {
-      await expectApproxSupply(ousd, ousdUnits("200"));
+      await expectApproxSupply(xusd, xusdUnits("200"));
       await mint("10000.00", dai);
       await mint("10000.00", usdc);
       await mint("10000.00", usdt);
-      await vault.connect(anna).redeem(ousdUnits("20000"), 0);
-      await expectApproxSupply(ousd, ousdUnits("10200"));
+      await vault.connect(anna).redeem(xusdUnits("20000"), 0);
+      await expectApproxSupply(xusd, xusdUnits("10200"));
     });
   });
 
@@ -112,15 +112,15 @@ describe("3Pool Strategy", function () {
     it("Should allow transfer of arbitrary token by Governor", async () => {
       await dai.connect(anna).approve(vault.address, daiUnits("8.0"));
       await vault.connect(anna).mint(dai.address, daiUnits("8.0"), 0);
-      // Anna sends her OUSD directly to Strategy
-      await ousd
+      // Anna sends her XUSD directly to Strategy
+      await xusd
         .connect(anna)
-        .transfer(threePoolStrategy.address, ousdUnits("8.0"));
+        .transfer(threePoolStrategy.address, xusdUnits("8.0"));
       // Anna asks Governor for help
       await threePoolStrategy
         .connect(governor)
-        .transferToken(ousd.address, ousdUnits("8.0"));
-      await expect(governor).has.a.balanceOf("8.0", ousd);
+        .transferToken(xusd.address, xusdUnits("8.0"));
+      await expect(governor).has.a.balanceOf("8.0", xusd);
     });
 
     it("Should not allow transfer of arbitrary token by non-Governor", async () => {
@@ -128,7 +128,7 @@ describe("3Pool Strategy", function () {
       await expect(
         threePoolStrategy
           .connect(anna)
-          .transferToken(ousd.address, ousdUnits("8.0"))
+          .transferToken(xusd.address, xusdUnits("8.0"))
       ).to.be.revertedWith("Caller is not the Governor");
     });
 

@@ -794,7 +794,7 @@
             },
             {
               "internalType": "address",
-              "name": "_ousd",
+              "name": "_xusd",
               "type": "address"
             },
             {
@@ -901,11 +901,11 @@
           "inputs": [
             {
               "internalType": "uint256",
-              "name": "ousdAmount",
+              "name": "xusdAmount",
               "type": "uint256"
             }
           ],
-          "name": "expectedOgnPerOUSD",
+          "name": "expectedOgnPerXUSD",
           "outputs": [
             {
               "internalType": "uint256",
@@ -2374,27 +2374,8 @@
       ]
     },
     "ConvexStrategy": {
-      "address": "0x16156a06bD1bd2d80134EA1Ee7e5FaEBDbFa20aa",
+      "address": "0x08f3a0637851aA1B0E0750aA3d46E0E356f349aC",
       "abi": [
-        {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": false,
-              "internalType": "address",
-              "name": "_oldAddress",
-              "type": "address"
-            },
-            {
-              "indexed": false,
-              "internalType": "address",
-              "name": "_newAddress",
-              "type": "address"
-            }
-          ],
-          "name": "CvxRewardTokenAddressUpdated",
-          "type": "event"
-        },
         {
           "anonymous": false,
           "inputs": [
@@ -2656,19 +2637,6 @@
           "type": "function"
         },
         {
-          "inputs": [],
-          "name": "cvxRewardTokenAddress",
-          "outputs": [
-            {
-              "internalType": "address",
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
           "inputs": [
             {
               "internalType": "address",
@@ -2725,7 +2693,7 @@
             },
             {
               "internalType": "address",
-              "name": "_cvxRewardTokenAddress",
+              "name": "_crvRewardTokenAddress",
               "type": "address"
             },
             {
@@ -2860,19 +2828,6 @@
         {
           "inputs": [],
           "name": "safeApproveAllTokens",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "address",
-              "name": "_cvxRewardTokenAddress",
-              "type": "address"
-            }
-          ],
-          "name": "setCvxRewardTokenAddress",
           "outputs": [],
           "stateMutability": "nonpayable",
           "type": "function"
@@ -4723,7 +4678,7 @@
               "type": "uint256"
             }
           ],
-          "name": "buyOusdWithUsdt",
+          "name": "buyXusdWithUsdt",
           "outputs": [],
           "payable": false,
           "stateMutability": "nonpayable",
@@ -4738,7 +4693,7 @@
               "type": "uint256"
             }
           ],
-          "name": "buyOusdWithDai",
+          "name": "buyXusdWithDai",
           "outputs": [],
           "payable": false,
           "stateMutability": "nonpayable",
@@ -4771,7 +4726,7 @@
               "type": "uint256"
             }
           ],
-          "name": "sellOusdForDai",
+          "name": "sellXusdForDai",
           "outputs": [],
           "payable": false,
           "stateMutability": "nonpayable",
@@ -4786,7 +4741,7 @@
               "type": "uint256"
             }
           ],
-          "name": "buyOusdWithUsdc",
+          "name": "buyXusdWithUsdc",
           "outputs": [],
           "payable": false,
           "stateMutability": "nonpayable",
@@ -4801,7 +4756,7 @@
               "type": "uint256"
             }
           ],
-          "name": "sellOusdForUsdc",
+          "name": "sellXusdForUsdc",
           "outputs": [],
           "payable": false,
           "stateMutability": "nonpayable",
@@ -4831,7 +4786,7 @@
               "type": "uint256"
             }
           ],
-          "name": "sellOusdForUsdt",
+          "name": "sellXusdForUsdt",
           "outputs": [],
           "payable": false,
           "stateMutability": "nonpayable",
@@ -6646,7 +6601,7 @@
         }
       ]
     },
-    "OUSD": {
+    "XUSD": {
       "address": "0x33db8d52d65F75E4cdDA1b02463760c9561A2aa1",
       "abi": [
         {
@@ -7150,7 +7105,7 @@
           "name": "rebaseState",
           "outputs": [
             {
-              "internalType": "enum OUSD.RebaseOptions",
+              "internalType": "enum XUSD.RebaseOptions",
               "name": "",
               "type": "uint8"
             }
@@ -7317,7 +7272,7 @@
         }
       ]
     },
-    "OUSDProxy": {
+    "XUSDProxy": {
       "address": "0x2A8e1E676Ec238d8A992307B495b45B3fEAa5e86",
       "abi": [
         {
@@ -7522,7 +7477,7 @@
         }
       ]
     },
-    "OUSDReset": {
+    "XUSDReset": {
       "address": "0x78b107E4c3192E225e6Bc2bc10e28de9866d39De",
       "abi": [
         {
@@ -7800,7 +7755,7 @@
           "name": "rebaseState",
           "outputs": [
             {
-              "internalType": "enum OUSD.RebaseOptions",
+              "internalType": "enum XUSD.RebaseOptions",
               "name": "",
               "type": "uint8"
             }
@@ -8246,7 +8201,7 @@
         }
       ]
     },
-    "OUSDResolutionUpgrade": {
+    "XUSDResolutionUpgrade": {
       "address": "0xB248c975DaeAc47c4960EcBD10a79E486eBD1cA8",
       "abi": [
         {
@@ -8353,7 +8308,7 @@
           "name": "rebaseState",
           "outputs": [
             {
-              "internalType": "enum OUSDResolutionUpgrade.RebaseOptions",
+              "internalType": "enum XUSDResolutionUpgrade.RebaseOptions",
               "name": "",
               "type": "uint8"
             }
@@ -11286,7 +11241,7 @@
             },
             {
               "internalType": "address",
-              "name": "_ousd",
+              "name": "_xusd",
               "type": "address"
             }
           ],
@@ -13548,7 +13503,7 @@
             },
             {
               "internalType": "uint256",
-              "name": "_minimumOusdAmount",
+              "name": "_minimumXusdAmount",
               "type": "uint256"
             }
           ],
@@ -13571,7 +13526,7 @@
             },
             {
               "internalType": "uint256",
-              "name": "_minimumOusdAmount",
+              "name": "_minimumXusdAmount",
               "type": "uint256"
             }
           ],

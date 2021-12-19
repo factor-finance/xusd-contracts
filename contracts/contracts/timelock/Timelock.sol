@@ -2,8 +2,8 @@
 pragma solidity ^0.8.0;
 
 /**
- * @title OUSD Timelock Contract
- * @author Origin Protocol Inc
+ * @title XUSD Timelock Contract
+ * @author XUSD.fi Inc
  */
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 

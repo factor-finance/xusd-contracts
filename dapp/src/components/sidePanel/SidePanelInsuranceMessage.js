@@ -25,14 +25,14 @@ const SidePanelInsuranceMessage = () => {
           >
             ×
           </a>
-          <img className="insurance-icon" src="/images/ousd-shield-icon.svg" />
+          <img className="insurance-icon" src="/images/xusd-shield-icon.svg" />
           <div>
             {fbt(
-              'Get optional smart contract insurance for your OUSD',
-              'Get optional smart contract insurance for your OUSD'
+              'Get optional smart contract insurance for your XUSD',
+              'Get optional smart contract insurance for your XUSD'
             )}
           </div>
-          <Link href="https://docs.ousd.com/security-and-risks/insurance">
+          <Link href="https://docs.xusd.fi/security-and-risks/insurance">
             <a
               target="_blank"
               rel="noopener noreferrer"

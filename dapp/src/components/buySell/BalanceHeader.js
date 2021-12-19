@@ -7,7 +7,7 @@ import { useWeb3React } from '@web3-react/core'
 import withIsMobile from 'hoc/withIsMobile'
 
 import AccountStore from 'stores/AccountStore'
-import AnimatedOusdStore from 'stores/AnimatedOusdStore'
+import AnimatedXusdStore from 'stores/AnimatedXusdStore'
 import ContractStore from 'stores/ContractStore'
 import { formatCurrency } from 'utils/math'
 import { animateValue } from 'utils/animation'
@@ -26,73 +26,72 @@ const BalanceHeader = ({
   const { connector, account } = useWeb3React()
   const apy = useStoreState(ContractStore, (s) => s.apy || 0)
   const vault = useStoreState(ContractStore, (s) => _get(s, 'contracts.vault'))
-  const ousdContract = useStoreState(ContractStore, (s) =>
-    _get(s, 'contracts.ousd')
+  const xusdContract = useStoreState(ContractStore, (s) =>
+    _get(s, 'contracts.xusd')
   )
-  const ousdBalance = useStoreState(AccountStore, (s) => s.balances['ousd'])
+  const xusdBalance = useStoreState(AccountStore, (s) => s.balances['xusd'])
   const lifetimeYield = useStoreState(AccountStore, (s) => s.lifetimeYield)
-  const ousdBalanceLoaded = typeof ousdBalance === 'string'
-  const animatedOusdBalance = useStoreState(
-    AnimatedOusdStore,
-    (s) => s.animatedOusdBalance
+  const xusdBalanceLoaded = typeof xusdBalance === 'string'
+  const animatedXusdBalance = useStoreState(
+    AnimatedXusdStore,
+    (s) => s.animatedXusdBalance
   )
   const mintAnimationLimit = 0.5
-  const walletConnected = useStoreState(ContractStore, (s) => s.walletConnected)
 
   const [balanceEmphasised, setBalanceEmphasised] = useState(false)
-  const prevOusdBalance = usePrevious(ousdBalance)
-  const addOusdModalState = useStoreState(
+  const prevXusdBalance = usePrevious(xusdBalance)
+  const addXusdModalState = useStoreState(
     AccountStore,
-    (s) => s.addOusdModalState
+    (s) => s.addXusdModalState
   )
   const { animatedExpectedIncrease } = useExpectedYield()
 
-  const normalOusdAnimation = (from, to) => {
+  const normalXusdAnimation = (from, to) => {
     setBalanceEmphasised(true)
     return animateValue({
       from: parseFloat(from) || 0,
       to: parseFloat(to),
       callbackValue: (val) => {
-        AnimatedOusdStore.update((s) => {
-          s.animatedOusdBalance = val
+        AnimatedXusdStore.update((s) => {
+          s.animatedXusdBalance = val
         })
       },
       onCompleteCallback: () => {
         setBalanceEmphasised(false)
-        if (addOusdModalState === 'waiting') {
+        if (addXusdModalState === 'waiting') {
           AccountStore.update((s) => {
-            s.addOusdModalState = 'show'
+            s.addXusdModalState = 'show'
           })
         }
       },
-      // non even duration number so more of the decimals in ousdBalance animate
+      // non even duration number so more of the decimals in xusdBalance animate
       duration: 1985,
-      id: 'header-balance-ousd-animation',
+      id: 'header-balance-xusd-animation',
       stepTime: 30,
     })
   }
 
   useEffect(() => {
-    if (ousdBalanceLoaded) {
-      const ousdBalanceNum = parseFloat(ousdBalance)
-      const prevOusdBalanceNum = parseFloat(prevOusdBalance)
-      // user must have minted the OUSD
+    if (xusdBalanceLoaded) {
+      const xusdBalanceNum = parseFloat(xusdBalance)
+      const prevXusdBalanceNum = parseFloat(prevXusdBalance)
+      // user must have minted the XUSD
       if (
-        !isNaN(parseFloat(ousdBalanceNum)) &&
-        !isNaN(parseFloat(prevOusdBalanceNum)) &&
-        Math.abs(ousdBalanceNum - prevOusdBalanceNum) > mintAnimationLimit
+        !isNaN(parseFloat(xusdBalanceNum)) &&
+        !isNaN(parseFloat(prevXusdBalanceNum)) &&
+        Math.abs(xusdBalanceNum - prevXusdBalanceNum) > mintAnimationLimit
       ) {
-        normalOusdAnimation(prevOusdBalance, ousdBalance)
+        normalXusdAnimation(prevXusdBalance, xusdBalance)
       } else if (
-        !isNaN(parseFloat(ousdBalanceNum)) &&
-        ousdBalanceNum > mintAnimationLimit
+        !isNaN(parseFloat(xusdBalanceNum)) &&
+        xusdBalanceNum > mintAnimationLimit
       ) {
-        normalOusdAnimation(0, ousdBalance)
+        normalXusdAnimation(0, xusdBalance)
       } else {
-        normalOusdAnimation(prevOusdBalance, 0)
+        normalXusdAnimation(prevXusdBalance, 0)
       }
     }
-  }, [ousdBalance])
+  }, [xusdBalance])
 
   /*
    * Type: number or percentage
@@ -177,7 +176,7 @@ const BalanceHeader = ({
       </>
     )
   }
-  const displayedBalance = formatCurrency(animatedOusdBalance || 0, 2)
+  const displayedBalance = formatCurrency(animatedXusdBalance || 0, 2)
   return (
     <>
       <div className="balance-header d-flex flex-column justify-content-start">
@@ -190,7 +189,7 @@ const BalanceHeader = ({
             >
               <Statistic
                 title={fbt('30-day trailing APY', '30-day trailing APY')}
-                titleLink="https://analytics.ousd.com/apy"
+                titleLink="https://analytics.xusd.fi/apy"
                 value={
                   typeof apy === 'number'
                     ? formatCurrency(apy * 100, 2)
@@ -202,9 +201,9 @@ const BalanceHeader = ({
           </div>
           <div className="d-flex flex-column flex-md-row align-items-center justify-content-between box box-narrow w-100">
             <Statistic
-              title={fbt('Balance', 'OUSD Balance')}
+              title={fbt('Balance', 'XUSD Balance')}
               value={
-                !isNaN(parseFloat(displayedBalance)) && ousdBalanceLoaded
+                !isNaN(parseFloat(displayedBalance)) && xusdBalanceLoaded
                   ? displayedBalance
                   : '--.--'
               }
@@ -213,18 +212,14 @@ const BalanceHeader = ({
             />
             <Statistic
               title={fbt('Pending yield', 'Pending yield')}
-              value={
-                walletConnected
-                  ? formatCurrency(animatedExpectedIncrease, 2)
-                  : '--.--'
-              }
+              value={formatCurrency(animatedExpectedIncrease, 2)}
               type={'number'}
               marginBottom={true}
             />
             <Statistic
               title={fbt(
                 'Lifetime earnings',
-                'Lifetime OUSD balance header earnings'
+                'Lifetime XUSD balance header earnings'
               )}
               titleLink={
                 account
@@ -233,11 +228,7 @@ const BalanceHeader = ({
                     }/address/${account.toLowerCase()}`
                   : false
               }
-              value={
-                walletConnected && lifetimeYield
-                  ? formatCurrency(lifetimeYield, 2)
-                  : '--.--'
-              }
+              value={lifetimeYield ? formatCurrency(lifetimeYield, 2) : '--.--'}
               type={'number'}
             />
           </div>
@@ -275,7 +266,7 @@ const BalanceHeader = ({
           color: white;
         }
 
-        .balance-header .ousd-value {
+        .balance-header .xusd-value {
           font-size: 14px;
           color: white;
           text-align: left;
@@ -286,7 +277,7 @@ const BalanceHeader = ({
           margin-left: 11px;
         }
 
-        .balance-header .ousd-value.big {
+        .balance-header .xusd-value.big {
           color: #00d592;
         }
 
@@ -383,15 +374,15 @@ const BalanceHeader = ({
             margin-right: 0px;
           }
 
-          .balance-header .ousd-value.mio-club {
+          .balance-header .xusd-value.mio-club {
             font-size: 20px;
           }
 
-          .balance-header .ousd-value .grey {
+          .balance-header .xusd-value .grey {
             color: #8293a4;
           }
 
-          .balance-header .ousd-value-holder {
+          .balance-header .xusd-value-holder {
             white-space: nowrap;
           }
 
@@ -408,7 +399,7 @@ const BalanceHeader = ({
             font-weight: normal;
           }
 
-          .balance-header .ousd-value::after {
+          .balance-header .xusd-value::after {
             content: '';
           }
 

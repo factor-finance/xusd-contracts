@@ -13,7 +13,7 @@ const { proposeArgs } = require("../utils/governor");
 const deployName = "005_compensation_claims";
 
 //
-// Deploys the new OUSD CompensationClaims contract.
+// Deploys the new XUSD CompensationClaims contract.
 //
 const compensationClaimsDeploy = async ({ getNamedAccounts }) => {
   console.log(`Running ${deployName}...`);
@@ -25,12 +25,12 @@ const compensationClaimsDeploy = async ({ getNamedAccounts }) => {
   //
   // Deploy the contract.
   //
-  const OUSD = await ethers.getContract("OUSDProxy");
-  log(`Using OUSD address ${OUSD.address}`);
+  const XUSD = await ethers.getContract("XUSDProxy");
+  log(`Using XUSD address ${XUSD.address}`);
   log(`Using adjuster address ${adjusterAddr}`);
 
   await deployWithConfirmation("CompensationClaims", [
-    OUSD.address,
+    XUSD.address,
     adjusterAddr,
   ]);
 

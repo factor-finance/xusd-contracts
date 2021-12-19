@@ -6,7 +6,7 @@ import Layout from 'components/layout'
 import Nav from 'components/Nav'
 import BalanceHeader from 'components/buySell/BalanceHeader'
 import TransactionHistory from 'components/TransactionHistory'
-import GetOUSD from 'components/GetOUSD'
+import GetXUSD from 'components/GetXUSD'
 
 export default function History({ locale, onLocale }) {
   const { active } = useWeb3React()
@@ -30,7 +30,7 @@ export default function History({ locale, onLocale }) {
                   'Disconnected dapp subtext'
                 )}
               </div>
-              <GetOUSD primary connect trackSource="Dapp widget body" />
+              <GetXUSD primary connect trackSource="Dapp widget body" />
             </div>
           )}
         </div>

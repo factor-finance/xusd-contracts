@@ -53,17 +53,17 @@ export function truncateAddress(address) {
   return `${address.slice(0, 6)}...${address.slice(-4)}`
 }
 
-export function trackOUSDInMetaMask(ousdAddress) {
+export function trackXUSDInMetaMask(xusdAddress) {
   web3.currentProvider.sendAsync(
     {
       method: 'metamask_watchAsset',
       params: {
         type: 'ERC20',
         options: {
-          address: ousdAddress,
-          symbol: 'OUSD',
+          address: xusdAddress,
+          symbol: 'XUSD',
           decimals: 18,
-          image: 'https://ousd.com/images/ousd-token-icon.svg',
+          image: 'https://xusd.fi/images/xusd-token-icon.svg',
         },
       },
     },
@@ -71,10 +71,10 @@ export function trackOUSDInMetaMask(ousdAddress) {
   )
 }
 
-/* status of token wallets and OUSD:
+/* status of token wallets and XUSD:
  * https://docs.google.com/spreadsheets/d/1bunkxBxfkAVz9C14vAFH8CZ53rImDNHTXp94AOEjpq0/edit#gid=1608902436
  */
-export function providersNotAutoDetectingOUSD() {
+export function providersNotAutoDetectingXUSD() {
   return ['metamask', 'trust', 'alphawallet', 'mist', 'parity']
 }
 

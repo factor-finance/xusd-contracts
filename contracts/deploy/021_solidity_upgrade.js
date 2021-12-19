@@ -15,13 +15,13 @@ module.exports = deploymentWithProposal(
     const { deployerAddr } = await hre.getNamedAccounts();
 
     const sDeployer = await ethers.provider.getSigner(deployerAddr);
-    // Vault and OUSD contracts
-    const dOUSD = await deployWithConfirmation("OUSD");
-    log("Deployed OUSD...");
+    // Vault and XUSD contracts
+    const dXUSD = await deployWithConfirmation("XUSD");
+    log("Deployed XUSD...");
     const dVaultAdmin = await deployWithConfirmation("VaultAdmin");
     const dVaultCore = await deployWithConfirmation("VaultCore");
     log("Deployed VaultAdmin and VaultCore...");
-    const cOUSDProxy = await ethers.getContract("OUSDProxy");
+    const cXUSDProxy = await ethers.getContract("XUSDProxy");
     const cVaultProxy = await ethers.getContract("VaultProxy");
     const cVault = await ethers.getContractAt("Vault", cVaultProxy.address);
     const cVaultCore = await ethers.getContractAt(
@@ -41,7 +41,7 @@ module.exports = deploymentWithProposal(
     await deployWithConfirmation("Buyback", [
       assetAddresses.uniswapRouter,
       cVaultProxy.address,
-      cOUSDProxy.address,
+      cXUSDProxy.address,
       assetAddresses.OGN,
       assetAddresses.USDT,
       assetAddresses.WETH,
@@ -168,8 +168,8 @@ module.exports = deploymentWithProposal(
       name: "Deploy all new contracts and migrate all funds",
       actions: [
         {
-          // Claim governance of OUSDProxy, transferred in 020_new_governor
-          contract: cOUSDProxy,
+          // Claim governance of XUSDProxy, transferred in 020_new_governor
+          contract: cXUSDProxy,
           signature: "claimGovernance()",
         },
         {
@@ -198,10 +198,10 @@ module.exports = deploymentWithProposal(
           signature: "claimGovernance()",
         },
         {
-          // Upgrade OUSD implementation
-          contract: cOUSDProxy,
+          // Upgrade XUSD implementation
+          contract: cXUSDProxy,
           signature: "upgradeTo(address)",
-          args: [dOUSD.address],
+          args: [dXUSD.address],
         },
         {
           // Set VaultCore implementation

@@ -2,9 +2,9 @@
 pragma solidity ^0.8.0;
 
 /**
- * @title OUSD VaultStorage Contract
+ * @title XUSD VaultStorage Contract
  * @notice The VaultStorage contract defines the storage for the Vault contracts
- * @author Origin Protocol Inc
+ * @author XUSD.fi Inc
  */
 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -14,7 +14,7 @@ import { Address } from "@openzeppelin/contracts/utils/Address.sol";
 
 import { IStrategy } from "../interfaces/IStrategy.sol";
 import { Governable } from "../governance/Governable.sol";
-import { OUSD } from "../token/OUSD.sol";
+import { XUSD } from "../token/XUSD.sol";
 import { Initializable } from "../utils/Initializable.sol";
 import "../utils/Helpers.sol";
 import { StableMath } from "../utils/StableMath.sol";
@@ -79,9 +79,9 @@ contract VaultStorage is Initializable, Governable {
     // Mints over this amount automatically rebase. 18 decimals.
     uint256 public rebaseThreshold;
 
-    OUSD internal oUSD;
+    XUSD internal xUSD;
 
-    //keccak256("OUSD.vault.governor.admin.impl");
+    //keccak256("XUSD.vault.governor.admin.impl");
     bytes32 constant adminImplPosition =
         0xa2bd3d3cf188a41358c8b401076eb59066b09dec5775650c0de4c55187d17bd9;
 

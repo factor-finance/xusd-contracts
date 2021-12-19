@@ -1,7 +1,7 @@
 const { defaultFixture } = require("../_fixture");
 
 const {
-  ousdUnits,
+  xusdUnits,
   setOracleTokenPriceUsd,
   loadFixture,
 } = require("../helpers");
@@ -25,7 +25,7 @@ describe("Oracle", async () => {
         const [actual, expectedRead] = test;
         await setOracleTokenPriceUsd("USDT", actual);
         expect(await vault.priceUSDMint(usdt.address)).to.equal(
-          ousdUnits(expectedRead)
+          xusdUnits(expectedRead)
         );
       }
     });
@@ -41,7 +41,7 @@ describe("Oracle", async () => {
         const [actual, expectedRead] = test;
         await setOracleTokenPriceUsd("USDT", actual);
         expect(await vault.priceUSDRedeem(usdt.address)).to.equal(
-          ousdUnits(expectedRead)
+          xusdUnits(expectedRead)
         );
       }
     });

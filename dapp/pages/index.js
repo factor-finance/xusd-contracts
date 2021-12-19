@@ -4,7 +4,7 @@ import { useStoreState } from 'pullstate'
 
 import Closing from 'components/Closing'
 import EmailForm from 'components/EmailForm'
-import GetOUSD from 'components/GetOUSD'
+import GetXUSD from 'components/GetXUSD'
 import Layout from 'components/layout'
 import Nav from 'components/Nav'
 import ContractStore from 'stores/ContractStore'
@@ -33,7 +33,7 @@ const Home = ({ locale, onLocale }) => {
         setOgnValue(formatCurrency(value, 2))
       },
       duration: 3600 * 1000, // animate for 1 hour
-      id: 'hero-index-ousd-animation',
+      id: 'hero-index-xusd-animation',
     })
   }, [])
 
@@ -48,19 +48,19 @@ const Home = ({ locale, onLocale }) => {
             <div className="circle circle3"></div>
             <div className="circle circle4"></div>
             <img src="/images/coin-waves.svg" alt="Waves" className="waves" />
-            <img src="/images/ousd-coin.svg" alt="OUSD coin" className="coin" />
+            <img src="/images/xusd-coin.svg" alt="XUSD coin" className="coin" />
             <div className="d-flex flex-column align-items-center">
               <div className="introducing">
                 {fbt('Introducing', 'Introducing')}
               </div>
-              <div className="ticker-symbol">OUSD</div>
+              <div className="ticker-symbol">XUSD</div>
               <h1>
                 {fbt(
                   'The first stablecoin that earns a yield while it’s still in your wallet',
                   'The first stablecoin that earns a yield while it’s still in your wallet'
                 )}
               </h1>
-              <GetOUSD
+              <GetXUSD
                 style={{ marginTop: 40 }}
                 className="mx-auto"
                 primary
@@ -91,8 +91,8 @@ const Home = ({ locale, onLocale }) => {
                 </div>
                 <h2>
                   {fbt(
-                    'Convert your USDT, USDC, and DAI to OUSD to start earning yields immediately',
-                    'Convert your USDT, USDC, and DAI to OUSD to start earning yields immediately'
+                    'Convert your USDT, USDC, and DAI to XUSD to start earning yields immediately',
+                    'Convert your USDT, USDC, and DAI to XUSD to start earning yields immediately'
                   )}
                 </h2>
               </div>
@@ -119,8 +119,8 @@ const Home = ({ locale, onLocale }) => {
                 </h3>
                 <p className="w-lg-330">
                   {fbt(
-                    'DeFi yields are automatically converted to OUSD and accrue in your wallet. Your OUSD balance compounds multiple times per day. No staking or lock-ups are required.',
-                    'DeFi yields are automatically converted to OUSD and accrue in your wallet. Your OUSD balance compounds multiple times per day. No staking or lock-ups are required.'
+                    'DeFi yields are automatically converted to XUSD and accrue in your wallet. Your XUSD balance compounds multiple times per day. No staking or lock-ups are required.',
+                    'DeFi yields are automatically converted to XUSD and accrue in your wallet. Your XUSD balance compounds multiple times per day. No staking or lock-ups are required.'
                   )}
                 </p>
               </div>
@@ -134,14 +134,14 @@ const Home = ({ locale, onLocale }) => {
               <div className="text-container overflowing">
                 <h3 className="w-lg-300">
                   {fbt(
-                    'Spend your OUSD with ease',
-                    'Spend your OUSD with ease'
+                    'Spend your XUSD with ease',
+                    'Spend your XUSD with ease'
                   )}
                 </h3>
                 <p className="w-lg-380">
                   {fbt(
-                    "There's no need to unwind complicated positions when you want to spend your OUSD. Transfer OUSD without having to unstake or unlock capital.",
-                    "There's no need to unwind complicated positions when you want to spend your OUSD. Transfer OUSD without having to unstake or unlock capital."
+                    "There's no need to unwind complicated positions when you want to spend your XUSD. Transfer XUSD without having to unstake or unlock capital.",
+                    "There's no need to unwind complicated positions when you want to spend your XUSD. Transfer XUSD without having to unstake or unlock capital."
                   )}
                 </p>
               </div>
@@ -165,20 +165,20 @@ const Home = ({ locale, onLocale }) => {
                 </h4>
                 <p>
                   {fbt(
-                    'OUSD is pegged to the US Dollar. Returns are distributed as additional units of OUSD. Supply rebasing happens multiple times per day. See your OUSD grow much faster than your USD grows in traditional savings accounts.',
-                    'OUSD is pegged to the US Dollar. Returns are distributed as additional units of OUSD. Supply rebasing happens multiple times per day. See your OUSD grow much faster than your USD grows in traditional savings accounts.'
+                    'XUSD is pegged to the US Dollar. Returns are distributed as additional units of XUSD. Supply rebasing happens multiple times per day. See your XUSD grow much faster than your USD grows in traditional savings accounts.',
+                    'XUSD is pegged to the US Dollar. Returns are distributed as additional units of XUSD. Supply rebasing happens multiple times per day. See your XUSD grow much faster than your USD grows in traditional savings accounts.'
                   )}
                 </p>
               </div>
             </div>
             <div className="col-lg-7 d-flex flex-column align-items-center justify-content-center">
               <img
-                src="/images/ousd-coin.svg"
-                alt="OUSD coin"
-                className="ousd-coin"
+                src="/images/xusd-coin.svg"
+                alt="XUSD coin"
+                className="xusd-coin"
               />
               <div className="big-text">{ognValue.toString()}</div>
-              <div className="big-text mt-1">OUSD</div>
+              <div className="big-text mt-1">XUSD</div>
             </div>
           </div>
           <div className="row">
@@ -192,8 +192,8 @@ const Home = ({ locale, onLocale }) => {
                 </h4>
                 <p>
                   {fbt(
-                    'OUSD is secured by other proven stablecoins like USDT, USDC, and DAI. Capital is further insured by governance tokens issued by platforms like Aave and MakerDAO.',
-                    'OUSD is secured by other proven stablecoins like USDT, USDC, and DAI. Capital is further insured by governance tokens issued by platforms like Aave and MakerDAO.'
+                    'XUSD is secured by other proven stablecoins like USDT, USDC, and DAI. Capital is further insured by governance tokens issued by platforms like Aave and MakerDAO.',
+                    'XUSD is secured by other proven stablecoins like USDT, USDC, and DAI. Capital is further insured by governance tokens issued by platforms like Aave and MakerDAO.'
                   )}
                 </p>
               </div>
@@ -214,8 +214,8 @@ const Home = ({ locale, onLocale }) => {
                 </h4>
                 <p>
                   {fbt(
-                    'Automated strategies in transparent OUSD smart contracts manage your funds. See exactly how your money is being put to work.',
-                    'Automated strategies in transparent OUSD smart contracts manage your funds. See exactly how your money is being put to work.'
+                    'Automated strategies in transparent XUSD smart contracts manage your funds. See exactly how your money is being put to work.',
+                    'Automated strategies in transparent XUSD smart contracts manage your funds. See exactly how your money is being put to work.'
                   )}
                 </p>
               </div>
@@ -239,8 +239,8 @@ const Home = ({ locale, onLocale }) => {
                 </h4>
                 <p>
                   {fbt(
-                    "Store and earn OUSD with non-custodial Ethereum wallets. Enter and exit OUSD whenever you want. There's no minimum holding period or minimum OUSD amount required to earn yields.",
-                    "Store and earn OUSD with non-custodial Ethereum wallets. Enter and exit OUSD whenever you want. There's no minimum holding period or minimum OUSD amount required to earn yields."
+                    "Store and earn XUSD with non-custodial Ethereum wallets. Enter and exit XUSD whenever you want. There's no minimum holding period or minimum XUSD amount required to earn yields.",
+                    "Store and earn XUSD with non-custodial Ethereum wallets. Enter and exit XUSD whenever you want. There's no minimum holding period or minimum XUSD amount required to earn yields."
                   )}
                 </p>
               </div>
@@ -264,12 +264,12 @@ const Home = ({ locale, onLocale }) => {
                 </h4>
                 <p>
                   {fbt(
-                    'Protect your OUSD holdings with smart contract insurance. Optional coverage is provided by Nexus Mutual.',
-                    'Protect your OUSD holdings with smart contract insurance. Optional coverage is provided by Nexus Mutual.'
+                    'Protect your XUSD holdings with smart contract insurance. Optional coverage is provided by Nexus Mutual.',
+                    'Protect your XUSD holdings with smart contract insurance. Optional coverage is provided by Nexus Mutual.'
                   )}
                 </p>
                 <a
-                  href="https://docs.ousd.com/security-and-risks/insurance"
+                  href="https://docs.xusd.fi/security-and-risks/insurance"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -280,7 +280,7 @@ const Home = ({ locale, onLocale }) => {
             <div className="col-lg-6 d-flex flex-column align-items-center justify-content-center">
               <img
                 className="insurance-img w-sd-270"
-                src="/images/ousd-shield-blue-icon.svg"
+                src="/images/xusd-shield-blue-icon.svg"
                 alt="Automatic"
               />
             </div>
@@ -298,8 +298,8 @@ const Home = ({ locale, onLocale }) => {
             </h5>
             <p className="team-summary">
               {fbt(
-                'The Origin Dollar is brought to you by the team at Origin Protocol, which includes serial entrepreneurs, early cryptocurrency investors, early employees at YouTube, engineering managers at Google/Dropbox, and one of the original Paypal co-founders.',
-                'The Origin Dollar is brought to you by the team at Origin Protocol, which includes serial entrepreneurs, early cryptocurrency investors, early employees at YouTube, engineering managers at Google/Dropbox, and one of the original Paypal co-founders.'
+                'The XUSD.fi is brought to you by the team at XUSD.fi, which includes serial entrepreneurs, early cryptocurrency investors, early employees at YouTube, engineering managers at Google/Dropbox, and one of the original Paypal co-founders.',
+                'The XUSD.fi is brought to you by the team at XUSD.fi, which includes serial entrepreneurs, early cryptocurrency investors, early employees at YouTube, engineering managers at Google/Dropbox, and one of the original Paypal co-founders.'
               )}
             </p>
             <div className="logos d-flex">
@@ -320,8 +320,8 @@ const Home = ({ locale, onLocale }) => {
               <h5>{fbt(`We're hiring`, `We're hiring`)}</h5>
               <p>
                 {fbt(
-                  'Are you an experienced Solidity engineer? Join our team and help shape the future of OUSD.',
-                  'Are you an experienced Solidity engineer? Join our team and help shape the future of OUSD.'
+                  'Are you an experienced Solidity engineer? Join our team and help shape the future of XUSD.',
+                  'Are you an experienced Solidity engineer? Join our team and help shape the future of XUSD.'
                 )}
               </p>
               <a
@@ -337,8 +337,8 @@ const Home = ({ locale, onLocale }) => {
               <h5>{fbt('Stay up to date', 'Stay up to date')}</h5>
               <p className="email-cta mx-auto">
                 {fbt(
-                  'Be the first to get updates about OUSD, incentive programs and rewards, and our upcoming transition to decentralized governance.',
-                  'Be the first to get updates about OUSD, incentive programs and rewards, and our upcoming transition to decentralized governance.'
+                  'Be the first to get updates about XUSD, incentive programs and rewards, and our upcoming transition to decentralized governance.',
+                  'Be the first to get updates about XUSD, incentive programs and rewards, and our upcoming transition to decentralized governance.'
                 )}
               </p>
               <EmailForm />
@@ -372,8 +372,8 @@ const Home = ({ locale, onLocale }) => {
                   `At an estimated APY of ${fbt.param(
                     'current-apy',
                     formatCurrency(apy * 100, 2) + '%'
-                  )}, OUSD earnings trounce traditional financial instruments.`,
-                  'At estimated APYs over X, OUSD earnings trounce traditional financial instruments.'
+                  )}, XUSD earnings trounce traditional financial instruments.`,
+                  'At estimated APYs over X, XUSD earnings trounce traditional financial instruments.'
                 )}
               </p>
             </div>
@@ -389,8 +389,8 @@ const Home = ({ locale, onLocale }) => {
               </h6>
               <p>
                 {fbt(
-                  'Send OUSD to pay your friends and family instead of using Venmo or Paypal. They’ll earn yield immediately.',
-                  'Send OUSD to pay your friends and family instead of using Venmo or Paypal. They’ll earn yield immediately.'
+                  'Send XUSD to pay your friends and family instead of using Venmo or Paypal. They’ll earn yield immediately.',
+                  'Send XUSD to pay your friends and family instead of using Venmo or Paypal. They’ll earn yield immediately.'
                 )}
               </p>
             </div>
@@ -408,8 +408,8 @@ const Home = ({ locale, onLocale }) => {
               </h6>
               <p>
                 {fbt(
-                  'Need to send money to China or the Philippines? Your recipients get OUSD without losing the average of 6.7% on fees.',
-                  'Need to send money to China or the Philippines? Your recipients get OUSD without losing the average of 6.7% on fees.'
+                  'Need to send money to China or the Philippines? Your recipients get XUSD without losing the average of 6.7% on fees.',
+                  'Need to send money to China or the Philippines? Your recipients get XUSD without losing the average of 6.7% on fees.'
                 )}
               </p>
             </div>
@@ -422,8 +422,8 @@ const Home = ({ locale, onLocale }) => {
               </h6>
               <p>
                 {fbt(
-                  'OUSD is an ideal store of value for users in countries with hyperinflationary economies like Venezuela and Argentina.',
-                  'OUSD is an ideal store of value for users in countries with hyperinflationary economies like Venezuela and Argentina.'
+                  'XUSD is an ideal store of value for users in countries with hyperinflationary economies like Venezuela and Argentina.',
+                  'XUSD is an ideal store of value for users in countries with hyperinflationary economies like Venezuela and Argentina.'
                 )}
               </p>
             </div>
@@ -441,8 +441,8 @@ const Home = ({ locale, onLocale }) => {
               </h6>
               <p>
                 {fbt(
-                  'OUSD will be accepted by hundreds of sellers on the Origin Dshop network and peer-to-peer marketplace.',
-                  'OUSD will be accepted by hundreds of sellers on the Origin Dshop network and peer-to-peer marketplace.'
+                  'XUSD will be accepted by hundreds of sellers on the Origin Dshop network and peer-to-peer marketplace.',
+                  'XUSD will be accepted by hundreds of sellers on the Origin Dshop network and peer-to-peer marketplace.'
                 )}
               </p>
             </div>
@@ -743,7 +743,7 @@ const Home = ({ locale, onLocale }) => {
           font-weight: 600;
         }
 
-        .ousd-coin {
+        .xusd-coin {
           width: 140px;
           height: 140px;
           margin-bottom: 15px;

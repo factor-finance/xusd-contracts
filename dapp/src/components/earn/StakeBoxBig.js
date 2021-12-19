@@ -4,7 +4,7 @@ import { fbt } from 'fbt-runtime'
 import { formatRate } from 'utils/stake'
 import { useWeb3React } from '@web3-react/core'
 
-import GetOUSD from 'components/GetOUSD'
+import GetXUSD from 'components/GetXUSD'
 import SpinningLoadingCircle from 'components/SpinningLoadingCircle'
 
 export default function StakeBoxBig({

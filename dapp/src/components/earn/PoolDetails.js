@@ -10,7 +10,7 @@ import RewardsBoost from 'components/earn/RewardsBoost'
 import LiquidityWizard from 'components/earn/LiquidityWizard'
 import LiquidityMiningWidget from 'components/earn/LiquidityMiningWidget'
 import ApyModal from 'components/earn/modal/ApyModal'
-import GetOUSD from 'components/GetOUSD'
+import GetXUSD from 'components/GetXUSD'
 
 export default function PoolDetails({ pool }) {
   const { account, active } = useWeb3React()
@@ -134,7 +134,7 @@ export default function PoolDetails({ pool }) {
               'Connect wallet pool details screen'
             )}
           </div>
-          <GetOUSD primary connect />
+          <GetXUSD primary connect />
         </div>
       )}
       <style jsx>{`

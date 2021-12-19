@@ -221,7 +221,7 @@ const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
     person.address = await PEOPLE_OBJECTS[i].signer.getAddress();
   }
   // Setup
-  const mattBalance = await CONTRACT_BY_NAME["OUSD"].contract.balanceOf(
+  const mattBalance = await CONTRACT_BY_NAME["XUSD"].contract.balanceOf(
     PEOPLE_BY_NAME["Mark"].address
   );
   const mattHasMoney = mattBalance.gt(900);

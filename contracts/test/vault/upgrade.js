@@ -3,12 +3,12 @@ const { defaultFixture } = require("../_fixture");
 const { loadFixture } = require("../helpers");
 
 describe("VaultAdmin Upgrades", async function () {
-  let ousd, vault, vaultStorage, governor;
+  let xusd, vault, vaultStorage, governor;
 
   beforeEach(async function () {
     const fixture = await loadFixture(defaultFixture);
     vault = fixture.vault;
-    ousd = fixture.ousd;
+    xusd = fixture.xusd;
     governor = fixture.governor;
     vaultStorage = await hre.ethers.getContractAt(
       "VaultStorage",
@@ -17,7 +17,7 @@ describe("VaultAdmin Upgrades", async function () {
   });
 
   it("should upgrade to a new admin implementation", async function () {
-    const newVaultImpl = ousd.address; // ;)
+    const newVaultImpl = xusd.address; // ;)
     await vaultStorage.connect(governor).setAdminImpl(newVaultImpl);
   });
 

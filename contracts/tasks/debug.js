@@ -11,15 +11,15 @@ async function debug(taskArguments, hre) {
   //
   // Get all contracts to operate on.
   const vaultProxy = await hre.ethers.getContract("VaultProxy");
-  const ousdProxy = await hre.ethers.getContract("OUSDProxy");
+  const xusdProxy = await hre.ethers.getContract("XUSDProxy");
   const aaveProxy = await hre.ethers.getContract("AaveStrategyProxy");
   const compoundProxy = await hre.ethers.getContract("CompoundStrategyProxy");
   const vault = await hre.ethers.getContractAt("IVault", vaultProxy.address);
   const cVault = await hre.ethers.getContract("Vault");
   const vaultAdmin = await hre.ethers.getContract("VaultAdmin");
   const vaultCore = await hre.ethers.getContract("VaultCore");
-  const ousd = await hre.ethers.getContractAt("OUSD", ousdProxy.address);
-  const cOusd = await hre.ethers.getContract("OUSD");
+  const xusd = await hre.ethers.getContractAt("XUSD", xusdProxy.address);
+  const cXusd = await hre.ethers.getContract("XUSD");
   const aaveStrategy = await hre.ethers.getContractAt(
     "AaveStrategy",
     aaveProxy.address
@@ -53,9 +53,9 @@ async function debug(taskArguments, hre) {
   //
   console.log("\nContract addresses");
   console.log("====================");
-  console.log(`OUSD proxy:              ${ousdProxy.address}`);
-  console.log(`OUSD impl:               ${await ousdProxy.implementation()}`);
-  console.log(`OUSD:                    ${cOusd.address}`);
+  console.log(`XUSD proxy:              ${xusdProxy.address}`);
+  console.log(`XUSD impl:               ${await xusdProxy.implementation()}`);
+  console.log(`XUSD:                    ${cXusd.address}`);
   console.log(`Vault proxy:             ${vaultProxy.address}`);
   console.log(`Vault impl:              ${await vaultProxy.implementation()}`);
   console.log(`Vault:                   ${cVault.address}`);
@@ -102,7 +102,7 @@ async function debug(taskArguments, hre) {
   //
 
   // Read the current governor address on all the contracts.
-  const ousdGovernorAddr = await ousd.governor();
+  const xusdGovernorAddr = await xusd.governor();
   const vaultGovernorAddr = await vault.governor();
   const aaveStrategyGovernorAddr = await aaveStrategy.governor();
   const compoundStrategyGovernorAddr = await compoundStrategy.governor();
@@ -110,26 +110,26 @@ async function debug(taskArguments, hre) {
 
   console.log("\nGovernor addresses");
   console.log("====================");
-  console.log("OUSD:              ", ousdGovernorAddr);
+  console.log("XUSD:              ", xusdGovernorAddr);
   console.log("Vault:             ", vaultGovernorAddr);
   console.log("AaveStrategy:      ", aaveStrategyGovernorAddr);
   console.log("CompoundStrategy:  ", compoundStrategyGovernorAddr);
   console.log("ThreePoolStrategy: ", threePoolStrategyGovernorAddr);
 
   //
-  // OUSD
+  // XUSD
   //
-  const name = await ousd.name();
-  const decimals = await ousd.decimals();
-  const symbol = await ousd.symbol();
-  const totalSupply = await ousd.totalSupply();
-  const vaultAddress = await ousd.vaultAddress();
-  const nonRebasingSupply = await ousd.nonRebasingSupply();
+  const name = await xusd.name();
+  const decimals = await xusd.decimals();
+  const symbol = await xusd.symbol();
+  const totalSupply = await xusd.totalSupply();
+  const vaultAddress = await xusd.vaultAddress();
+  const nonRebasingSupply = await xusd.nonRebasingSupply();
   const rebasingSupply = totalSupply.sub(nonRebasingSupply);
-  const rebasingCreditsPerToken = await ousd.rebasingCreditsPerToken();
-  const rebasingCredits = await ousd.rebasingCredits();
+  const rebasingCreditsPerToken = await xusd.rebasingCreditsPerToken();
+  const rebasingCredits = await xusd.rebasingCredits();
 
-  console.log("\nOUSD");
+  console.log("\nXUSD");
   console.log("=======");
   console.log(`name:                    ${name}`);
   console.log(`symbol:                  ${symbol}`);
@@ -344,10 +344,6 @@ async function debug(taskArguments, hre) {
   console.log(
     "rewardTokenAddress:\t\t",
     await threePoolStrategy.rewardTokenAddress()
-  );
-  console.log(
-    "cvxRewardTokenAddress:\t\t",
-    await threePoolStrategy.cvxRewardTokenAddress()
   );
   console.log(
     "rewardLiquidationThreshold:\t",

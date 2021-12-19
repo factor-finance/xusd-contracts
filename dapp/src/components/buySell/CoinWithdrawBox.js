@@ -14,7 +14,7 @@ const CoinWithdrawBox = ({
 }) => {
   const [animatedAmount, setAnimatedAmount] = useState('')
 
-  /* Contract will not redeem more than one stablecoin per OUSD. And because exchange rate prices
+  /* Contract will not redeem more than one stablecoin per XUSD. And because exchange rate prices
    * represent dollar value of a stablecoin for the mentioned reason the price can not go
    * below 1.
    */

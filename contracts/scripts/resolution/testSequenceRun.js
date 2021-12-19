@@ -2,7 +2,7 @@ const fs = require("fs");
 const { ethers, network } = require("hardhat");
 const addresses = require("../../utils/addresses");
 
-const OUSD_ADDRESS = addresses.mainnet.OUSDProxy;
+const XUSD_ADDRESS = addresses.mainnet.XUSDProxy;
 
 async function main(config) {
   if (!config.testFile) {
@@ -22,15 +22,15 @@ async function main(config) {
   console.log(whale);
 
   console.log("Simulating Transfers");
-  const ousd = await ethers.getContractAt("OUSD", OUSD_ADDRESS);
-  console.log(OUSD_ADDRESS);
-  console.log("Using OUSD at @", ousd.address);
+  const xusd = await ethers.getContractAt("XUSD", XUSD_ADDRESS);
+  console.log(XUSD_ADDRESS);
+  console.log("Using XUSD at @", xusd.address);
 
   let globalRCPT = undefined;
   if (config.highres) {
-    globalRCPT = await ousd.rebasingCreditsPerTokenHighres();
+    globalRCPT = await xusd.rebasingCreditsPerTokenHighres();
   } else {
-    globalRCPT = await ousd.rebasingCreditsPerToken();
+    globalRCPT = await xusd.rebasingCreditsPerToken();
   }
   console.log("Global ", globalRCPT.toString());
 
@@ -44,19 +44,19 @@ async function main(config) {
     const to = transfer[1];
     const amount = transfer[2];
 
-    const beforeFrom = await ousd.balanceOf(from);
-    const beforeTo = await ousd.balanceOf(to);
+    const beforeFrom = await xusd.balanceOf(from);
+    const beforeTo = await xusd.balanceOf(to);
     // await whale.sendTransaction({to: from, value:"0x10000000000000"})
     await network.provider.request({
       method: "hardhat_impersonateAccount",
       params: [from],
     });
     const signer = await provider.getSigner(from);
-    await ousd.connect(signer).transfer(to, amount, {
+    await xusd.connect(signer).transfer(to, amount, {
       gasPrice: 0,
     });
-    const afterFrom = await ousd.balanceOf(from);
-    const afterTo = await ousd.balanceOf(to);
+    const afterFrom = await xusd.balanceOf(from);
+    const afterTo = await xusd.balanceOf(to);
 
     console.log(
       "✉️ ",

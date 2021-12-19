@@ -25,11 +25,11 @@ const useCurveStake = () => {
       }
 
       const pools = json.data.poolDetails.filter(
-        (pool) => pool.poolSymbol === 'OUSD'
+        (pool) => pool.poolSymbol === 'XUSD'
       )
       if (pools.length !== 1) {
         console.warning(
-          'Unexpected number of OUSD pools detected: ',
+          'Unexpected number of XUSD pools detected: ',
           JSON.stringify(pools)
         )
       }

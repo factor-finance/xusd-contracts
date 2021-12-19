@@ -1,9 +1,9 @@
 /* Reimbursements csv: https://docs.google.com/spreadsheets/d/1lCzDmmLV73rwRSnAKVGdsUkhuelxBvH4fxYNAUAd69U/edit?usp=sharing
  *
  * Output analysis 1.15.2021 by sparrowDom reimbursements hash: 0x7be111312b7921a476d7428f6f43555684ac06739acfc01341649dfbc5f4bac3
- * OUSD required by contract: 1696579.792469218771921386 OUSD
- * OUSD transfered to contract: 1696590
- * OUSD remaining in the contract after all claims: 84.554630679871612032
+ * XUSD required by contract: 1696579.792469218771921386 XUSD
+ * XUSD transfered to contract: 1696590
+ * XUSD remaining in the contract after all claims: 84.554630679871612032
  *
  * Accounts failing to claim because they were non payable:
  * - 0x4853c9A7CB8f42a87dF28148F3380E35d8728043
@@ -11,27 +11,27 @@
  * - 0x6Ffe8F6d47afb19F12f46e5499a182a99C4D3BEf
  * - 0x6684977bBED67e101BB80Fc07fCcfba655c0a64F
  *
- * Accounts with larger OUSD then expected because they had pre-existing OUSD in wallet
- * 0x145D8BB322FF71eF8ecefc35F584993DF071bc92 -> 200 OUSD
- * 0x198d03Db13A0b2b3e28F59857AEC54Bf4C96DFF8 -> 2500,17 OUSD
- * 0x297289405fAF325d416658E93D93d0ade229528C -> 4150,28 OUSD
- * 0x2ed7aFA17473e17Ac59908F088b4371D28585476 -> 53,31 OUSD
- * 0x467927774B59F7cB023863b07960669f958EC19a -> 15223,54 OUSD
- * 0x50b71FA550D646F3B0942a4c16bAed0260b77039 -> 1508,11 OUSD
- * 0x67F3A569C1E86d64a767D4776294b0e1C4819768 -> 1081,31 OUSD
- * 0x6b11bDA202802402f6E92a426e440BA6Abb01EE6 -> 1330,21 OUSD
- * 0x78b514bAd0299826c1Bc9409e5c3db7Ece9CA404 -> 9236,01 OUSD
- * 0x867A57860fD469eD97aB80cB6A097a30dc128caA -> 1046 OUSD
- * 0x89eBCb7714bd0D2F33ce3a35C12dBEB7b94af169 -> 70 OUSD
- * 0x8A9b7145bc7F7b2A530F188a4Fc933F66F5cfe12 -> 18268 OUSD
- * 0x96FEb7b6F808dd2BBd09c9E5ccdE77caBd58d019 -> 13464 OUSD
- * 0xB52A42f0C0032bcBe8Ee448654F47E423CcbB3a6 -> 4005 OUSD
- * 0xC8Aa3D70e3B235e6Be04dB0d9653002139f03408 -> 100 OUSD
- * 0xD26d9CFE022332f830BBc4D54885f25C867e4885 -> 151 OUSD
- * 0xd39B6849d2e1dB20BAb50dd7A4F3e0882c744404 -> 10000 OUSD
- * 0xD85A569F3C26f81070544451131c742283360400 -> 3 OUSD
- * 0xf9303877F107F5cd2cB0654b6d7A6D749FA03856 -> 14936 OUSD
- * 0xFD9E6005187F448957a0972a7d0C0A6dA2911236 -> 1.5 OUSD
+ * Accounts with larger XUSD then expected because they had pre-existing XUSD in wallet
+ * 0x145D8BB322FF71eF8ecefc35F584993DF071bc92 -> 200 XUSD
+ * 0x198d03Db13A0b2b3e28F59857AEC54Bf4C96DFF8 -> 2500,17 XUSD
+ * 0x297289405fAF325d416658E93D93d0ade229528C -> 4150,28 XUSD
+ * 0x2ed7aFA17473e17Ac59908F088b4371D28585476 -> 53,31 XUSD
+ * 0x467927774B59F7cB023863b07960669f958EC19a -> 15223,54 XUSD
+ * 0x50b71FA550D646F3B0942a4c16bAed0260b77039 -> 1508,11 XUSD
+ * 0x67F3A569C1E86d64a767D4776294b0e1C4819768 -> 1081,31 XUSD
+ * 0x6b11bDA202802402f6E92a426e440BA6Abb01EE6 -> 1330,21 XUSD
+ * 0x78b514bAd0299826c1Bc9409e5c3db7Ece9CA404 -> 9236,01 XUSD
+ * 0x867A57860fD469eD97aB80cB6A097a30dc128caA -> 1046 XUSD
+ * 0x89eBCb7714bd0D2F33ce3a35C12dBEB7b94af169 -> 70 XUSD
+ * 0x8A9b7145bc7F7b2A530F188a4Fc933F66F5cfe12 -> 18268 XUSD
+ * 0x96FEb7b6F808dd2BBd09c9E5ccdE77caBd58d019 -> 13464 XUSD
+ * 0xB52A42f0C0032bcBe8Ee448654F47E423CcbB3a6 -> 4005 XUSD
+ * 0xC8Aa3D70e3B235e6Be04dB0d9653002139f03408 -> 100 XUSD
+ * 0xD26d9CFE022332f830BBc4D54885f25C867e4885 -> 151 XUSD
+ * 0xd39B6849d2e1dB20BAb50dd7A4F3e0882c744404 -> 10000 XUSD
+ * 0xD85A569F3C26f81070544451131c742283360400 -> 3 XUSD
+ * 0xf9303877F107F5cd2cB0654b6d7A6D749FA03856 -> 14936 XUSD
+ * 0xFD9E6005187F448957a0972a7d0C0A6dA2911236 -> 1.5 XUSD
  *
  * OGN reimbursements on 1.18.2021 by sparrowDom
  * Mainnet fork merkle tree root & hash:
@@ -52,7 +52,7 @@ async function isAdjusterLocked(taskArguments, hre) {
   console.log(!!(await compensationClaims.isAdjusterLocked()));
 }
 
-async function checkOUSDBalances() {
+async function checkXUSDBalances() {
   const {
     compensationSync,
   } = require("../scripts/compensation/compensationSync");
@@ -61,9 +61,9 @@ async function checkOUSDBalances() {
 }
 
 /**
- * Claim the OUSD part of the compensation for all eligible users.
+ * Claim the XUSD part of the compensation for all eligible users.
  */
-async function claimOUSD(taskArguments, hre) {
+async function claimXUSD(taskArguments, hre) {
   const { parseCsv } = require("../utils/fileSystem");
   const compensationClaims = await hre.ethers.getContract("CompensationClaims");
   const csv = await parseCsv(reimbursementsLocation);
@@ -282,8 +282,8 @@ async function fundCompAccountsWithEth(taskArguments, hre) {
 module.exports = {
   isAdjusterLocked,
   fundCompAccountsWithEth,
-  claimOUSD,
+  claimXUSD,
   claimOGN,
-  checkOUSDBalances,
+  checkXUSDBalances,
   supplyStakingContractWithOGN,
 };

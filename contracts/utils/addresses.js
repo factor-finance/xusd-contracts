@@ -47,7 +47,7 @@ addresses.mainnet.ThreePool = "0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7";
 addresses.mainnet.ThreePoolToken = "0x6c3f90f043a72fa612cbac8115ee7e52bde6e490";
 addresses.mainnet.ThreePoolGauge = "0xbFcF63294aD7105dEa65aA58F8AE5BE2D9d0952A";
 // CVX
-addresses.mainnet.CVX = "0x4e3fbd56cd56c3e72c1403e103b45db9da5b9d2b";
+addresses.mainnet.CVX = "0x30D9410ED1D5DA1F6C8391af5338C93ab8d4035C";
 addresses.mainnet.CRVRewardsPool = "0x689440f2ff927e1f24c72f1087e1faf471ece1c8";
 addresses.mainnet.CVXBooster = "0xF403C135812408BFbE8713b5A23a04b3D48AAE31";
 // Open Oracle
@@ -87,12 +87,12 @@ addresses.mainnet.chainlinkUSDT_ETH =
 
 // WETH Token
 addresses.mainnet.WETH = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2";
-// Deployed OUSD contracts
+// Deployed XUSD contracts
 addresses.mainnet.Guardian = "0xbe2AB3d3d8F6a32b96414ebbd865dBD276d3d899"; // ERC 20 owner multisig.
 addresses.mainnet.VaultProxy = "0x277e80f3E14E7fB3fc40A9d6184088e0241034bD";
 addresses.mainnet.Vault = "0xf251Cb9129fdb7e9Ca5cad097dE3eA70caB9d8F9";
-addresses.mainnet.OUSDProxy = "0x2A8e1E676Ec238d8A992307B495b45B3fEAa5e86";
-addresses.mainnet.OUSD = "0xB72b3f5523851C2EB0cA14137803CA4ac7295f3F";
+addresses.mainnet.XUSDProxy = "0x2A8e1E676Ec238d8A992307B495b45B3fEAa5e86";
+addresses.mainnet.XUSD = "0xB72b3f5523851C2EB0cA14137803CA4ac7295f3F";
 addresses.mainnet.CompoundStrategyProxy =
   "0x12115A32a19e4994C2BA4A5437C22CEf5ABb59C3";
 addresses.mainnet.CompoundStrategy =

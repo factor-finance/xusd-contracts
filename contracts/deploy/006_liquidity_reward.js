@@ -27,31 +27,31 @@ const liquidityReward = async ({ getNamedAccounts, deployments }) => {
 
   for (const stablecoin of ["USDT", "USDC", "DAI"]) {
     if (!isMainnetOrRinkebyOrFork) {
-      // Mock Uniswap pair for OUSD -> USDT is dependent on OUSD being deployed
-      const cOUSDProxy = await ethers.getContract("OUSDProxy");
+      // Mock Uniswap pair for XUSD -> USDT is dependent on XUSD being deployed
+      const cXUSDProxy = await ethers.getContract("XUSDProxy");
 
-      const reserve100OUSD = utils.parseUnits("100", 18);
+      const reserve100XUSD = utils.parseUnits("100", 18);
       const reserve100STABLECOIN = utils.parseUnits(
         "100",
         stablecoin === "DAI" ? 18 : 6
       );
 
       await deployWithConfirmation(
-        `MockUniswapPairOUSD_${stablecoin}`,
+        `MockUniswapPairXUSD_${stablecoin}`,
         [
-          cOUSDProxy.address,
+          cXUSDProxy.address,
           assetAddresses[stablecoin],
-          reserve100OUSD,
+          reserve100XUSD,
           reserve100STABLECOIN,
         ],
         "MockMintableUniswapPair"
       );
     }
 
-    const UniswapOUSD_STABLECOIN =
+    const UniswapXUSD_STABLECOIN =
       isMainnet || isFork
-        ? addresses.mainnet[`uniswapOUSD_${stablecoin}`]
-        : (await ethers.getContract(`MockUniswapPairOUSD_${stablecoin}`))
+        ? addresses.mainnet[`uniswapXUSD_${stablecoin}`]
+        : (await ethers.getContract(`MockUniswapPairXUSD_${stablecoin}`))
             .address;
 
     const sDeployer = ethers.provider.getSigner(deployerAddr);
@@ -63,7 +63,7 @@ const liquidityReward = async ({ getNamedAccounts, deployments }) => {
 
     // Deploy the liquidity reward proxy.
     await deployWithConfirmation(
-      `LiquidityRewardOUSD_${stablecoin}Proxy`,
+      `LiquidityRewardXUSD_${stablecoin}Proxy`,
       [],
       "InitializeGovernedUpgradeabilityProxy"
     );
@@ -76,11 +76,11 @@ const liquidityReward = async ({ getNamedAccounts, deployments }) => {
     //
 
     // Initialize the proxy.
-    const cLiquidityRewardOUSD_STABLECOINProxy = await ethers.getContract(
-      `LiquidityRewardOUSD_${stablecoin}Proxy`
+    const cLiquidityRewardXUSD_STABLECOINProxy = await ethers.getContract(
+      `LiquidityRewardXUSD_${stablecoin}Proxy`
     );
     await withConfirmation(
-      cLiquidityRewardOUSD_STABLECOINProxy["initialize(address,address,bytes)"](
+      cLiquidityRewardXUSD_STABLECOINProxy["initialize(address,address,bytes)"](
         dLiquidityReward.address,
         deployerAddr,
         []
@@ -89,20 +89,20 @@ const liquidityReward = async ({ getNamedAccounts, deployments }) => {
     log(`Initialized LiquidityRewardProxy for ${stablecoin}`);
 
     // Initialize the LiquidityReward
-    const cLiquidityRewardOUSD_STABLECOIN = await ethers.getContractAt(
+    const cLiquidityRewardXUSD_STABLECOIN = await ethers.getContractAt(
       "LiquidityReward",
-      cLiquidityRewardOUSD_STABLECOINProxy.address
+      cLiquidityRewardXUSD_STABLECOINProxy.address
     );
     log(`OGN Asset address: ${assetAddresses.OGN}`);
     await withConfirmation(
-      cLiquidityRewardOUSD_STABLECOIN
+      cLiquidityRewardXUSD_STABLECOIN
         .connect(sDeployer)
-        .initialize(assetAddresses.OGN, UniswapOUSD_STABLECOIN)
+        .initialize(assetAddresses.OGN, UniswapXUSD_STABLECOIN)
     );
     log(`Initialized LiquidRewardStrategy for ${stablecoin}`);
 
     await withConfirmation(
-      cLiquidityRewardOUSD_STABLECOIN
+      cLiquidityRewardXUSD_STABLECOIN
         .connect(sDeployer)
         .transferGovernance(governorAddr)
     );
@@ -114,7 +114,7 @@ const liquidityReward = async ({ getNamedAccounts, deployments }) => {
     // multi-sig wallet. On other networks, this migration script can claim
     // governance by the governor.
     if (!isMainnetOrRinkebyOrFork) {
-      await cLiquidityRewardOUSD_STABLECOIN
+      await cLiquidityRewardXUSD_STABLECOIN
         .connect(sGovernor)
         .claimGovernance();
       log(`Claimed governance for LiquidityReward for ${stablecoin}`);
@@ -127,13 +127,13 @@ const liquidityReward = async ({ getNamedAccounts, deployments }) => {
     //      18,000,000 OGN (<- totalRewards passed in)
     //       ÷ 6,500 blocks per day
     //       ÷ 180 days in the campaign
-    //       ⨉ 40% weight for the OUSD/OGN pool
+    //       ⨉ 40% weight for the XUSD/OGN pool
     //        = 6.153846153846154 OGN per block
     // Remember to transfer in:
     //     18,000,000 * 40% = 7,200,000
     //
     //  So starting the campaign would look like:
-    //  await cLiquidityRewardOUSD_USDT
+    //  await cLiquidityRewardXUSD_USDT
     //    .connect(sGovernor).startCampaign(
     //        utils.parseUnits("6.153846153846154", 18),
     //        0, 6500 * 180);
@@ -145,9 +145,9 @@ const liquidityReward = async ({ getNamedAccounts, deployments }) => {
       await ogn.connect(sGovernor).mint(loadAmount);
       await ogn
         .connect(sGovernor)
-        .transfer(cLiquidityRewardOUSD_STABLECOIN.address, loadAmount);
+        .transfer(cLiquidityRewardXUSD_STABLECOIN.address, loadAmount);
 
-      await cLiquidityRewardOUSD_STABLECOIN
+      await cLiquidityRewardXUSD_STABLECOIN
         .connect(sGovernor)
         .startCampaign(rate, 0, 6500 * 180);
     }

@@ -28,12 +28,12 @@
  */
 export const pools = [
   {
-    name: 'OUSD/USDT',
+    name: 'XUSD/USDT',
     coin_one: {
-      name: 'OUSD',
-      contract_variable_name: 'ousd',
-      icon: 'ousd-token-icon.svg',
-      pool_details_icon: 'ousd-token-icon.svg',
+      name: 'XUSD',
+      contract_variable_name: 'xusd',
+      icon: 'xusd-token-icon.svg',
+      pool_details_icon: 'xusd-token-icon.svg',
       // contract_address
       // allowance
     },
@@ -61,18 +61,18 @@ export const pools = [
     // lp_token_allowance
     // contract
     // lpContract
-    lp_contract_variable_name: 'uniV2OusdUsdt',
-    lp_contract_variable_name_ierc20: 'uniV2OusdUsdt_iErc20',
-    lp_contract_variable_name_uniswapPair: 'uniV2OusdUsdt_iUniPair',
-    pool_contract_variable_name: 'liquidityOusdUsdt',
+    lp_contract_variable_name: 'uniV2XusdUsdt',
+    lp_contract_variable_name_ierc20: 'uniV2XusdUsdt_iErc20',
+    lp_contract_variable_name_uniswapPair: 'uniV2XusdUsdt_iUniPair',
+    pool_contract_variable_name: 'liquidityXusdUsdt',
   },
   {
-    name: 'OUSD/DAI',
+    name: 'XUSD/DAI',
     coin_one: {
-      name: 'OUSD',
-      contract_variable_name: 'ousd',
-      icon: 'ousd-token-icon.svg',
-      pool_details_icon: 'ousd-token-icon.svg',
+      name: 'XUSD',
+      contract_variable_name: 'xusd',
+      icon: 'xusd-token-icon.svg',
+      pool_details_icon: 'xusd-token-icon.svg',
       // contract_address
       // allowance
     },
@@ -100,18 +100,18 @@ export const pools = [
     // lp_token_allowance
     // contract
     // lpContract
-    lp_contract_variable_name: 'uniV2OusdDai',
-    lp_contract_variable_name_ierc20: 'uniV2OusdDai_iErc20',
-    lp_contract_variable_name_uniswapPair: 'uniV2OusdDai_iUniPair',
-    pool_contract_variable_name: 'liquidityOusdDai',
+    lp_contract_variable_name: 'uniV2XusdDai',
+    lp_contract_variable_name_ierc20: 'uniV2XusdDai_iErc20',
+    lp_contract_variable_name_uniswapPair: 'uniV2XusdDai_iUniPair',
+    pool_contract_variable_name: 'liquidityXusdDai',
   },
   {
-    name: 'OUSD/USDC',
+    name: 'XUSD/USDC',
     coin_one: {
-      name: 'OUSD',
-      contract_variable_name: 'ousd',
-      icon: 'ousd-token-icon.svg',
-      pool_details_icon: 'ousd-token-icon.svg',
+      name: 'XUSD',
+      contract_variable_name: 'xusd',
+      icon: 'xusd-token-icon.svg',
+      pool_details_icon: 'xusd-token-icon.svg',
       // contract_address
       // allowance
     },
@@ -139,9 +139,9 @@ export const pools = [
     // lp_token_allowance
     // contract
     // lpContract
-    lp_contract_variable_name: 'uniV2OusdUsdc',
-    lp_contract_variable_name_ierc20: 'uniV2OusdUsdc_iErc20',
-    lp_contract_variable_name_uniswapPair: 'uniV2OusdUsdc_iUniPair',
-    pool_contract_variable_name: 'liquidityOusdUsdc',
+    lp_contract_variable_name: 'uniV2XusdUsdc',
+    lp_contract_variable_name_ierc20: 'uniV2XusdUsdc_iErc20',
+    lp_contract_variable_name_uniswapPair: 'uniV2XusdUsdc_iUniPair',
+    pool_contract_variable_name: 'liquidityXusdUsdc',
   },
 ]

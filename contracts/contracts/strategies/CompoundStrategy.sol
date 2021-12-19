@@ -2,9 +2,9 @@
 pragma solidity ^0.8.0;
 
 /**
- * @title OUSD Compound Strategy
+ * @title XUSD Compound Strategy
  * @notice Investment strategy for investing stablecoins via Compound
- * @author Origin Protocol Inc
+ * @author XUSD.fi Inc
  */
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 

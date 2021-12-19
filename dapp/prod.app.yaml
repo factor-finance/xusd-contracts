@@ -3,7 +3,7 @@ env: flex
 instance_class: B2
 manual_scaling:
   instances: 3
-service: ousd-prod
+service: xusd-prod
 handlers:
 - url: /.*
   secure: always

@@ -2,8 +2,8 @@
 pragma solidity ^0.8.0;
 
 /**
- * @title OUSD InitializableGovernable Contract
- * @author Origin Protocol Inc
+ * @title XUSD InitializableGovernable Contract
+ * @author XUSD.fi Inc
  */
 import { Initializable } from "../utils/Initializable.sol";
 

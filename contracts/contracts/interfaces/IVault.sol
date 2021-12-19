@@ -134,7 +134,7 @@ interface IVault {
     function mint(
         address _asset,
         uint256 _amount,
-        uint256 _minimumOusdAmount
+        uint256 _minimumXusdAmount
     ) external;
 
     function redeem(uint256 _amount, uint256 _minimumUnitAmount) external;

@@ -13,7 +13,7 @@ const { getTxOpts } = require("../../utils/tx");
 const addresses = require("../../utils/addresses");
 
 const BATCH_SIZE = 100;
-let ousdContract;
+let xusdContract;
 let contract;
 
 async function verify(expectedAccounts, dataFileLocation) {
@@ -28,10 +28,10 @@ async function verify(expectedAccounts, dataFileLocation) {
   for (const account of expectedAccounts) {
     const actual = await getBlockchainBalanceOf(account);
     const expected = account.amount;
-    const walletAmount = await ousdContract.balanceOf(account.address);
+    const walletAmount = await xusdContract.balanceOf(account.address);
     const contractStateCorrect = actual.eq(expected);
 
-    // Because of rebasing logic of OUSD the amounts are not going to be completely exact
+    // Because of rebasing logic of XUSD the amounts are not going to be completely exact
     const walletStateExact = walletAmount
       .sub(expected)
       .abs()
@@ -69,13 +69,13 @@ async function verify(expectedAccounts, dataFileLocation) {
     `Expected total (from csv file): ${await ethers.utils.formatUnits(
       expectedTotal,
       18
-    )} OUSD`
+    )} XUSD`
   );
   console.log(
     `Actual total (contract state): ${await ethers.utils.formatUnits(
       actualTotal,
       18
-    )} OUSD`
+    )} XUSD`
   );
 
   console.log(
@@ -176,9 +176,9 @@ function parseArgv() {
 
 async function compensationSync(compContract, dataFileLocation, doIt, signer) {
   contract = compContract;
-  ousdContract = await ethers.getContractAt(
-    "OUSD",
-    addresses.mainnet.OUSDProxy
+  xusdContract = await ethers.getContractAt(
+    "XUSD",
+    addresses.mainnet.XUSDProxy
   );
   if (!contract) {
     console.log("Could not connect to contract");
@@ -229,7 +229,7 @@ async function main() {
   console.log("Using adjuster account", adjusterAddr);
 
   await getContract();
-  console.log("Connecting to OUSD compensation contract", contract.address);
+  console.log("Connecting to XUSD compensation contract", contract.address);
 
   const doIt = !!args["--do-it"];
   console.log("doIt=", doIt);

@@ -12,14 +12,14 @@ export default function Governance({ locale, onLocale }) {
         <div className="container d-flex flex-column align-items-center">
           <h1 className="w-lg-520">
             {fbt(
-              'The OUSD protocol will be governed by its users',
-              'The OUSD protocol will be governed by its users'
+              'The XUSD protocol will be governed by its users',
+              'The XUSD protocol will be governed by its users'
             )}
           </h1>
           <h2 className="w-lg-520">
             {fbt(
-              'While OUSD’s lead developers and community advocates are currently members of the Origin team, it is our intention to rapidly move towards decentralized governance.',
-              'While OUSD’s lead developers and community advocates are currently members of the Origin team, it is our intention to rapidly move towards decentralized governance.'
+              'While XUSD’s lead developers and community advocates are currently members of the Origin team, it is our intention to rapidly move towards decentralized governance.',
+              'While XUSD’s lead developers and community advocates are currently members of the Origin team, it is our intention to rapidly move towards decentralized governance.'
             )}
           </h2>
           <div className="d-flex mt-4">
@@ -97,8 +97,8 @@ export default function Governance({ locale, onLocale }) {
               <div className="event-container pt-5">
                 <div className="event">
                   {fbt(
-                    'Initial governance privileges and incentives given to users who create value for OUSD',
-                    'Initial governance privileges and incentives given to users who create value for OUSD'
+                    'Initial governance privileges and incentives given to users who create value for XUSD',
+                    'Initial governance privileges and incentives given to users who create value for XUSD'
                   )}
                 </div>
                 <svg>
@@ -168,8 +168,8 @@ export default function Governance({ locale, onLocale }) {
                 </svg>
                 <div className="event">
                   {fbt(
-                    'Continued distribution of governance privileges and incentives to OUSD users',
-                    'Continued distribution of governance privileges and incentives to OUSD users'
+                    'Continued distribution of governance privileges and incentives to XUSD users',
+                    'Continued distribution of governance privileges and incentives to XUSD users'
                   )}
                 </div>
               </div>
@@ -232,8 +232,8 @@ export default function Governance({ locale, onLocale }) {
           </h3>
           <p className="m-auto w-lg-520">
             {fbt(
-              'Governance privileges and incentives will be given to users that create value for the OUSD platform',
-              'Governance privileges and incentives will be given to users that create value for the OUSD platform'
+              'Governance privileges and incentives will be given to users that create value for the XUSD platform',
+              'Governance privileges and incentives will be given to users that create value for the XUSD platform'
             )}
           </p>
           <div className="row px-5 d-flex flex-column flex-lg-row">
@@ -246,8 +246,8 @@ export default function Governance({ locale, onLocale }) {
               </div>
               <div className="action">
                 {fbt(
-                  'Convert stablecoins to OUSD',
-                  'Convert stablecoins to OUSD'
+                  'Convert stablecoins to XUSD',
+                  'Convert stablecoins to XUSD'
                 )}
               </div>
             </div>

@@ -6,7 +6,7 @@ import { fbt } from 'fbt-runtime'
 import { ethers } from 'ethers'
 
 import ContractStore from 'stores/ContractStore'
-import GetOUSD from 'components/GetOUSD'
+import GetXUSD from 'components/GetXUSD'
 
 const SignTransferAuth = ({}) => {
   const { account, active, library } = useWeb3React()
@@ -88,7 +88,7 @@ const SignTransferAuth = ({}) => {
                   'Disconnected dapp subtext'
                 )}
               </div>
-              <GetOUSD primary connect trackSource="Dapp widget body" />
+              <GetXUSD primary connect trackSource="Dapp widget body" />
             </div>
           )}
         </div>

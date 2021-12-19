@@ -2,9 +2,9 @@
 pragma solidity ^0.8.0;
 
 /**
- * @title OUSD Vault Admin Contract
+ * @title XUSD Vault Admin Contract
  * @notice The VaultAdmin contract makes configuration and admin calls on the vault.
- * @author Origin Protocol Inc
+ * @author XUSD.fi Inc
  */
 
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
@@ -76,9 +76,9 @@ contract VaultAdmin is VaultStorage {
     }
 
     /**
-     * @dev Sets the minimum amount of OUSD in a mint to trigger an
+     * @dev Sets the minimum amount of XUSD in a mint to trigger an
      * automatic allocation of funds afterwords.
-     * @param _threshold OUSD amount with 18 fixed decimals.
+     * @param _threshold XUSD amount with 18 fixed decimals.
      */
     function setAutoAllocateThreshold(uint256 _threshold)
         external
@@ -89,9 +89,9 @@ contract VaultAdmin is VaultStorage {
     }
 
     /**
-     * @dev Set a minimum amount of OUSD in a mint or redeem that triggers a
+     * @dev Set a minimum amount of XUSD in a mint or redeem that triggers a
      * rebase
-     * @param _threshold OUSD amount with 18 fixed decimals.
+     * @param _threshold XUSD amount with 18 fixed decimals.
      */
     function setRebaseThreshold(uint256 _threshold) external onlyGovernor {
         rebaseThreshold = _threshold;
@@ -153,7 +153,7 @@ contract VaultAdmin is VaultStorage {
 
     /**
      * @dev Add a supported asset to the contract, i.e. one that can be
-     *         to mint OUSD.
+     *         to mint XUSD.
      * @param _asset Address of asset
      */
     function supportAsset(address _asset) external onlyGovernor {

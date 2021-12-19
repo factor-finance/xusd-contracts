@@ -5367,7 +5367,7 @@
         }
       ]
     },
-    "OUSD": {
+    "XUSD": {
       "address": "0x8E54F5776aC2d0322D94640E070856A04e446656",
       "abi": [
         {
@@ -5645,7 +5645,7 @@
           "name": "rebaseState",
           "outputs": [
             {
-              "internalType": "enum OUSD.RebaseOptions",
+              "internalType": "enum XUSD.RebaseOptions",
               "name": "",
               "type": "uint8"
             }
@@ -6067,7 +6067,7 @@
         }
       ]
     },
-    "OUSDProxy": {
+    "XUSDProxy": {
       "address": "0x2A8e1E676Ec238d8A992307B495b45B3fEAa5e86",
       "abi": [
         {
@@ -6272,7 +6272,7 @@
         }
       ]
     },
-    "OUSDReset": {
+    "XUSDReset": {
       "address": "0x78b107E4c3192E225e6Bc2bc10e28de9866d39De",
       "abi": [
         {
@@ -6550,7 +6550,7 @@
           "name": "rebaseState",
           "outputs": [
             {
-              "internalType": "enum OUSD.RebaseOptions",
+              "internalType": "enum XUSD.RebaseOptions",
               "name": "",
               "type": "uint8"
             }
@@ -9002,7 +9002,7 @@
             },
             {
               "internalType": "address",
-              "name": "_ousd",
+              "name": "_xusd",
               "type": "address"
             }
           ],
@@ -10578,7 +10578,7 @@
             },
             {
               "internalType": "uint256",
-              "name": "_minimumOusdAmount",
+              "name": "_minimumXusdAmount",
               "type": "uint256"
             }
           ],
@@ -10965,7 +10965,7 @@
             },
             {
               "internalType": "uint256",
-              "name": "_minimumOusdAmount",
+              "name": "_minimumXusdAmount",
               "type": "uint256"
             }
           ],

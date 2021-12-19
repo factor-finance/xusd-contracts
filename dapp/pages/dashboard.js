@@ -30,14 +30,14 @@ const Dashboard = ({ locale, onLocale }) => {
     dai,
     tusd,
     usdc,
-    ousd,
+    xusd,
     viewVault,
     ogn,
-    uniV2OusdUsdt,
-    liquidityOusdUsdt,
+    uniV2XusdUsdt,
+    liquidityXusdUsdt,
     ognStaking,
     compensation,
-    uniV3OusdUsdt,
+    uniV3XusdUsdt,
     uniV3DaiUsdt,
     uniV3UsdcUsdt,
     uniV3NonfungiblePositionManager,
@@ -61,7 +61,7 @@ const Dashboard = ({ locale, onLocale }) => {
 
   const loadTotalClaims = async () => {
     setCompensationTotalClaims(
-      await displayCurrency(await compensation.totalClaims(), ousd)
+      await displayCurrency(await compensation.totalClaims(), xusd)
     )
   }
 
@@ -92,15 +92,15 @@ const Dashboard = ({ locale, onLocale }) => {
         !usdc.provider ||
         !usdt ||
         !usdt.provider ||
-        !ousd ||
-        !ousd.provider
+        !xusd ||
+        !xusd.provider
       )
     ) {
       const refreshBalances = async () => {
         const daiAmount = await dai.balanceOf(flipper.address)
         const usdtAmount = await usdt.balanceOf(flipper.address)
         const usdcAmount = await usdc.balanceOf(flipper.address)
-        const ousdAmount = await ousd.balanceOf(flipper.address)
+        const xusdAmount = await xusd.balanceOf(flipper.address)
 
         const daiAllowance = await displayCurrency(
           await dai.allowance(account, flipper.address),
@@ -114,40 +114,40 @@ const Dashboard = ({ locale, onLocale }) => {
           await usdc.allowance(account, flipper.address),
           usdc
         )
-        const ousdAllowance = await displayCurrency(
-          await ousd.allowance(account, flipper.address),
-          ousd
+        const xusdAllowance = await displayCurrency(
+          await xusd.allowance(account, flipper.address),
+          xusd
         )
 
         setFlipperData({
           daiBalance: daiAmount,
           usdtBalance: usdtAmount,
           usdcBalance: usdcAmount,
-          ousdBalance: ousdAmount,
+          xusdBalance: xusdAmount,
           daiAllowance: daiAllowance,
           usdtAllowance: usdtAllowance,
           usdcAllowance: usdcAllowance,
-          ousdAllowance: ousdAllowance,
+          xusdAllowance: xusdAllowance,
         })
       }
 
       refreshBalances()
     }
-  }, [refreshFlipperData, dai, usdc, usdt, ousd])
+  }, [refreshFlipperData, dai, usdc, usdt, xusd])
 
   useEffect(() => {
     if (
       !(
         !usdt ||
         !usdt.provider ||
-        !ousd ||
-        !ousd.provider ||
+        !xusd ||
+        !xusd.provider ||
         !uniV3SwapRouter ||
         !uniV3SwapRouter.provider
       )
     ) {
       let usdtAllowanceManager,
-        ousdAllowanceManager,
+        xusdAllowanceManager,
         daiAllowanceManager,
         usdcAllowanceManager = 'Loading'
       const refreshUniswapData = async () => {
@@ -155,9 +155,9 @@ const Dashboard = ({ locale, onLocale }) => {
           await usdt.allowance(account, uniV3SwapRouter.address),
           usdt
         )
-        const ousdAllowanceRouter = await displayCurrency(
-          await ousd.allowance(account, uniV3SwapRouter.address),
-          ousd
+        const xusdAllowanceRouter = await displayCurrency(
+          await xusd.allowance(account, uniV3SwapRouter.address),
+          xusd
         )
 
         const daiAllowanceRouter = await displayCurrency(
@@ -166,7 +166,7 @@ const Dashboard = ({ locale, onLocale }) => {
         )
         const usdcAllowanceRouter = await displayCurrency(
           await usdc.allowance(account, uniV3SwapRouter.address),
-          ousd
+          xusd
         )
 
         if (!isProduction) {
@@ -177,12 +177,12 @@ const Dashboard = ({ locale, onLocale }) => {
             ),
             usdt
           )
-          ousdAllowanceManager = await displayCurrency(
-            await ousd.allowance(
+          xusdAllowanceManager = await displayCurrency(
+            await xusd.allowance(
               account,
               uniV3NonfungiblePositionManager.address
             ),
-            ousd
+            xusd
           )
           daiAllowanceManager = await displayCurrency(
             await dai.allowance(
@@ -200,13 +200,13 @@ const Dashboard = ({ locale, onLocale }) => {
           )
         }
 
-        const usdtBalancePoolousd_usdt = await displayCurrency(
-          await usdt.balanceOf(uniV3OusdUsdt.address),
+        const usdtBalancePoolxusd_usdt = await displayCurrency(
+          await usdt.balanceOf(uniV3XusdUsdt.address),
           usdt
         )
-        const ousdBalancePoolousd_usdt = await displayCurrency(
-          await ousd.balanceOf(uniV3OusdUsdt.address),
-          ousd
+        const xusdBalancePoolxusd_usdt = await displayCurrency(
+          await xusd.balanceOf(uniV3XusdUsdt.address),
+          xusd
         )
 
         const usdtBalancePooldai_usdt = await displayCurrency(
@@ -229,15 +229,15 @@ const Dashboard = ({ locale, onLocale }) => {
 
         setUniV3Data({
           usdtAllowanceRouter,
-          ousdAllowanceRouter,
+          xusdAllowanceRouter,
           daiAllowanceRouter,
           usdcAllowanceRouter,
           usdtAllowanceManager,
-          ousdAllowanceManager,
+          xusdAllowanceManager,
           daiAllowanceManager,
           usdcAllowanceManager,
-          usdtBalancePoolousd_usdt,
-          ousdBalancePoolousd_usdt,
+          usdtBalancePoolxusd_usdt,
+          xusdBalancePoolxusd_usdt,
           usdtBalancePooldai_usdt,
           daiBalancePooldai_usdt,
           usdtBalancePoolusdc_usdt,
@@ -250,7 +250,7 @@ const Dashboard = ({ locale, onLocale }) => {
   }, [
     refreshUniV3Data,
     usdt,
-    ousd,
+    xusd,
     uniV3SwapRouter,
     uniV3NonfungiblePositionManager,
   ])
@@ -293,16 +293,16 @@ const Dashboard = ({ locale, onLocale }) => {
       ethers.utils.parseUnits(allowances['usdc'].vault, await usdc.decimals())
     )
 
-    await ousd.decreaseAllowance(
+    await xusd.decreaseAllowance(
       vault.address,
-      ethers.utils.parseUnits(allowances['ousd'].vault, await ousd.decimals())
+      ethers.utils.parseUnits(allowances['xusd'].vault, await xusd.decimals())
     )
   }
 
-  const sendOUSDToContract = async () => {
-    await ousd.transfer(
+  const sendXUSDToContract = async () => {
+    await xusd.transfer(
       compensation.address,
-      ethers.utils.parseUnits('20000000', await ousd.decimals())
+      ethers.utils.parseUnits('20000000', await xusd.decimals())
     )
   }
 
@@ -339,8 +339,8 @@ const Dashboard = ({ locale, onLocale }) => {
     await coinContract.approve(flipper.address, ethers.constants.MaxUint256)
   }
 
-  const swapFlipperUsdtToOusd = async (bnAmount) => {
-    await flipper.buyOusdWithUsdt(bnAmount)
+  const swapFlipperUsdtToXusd = async (bnAmount) => {
+    await flipper.buyXusdWithUsdt(bnAmount)
   }
 
   const mintOGN = async (multiple) => {
@@ -406,8 +406,8 @@ const Dashboard = ({ locale, onLocale }) => {
   //   )
   // }
 
-  const buyOUSD = async () => {
-    await ousd.mint(
+  const buyXUSD = async () => {
+    await xusd.mint(
       usdt.address,
       ethers.utils.parseUnits('100.0', await usdt.decimals())
     )
@@ -415,7 +415,7 @@ const Dashboard = ({ locale, onLocale }) => {
 
   const depositYield = async () => {
     notSupportedOption()
-    await ousd.depositYield(
+    await xusd.depositYield(
       usdt.address,
       ethers.utils.parseUnits('10.0', await usdt.decimals())
     )
@@ -426,14 +426,14 @@ const Dashboard = ({ locale, onLocale }) => {
     await vault.unpauseDeposits()
   }
 
-  const approveOUSD = async () => {
+  const approveXUSD = async () => {
     notSupportedOption()
-    await ousd.approve(vault.address, ethers.constants.MaxUint256)
+    await xusd.approve(vault.address, ethers.constants.MaxUint256)
   }
 
   const redeemOutputs = async () => {
     const result = await vault.calculateRedeemOutputs(
-      ethers.utils.parseUnits('10', await ousd.decimals())
+      ethers.utils.parseUnits('10', await xusd.decimals())
     )
 
     console.log(result)
@@ -455,14 +455,14 @@ const Dashboard = ({ locale, onLocale }) => {
     await vault.setRedeemFeeBps(ethers.utils.parseUnits(amount.toString(), 0))
   }
 
-  const approveUSDTForUniswapOUSD_USDT = async () => {
+  const approveUSDTForUniswapXUSD_USDT = async () => {
     notSupportedOption()
-    await usdt.approve(uniV2OusdUsdt.address, ethers.constants.MaxUint256)
+    await usdt.approve(uniV2XusdUsdt.address, ethers.constants.MaxUint256)
   }
 
-  const approveOUSDForUniswapOUSD_USDT = async () => {
+  const approveXUSDForUniswapXUSD_USDT = async () => {
     notSupportedOption()
-    await ousd.approve(uniV2OusdUsdt.address, ethers.constants.MaxUint256)
+    await xusd.approve(uniV2XusdUsdt.address, ethers.constants.MaxUint256)
   }
 
   const approveForUniswapV3Router = async (coinContract) => {
@@ -495,7 +495,7 @@ const Dashboard = ({ locale, onLocale }) => {
 
     // console.log('PRICE: ', sqrtPriceX96.toString())
     // the sqrtPriceX96 taken directly from pool creation on mainnet: https://etherscan.io/tx/0xe83eb25244b0e3a5b040f824ac9983cff0bc610747df45bf57755ef7b4bc3c74
-    // await uniV3OusdUsdt.initialize(BigNumber.from('79224306130848112672356'))
+    // await uniV3XusdUsdt.initialize(BigNumber.from('79224306130848112672356'))
 
     await poolContract.initialize(sqrtPriceX96)
   }
@@ -561,7 +561,7 @@ const Dashboard = ({ locale, onLocale }) => {
   }
 
   const tableRows = () => {
-    return [...Object.keys(currencies), 'ousd'].map((x) => {
+    return [...Object.keys(currencies), 'xusd'].map((x) => {
       const name = x.toUpperCase()
       const balance = get(balances, x)
       const allowance = Number(get(allowances, `${x}.vault`))
@@ -606,7 +606,7 @@ const Dashboard = ({ locale, onLocale }) => {
                 usdt: 6,
                 usdc: 6,
                 dai: 18,
-                ousd: 18,
+                xusd: 18,
               }
               const allowanceRouter = uniV3Data[`${coin}AllowanceRouter`]
               const allowanceManager = uniV3Data[`${coin}AllowanceManager`]
@@ -685,7 +685,7 @@ const Dashboard = ({ locale, onLocale }) => {
                 <div className="card-body">
                   <h5 className="card-title">Current Balance</h5>
                   <p className="card-text">
-                    {formatCurrency(get(balances, 'ousd'))} OUSD
+                    {formatCurrency(get(balances, 'xusd'))} XUSD
                   </p>
                 </div>
               </div>
@@ -810,8 +810,8 @@ const Dashboard = ({ locale, onLocale }) => {
                 >
                   Clear All Allowances
                 </div>
-                <div className="btn btn-primary my-4 mr-3" onClick={buyOUSD}>
-                  Buy OUSD
+                <div className="btn btn-primary my-4 mr-3" onClick={buyXUSD}>
+                  Buy XUSD
                 </div>
                 <div
                   className="btn btn-primary my-4 mr-3"
@@ -821,9 +821,9 @@ const Dashboard = ({ locale, onLocale }) => {
                 </div>
                 <div
                   className="btn btn-primary my-4 mr-3"
-                  onClick={approveOUSD}
+                  onClick={approveXUSD}
                 >
-                  Approve OUSD
+                  Approve XUSD
                 </div>
                 <div
                   className="btn btn-primary my-4 mr-3"
@@ -896,13 +896,13 @@ const Dashboard = ({ locale, onLocale }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {[...Object.keys(currencies), 'ousd'].map((coin) => {
+                    {[...Object.keys(currencies), 'xusd'].map((coin) => {
                       const name = coin.toUpperCase()
 
                       const coinToDecimals = {
                         usdt: 6,
                         dai: 18,
-                        ousd: 18,
+                        xusd: 18,
                         usdc: 6,
                       }
 
@@ -977,23 +977,23 @@ const Dashboard = ({ locale, onLocale }) => {
                     </div>
                     <div
                       className="btn btn-primary my-4 mr-3"
-                      onClick={() => sendCoinToFlipper(ousd, 1000)}
+                      onClick={() => sendCoinToFlipper(xusd, 1000)}
                     >
-                      Fund with 1,000 OUSD
+                      Fund with 1,000 XUSD
                     </div>
                     <div
                       className="btn btn-primary my-4 mr-3"
-                      onClick={() => sendCoinToFlipper(ousd, 100000)}
+                      onClick={() => sendCoinToFlipper(xusd, 100000)}
                     >
-                      Fund with 100,000 OUSD
+                      Fund with 100,000 XUSD
                     </div>
                   </div>
                   <div className="d-flex flex-wrap">
                     <div
                       className="btn btn-primary my-4 mr-3"
-                      onClick={() => approveFlipper(ousd)}
+                      onClick={() => approveFlipper(xusd)}
                     >
-                      Approve OUSD
+                      Approve XUSD
                     </div>
                     <div
                       className="btn btn-primary my-4 mr-3"
@@ -1017,10 +1017,10 @@ const Dashboard = ({ locale, onLocale }) => {
                     <div
                       className="btn btn-primary my-4 mr-3"
                       onClick={() =>
-                        swapFlipperUsdtToOusd(ethers.utils.parseUnits('1', 18))
+                        swapFlipperUsdtToXusd(ethers.utils.parseUnits('1', 18))
                       }
                     >
-                      Swap 1 USDT for OUSD
+                      Swap 1 USDT for XUSD
                     </div>
                   </div>
                 </div>
@@ -1038,9 +1038,9 @@ const Dashboard = ({ locale, onLocale }) => {
                 </div>
                 <div
                   className="btn btn-primary my-4 mr-3"
-                  onClick={() => approveForUniswapV3Router(ousd)}
+                  onClick={() => approveForUniswapV3Router(xusd)}
                 >
-                  Approve OUSD Router
+                  Approve XUSD Router
                 </div>
                 <div
                   className="btn btn-primary my-4 mr-3"
@@ -1062,9 +1062,9 @@ const Dashboard = ({ locale, onLocale }) => {
                 </div>
                 <div
                   className="btn btn-primary my-4 mr-3"
-                  onClick={() => approveForUniswapV3Manager(ousd)}
+                  onClick={() => approveForUniswapV3Manager(xusd)}
                 >
-                  Approve OUSD Manager
+                  Approve XUSD Manager
                 </div>
                 <div
                   className="btn btn-primary my-4 mr-3"
@@ -1079,7 +1079,7 @@ const Dashboard = ({ locale, onLocale }) => {
                   Approve DAI Manager
                 </div>
               </div>
-              {displayPoolInfo('ousd', 'usdt', ousd, usdt, uniV3OusdUsdt)}
+              {displayPoolInfo('xusd', 'usdt', xusd, usdt, uniV3XusdUsdt)}
               {displayPoolInfo('dai', 'usdt', dai, usdt, uniV3DaiUsdt)}
               {displayPoolInfo('usdc', 'usdt', usdc, usdt, uniV3UsdcUsdt)}
               {!isProduction && (
@@ -1148,9 +1148,9 @@ const Dashboard = ({ locale, onLocale }) => {
                   {
                     <div
                       className="btn btn-primary my-4 mr-3"
-                      disabled={pool.coin_one.name === 'OUSD'}
+                      disabled={pool.coin_one.name === 'XUSD'}
                       onClick={async () => {
-                        if (pool.coin_one.name === 'OUSD') {
+                        if (pool.coin_one.name === 'XUSD') {
                           return
                         }
 
@@ -1162,11 +1162,11 @@ const Dashboard = ({ locale, onLocale }) => {
                         )
                       }}
                     >
-                      {pool.coin_one.name !== 'OUSD' && (
+                      {pool.coin_one.name !== 'XUSD' && (
                         <>Mint Bazillion {pool.coin_one.name}</>
                       )}
-                      {pool.coin_one.name === 'OUSD' && (
-                        <>Mint OUSD from the dapp</>
+                      {pool.coin_one.name === 'XUSD' && (
+                        <>Mint XUSD from the dapp</>
                       )}
                     </div>
                   }

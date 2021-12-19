@@ -1,0 +1,1 @@
+certoraRun ../spec/harnesses/XUSDHarness.sol contracts/vault/VaultCore.sol --verify XUSDHarness:../spec/xusd.spec --solc solc5.11 --settings -useNonLinearArithmetic,-t=300,-ignoreViewFunctions --cache xusd --staging origin1 --msg "XUSD NLA ${1}" --settings -rule=${1},-s=cvc4

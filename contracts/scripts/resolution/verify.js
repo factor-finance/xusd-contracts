@@ -3,7 +3,7 @@ const fs = require("fs");
 const { ethers } = require("hardhat");
 const addresses = require("../../utils/addresses");
 
-const OUSD_ADDRESS = addresses.mainnet.OUSDProxy;
+const XUSD_ADDRESS = addresses.mainnet.XUSDProxy;
 const E18 = "1000000000000000000";
 const E27 = "1000000000000000000000000000";
 BATCH_SIZE = 50;
@@ -17,14 +17,14 @@ async function main(config) {
   const addresses = JSON.parse(filedata)["addresses"];
 
   console.log("Verifying Accounts");
-  const ousd = await ethers.getContractAt("OUSD", OUSD_ADDRESS);
-  console.log("Using OUSD at @", ousd.address);
+  const xusd = await ethers.getContractAt("XUSD", XUSD_ADDRESS);
+  console.log("Using XUSD at @", xusd.address);
 
   let globalRCPT = undefined;
   if (config.highres) {
-    globalRCPT = await ousd.rebasingCreditsPerTokenHighres();
+    globalRCPT = await xusd.rebasingCreditsPerTokenHighres();
   } else {
-    globalRCPT = await ousd.rebasingCreditsPerToken();
+    globalRCPT = await xusd.rebasingCreditsPerToken();
   }
   console.log("Global ", globalRCPT.toString());
 
@@ -43,9 +43,9 @@ async function main(config) {
     let credits, creditsPerToken, isUpgraded;
     if (config.highres) {
       [credits, creditsPerToken, isUpgraded] =
-        await ousd.creditsBalanceOfHighres(address);
+        await xusd.creditsBalanceOfHighres(address);
     } else {
-      [credits, creditsPerToken] = await ousd.creditsBalanceOf(address);
+      [credits, creditsPerToken] = await xusd.creditsBalanceOf(address);
     }
 
     // Skip empty accounts

@@ -9,7 +9,7 @@ const signers = await hre.ethers.getSigners();
 
 // Setup impersonation signers
 const compensationClaims = await ethers.getContractAt("CompensationClaims", addresses.mainnet.CompensationClaims);
-const ousd = await ethers.getContractAt("OUSD", addresses.mainnet.OUSDProxy);
+const xusd = await ethers.getContractAt("XUSD", addresses.mainnet.XUSDProxy);
 await hre.network.provider.request({method: "hardhat_impersonateAccount",params: [addresses.mainnet.Binance]});
 const governorAddress = "0x8e7bdfecd1164c46ad51b58e49a611f954d23377";
 await hre.network.provider.request({method: "hardhat_impersonateAccount",params: [governorAddress]});
@@ -41,20 +41,20 @@ await sendProposal(propResetArgsLock, "Lock the adjuster");
 await compensationSync(compensationClaims, reimbursementsLocation);
 // END UPLOADING CLAIMS DATA
 
-//// TRANSFER OUSD
-/* To fund the below account with 2m OUSD run the following tasks:
+//// TRANSFER XUSD
+/* To fund the below account with 2m XUSD run the following tasks:
  * - FORK=true npx hardhat fund --num 1 --amount 2010000 --network localhost
  * - FORK=true npx hardhat mint --num 1 --amount 2000000 --network localhost
  */
-const signerWithOUSD = signers[4]
-(await ousd.balanceOf(signerWithOUSD.address)).toString();
-// transfer OUSD to vault
-await ousd.connect(signerWithOUSD).transfer(compensationClaims.address, ethers.utils.parseUnits("1696590", 18));
-//// END TRANSFER OUSD
+const signerWithXUSD = signers[4]
+(await xusd.balanceOf(signerWithXUSD.address)).toString();
+// transfer XUSD to vault
+await xusd.connect(signerWithXUSD).transfer(compensationClaims.address, ethers.utils.parseUnits("1696590", 18));
+//// END TRANSFER XUSD
 
 // start compensation period
 const startArgs = await proposeArgs([{ contract: compensationClaims, signature: "start(uint256)", args: [60 * 60 * 24 * 90]}]);
-await sendProposal(startArgs, "Start OUSD claiming period");
+await sendProposal(startArgs, "Start XUSD claiming period");
 
 // OGN compensation
 const { parseCsv } = require("./utils/fileSystem");

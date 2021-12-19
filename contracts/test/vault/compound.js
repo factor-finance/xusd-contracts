@@ -8,7 +8,7 @@ const { utils } = require("ethers");
 
 const {
   advanceTime,
-  ousdUnits,
+  xusdUnits,
   daiUnits,
   usdcUnits,
   usdtUnits,
@@ -42,11 +42,11 @@ describe("Vault with Compound strategy", function () {
   });
 
   it("Governor can call setPTokenAddress", async () => {
-    const { dai, ousd, matt, compoundStrategy } = await loadFixture(
+    const { dai, xusd, matt, compoundStrategy } = await loadFixture(
       compoundVaultFixture
     );
     await expect(
-      compoundStrategy.connect(matt).setPTokenAddress(ousd.address, dai.address)
+      compoundStrategy.connect(matt).setPTokenAddress(xusd.address, dai.address)
     ).to.be.revertedWith("Caller is not the Governor");
   });
 
@@ -100,22 +100,22 @@ describe("Vault with Compound strategy", function () {
   });
 
   it("Should correctly handle a deposit of USDC (6 decimals)", async function () {
-    const { anna, ousd, usdc, vault } = await loadFixture(compoundVaultFixture);
-    await expect(anna).has.a.balanceOf("0", ousd);
+    const { anna, xusd, usdc, vault } = await loadFixture(compoundVaultFixture);
+    await expect(anna).has.a.balanceOf("0", xusd);
     // The mint process maxes out at a 1.0 price
     await setOracleTokenPriceUsd("USDC", "1.25");
     await usdc.connect(anna).approve(vault.address, usdcUnits("50"));
     await vault.connect(anna).mint(usdc.address, usdcUnits("50"), 0);
-    await expect(anna).has.a.balanceOf("50", ousd);
+    await expect(anna).has.a.balanceOf("50", xusd);
   });
 
   it("Should allow withdrawals", async () => {
-    const { anna, compoundStrategy, ousd, usdc, vault, governor } =
+    const { anna, compoundStrategy, xusd, usdc, vault, governor } =
       await loadFixture(compoundVaultFixture);
     await expect(anna).has.a.balanceOf("1000.00", usdc);
     await usdc.connect(anna).approve(vault.address, usdcUnits("50.0"));
     await vault.connect(anna).mint(usdc.address, usdcUnits("50.0"), 0);
-    await expect(anna).has.a.balanceOf("50.00", ousd);
+    await expect(anna).has.a.balanceOf("50.00", xusd);
 
     await vault.connect(governor).allocate();
 
@@ -126,10 +126,10 @@ describe("Vault with Compound strategy", function () {
 
     // Note Anna will have slightly less than 50 due to deposit to Compound
     // according to the MockCToken implementation
-    await ousd.connect(anna).approve(vault.address, ousdUnits("40.0"));
-    await vault.connect(anna).redeem(ousdUnits("40.0"), 0);
+    await xusd.connect(anna).approve(vault.address, xusdUnits("40.0"));
+    await vault.connect(anna).redeem(xusdUnits("40.0"), 0);
 
-    await expect(anna).has.an.approxBalanceOf("10", ousd);
+    await expect(anna).has.an.approxBalanceOf("10", xusd);
     // Vault has 200 DAI and 50 USDC, 50/250 * 40 USDC will come back
     await expect(anna).has.an.approxBalanceOf("958", usdc);
   });
@@ -149,7 +149,7 @@ describe("Vault with Compound strategy", function () {
 
     await vault.connect(governor).allocate();
 
-    // Josh had 1000 DAI but used 100 DAI to mint OUSD in the fixture
+    // Josh had 1000 DAI but used 100 DAI to mint XUSD in the fixture
     await expect(josh).has.an.approxBalanceOf("878.0", dai, "Josh has less");
 
     // Verify the deposit went to Compound (as well as existing Vault assets)
@@ -260,7 +260,7 @@ describe("Vault with Compound strategy", function () {
     // Advance one year
     await advanceTime(365 * 24 * 24 * 60);
 
-    // Rebase OUSD
+    // Rebase XUSD
     await vault.rebase();
 
     // Expect a yield > 2%
@@ -366,7 +366,7 @@ describe("Vault with Compound strategy", function () {
   });
 
   it("Should not alter balances after an asset price change", async () => {
-    let { ousd, vault, matt, usdc, dai } = await loadFixture(
+    let { xusd, vault, matt, usdc, dai } = await loadFixture(
       compoundVaultFixture
     );
 
@@ -375,34 +375,34 @@ describe("Vault with Compound strategy", function () {
     await dai.connect(matt).approve(vault.address, daiUnits("200"));
     await vault.connect(matt).mint(dai.address, daiUnits("200"), 0);
 
-    // 200 OUSD was already minted in the fixture, 100 each for Matt and Josh
-    await expectApproxSupply(ousd, ousdUnits("600.0"));
+    // 200 XUSD was already minted in the fixture, 100 each for Matt and Josh
+    await expectApproxSupply(xusd, xusdUnits("600.0"));
     // 100 + 200 + 200
-    await expect(matt).has.an.approxBalanceOf("500", ousd, "Initial");
+    await expect(matt).has.an.approxBalanceOf("500", xusd, "Initial");
 
     await setOracleTokenPriceUsd("USDC", "1.30");
     await vault.rebase();
 
-    await expectApproxSupply(ousd, ousdUnits("600.0"));
+    await expectApproxSupply(xusd, xusdUnits("600.0"));
     await expect(matt).has.an.approxBalanceOf(
       "500.00",
-      ousd,
+      xusd,
       "After some assets double"
     );
 
     await setOracleTokenPriceUsd("USDC", "1.00");
     await vault.rebase();
 
-    await expectApproxSupply(ousd, ousdUnits("600.0"));
+    await expectApproxSupply(xusd, xusdUnits("600.0"));
     await expect(matt).has.an.approxBalanceOf(
       "500",
-      ousd,
+      xusd,
       "After assets go back"
     );
   });
 
   it("Should handle non-standard token deposits", async () => {
-    let { ousd, vault, matt, nonStandardToken, governor } = await loadFixture(
+    let { xusd, vault, matt, nonStandardToken, governor } = await loadFixture(
       compoundVaultFixture
     );
 
@@ -429,8 +429,8 @@ describe("Vault with Compound strategy", function () {
       ).to.be.true;
     } finally {
       // Make sure nothing got affected
-      await expectApproxSupply(ousd, ousdUnits("200.0"));
-      await expect(matt).has.an.approxBalanceOf("100", ousd);
+      await expectApproxSupply(xusd, xusdUnits("200.0"));
+      await expect(matt).has.an.approxBalanceOf("100", xusd);
       await expect(matt).has.an.approxBalanceOf("1000", nonStandardToken);
     }
 
@@ -440,17 +440,17 @@ describe("Vault with Compound strategy", function () {
       .mint(nonStandardToken.address, usdtUnits("100"), 0);
     await expect(matt).has.an.approxBalanceOf("900", nonStandardToken);
 
-    await expectApproxSupply(ousd, ousdUnits("300.0"));
-    await expect(matt).has.an.approxBalanceOf("200", ousd, "Initial");
+    await expectApproxSupply(xusd, xusdUnits("300.0"));
+    await expect(matt).has.an.approxBalanceOf("200", xusd, "Initial");
     await vault.rebase();
-    await expect(matt).has.an.approxBalanceOf("200", ousd, "After null rebase");
+    await expect(matt).has.an.approxBalanceOf("200", xusd, "After null rebase");
     await setOracleTokenPriceUsd("NonStandardToken", "1.40");
     await vault.rebase();
 
-    await expectApproxSupply(ousd, ousdUnits("300.0"));
+    await expectApproxSupply(xusd, xusdUnits("300.0"));
     await expect(matt).has.an.approxBalanceOf(
       "200.00",
-      ousd,
+      xusd,
       "After some assets double"
     );
   });
@@ -484,9 +484,9 @@ describe("Vault with Compound strategy", function () {
     // Verify 80% went to Compound
     await expect(
       await compoundStrategy.checkBalance(dai.address)
-    ).to.approxEqual(ousdUnits("180"));
+    ).to.approxEqual(xusdUnits("180"));
     // Remaining 20 should be in Vault
-    await expect(await vault.totalValue()).to.approxEqual(ousdUnits("200"));
+    await expect(await vault.totalValue()).to.approxEqual(xusdUnits("200"));
   });
 
   it("Should allocate correctly with DAI, USDT, USDC when Vault Buffer is 1e17 (10%)", async () => {
@@ -539,36 +539,36 @@ describe("Vault with Compound strategy", function () {
   });
 
   it("Should allow transfer of arbitrary token by Governor", async () => {
-    const { vault, compoundStrategy, ousd, usdc, matt, governor } =
+    const { vault, compoundStrategy, xusd, usdc, matt, governor } =
       await loadFixture(compoundVaultFixture);
     // Matt deposits USDC, 6 decimals
     await usdc.connect(matt).approve(vault.address, usdcUnits("8.0"));
     await vault.connect(matt).mint(usdc.address, usdcUnits("8.0"), 0);
-    // Matt sends his OUSD directly to Strategy
-    await ousd
+    // Matt sends his XUSD directly to Strategy
+    await xusd
       .connect(matt)
-      .transfer(compoundStrategy.address, ousdUnits("8.0"));
+      .transfer(compoundStrategy.address, xusdUnits("8.0"));
     // Matt asks Governor for help
     await compoundStrategy
       .connect(governor)
-      .transferToken(ousd.address, ousdUnits("8.0"));
-    await expect(governor).has.a.balanceOf("8.0", ousd);
+      .transferToken(xusd.address, xusdUnits("8.0"));
+    await expect(governor).has.a.balanceOf("8.0", xusd);
   });
 
   it("Should not allow transfer of arbitrary token by non-Governor", async () => {
-    const { compoundStrategy, ousd, matt } = await loadFixture(
+    const { compoundStrategy, xusd, matt } = await loadFixture(
       compoundVaultFixture
     );
     // Naughty Matt
     await expect(
       compoundStrategy
         .connect(matt)
-        .transferToken(ousd.address, ousdUnits("8.0"))
+        .transferToken(xusd.address, xusdUnits("8.0"))
     ).to.be.revertedWith("Caller is not the Governor");
   });
 
   it("Should have correct balances on consecutive mint and redeem", async () => {
-    const { ousd, vault, usdc, dai, anna, matt, josh } = await loadFixture(
+    const { xusd, vault, usdc, dai, anna, matt, josh } = await loadFixture(
       compoundVaultFixture
     );
 
@@ -590,12 +590,12 @@ describe("Vault with Compound strategy", function () {
           vault.connect(user).mint(asset.address, units(amount.toString()), 0);
           await expect(user).has.an.approxBalanceOf(
             (startBalance + amount).toString(),
-            ousd
+            xusd
           );
-          await vault.connect(user).redeem(ousdUnits(amount.toString()), 0);
+          await vault.connect(user).redeem(xusdUnits(amount.toString()), 0);
           await expect(user).has.an.approxBalanceOf(
             startBalance.toString(),
-            ousd
+            xusd
           );
         }
       }
@@ -810,7 +810,7 @@ describe("Vault auto allocation", async () => {
 
   const setThreshold = async (amount) => {
     const { vault, governor } = await loadFixture(compoundVaultFixture);
-    await vault.connect(governor).setAutoAllocateThreshold(ousdUnits(amount));
+    await vault.connect(governor).setAutoAllocateThreshold(xusdUnits(amount));
   };
 
   it("Triggers auto allocation at the threshold", async () => {
@@ -825,7 +825,7 @@ describe("Vault auto allocation", async () => {
 
     await vault.allocate();
     await vault.connect(governor).setVaultBuffer(utils.parseUnits("1", 17));
-    await vault.connect(governor).setAutoAllocateThreshold(ousdUnits("3"));
+    await vault.connect(governor).setAutoAllocateThreshold(xusdUnits("3"));
 
     const amount = "4";
     await usdc.connect(anna).mint(usdcUnits(amount));

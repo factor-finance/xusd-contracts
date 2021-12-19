@@ -12,7 +12,7 @@
         },
         {
           "internalType": "address",
-          "name": "_ousd",
+          "name": "_xusd",
           "type": "address"
         },
         {
@@ -75,7 +75,7 @@
           "type": "uint256"
         }
       ],
-      "name": "buyOusdWithDai",
+      "name": "buyXusdWithDai",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -88,7 +88,7 @@
           "type": "uint256"
         }
       ],
-      "name": "buyOusdWithUsdc",
+      "name": "buyXusdWithUsdc",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -101,7 +101,7 @@
           "type": "uint256"
         }
       ],
-      "name": "buyOusdWithUsdt",
+      "name": "buyXusdWithUsdt",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -154,7 +154,7 @@
           "type": "uint256"
         }
       ],
-      "name": "sellOusdForDai",
+      "name": "sellXusdForDai",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -167,7 +167,7 @@
           "type": "uint256"
         }
       ],
-      "name": "sellOusdForUsdc",
+      "name": "sellXusdForUsdc",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -180,7 +180,7 @@
           "type": "uint256"
         }
       ],
-      "name": "sellOusdForUsdt",
+      "name": "sellXusdForUsdt",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

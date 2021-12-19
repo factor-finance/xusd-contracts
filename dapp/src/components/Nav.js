@@ -8,14 +8,14 @@ import { useWeb3React } from '@web3-react/core'
 
 import withIsMobile from 'hoc/withIsMobile'
 
-import GetOUSD from 'components/GetOUSD'
+import GetXUSD from 'components/GetXUSD'
 import AccountStatusDropdown from 'components/AccountStatusDropdown'
 import { formatCurrency } from 'utils/math'
 import { getDocsLink } from 'utils/getDocsLink'
 import LanguageOptions from 'components/LanguageOptions'
 import LanguageSelected from 'components/LanguageSelected'
 import LocaleDropdown from 'components/LocaleDropdown'
-import OusdDropdown from 'components/earn/OusdDropdown'
+import XusdDropdown from 'components/earn/XusdDropdown'
 import OgnDropdown from 'components/earn/OgnDropdown'
 import ContractStore from 'stores/ContractStore'
 import AccountStore from 'stores/AccountStore'
@@ -26,8 +26,11 @@ import AccountStatusPopover from './AccountStatusPopover'
 const environment = process.env.NODE_ENV
 const showExperimentalSoftwareNotice = false
 const DappLinks = ({ dapp, page }) => {
-  const ousdBalance = useStoreState(AccountStore, (s) => s.balances['ousd'])
+  const xusdBalance = useStoreState(AccountStore, (s) => s.balances['xusd'])
   const lifetimeYield = useStoreState(AccountStore, (s) => s.lifetimeYield)
+  const showHistory =
+    (xusdBalance && parseFloat(xusdBalance) > 0) ||
+    (lifetimeYield && parseFloat(lifetimeYield) > 0)
 
   return (
     <>
@@ -41,7 +44,7 @@ const DappLinks = ({ dapp, page }) => {
                   page === 'swap' ? 'selected' : ''
                 }`}
               >
-                {fbt('Swap OUSD', 'Swap OUSD')}
+                {fbt('Swap XUSD', 'Swap XUSD')}
               </a>
             </Link>
           )}
@@ -67,15 +70,17 @@ const DappLinks = ({ dapp, page }) => {
               </a>
             </Link>
           )}
-          <Link href="/history">
-            <a
-              className={`d-flex align-items-center ${
-                page === 'history' ? 'selected' : ''
-              }`}
-            >
-              {fbt('History', 'History')}
-            </a>
-          </Link>
+          {showHistory && (
+            <Link href="/history">
+              <a
+                className={`d-flex align-items-center ${
+                  page === 'history' ? 'selected' : ''
+                }`}
+              >
+                {fbt('History', 'History')}
+              </a>
+            </Link>
+          )}
         </div>
       )}
       <style jsx>{`
@@ -151,9 +156,9 @@ const Nav = ({ dapp, isMobile, locale, onLocale, page }) => {
           <Link href={'/'}>
             <a className="navbar-brand d-flex flex-column justify-content-center">
               <img
-                src="/images/origin-dollar-logo.svg"
+                src="/images/xusd-logo.svg"
                 className="origin-logo"
-                alt="Origin Dollar logo"
+                alt="XUSD.fi logo"
               />
             </a>
           </Link>
@@ -201,7 +206,7 @@ const Nav = ({ dapp, isMobile, locale, onLocale, page }) => {
           {dapp && <AccountStatusPopover />}
           {dapp && !active && !account && (
             <div className="d-flex d-md-none">
-              <GetOUSD
+              <GetXUSD
                 navMarble
                 connect={true}
                 trackSource="Mobile navigation"
@@ -331,7 +336,7 @@ const Nav = ({ dapp, isMobile, locale, onLocale, page }) => {
                   className={dapp ? '' : 'ml-2'}
                 />
               </div>
-              <GetOUSD
+              <GetXUSD
                 style={{ marginTop: 40 }}
                 className="mt-auto d-lg-none"
                 light2
@@ -427,7 +432,7 @@ const Nav = ({ dapp, isMobile, locale, onLocale, page }) => {
           margin-right: 6px;
         }
 
-        .ousd-experimental-notice {
+        .xusd-experimental-notice {
           width: 100%;
           margin-top: 44px;
           padding: 13px 22px;
@@ -537,12 +542,12 @@ const Nav = ({ dapp, isMobile, locale, onLocale, page }) => {
             padding-right: 20px !important;
           }
 
-          .ousd-experimental-notice {
+          .xusd-experimental-notice {
             margin: 0px 20px 20px 20px;
             width: auto;
           }
 
-          .ousd-experimental-notice {
+          .xusd-experimental-notice {
             padding: 13px 28px;
           }
 

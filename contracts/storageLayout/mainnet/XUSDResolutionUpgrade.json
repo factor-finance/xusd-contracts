@@ -1,0 +1,146 @@
+{
+  "storage": [
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "initialized",
+      "type": "t_bool",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:11"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "initializing",
+      "type": "t_bool",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:12"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "______igap",
+      "type": "t_array(t_uint256)50_storage",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:13"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "_____ugap",
+      "type": "t_array(t_uint256)100_storage",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:16"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "_name",
+      "type": "t_string_storage",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:17"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "_symbol",
+      "type": "t_string_storage",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:18"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "_decimals",
+      "type": "t_uint8",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:19"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "_totalSupply",
+      "type": "t_uint256",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:23"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "_allowances",
+      "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:24"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "vaultAddress",
+      "type": "t_address",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:25"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "_creditBalances",
+      "type": "t_mapping(t_address,t_uint256)",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:26"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "_rebasingCredits",
+      "type": "t_uint256",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:27"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "_rebasingCreditsPerToken",
+      "type": "t_uint256",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:28"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "nonRebasingSupply",
+      "type": "t_uint256",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:29"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "nonRebasingCreditsPerToken",
+      "type": "t_mapping(t_address,t_uint256)",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:30"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "rebaseState",
+      "type": "t_mapping(t_address,t_enum(RebaseOptions)5)",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:31"
+    },
+    {
+      "contract": "XUSDResolutionUpgrade",
+      "label": "isUpgraded",
+      "type": "t_mapping(t_address,t_uint256)",
+      "src": "contracts/token/XUSDResolutionUpgrade.sol:32"
+    }
+  ],
+  "types": {
+    "t_bool": {
+      "label": "bool"
+    },
+    "t_array(t_uint256)50_storage": {
+      "label": "uint256[50]"
+    },
+    "t_uint256": {
+      "label": "uint256"
+    },
+    "t_array(t_uint256)100_storage": {
+      "label": "uint256[100]"
+    },
+    "t_string_storage": {
+      "label": "string"
+    },
+    "t_uint8": {
+      "label": "uint8"
+    },
+    "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+      "label": "mapping(address => mapping(address => uint256))"
+    },
+    "t_address": {
+      "label": "address"
+    },
+    "t_mapping(t_address,t_uint256)": {
+      "label": "mapping(address => uint256)"
+    },
+    "t_mapping(t_address,t_enum(RebaseOptions)5)": {
+      "label": "mapping(address => enum XUSDResolutionUpgrade.RebaseOptions)"
+    },
+    "t_enum(RebaseOptions)5": {
+      "label": "enum XUSDResolutionUpgrade.RebaseOptions",
+      "members": [
+        "NotSet",
+        "OptOut",
+        "OptIn"
+      ]
+    }
+  }
+}

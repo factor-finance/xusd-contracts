@@ -2,7 +2,7 @@ const { defaultFixture } = require("../_fixture");
 const { expect } = require("chai");
 
 const {
-  ousdUnits,
+  xusdUnits,
   daiUnits,
   usdcUnits,
   usdtUnits,
@@ -69,97 +69,97 @@ describe("Vault rebase pausing", async () => {
 
 describe("Vault rebasing", async () => {
   it("Should not alter balances after an asset price change", async () => {
-    let { ousd, vault, matt } = await loadFixture(defaultFixture);
-    await expect(matt).has.a.balanceOf("100.00", ousd);
+    let { xusd, vault, matt } = await loadFixture(defaultFixture);
+    await expect(matt).has.a.balanceOf("100.00", xusd);
     await vault.rebase();
-    await expect(matt).has.a.balanceOf("100.00", ousd);
+    await expect(matt).has.a.balanceOf("100.00", xusd);
     await setOracleTokenPriceUsd("DAI", "1.30");
 
     await vault.rebase();
-    await expect(matt).has.a.approxBalanceOf("100.00", ousd);
+    await expect(matt).has.a.approxBalanceOf("100.00", xusd);
     await setOracleTokenPriceUsd("DAI", "1.00");
     await vault.rebase();
-    await expect(matt).has.a.balanceOf("100.00", ousd);
+    await expect(matt).has.a.balanceOf("100.00", xusd);
   });
 
   it("Should not alter balances after an asset price change, single", async () => {
-    let { ousd, vault, matt } = await loadFixture(defaultFixture);
-    await expect(matt).has.a.balanceOf("100.00", ousd);
+    let { xusd, vault, matt } = await loadFixture(defaultFixture);
+    await expect(matt).has.a.balanceOf("100.00", xusd);
     await vault.rebase();
-    await expect(matt).has.a.balanceOf("100.00", ousd);
+    await expect(matt).has.a.balanceOf("100.00", xusd);
     await setOracleTokenPriceUsd("DAI", "1.30");
     await vault.rebase();
-    await expect(matt).has.a.approxBalanceOf("100.00", ousd);
+    await expect(matt).has.a.approxBalanceOf("100.00", xusd);
     await setOracleTokenPriceUsd("DAI", "1.00");
     await vault.rebase();
-    await expect(matt).has.a.balanceOf("100.00", ousd);
+    await expect(matt).has.a.balanceOf("100.00", xusd);
   });
 
   it("Should not alter balances after an asset price change with multiple assets", async () => {
-    let { ousd, vault, matt, usdc } = await loadFixture(defaultFixture);
+    let { xusd, vault, matt, usdc } = await loadFixture(defaultFixture);
 
     await usdc.connect(matt).approve(vault.address, usdcUnits("200"));
     await vault.connect(matt).mint(usdc.address, usdcUnits("200"), 0);
-    expect(await ousd.totalSupply()).to.eq(ousdUnits("400.0"));
-    await expect(matt).has.a.balanceOf("300.00", ousd);
+    expect(await xusd.totalSupply()).to.eq(xusdUnits("400.0"));
+    await expect(matt).has.a.balanceOf("300.00", xusd);
     await vault.rebase();
-    await expect(matt).has.a.balanceOf("300.00", ousd);
+    await expect(matt).has.a.balanceOf("300.00", xusd);
 
     await setOracleTokenPriceUsd("DAI", "1.30");
     await vault.rebase();
-    expect(await ousd.totalSupply()).to.eq(ousdUnits("400.0"));
-    await expect(matt).has.an.approxBalanceOf("300.00", ousd);
+    expect(await xusd.totalSupply()).to.eq(xusdUnits("400.0"));
+    await expect(matt).has.an.approxBalanceOf("300.00", xusd);
 
     await setOracleTokenPriceUsd("DAI", "1.00");
     await vault.rebase();
-    expect(await ousd.totalSupply()).to.eq(
-      ousdUnits("400.0"),
+    expect(await xusd.totalSupply()).to.eq(
+      xusdUnits("400.0"),
       "After assets go back"
     );
-    await expect(matt).has.a.balanceOf("300.00", ousd);
+    await expect(matt).has.a.balanceOf("300.00", xusd);
   });
 
   it("Should alter balances after supported asset deposited and rebase called for rebasing accounts", async () => {
-    let { ousd, vault, matt, usdc, josh } = await loadFixture(defaultFixture);
+    let { xusd, vault, matt, usdc, josh } = await loadFixture(defaultFixture);
     // Transfer USDC into the Vault to simulate yield
     await usdc.connect(matt).transfer(vault.address, usdcUnits("200"));
-    await expect(matt).has.an.approxBalanceOf("100.00", ousd);
-    await expect(josh).has.an.approxBalanceOf("100.00", ousd);
+    await expect(matt).has.an.approxBalanceOf("100.00", xusd);
+    await expect(josh).has.an.approxBalanceOf("100.00", xusd);
     await vault.rebase();
     await expect(matt).has.an.approxBalanceOf(
       "200.00",
-      ousd,
+      xusd,
       "Matt has wrong balance"
     );
     await expect(josh).has.an.approxBalanceOf(
       "200.00",
-      ousd,
+      xusd,
       "Josh has wrong balance"
     );
   });
 
   it("Should not alter balances after supported asset deposited and rebase called for non-rebasing accounts", async () => {
-    let { ousd, vault, matt, usdc, josh, mockNonRebasing } = await loadFixture(
+    let { xusd, vault, matt, usdc, josh, mockNonRebasing } = await loadFixture(
       defaultFixture
     );
 
-    await expect(matt).has.an.approxBalanceOf("100.00", ousd);
-    await expect(josh).has.an.approxBalanceOf("100.00", ousd);
+    await expect(matt).has.an.approxBalanceOf("100.00", xusd);
+    await expect(josh).has.an.approxBalanceOf("100.00", xusd);
 
-    // Give contract 100 OUSD from Josh
-    await ousd
+    // Give contract 100 XUSD from Josh
+    await xusd
       .connect(josh)
-      .transfer(mockNonRebasing.address, ousdUnits("100"));
+      .transfer(mockNonRebasing.address, xusdUnits("100"));
 
-    await expect(matt).has.an.approxBalanceOf("100.00", ousd);
-    await expect(mockNonRebasing).has.an.approxBalanceOf("100.00", ousd);
+    await expect(matt).has.an.approxBalanceOf("100.00", xusd);
+    await expect(mockNonRebasing).has.an.approxBalanceOf("100.00", xusd);
 
     // Transfer USDC into the Vault to simulate yield
     await usdc.connect(matt).transfer(vault.address, usdcUnits("200"));
     await vault.rebase();
 
-    await expect(matt).has.an.approxBalanceOf("300.00", ousd);
-    await expect(mockNonRebasing).has.an.approxBalanceOf("100.00", ousd);
+    await expect(matt).has.an.approxBalanceOf("300.00", xusd);
+    await expect(mockNonRebasing).has.an.approxBalanceOf("100.00", xusd);
   });
 
   it("Should not allocate unallocated assets when no Strategy configured", async () => {
@@ -192,13 +192,13 @@ describe("Vault rebasing", async () => {
   });
 
   it("Should correctly handle a deposit of USDC (6 decimals)", async function () {
-    const { anna, ousd, usdc, vault } = await loadFixture(defaultFixture);
-    await expect(anna).has.a.balanceOf("0", ousd);
+    const { anna, xusd, usdc, vault } = await loadFixture(defaultFixture);
+    await expect(anna).has.a.balanceOf("0", xusd);
     // The price should be limited by the code to $1
     await setOracleTokenPriceUsd("USDC", "1.20");
     await usdc.connect(anna).approve(vault.address, usdcUnits("50"));
     await vault.connect(anna).mint(usdc.address, usdcUnits("50"), 0);
-    await expect(anna).has.a.balanceOf("50", ousd);
+    await expect(anna).has.a.balanceOf("50", xusd);
   });
 
   it("Should allow priceProvider to be changed", async function () {
@@ -230,25 +230,25 @@ describe("Vault yield accrual to OGN", async () => {
     const { _yield, basis, expectedFee } = options;
     it(`should collect on rebase a ${expectedFee} fee from ${_yield} yield at ${basis}bp `, async function () {
       const fixture = await loadFixture(defaultFixture);
-      const { matt, governor, ousd, usdt, vault, mockNonRebasing } = fixture;
+      const { matt, governor, xusd, usdt, vault, mockNonRebasing } = fixture;
       const trustee = mockNonRebasing;
 
       // Setup trustee trustee on vault
       await vault.connect(governor).setTrusteeAddress(trustee.address);
       await vault.connect(governor).setTrusteeFeeBps(900);
-      await expect(trustee).has.a.balanceOf("0", ousd);
+      await expect(trustee).has.a.balanceOf("0", xusd);
 
       // Create yield for the vault
       await usdt.connect(matt).mint(usdcUnits("1523"));
       await usdt.connect(matt).transfer(vault.address, usdcUnits("1523"));
       // Do rebase
-      const supplyBefore = await ousd.totalSupply();
+      const supplyBefore = await xusd.totalSupply();
       await vault.rebase();
-      // OUSD supply increases correctly
-      await expectApproxSupply(ousd, supplyBefore.add(ousdUnits("1523")));
+      // XUSD supply increases correctly
+      await expectApproxSupply(xusd, supplyBefore.add(xusdUnits("1523")));
       // ogntrustee address increases correctly
       // 1523 * 0.09 = 137.07
-      await expect(trustee).has.a.balanceOf("137.07", ousd);
+      await expect(trustee).has.a.balanceOf("137.07", xusd);
     });
   });
 });

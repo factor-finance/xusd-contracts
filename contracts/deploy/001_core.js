@@ -264,8 +264,8 @@ const deployConvexStrategy = async () => {
       ](
         assetAddresses.ThreePool,
         cVaultProxy.address,
-        assetAddresses.CRV,
         assetAddresses.CVX,
+        assetAddresses.CRV,
         [assetAddresses.DAI, assetAddresses.USDC, assetAddresses.USDT],
         [
           assetAddresses.ThreePoolToken,
@@ -403,7 +403,7 @@ const deployOracles = async () => {
 };
 
 /**
- * Deploy the core contracts (Vault and OUSD).
+ * Deploy the core contracts (Vault and XUSD).
  *
  */
 const deployCore = async () => {
@@ -416,11 +416,11 @@ const deployCore = async () => {
   const sGovernor = await ethers.provider.getSigner(governorAddr);
 
   // Proxies
-  await deployWithConfirmation("OUSDProxy");
+  await deployWithConfirmation("XUSDProxy");
   await deployWithConfirmation("VaultProxy");
 
   // Main contracts
-  const dOUSD = await deployWithConfirmation("OUSD");
+  const dXUSD = await deployWithConfirmation("XUSD");
   const dVault = await deployWithConfirmation("Vault");
   const dVaultCore = await deployWithConfirmation("VaultCore");
   const dVaultAdmin = await deployWithConfirmation("VaultAdmin");
@@ -428,20 +428,20 @@ const deployCore = async () => {
   await deployWithConfirmation("Governor", [governorAddr, 60]);
 
   // Get contract instances
-  const cOUSDProxy = await ethers.getContract("OUSDProxy");
+  const cXUSDProxy = await ethers.getContract("XUSDProxy");
   const cVaultProxy = await ethers.getContract("VaultProxy");
-  const cOUSD = await ethers.getContractAt("OUSD", cOUSDProxy.address);
+  const cXUSD = await ethers.getContractAt("XUSD", cXUSDProxy.address);
   const cOracleRouter = await ethers.getContract("OracleRouter");
   const cVault = await ethers.getContractAt("Vault", cVaultProxy.address);
 
   await withConfirmation(
-    cOUSDProxy["initialize(address,address,bytes)"](
-      dOUSD.address,
+    cXUSDProxy["initialize(address,address,bytes)"](
+      dXUSD.address,
       governorAddr,
       []
     )
   );
-  log("Initialized OUSDProxy");
+  log("Initialized XUSDProxy");
 
   // Need to call the initializer on the Vault then upgraded it to the actual
   // VaultCore implementation
@@ -457,7 +457,7 @@ const deployCore = async () => {
   await withConfirmation(
     cVault
       .connect(sGovernor)
-      .initialize(cOracleRouter.address, cOUSDProxy.address)
+      .initialize(cOracleRouter.address, cXUSDProxy.address)
   );
   log("Initialized Vault");
 
@@ -471,14 +471,14 @@ const deployCore = async () => {
   );
   log("Initialized VaultAdmin implementation");
 
-  // Initialize OUSD
+  // Initialize XUSD
   await withConfirmation(
-    cOUSD
+    cXUSD
       .connect(sGovernor)
-      .initialize("Origin Dollar", "OUSD", cVaultProxy.address)
+      .initialize("XUSD.fi", "XUSD", cVaultProxy.address)
   );
 
-  log("Initialized OUSD");
+  log("Initialized XUSD");
 };
 
 // Deploy the Flipper trading contract
@@ -486,11 +486,11 @@ const deployFlipper = async () => {
   const assetAddresses = await getAssetAddresses(deployments);
   const { governorAddr } = await hre.getNamedAccounts();
   const sGovernor = await ethers.provider.getSigner(governorAddr);
-  const ousd = await ethers.getContract("OUSDProxy");
+  const xusd = await ethers.getContract("XUSDProxy");
 
   await deployWithConfirmation("Flipper", [
     assetAddresses.DAI,
-    ousd.address,
+    xusd.address,
     assetAddresses.USDC,
     assetAddresses.USDT,
   ]);
@@ -499,13 +499,13 @@ const deployFlipper = async () => {
   await withConfirmation(flipper.connect(sGovernor).claimGovernance());
 };
 
-// create Uniswap V3 OUSD - USDT pool
+// create Uniswap V3 XUSD - USDT pool
 const deployUniswapV3Pool = async () => {
-  const ousd = await ethers.getContract("OUSDProxy");
+  const xusd = await ethers.getContract("XUSDProxy");
   const assetAddresses = await getAssetAddresses(deployments);
   const MockUniswapV3Factory = await ethers.getContract("MockUniswapV3Factory");
 
-  await MockUniswapV3Factory.createPool(assetAddresses.USDT, ousd.address, 500);
+  await MockUniswapV3Factory.createPool(assetAddresses.USDT, xusd.address, 500);
 
   await MockUniswapV3Factory.createPool(
     assetAddresses.USDT,
@@ -527,7 +527,7 @@ const deployBuyback = async () => {
 
   const assetAddresses = await getAssetAddresses(deployments);
   const oracleAddresses = await getOracleAddresses(deployments);
-  const ousd = await ethers.getContract("OUSDProxy");
+  const xusd = await ethers.getContract("XUSDProxy");
   const vault = await ethers.getContract("VaultProxy");
   const cVault = await ethers.getContractAt(
     "VaultAdmin",
@@ -539,7 +539,7 @@ const deployBuyback = async () => {
   await deployWithConfirmation("Buyback", [
     assetAddresses.uniswapRouter,
     vault.address,
-    ousd.address,
+    xusd.address,
     assetAddresses.OGN,
     assetAddresses.USDT,
     assetAddresses.WETH,

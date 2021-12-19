@@ -146,37 +146,37 @@ export async function setupContracts(account, library, chainId, fetchId) {
     }
   }
 
-  const ousdProxy = contracts['OUSDProxy']
+  const xusdProxy = contracts['XUSDProxy']
   const vaultProxy = contracts['VaultProxy']
   const OGNStakingProxy = contracts['OGNStakingProxy']
-  let liquidityRewardOUSD_USDTProxy,
-    liquidityRewardOUSD_DAIProxy,
-    liquidityRewardOUSD_USDCProxy
+  let liquidityRewardXUSD_USDTProxy,
+    liquidityRewardXUSD_DAIProxy,
+    liquidityRewardXUSD_USDCProxy
 
   if (process.env.ENABLE_LIQUIDITY_MINING === 'true') {
-    liquidityRewardOUSD_USDTProxy = contracts['LiquidityRewardOUSD_USDTProxy']
-    liquidityRewardOUSD_DAIProxy = contracts['LiquidityRewardOUSD_DAIProxy']
-    liquidityRewardOUSD_USDCProxy = contracts['LiquidityRewardOUSD_USDCProxy']
+    liquidityRewardXUSD_USDTProxy = contracts['LiquidityRewardXUSD_USDTProxy']
+    liquidityRewardXUSD_DAIProxy = contracts['LiquidityRewardXUSD_DAIProxy']
+    liquidityRewardXUSD_USDCProxy = contracts['LiquidityRewardXUSD_USDCProxy']
   }
 
   let usdt,
     dai,
     tusd,
     usdc,
-    ousd,
+    xusd,
     vault,
     ogn,
     flipper,
-    uniV2OusdUsdt,
-    uniV2OusdUsdt_iErc20,
-    uniV2OusdUsdt_iUniPair,
-    uniV2OusdUsdc,
-    uniV2OusdUsdc_iErc20,
-    uniV2OusdUsdc_iUniPair,
-    uniV2OusdDai,
-    uniV2OusdDai_iErc20,
-    uniV2OusdDai_iUniPair,
-    uniV3OusdUsdt,
+    uniV2XusdUsdt,
+    uniV2XusdUsdt_iErc20,
+    uniV2XusdUsdt_iUniPair,
+    uniV2XusdUsdc,
+    uniV2XusdUsdc_iErc20,
+    uniV2XusdUsdc_iUniPair,
+    uniV2XusdDai,
+    uniV2XusdDai_iErc20,
+    uniV2XusdDai_iUniPair,
+    uniV3XusdUsdt,
     uniV3DaiUsdt,
     uniV3UsdcUsdt,
     uniV3NonfungiblePositionManager,
@@ -184,9 +184,9 @@ export async function setupContracts(account, library, chainId, fetchId) {
     uniV2Router,
     sushiRouter,
     uniV3SwapQuoter,
-    liquidityOusdUsdt,
-    liquidityOusdUsdc,
-    liquidityOusdDai,
+    liquidityXusdUsdt,
+    liquidityXusdUsdc,
+    liquidityXusdDai,
     ognStaking,
     ognStakingView,
     compensation,
@@ -231,16 +231,16 @@ export async function setupContracts(account, library, chainId, fetchId) {
   vault = getContract(vaultProxy.address, iVaultJson.abi)
 
   if (process.env.ENABLE_LIQUIDITY_MINING === 'true') {
-    liquidityOusdUsdt = getContract(
-      liquidityRewardOUSD_USDTProxy.address,
+    liquidityXusdUsdt = getContract(
+      liquidityRewardXUSD_USDTProxy.address,
       liquidityRewardJson.abi
     )
-    liquidityOusdUsdc = getContract(
-      liquidityRewardOUSD_USDCProxy.address,
+    liquidityXusdUsdc = getContract(
+      liquidityRewardXUSD_USDCProxy.address,
       liquidityRewardJson.abi
     )
-    liquidityOusdDai = getContract(
-      liquidityRewardOUSD_DAIProxy.address,
+    liquidityXusdDai = getContract(
+      liquidityRewardXUSD_DAIProxy.address,
       liquidityRewardJson.abi
     )
   }
@@ -252,15 +252,15 @@ export async function setupContracts(account, library, chainId, fetchId) {
     jsonRpcProvider
   )
 
-  ousd = getContract(ousdProxy.address, network.contracts['OUSD'].abi)
+  xusd = getContract(xusdProxy.address, network.contracts['XUSD'].abi)
   usdt = getContract(addresses.mainnet.USDT, usdtAbi.abi)
   usdc = getContract(addresses.mainnet.USDC, usdcAbi.abi)
   dai = getContract(addresses.mainnet.DAI, daiAbi.abi)
   ogn = getContract(addresses.mainnet.OGN, ognAbi)
   flipper = getContract(addresses.mainnet.Flipper, flipperAbi)
 
-  uniV3OusdUsdt = getContract(
-    addresses.mainnet.uniswapV3OUSD_USDT,
+  uniV3XusdUsdt = getContract(
+    addresses.mainnet.uniswapV3XUSD_USDT,
     uniV3PoolJson.abi
   )
   uniV3SwapRouter = getContract(
@@ -295,11 +295,11 @@ export async function setupContracts(account, library, chainId, fetchId) {
   )
 
   if (process.env.ENABLE_LIQUIDITY_MINING === 'true') {
-    uniV2OusdUsdt = null
-    uniV2OusdUsdc = null
-    uniV2OusdDai = null
+    uniV2XusdUsdt = null
+    uniV2XusdUsdc = null
+    uniV2XusdDai = null
     throw new Error(
-      'uniV2OusdUsdt, uniV2OusdUsdc, uniV2OusdDai mainnet address is missing'
+      'uniV2XusdUsdt, uniV2XusdUsdc, uniV2XusdDai mainnet address is missing'
     )
   }
 
@@ -309,20 +309,20 @@ export async function setupContracts(account, library, chainId, fetchId) {
   )
 
   if (process.env.ENABLE_LIQUIDITY_MINING === 'true') {
-    uniV2OusdUsdt_iErc20 = getContract(uniV2OusdUsdt.address, iErc20Json.abi)
-    uniV2OusdUsdt_iUniPair = getContract(
-      uniV2OusdUsdt.address,
+    uniV2XusdUsdt_iErc20 = getContract(uniV2XusdUsdt.address, iErc20Json.abi)
+    uniV2XusdUsdt_iUniPair = getContract(
+      uniV2XusdUsdt.address,
       iUniPairJson.abi
     )
 
-    uniV2OusdUsdc_iErc20 = getContract(uniV2OusdUsdc.address, iErc20Json.abi)
-    uniV2OusdUsdc_iUniPair = getContract(
-      uniV2OusdUsdc.address,
+    uniV2XusdUsdc_iErc20 = getContract(uniV2XusdUsdc.address, iErc20Json.abi)
+    uniV2XusdUsdc_iUniPair = getContract(
+      uniV2XusdUsdc.address,
       iUniPairJson.abi
     )
 
-    uniV2OusdDai_iErc20 = getContract(uniV2OusdDai.address, iErc20Json.abi)
-    uniV2OusdDai_iUniPair = getContract(uniV2OusdDai.address, iUniPairJson.abi)
+    uniV2XusdDai_iErc20 = getContract(uniV2XusdDai.address, iErc20Json.abi)
+    uniV2XusdDai_iUniPair = getContract(uniV2XusdDai.address, iUniPairJson.abi)
   }
 
   const fetchExchangeRates = async () => {
@@ -331,8 +331,8 @@ export async function setupContracts(account, library, chainId, fetchId) {
       usdt: usdt,
       usdc: usdc,
     }
-    const ousdExchangeRates = {
-      ...ContractStore.currentState.ousdExchangeRates,
+    const xusdExchangeRates = {
+      ...ContractStore.currentState.xusdExchangeRates,
     }
     const userActive = AccountStore.currentState.active === 'active'
     // do not fetch anything if the user is not active
@@ -350,7 +350,7 @@ export async function setupContracts(account, library, chainId, fetchId) {
         const priceMint = Number(priceBNMint.toString()) / 1000000000000000000
         const priceRedeem =
           Number(priceBNRedeem.toString()) / 1000000000000000000
-        ousdExchangeRates[name] = {
+        xusdExchangeRates[name] = {
           mint: priceMint,
           redeem: priceRedeem,
         }
@@ -360,7 +360,7 @@ export async function setupContracts(account, library, chainId, fetchId) {
     }
 
     ContractStore.update((store) => {
-      store.ousdExchangeRates = { ...ousdExchangeRates }
+      store.xusdExchangeRates = { ...xusdExchangeRates }
     })
   }
 
@@ -423,7 +423,7 @@ export async function setupContracts(account, library, chainId, fetchId) {
       if (!walletConnected) {
         return
       }
-      const credits = await ousd.creditsBalanceOf(account)
+      const credits = await xusd.creditsBalanceOf(account)
       AccountStore.update((s) => {
         s.creditsBalanceOf = ethers.utils.formatUnits(credits[0], 18)
       })
@@ -446,7 +446,7 @@ export async function setupContracts(account, library, chainId, fetchId) {
 
   callWithDelay()
 
-  const [curveRegistryExchange, curveOUSDMetaPool, curveUnderlyingCoins] =
+  const [curveRegistryExchange, curveXUSDMetaPool, curveUnderlyingCoins] =
     await setupCurve(curveAddressProvider, getContract, chainId)
 
   if (ContractStore.currentState.fetchId > fetchId) {
@@ -470,19 +470,19 @@ export async function setupContracts(account, library, chainId, fetchId) {
     dai,
     tusd,
     usdc,
-    ousd,
+    xusd,
     vault,
     ogn,
-    uniV2OusdUsdt,
-    uniV2OusdUsdt_iErc20,
-    uniV2OusdUsdt_iUniPair,
-    uniV2OusdUsdc,
-    uniV2OusdUsdc_iErc20,
-    uniV2OusdUsdc_iUniPair,
-    uniV2OusdDai,
-    uniV2OusdDai_iErc20,
-    uniV2OusdDai_iUniPair,
-    uniV3OusdUsdt,
+    uniV2XusdUsdt,
+    uniV2XusdUsdt_iErc20,
+    uniV2XusdUsdt_iUniPair,
+    uniV2XusdUsdc,
+    uniV2XusdUsdc_iErc20,
+    uniV2XusdUsdc_iUniPair,
+    uniV2XusdDai,
+    uniV2XusdDai_iErc20,
+    uniV2XusdDai_iUniPair,
+    uniV3XusdUsdt,
     uniV3DaiUsdt,
     uniV3UsdcUsdt,
     uniV3SwapRouter,
@@ -490,9 +490,9 @@ export async function setupContracts(account, library, chainId, fetchId) {
     uniV2Router,
     sushiRouter,
     uniV3NonfungiblePositionManager,
-    liquidityOusdUsdt,
-    liquidityOusdUsdc,
-    liquidityOusdDai,
+    liquidityXusdUsdt,
+    liquidityXusdUsdc,
+    liquidityXusdDai,
     ognStaking,
     ognStakingView,
     compensation,
@@ -501,7 +501,7 @@ export async function setupContracts(account, library, chainId, fetchId) {
     chainlinkFastGasAggregator,
     curveAddressProvider,
     curveRegistryExchange,
-    curveOUSDMetaPool,
+    curveXUSDMetaPool,
   }
 
   const coinInfoList = {
@@ -517,8 +517,8 @@ export async function setupContracts(account, library, chainId, fetchId) {
       contract: dai,
       decimals: 18,
     },
-    ousd: {
-      contract: ousd,
+    xusd: {
+      contract: xusd,
       decimals: 18,
     },
   }
@@ -551,17 +551,17 @@ const setupCurve = async (curveAddressProvider, getContract, chainId) => {
   const factoryAddress = await curveAddressProvider.get_address(3)
   const factory = getContract(factoryAddress, curveFactoryMiniAbi)
   const curveUnderlyingCoins = (
-    await factory.get_underlying_coins(addresses.mainnet.CurveOUSDMetaPool)
+    await factory.get_underlying_coins(addresses.mainnet.CurveXUSDMetaPool)
   ).map((address) => address.toLowerCase())
 
-  const curveOUSDMetaPool = getContract(
-    addresses.mainnet.CurveOUSDMetaPool,
+  const curveXUSDMetaPool = getContract(
+    addresses.mainnet.CurveXUSDMetaPool,
     curveMetapoolMiniAbi
   )
 
   return [
     getContract(registryExchangeAddress, registryExchangeJson.abi),
-    curveOUSDMetaPool,
+    curveXUSDMetaPool,
     curveUnderlyingCoins,
   ]
 

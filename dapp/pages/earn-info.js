@@ -3,7 +3,7 @@ import { fbt } from 'fbt-runtime'
 import withIsMobile from 'hoc/withIsMobile'
 
 import Closing from 'components/Closing'
-import GetOUSD from 'components/GetOUSD'
+import GetXUSD from 'components/GetXUSD'
 import Layout from 'components/layout'
 import Nav from 'components/Nav'
 
@@ -24,12 +24,12 @@ export default function Earn({ locale, onLocale }) {
                 </h1>
                 <h2 className="main-title">
                   {fbt(
-                    'OUSD enables both sophisticated DeFi experts and novice users to passively earn compelling returns across three strategies.',
-                    'OUSD enables both sophisticated DeFi experts and novice users to passively earn compelling returns across three strategies.'
+                    'XUSD enables both sophisticated DeFi experts and novice users to passively earn compelling returns across three strategies.',
+                    'XUSD enables both sophisticated DeFi experts and novice users to passively earn compelling returns across three strategies.'
                   )}
                 </h2>
                 <div className="d-block">
-                  <GetOUSD
+                  <GetXUSD
                     style={withIsMobile ? { marginTop: 30 } : { marginTop: 60 }}
                     primary
                     zIndex2
@@ -110,8 +110,8 @@ export default function Earn({ locale, onLocale }) {
           </svg>
           <p className="introduction">
             {fbt(
-              'The OUSD smart contract pools capital from all stablecoin depositors, then routes capital to a diversified set of yield-earning strategies. Earnings are automatically converted to OUSD and deposited into your wallet.',
-              'The OUSD smart contract pools capital from all stablecoin depositors, then routes capital to a diversified set of yield-earning strategies. Earnings are automatically converted to OUSD and deposited into your wallet.'
+              'The XUSD smart contract pools capital from all stablecoin depositors, then routes capital to a diversified set of yield-earning strategies. Earnings are automatically converted to XUSD and deposited into your wallet.',
+              'The XUSD smart contract pools capital from all stablecoin depositors, then routes capital to a diversified set of yield-earning strategies. Earnings are automatically converted to XUSD and deposited into your wallet.'
             )}
           </p>
           <div className="hangers">
@@ -312,8 +312,8 @@ export default function Earn({ locale, onLocale }) {
                 </div>
                 <div className="elaboration">
                   {fbt(
-                    "Receive all your yield in OUSD automatically. There's no need to actively manage your DeFi portfolio.",
-                    "Receive all your yield in OUSD automatically. There's no need to actively manage your DeFi portfolio."
+                    "Receive all your yield in XUSD automatically. There's no need to actively manage your DeFi portfolio.",
+                    "Receive all your yield in XUSD automatically. There's no need to actively manage your DeFi portfolio."
                   )}
                 </div>
               </div>
@@ -324,7 +324,7 @@ export default function Earn({ locale, onLocale }) {
       <section className="dark compounding">
         <div className="container text-center px-lg-0">
           <h4>
-            {fbt('OUSD compounds continuously', 'OUSD compounds continuously')}
+            {fbt('XUSD compounds continuously', 'XUSD compounds continuously')}
           </h4>
           <div className="compounding-summary">
             {fbt(

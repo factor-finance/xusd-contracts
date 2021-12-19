@@ -90,7 +90,7 @@ const TransactionListener = ({ rpcProvider }) => {
     )
 
     const vault = ContractStore.currentState.contracts.vault
-    const ousd = ContractStore.currentState.contracts.ousd
+    const xusd = ContractStore.currentState.contracts.xusd
 
     const handlePossibleReplacedTransaction = async (eventTransactionHash) => {
       const eventTx = await wsProvider.getTransaction(eventTransactionHash)
@@ -138,7 +138,7 @@ const TransactionListener = ({ rpcProvider }) => {
       handlePossibleReplacedTransaction(log.transactionHash)
     })
 
-    wsProvider.on(ousd.filters.TotalSupplyUpdatedHighres(), (log, event) => {
+    wsProvider.on(xusd.filters.TotalSupplyUpdatedHighres(), (log, event) => {
       handlePossibleReplacedTransaction(log.transactionHash)
     })
 

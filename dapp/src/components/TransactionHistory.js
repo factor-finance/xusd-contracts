@@ -77,28 +77,17 @@ const FilterButton = ({
   )
 }
 
-/* If combination of user balance and current APY is so low that users don't get even 1 cent yields
- * we want to show more decimals. If users have high yields (over $1) we show only 2 decimals
- */
-const FormatCurrencyByImportance = ({
-  value,
-  isMobile,
-  greaterThanDollarYieldExists,
-  greaterThan10CentYieldExists,
-}) => {
+const FormatCurrencyByImportance = ({ value, isMobile }) => {
   const negative = value < 0
-  let nrOfDecimals = 4
 
-  if (isMobile || greaterThanDollarYieldExists) {
-    nrOfDecimals = 2
-  } else if (greaterThan10CentYieldExists) {
-    nrOfDecimals = 3
+  value = formatCurrency(Math.abs(value), isMobile ? 2 : 4)
+  let first, last
+  if (isMobile) {
+    first = value
+  } else {
+    first = value.substring(0, value.length - 2)
+    last = value.substring(value.length - 2)
   }
-
-  const nrOfGreyDecimals = nrOfDecimals - 2
-  value = formatCurrency(Math.abs(value), nrOfDecimals)
-  const first = value.substring(0, value.length - nrOfGreyDecimals)
-  const last = value.substring(value.length - nrOfGreyDecimals)
 
   return (
     <>
@@ -148,15 +137,15 @@ const TransactionHistory = ({ isMobile }) => {
       imageName: 'sent_icon.svg',
       filter: 'sent',
     },
-    swap_give_ousd: {
+    swap_give_xusd: {
       name: fbt('Swap', 'Swap history type'),
-      verboseName: 'Swap give OUSD',
+      verboseName: 'Swap give XUSD',
       imageName: 'swap_icon.svg',
       filter: 'swap',
     },
-    swap_gain_ousd: {
+    swap_gain_xusd: {
       name: fbt('Swap', 'Swap history type'),
-      verboseName: 'Swap gain OUSD',
+      verboseName: 'Swap gain XUSD',
       imageName: 'swap_icon.svg',
       filter: 'swap',
     },
@@ -249,17 +238,6 @@ const TransactionHistory = ({ isMobile }) => {
     )
   }, [shownHistory, currentPage])
 
-  const greaterThanDollarYieldExists =
-    currentPageHistory &&
-    currentPageHistory.filter(
-      (tx) => tx.type === 'yield' && parseFloat(tx.amount) > 1
-    ).length > 0
-  const greaterThan10CentYieldExists =
-    currentPageHistory &&
-    currentPageHistory.filter(
-      (tx) => tx.type === 'yield' && parseFloat(tx.amount) > 0.1
-    ).length > 0
-
   return (
     <>
       <div className="d-flex holder flex-column justify-content-start">
@@ -347,10 +325,10 @@ const TransactionHistory = ({ isMobile }) => {
                   {fbt('To', 'Transaction history to account')}
                 </div>
                 <div className="col-3 col-md-2 d-flex justify-content-end pr-md-5">
-                  {fbt('Amount', 'Transaction history OUSD amount')}
+                  {fbt('Amount', 'Transaction history XUSD amount')}
                 </div>
                 <div className="col-3 col-md-2 d-flex justify-content-end pr-md-5">
-                  {fbt('Balance', 'Transaction history OUSD balance')}
+                  {fbt('Balance', 'Transaction history XUSD balance')}
                 </div>
               </div>
               {currentPageHistory.map((tx) => {
@@ -359,15 +337,7 @@ const TransactionHistory = ({ isMobile }) => {
                     key={`${tx.tx_hash}-${tx.log_index ? tx.log_index : 0}`}
                     className="d-flex border-bt pb-20 pt-20 history-item"
                   >
-                    <div
-                      className="col-3 col-md-2 pl-0"
-                      title={
-                        dateformat(
-                          Date.parse(tx.time),
-                          'mm/dd/yyyy h:MM:ss TT'
-                        ) || ''
-                      }
-                    >
+                    <div className="col-3 col-md-2 pl-0">
                       {dateformat(
                         Date.parse(tx.time),
                         isMobile ? 'mm/dd/yy' : 'mm/dd/yyyy'
@@ -420,12 +390,6 @@ const TransactionHistory = ({ isMobile }) => {
                         <FormatCurrencyByImportance
                           value={tx.amount}
                           isMobile={isMobile}
-                          greaterThanDollarYieldExists={
-                            greaterThanDollarYieldExists
-                          }
-                          greaterThan10CentYieldExists={
-                            greaterThan10CentYieldExists
-                          }
                         />
                       ) : (
                         '-'
@@ -436,12 +400,6 @@ const TransactionHistory = ({ isMobile }) => {
                         <FormatCurrencyByImportance
                           value={tx.balance}
                           isMobile={isMobile}
-                          greaterThanDollarYieldExists={
-                            greaterThanDollarYieldExists
-                          }
-                          greaterThan10CentYieldExists={
-                            greaterThan10CentYieldExists
-                          }
                         />
                       ) : (
                         '-'

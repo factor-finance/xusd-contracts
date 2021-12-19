@@ -3,7 +3,7 @@ import { useWeb3React } from '@web3-react/core'
 import { fbt } from 'fbt-runtime'
 
 import Dropdown from 'components/Dropdown'
-import GetOUSD from 'components/GetOUSD'
+import GetXUSD from 'components/GetXUSD'
 import {
   isCorrectNetwork,
   truncateAddress,
@@ -51,7 +51,7 @@ const AccountStatusDropdown = ({ className, showLogin, dapp }) => {
         >
           {/* The button id is used by StakeBoxBig to trigger connect when no wallet connected */}
           {((!active && !account) || (!dapp && active && correctNetwork)) && (
-            <GetOUSD
+            <GetXUSD
               id="main-dapp-nav-connect-wallet-button"
               connect={dapp}
               className="btn-nav"

@@ -82,17 +82,17 @@ async function proposeVaultv2GovernanceArgs() {
   return { args, description };
 }
 
-// Transfer governance of the OUSD contract from old to new governor.
+// Transfer governance of the XUSD contract from old to new governor.
 // IMPORTANT: must be executed against the old governor.
-async function proposeOusdNewGovernorArgs() {
+async function proposeXusdNewGovernorArgs() {
   const { governorAddr } = await getNamedAccounts();
-  const cOUSDProxy = await ethers.getContract("OUSDProxy");
-  const cOUSD = await ethers.getContractAt("OUSD", cOUSDProxy.address);
+  const cXUSDProxy = await ethers.getContract("XUSDProxy");
+  const cXUSD = await ethers.getContractAt("XUSD", cXUSDProxy.address);
 
-  const description = "OUSD governance transfer";
+  const description = "XUSD governance transfer";
   const args = await proposeArgs([
     {
-      contract: cOUSD,
+      contract: cXUSD,
       signature: "transferGovernance(address)",
       args: [governorAddr],
     },
@@ -101,50 +101,50 @@ async function proposeOusdNewGovernorArgs() {
 }
 
 // - claimGovernance
-// - upgradeTo OUSDReset
+// - upgradeTo XUSDReset
 // - call reset()
 // - call setVaultAddress()
-// - upgradeTo OUSD
-async function proposeOusdv2ResetArgs() {
-  const dOUSD = await ethers.getContract("OUSD");
-  const dOUSDReset = await ethers.getContract("OUSDReset");
-  const cOUSDProxy = await ethers.getContract("OUSDProxy");
-  const cOUSDReset = await ethers.getContractAt(
-    "OUSDReset",
-    cOUSDProxy.address
+// - upgradeTo XUSD
+async function proposeXusdv2ResetArgs() {
+  const dXUSD = await ethers.getContract("XUSD");
+  const dXUSDReset = await ethers.getContract("XUSDReset");
+  const cXUSDProxy = await ethers.getContract("XUSDProxy");
+  const cXUSDReset = await ethers.getContractAt(
+    "XUSDReset",
+    cXUSDProxy.address
   );
   const cVaultProxy = await ethers.getContract("VaultProxy");
 
-  const description = "OUSD Reset";
+  const description = "XUSD Reset";
   const args = await proposeArgs([
     {
-      contract: cOUSDProxy,
+      contract: cXUSDProxy,
       signature: "claimGovernance()",
     },
     {
-      contract: cOUSDProxy,
+      contract: cXUSDProxy,
       signature: "upgradeTo(address)",
-      args: [dOUSDReset.address],
+      args: [dXUSDReset.address],
     },
     {
-      contract: cOUSDReset,
+      contract: cXUSDReset,
       signature: "reset()",
     },
     {
-      contract: cOUSDReset,
+      contract: cXUSDReset,
       signature: "setVaultAddress(address)",
       args: [cVaultProxy.address],
     },
     {
-      contract: cOUSDProxy,
+      contract: cXUSDProxy,
       signature: "upgradeTo(address)",
-      args: [dOUSD.address],
+      args: [dXUSD.address],
     },
   ]);
   return { args, description };
 }
 
-// Returns the argument to use for sending a proposal to upgrade OUSD.
+// Returns the argument to use for sending a proposal to upgrade XUSD.
 async function proposeUpgradeStakingArgs() {
   const stakingProxy = await ethers.getContract("OGNStakingProxy");
   const staking = await ethers.getContract("SingleAssetStaking");
@@ -332,19 +332,19 @@ async function proposeSetTrusteeFeeBpsArgs(config) {
   return { args, description };
 }
 
-// Returns the argument to use for sending a proposal to upgrade OUSD.
-async function proposeUpgradeOusdArgs() {
-  const ousdProxy = await ethers.getContract("OUSDProxy");
-  const ousd = await ethers.getContract("OUSD");
+// Returns the argument to use for sending a proposal to upgrade XUSD.
+async function proposeUpgradeXusdArgs() {
+  const xusdProxy = await ethers.getContract("XUSDProxy");
+  const xusd = await ethers.getContract("XUSD");
 
   const args = await proposeArgs([
     {
-      contract: ousdProxy,
+      contract: xusdProxy,
       signature: "upgradeTo(address)",
-      args: [ousd.address],
+      args: [xusd.address],
     },
   ]);
-  const description = "Upgrade OUSD";
+  const description = "Upgrade XUSD";
   return { args, description };
 }
 
@@ -982,9 +982,9 @@ async function main(config) {
   } else if (config.setRebaseHookAddr) {
     console.log("setRebaseHookAddr proposal");
     argsMethod = proposeSetRebaseHookAddrArgs;
-  } else if (config.upgradeOusd) {
-    console.log("upgradeOusd proposal");
-    argsMethod = proposeUpgradeOusdArgs;
+  } else if (config.upgradeXusd) {
+    console.log("upgradeXusd proposal");
+    argsMethod = proposeUpgradeXusdArgs;
   } else if (config.upgradeVaultCore) {
     console.log("upgradeVaultCore proposal");
     argsMethod = proposeUpgradeVaultCoreArgs;
@@ -1039,12 +1039,12 @@ async function main(config) {
   } else if (config.vaultv2Governance) {
     console.log("VaultV2Governance");
     argsMethod = proposeVaultv2GovernanceArgs;
-  } else if (config.ousdNewGovernor) {
-    console.log("OusdNewGovernor");
-    argsMethod = proposeOusdNewGovernorArgs;
-  } else if (config.ousdv2Reset) {
-    console.log("Ousdv2Reset");
-    argsMethod = proposeOusdv2ResetArgs;
+  } else if (config.xusdNewGovernor) {
+    console.log("XusdNewGovernor");
+    argsMethod = proposeXusdNewGovernorArgs;
+  } else if (config.xusdv2Reset) {
+    console.log("Xusdv2Reset");
+    argsMethod = proposeXusdv2ResetArgs;
   } else if (config.setRewardLiquidationThreshold) {
     console.log("Set Compound reward liquidation threshold");
     argsMethod = proposeSetRewardLiquidationThresholdArgs;
@@ -1145,7 +1145,7 @@ const config = {
   setBuybackUniswapAddr: args["--setBuybackUniswapAddr"],
   setTrusteeFeeBps: args["--setTrusteeFeeBps"],
   setRebaseHookAddr: args["--setRebaseHookAddr"],
-  upgradeOusd: args["--upgradeOusd"],
+  upgradeXusd: args["--upgradeXusd"],
   upgradeVaultCore: args["--upgradeVaultCore"],
   upgradeVaultCoreAndAdmin: args["--upgradeVaultCoreAndAdmin"],
   upgradeOracle: args["--upgradeOracle"],
@@ -1165,8 +1165,8 @@ const config = {
   claimOGNStakingGovernance: args["--claimOGNStakingGovernance"],
   upgradeStaking: args["--upgradeStaking"],
   vaultv2Governance: args["--vaultv2Governance"],
-  ousdNewGovernor: args["--ousdNewGovernor"],
-  ousdv2Reset: args["--ousdv2Reset"],
+  xusdNewGovernor: args["--xusdNewGovernor"],
+  xusdv2Reset: args["--xusdv2Reset"],
   setRewardLiquidationThreshold: args["--setRewardLiquidationThreshold"],
   lockAdjuster: args["--lockAdjuster"],
   unlockAdjuster: args["--unlockAdjuster"],

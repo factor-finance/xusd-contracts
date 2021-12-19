@@ -2,13 +2,13 @@
 pragma solidity ^0.8.0;
 
 /**
- * @title OUSD Vault Contract
- * @notice The Vault contract stores assets. On a deposit, OUSD will be minted
-           and sent to the depositor. On a withdrawal, OUSD will be burned and
+ * @title XUSD Vault Contract
+ * @notice The Vault contract stores assets. On a deposit, XUSD will be minted
+           and sent to the depositor. On a withdrawal, XUSD will be burned and
            assets will be sent to the withdrawer. The Vault accepts deposits of
            interest from yield bearing strategies which will modify the supply
-           of OUSD.
- * @author Origin Protocol Inc
+           of XUSD.
+ * @author XUSD.fi Inc
  */
 
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
@@ -45,15 +45,15 @@ contract VaultCore is VaultStorage {
     }
 
     /**
-     * @dev Deposit a supported asset and mint OUSD.
+     * @dev Deposit a supported asset and mint XUSD.
      * @param _asset Address of the asset being deposited
      * @param _amount Amount of the asset being deposited
-     * @param _minimumOusdAmount Minimum OUSD to mint
+     * @param _minimumXusdAmount Minimum XUSD to mint
      */
     function mint(
         address _asset,
         uint256 _amount,
-        uint256 _minimumOusdAmount
+        uint256 _minimumXusdAmount
     ) external whenNotCapitalPaused nonReentrant {
         require(assets[_asset].isSupported, "Asset is not supported");
         require(_amount > 0, "Amount must be greater than 0");
@@ -70,9 +70,9 @@ contract VaultCore is VaultStorage {
             10**assetDecimals
         );
 
-        if (_minimumOusdAmount > 0) {
+        if (_minimumXusdAmount > 0) {
             require(
-                priceAdjustedDeposit >= _minimumOusdAmount,
+                priceAdjustedDeposit >= _minimumXusdAmount,
                 "Mint amount lower than minimum"
             );
         }
@@ -84,8 +84,8 @@ contract VaultCore is VaultStorage {
             _rebase();
         }
 
-        // Mint matching OUSD
-        oUSD.mint(msg.sender, priceAdjustedDeposit);
+        // Mint matching XUSD
+        xUSD.mint(msg.sender, priceAdjustedDeposit);
 
         // Transfer the deposited coins to the vault
         IERC20 asset = IERC20(_asset);
@@ -99,8 +99,8 @@ contract VaultCore is VaultStorage {
     // In memoriam
 
     /**
-     * @dev Withdraw a supported asset and burn OUSD.
-     * @param _amount Amount of OUSD to burn
+     * @dev Withdraw a supported asset and burn XUSD.
+     * @param _amount Amount of XUSD to burn
      * @param _minimumUnitAmount Minimum stablecoin units to receive in return
      */
     function redeem(uint256 _amount, uint256 _minimumUnitAmount)
@@ -112,8 +112,8 @@ contract VaultCore is VaultStorage {
     }
 
     /**
-     * @dev Withdraw a supported asset and burn OUSD.
-     * @param _amount Amount of OUSD to burn
+     * @dev Withdraw a supported asset and burn XUSD.
+     * @param _amount Amount of XUSD to burn
      * @param _minimumUnitAmount Minimum stablecoin units to receive in return
      */
     function _redeem(uint256 _amount, uint256 _minimumUnitAmount) internal {
@@ -125,11 +125,11 @@ contract VaultCore is VaultStorage {
             uint256 _backingValue
         ) = _calculateRedeemOutputs(_amount);
 
-        // Check that OUSD is backed by enough assets
-        uint256 _totalSupply = oUSD.totalSupply();
+        // Check that XUSD is backed by enough assets
+        uint256 _totalSupply = xUSD.totalSupply();
         if (maxSupplyDiff > 0) {
             // Allow a max difference of maxSupplyDiff% between
-            // backing assets value and OUSD total supply
+            // backing assets value and XUSD total supply
             uint256 diff = _totalSupply.divPrecisely(_backingValue);
             require(
                 (diff > 1e18 ? diff.sub(1e18) : uint256(1e18).sub(diff)) <=
@@ -176,7 +176,7 @@ contract VaultCore is VaultStorage {
             );
         }
 
-        oUSD.burn(msg.sender, _amount);
+        xUSD.burn(msg.sender, _amount);
 
         // Until we can prove that we won't affect the prices of our assets
         // by withdrawing them, this should be here.
@@ -188,7 +188,7 @@ contract VaultCore is VaultStorage {
     }
 
     /**
-     * @notice Withdraw a supported asset and burn all OUSD.
+     * @notice Withdraw a supported asset and burn all XUSD.
      * @param _minimumUnitAmount Minimum stablecoin units to receive in return
      */
     function redeemAll(uint256 _minimumUnitAmount)
@@ -196,7 +196,7 @@ contract VaultCore is VaultStorage {
         whenNotCapitalPaused
         nonReentrant
     {
-        _redeem(oUSD.balanceOf(msg.sender), _minimumUnitAmount);
+        _redeem(xUSD.balanceOf(msg.sender), _minimumUnitAmount);
     }
 
     /**
@@ -311,7 +311,7 @@ contract VaultCore is VaultStorage {
 
     /**
      * @dev Calculate the total value of assets held by the Vault and all
-     *      strategies and update the supply of OUSD.
+     *      strategies and update the supply of XUSD.
      */
     function rebase() external virtual nonReentrant {
         _rebase();
@@ -319,32 +319,32 @@ contract VaultCore is VaultStorage {
 
     /**
      * @dev Calculate the total value of assets held by the Vault and all
-     *      strategies and update the supply of OUSD, optionally sending a
+     *      strategies and update the supply of XUSD, optionally sending a
      *      portion of the yield to the trustee.
      */
     function _rebase() internal whenNotRebasePaused {
-        uint256 ousdSupply = oUSD.totalSupply();
-        if (ousdSupply == 0) {
+        uint256 xusdSupply = xUSD.totalSupply();
+        if (xusdSupply == 0) {
             return;
         }
         uint256 vaultValue = _totalValue();
 
         // Yield fee collection
         address _trusteeAddress = trusteeAddress; // gas savings
-        if (_trusteeAddress != address(0) && (vaultValue > ousdSupply)) {
-            uint256 yield = vaultValue.sub(ousdSupply);
+        if (_trusteeAddress != address(0) && (vaultValue > xusdSupply)) {
+            uint256 yield = vaultValue.sub(xusdSupply);
             uint256 fee = yield.mul(trusteeFeeBps).div(10000);
             require(yield > fee, "Fee must not be greater than yield");
             if (fee > 0) {
-                oUSD.mint(_trusteeAddress, fee);
+                xUSD.mint(_trusteeAddress, fee);
             }
             emit YieldDistribution(_trusteeAddress, yield, fee);
         }
 
-        // Only rachet OUSD supply upwards
-        ousdSupply = oUSD.totalSupply(); // Final check should use latest value
-        if (vaultValue > ousdSupply) {
-            oUSD.changeSupply(vaultValue);
+        // Only rachet XUSD supply upwards
+        xusdSupply = xUSD.totalSupply(); // Final check should use latest value
+        if (vaultValue > xusdSupply) {
+            xUSD.changeSupply(vaultValue);
         }
     }
 
@@ -499,7 +499,7 @@ contract VaultCore is VaultStorage {
         // each coin, times the desired output value, divided by the
         // totalOutputRatio.
         //
-        // For example, withdrawing: 30 OUSD:
+        // For example, withdrawing: 30 XUSD:
         // DAI 33% * 30 / 1.02 = 9.80 DAI
         // USDT = 66 % * 30 / 1.02 = 19.60 USDT
         //
@@ -535,7 +535,7 @@ contract VaultCore is VaultStorage {
         for (uint256 i = 0; i < allAssets.length; i++) {
             uint256 price = assetPrices[i];
             // Never give out more than one
-            // stablecoin per dollar of OUSD
+            // stablecoin per dollar of XUSD
             if (price < 1e18) {
                 price = 1e18;
             }

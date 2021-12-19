@@ -6,21 +6,21 @@ const { loadFixture } = require("../helpers");
 
 describe("Vault mock with rebase", async () => {
   it("Should increase users balance on rebase after increased Vault value", async () => {
-    const { mockVault, matt, ousd, josh } = await loadFixture(mockVaultFixture);
-    // Total OUSD supply is 200, mock an increase
+    const { mockVault, matt, xusd, josh } = await loadFixture(mockVaultFixture);
+    // Total XUSD supply is 200, mock an increase
     await mockVault.setTotalValue(utils.parseUnits("220", 18));
     await mockVault.rebase();
-    await expect(matt).has.an.approxBalanceOf("110.00", ousd);
-    await expect(josh).has.an.approxBalanceOf("110.00", ousd);
+    await expect(matt).has.an.approxBalanceOf("110.00", xusd);
+    await expect(josh).has.an.approxBalanceOf("110.00", xusd);
   });
 
   it("Should not decrease users balance on rebase after decreased Vault value", async () => {
-    const { mockVault, matt, ousd, josh } = await loadFixture(mockVaultFixture);
-    // Total OUSD supply is 200, mock a decrease
+    const { mockVault, matt, xusd, josh } = await loadFixture(mockVaultFixture);
+    // Total XUSD supply is 200, mock a decrease
     await mockVault.setTotalValue(utils.parseUnits("180", 18));
     await mockVault.rebase();
-    await expect(matt).has.an.approxBalanceOf("100.00", ousd);
-    await expect(josh).has.an.approxBalanceOf("100.00", ousd);
+    await expect(matt).has.an.approxBalanceOf("100.00", xusd);
+    await expect(josh).has.an.approxBalanceOf("100.00", xusd);
   });
 
   it("Should not allow redeem if total supply and value are far apart", async () => {

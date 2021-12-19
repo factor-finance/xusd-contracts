@@ -5,7 +5,7 @@ import { fbt } from 'fbt-runtime'
 import AccountStore from 'stores/AccountStore'
 import SwapHomepage from 'components/buySell/SwapHomepage'
 import ContractsTable from 'components/buySell/ContractsTable'
-import GetOUSD from 'components/GetOUSD'
+import GetXUSD from 'components/GetXUSD'
 
 const MissionControl = ({}) => {
   const { active } = useWeb3React()
@@ -27,7 +27,7 @@ const MissionControl = ({}) => {
                   'Disconnected dapp subtext'
                 )}
               </div>
-              <GetOUSD primary connect trackSource="Dapp widget body" />
+              <GetXUSD primary connect trackSource="Dapp widget body" />
             </div>
           )}
         </div>

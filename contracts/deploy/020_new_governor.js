@@ -7,7 +7,7 @@ module.exports = deploymentWithProposal(
   async ({ ethers, deployWithConfirmation }) => {
     const { guardianAddr } = await hre.getNamedAccounts();
 
-    const cOUSDProxy = await ethers.getContract("OUSDProxy");
+    const cXUSDProxy = await ethers.getContract("XUSDProxy");
     const cVaultProxy = await ethers.getContract("VaultProxy");
     const cBuyback = await ethers.getContract("Buyback");
 
@@ -20,11 +20,11 @@ module.exports = deploymentWithProposal(
 
     // Governance proposal
     return {
-      name: "Migrate OUSD and Vault proxies to new governor",
+      name: "Migrate XUSD and Vault proxies to new governor",
       actions: [
         {
-          // Transfer OUSDProxy governance to new governor
-          contract: cOUSDProxy,
+          // Transfer XUSDProxy governance to new governor
+          contract: cXUSDProxy,
           signature: "transferGovernance(address)",
           args: [dGovernor.address],
         },

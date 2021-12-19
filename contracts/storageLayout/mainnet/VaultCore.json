@@ -86,8 +86,8 @@
     },
     {
       "contract": "VaultStorage",
-      "label": "oUSD",
-      "type": "t_contract(OUSD)16756",
+      "label": "xUSD",
+      "type": "t_contract(XUSD)16756",
       "src": "contracts/vault/VaultStorage.sol:82"
     },
     {
@@ -180,8 +180,8 @@
     "t_uint256": {
       "label": "uint256"
     },
-    "t_contract(OUSD)16756": {
-      "label": "contract OUSD"
+    "t_contract(XUSD)16756": {
+      "label": "contract XUSD"
     },
     "t_mapping(t_address,t_address)": {
       "label": "mapping(address => address)"

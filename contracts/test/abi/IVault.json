@@ -152,7 +152,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "_minimumOusdAmount",
+          "name": "_minimumXusdAmount",
           "type": "uint256"
         }
       ],
@@ -913,7 +913,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "_minimumOusdAmount",
+          "name": "_minimumXusdAmount",
           "type": "uint256"
         }
       ],

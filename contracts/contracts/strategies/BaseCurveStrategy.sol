@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 /**
  * @title Curve 3Pool Strategy
  * @notice Investment strategy for investing stablecoins via Curve 3Pool
- * @author Origin Protocol Inc
+ * @author XUSD.fi Inc
  */
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
@@ -147,11 +147,7 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
         (, uint256 gaugePTokens, uint256 totalPTokens) = _getTotalPTokens();
         _lpWithdraw(gaugePTokens);
         // Withdraws are proportional to assets held by 3Pool
-        uint256[3] memory minWithdrawAmounts = [
-            uint256(0),
-            uint256(0),
-            uint256(0)
-        ];
+        uint256[3] memory minWithdrawAmounts = [uint256(0), uint256(0), uint256(0)];
         // Remove liquidity
         ICurvePool threePool = ICurvePool(platformAddress);
         threePool.remove_liquidity(totalPTokens, minWithdrawAmounts);

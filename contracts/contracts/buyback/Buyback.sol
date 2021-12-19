@@ -18,11 +18,11 @@ contract Buyback is Governable {
     // Address of Uniswap
     address public uniswapAddr;
 
-    // Address of OUSD Vault
+    // Address of XUSD Vault
     address public immutable vaultAddr;
 
-    // Swap from OUSD
-    IERC20 immutable ousd;
+    // Swap from XUSD
+    IERC20 immutable xusd;
 
     // Swap to OGN
     IERC20 immutable ogn;
@@ -40,7 +40,7 @@ contract Buyback is Governable {
     constructor(
         address _uniswapAddr,
         address _vaultAddr,
-        address _ousd,
+        address _xusd,
         address _ogn,
         address _usdt,
         address _weth9,
@@ -49,20 +49,20 @@ contract Buyback is Governable {
     ) {
         uniswapAddr = _uniswapAddr;
         vaultAddr = _vaultAddr;
-        ousd = IERC20(_ousd);
+        xusd = IERC20(_xusd);
         ogn = IERC20(_ogn);
         usdt = IERC20(_usdt);
         weth9 = IERC20(_weth9);
         ognEthOracle = _ognEthOracle;
         ethUsdOracle = _ethUsdOracle;
-        // Give approval to Uniswap router for OUSD, this is handled
+        // Give approval to Uniswap router for XUSD, this is handled
         // by setUniswapAddr in the production contract
-        IERC20(_ousd).safeApprove(uniswapAddr, 0);
-        IERC20(_ousd).safeApprove(uniswapAddr, type(uint256).max);
+        IERC20(_xusd).safeApprove(uniswapAddr, 0);
+        IERC20(_xusd).safeApprove(uniswapAddr, type(uint256).max);
     }
 
     /**
-     * @dev Verifies that the caller is the OUSD Vault.
+     * @dev Verifies that the caller is the XUSD Vault.
      */
     modifier onlyVault() {
         require(vaultAddr == msg.sender, "Caller is not the Vault");
@@ -77,31 +77,31 @@ contract Buyback is Governable {
     function setUniswapAddr(address _address) external onlyGovernor {
         uniswapAddr = _address;
         if (uniswapAddr == address(0)) return;
-        // Give Uniswap unlimited OUSD allowance
-        ousd.safeApprove(uniswapAddr, 0);
-        ousd.safeApprove(uniswapAddr, type(uint256).max);
+        // Give Uniswap unlimited XUSD allowance
+        xusd.safeApprove(uniswapAddr, 0);
+        xusd.safeApprove(uniswapAddr, type(uint256).max);
         emit UniswapUpdated(_address);
     }
 
     /**
-     * @dev Execute a swap of OGN for OUSD via Uniswap or Uniswap compatible
+     * @dev Execute a swap of OGN for XUSD via Uniswap or Uniswap compatible
      * protocol (e.g. Sushiswap)
      **/
     function swap() external onlyVault nonReentrant {
-        uint256 sourceAmount = ousd.balanceOf(address(this));
+        uint256 sourceAmount = xusd.balanceOf(address(this));
         if (sourceAmount < 1000 * 1e18) return;
         if (uniswapAddr == address(0)) return;
         // 97% should be the limits of our oracle errors.
         // If this swap sometimes skips when it should succeed, that’s okay,
         // the amounts will get get sold the next time this runs,
         // when presumably the oracles are more accurate.
-        uint256 minExpected = expectedOgnPerOUSD(sourceAmount).mul(97).div(100);
+        uint256 minExpected = expectedOgnPerXUSD(sourceAmount).mul(97).div(100);
 
         UniswapV3Router.ExactInputParams memory params = UniswapV3Router
             .ExactInputParams({
                 path: abi.encodePacked(
-                    ousd,
-                    uint24(500), // Pool fee, ousd -> usdt
+                    xusd,
+                    uint24(500), // Pool fee, xusd -> usdt
                     usdt,
                     uint24(3000), // Pool fee, usdt -> weth9
                     weth9,
@@ -129,13 +129,13 @@ contract Buyback is Governable {
         }
     }
 
-    function expectedOgnPerOUSD(uint256 ousdAmount)
+    function expectedOgnPerXUSD(uint256 xusdAmount)
         public
         view
         returns (uint256)
     {
         return
-            ousdAmount.mul(uint256(1e26)).div( // ognEth is 18 decimal. ethUsd is 8 decimal.
+            xusdAmount.mul(uint256(1e26)).div( // ognEth is 18 decimal. ethUsd is 8 decimal.
                 _price(ognEthOracle).mul(_price(ethUsdOracle))
             );
     }

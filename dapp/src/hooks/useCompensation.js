@@ -11,11 +11,11 @@ import { formatCurrency } from 'utils/math'
 import { usePrevious } from 'utils/hooks'
 
 const useCompensation = () => {
-  const ousdClaimedLocalStorageKey = (account) =>
-    `ousd_claimed_${account.toLowerCase()}`
+  const xusdClaimedLocalStorageKey = (account) =>
+    `xusd_claimed_${account.toLowerCase()}`
   const blockNumber = 11272254
   const [compensationData, setCompensationData] = useState(null)
-  const [compensationOUSDBalance, setCompensationOUSDBalance] = useState(null)
+  const [compensationXUSDBalance, setCompensationXUSDBalance] = useState(null)
   const { active, account } = useWeb3React()
   const prevAccount = usePrevious(account)
   const { compensation: compensationContract } = useStoreState(
@@ -42,8 +42,8 @@ const useCompensation = () => {
     }
   }
 
-  const fetchCompensationOUSDBalance = async () => {
-    const ousdBalance = parseFloat(
+  const fetchCompensationXUSDBalance = async () => {
+    const xusdBalance = parseFloat(
       formatCurrency(
         ethers.utils.formatUnits(
           await compensationContract.balanceOf(account),
@@ -52,12 +52,12 @@ const useCompensation = () => {
         2
       )
     )
-    setCompensationOUSDBalance(ousdBalance)
-    return ousdBalance
+    setCompensationXUSDBalance(xusdBalance)
+    return xusdBalance
   }
 
   const fetchAllData = async (active, account, compensationContract) => {
-    let ousdBalance
+    let xusdBalance
     if (active && account) {
       await fetchCompensationInfo(account)
     }
@@ -68,9 +68,9 @@ const useCompensation = () => {
       active &&
       account
     ) {
-      ousdBalance = await fetchCompensationOUSDBalance()
+      xusdBalance = await fetchCompensationXUSDBalance()
     }
-    return ousdBalance
+    return xusdBalance
   }
 
   /* Very weird workaround for Metamask provider. Turn out that Metamask uses
@@ -79,13 +79,13 @@ const useCompensation = () => {
    * reaching the node.
    *
    * The workaround for this is to just issue balanceOf calls each second until we get the
-   * expected 0 balance OUSD on the contract.
+   * expected 0 balance XUSD on the contract.
    *
    */
   const queryDataUntilAccountChange = async () => {
-    let ousdBalance = compensationOUSDBalance
-    while (ousdBalance !== 0) {
-      ousdBalance = await fetchAllData(active, account, compensationContract)
+    let xusdBalance = compensationXUSDBalance
+    while (xusdBalance !== 0) {
+      xusdBalance = await fetchAllData(active, account, compensationContract)
       await sleep(1000)
     }
   }
@@ -94,7 +94,7 @@ const useCompensation = () => {
     // account changed
     if (prevAccount && prevAccount !== account) {
       setCompensationData(null)
-      setCompensationOUSDBalance(null)
+      setCompensationXUSDBalance(null)
     }
 
     fetchAllData(active, account, compensationContract)
@@ -104,9 +104,9 @@ const useCompensation = () => {
     return string.split(search).join(replace)
   }
 
-  const ousdCompensationAmount = parseFloat(
+  const xusdCompensationAmount = parseFloat(
     replaceAll(
-      get(compensationData, 'account.ousd_compensation_human', '0'),
+      get(compensationData, 'account.xusd_compensation_human', '0'),
       ',',
       ''
     )
@@ -120,20 +120,20 @@ const useCompensation = () => {
         ''
       )
     ),
-    ousdCompensationAmount,
-    eligibleOusdBalance: parseFloat(
+    xusdCompensationAmount,
+    eligibleXusdBalance: parseFloat(
       replaceAll(
-        get(compensationData, 'account.eligible_ousd_value_human', '0'),
+        get(compensationData, 'account.eligible_xusd_value_human', '0'),
         ',',
         ''
       )
     ),
     fetchCompensationInfo,
-    fetchCompensationOUSDBalance,
-    ousdClaimed: compensationOUSDBalance === 0 && ousdCompensationAmount > 0,
+    fetchCompensationXUSDBalance,
+    xusdClaimed: compensationXUSDBalance === 0 && xusdCompensationAmount > 0,
     ognClaimed,
     queryDataUntilAccountChange,
-    remainingOUSDCompensation: compensationOUSDBalance,
+    remainingXUSDCompensation: compensationXUSDBalance,
     blockNumber,
   }
 }

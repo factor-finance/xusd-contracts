@@ -7,14 +7,14 @@ import AccountStore from 'stores/AccountStore'
 import ContractStore from 'stores/ContractStore'
 
 const SidePanelWelcomeMessage = () => {
-  const ousdExchangeRates = useStoreState(
+  const xusdExchangeRates = useStoreState(
     ContractStore,
-    (s) => s.ousdExchangeRates
+    (s) => s.xusdExchangeRates
   )
   const balances = useStoreState(AccountStore, (s) => s.balances)
 
-  const ousdToBuy = ['dai', 'usdt', 'usdc']
-    .map((coin) => balances[coin] * ousdExchangeRates[coin].mint)
+  const xusdToBuy = ['dai', 'usdt', 'usdc']
+    .map((coin) => balances[coin] * xusdExchangeRates[coin].mint)
     .reduce((a, b) => a + b)
 
   return (
@@ -23,14 +23,14 @@ const SidePanelWelcomeMessage = () => {
         <div className="title">{fbt('Welcome!', 'Welcome!')}</div>
         <div className="text">
           {fbt(
-            `The Origin Dollar lets you easily convert other stablecoins into OUSD so you can instantly earn yields.`,
+            `The XUSD.fi lets you easily convert other stablecoins into XUSD so you can instantly earn yields.`,
             'welcome-message'
           )}{' '}
-          {ousdToBuy > 0 &&
+          {xusdToBuy > 0 &&
             fbt(
               'You can buy up to ~' +
-                fbt.param('ousd-coin', formatCurrency(ousdToBuy, 2)) +
-                ' OUSD with the ' +
+                fbt.param('xusd-coin', formatCurrency(xusdToBuy, 2)) +
+                ' XUSD with the ' +
                 fbt.param('usdt-coin', formatCurrency(balances['usdt'], 0)) +
                 ' USDT, ' +
                 fbt.param('usdc-coin', formatCurrency(balances['usdc'], 0)) +

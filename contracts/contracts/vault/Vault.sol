@@ -2,9 +2,9 @@
 pragma solidity ^0.8.0;
 
 /**
- * @title OUSD VaultInitializer Contract
+ * @title XUSD VaultInitializer Contract
  * @notice The VaultInitializer sets up the initial contract.
- * @author Origin Protocol Inc
+ * @author XUSD.fi Inc
  */
 import { VaultInitializer } from "./VaultInitializer.sol";
 import { VaultAdmin } from "./VaultAdmin.sol";

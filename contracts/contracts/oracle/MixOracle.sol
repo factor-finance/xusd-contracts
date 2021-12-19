@@ -3,10 +3,10 @@
 pragma solidity ^0.8.0;
 
 /**
- * @title OUSD MixOracle Contract
+ * @title XUSD MixOracle Contract
  * @notice The MixOracle pulls exchange rate from multiple oracles and returns
  *         min and max values.
- * @author Origin Protocol Inc
+ * @author XUSD.fi Inc
  */
 import { IPriceOracle } from "../interfaces/IPriceOracle.sol";
 import { IEthUsdOracle } from "../interfaces/IEthUsdOracle.sol";

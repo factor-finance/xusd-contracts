@@ -8,12 +8,12 @@ import AccountStore from 'stores/AccountStore'
 import TransactionStore from 'stores/TransactionStore'
 import ContractStore from 'stores/ContractStore'
 import ApproveModal from 'components/buySell/ApproveModal'
-import AddOUSDModal from 'components/buySell/AddOUSDModal'
+import AddXUSDModal from 'components/buySell/AddXUSDModal'
 import ErrorModal from 'components/buySell/ErrorModal'
 import DisclaimerTooltip from 'components/buySell/DisclaimerTooltip'
 import ApproveCurrencyInProgressModal from 'components/buySell/ApproveCurrencyInProgressModal'
 import { currencies } from 'constants/Contract'
-import { providersNotAutoDetectingOUSD, providerName } from 'utils/web3'
+import { providersNotAutoDetectingXUSD, providerName } from 'utils/web3'
 import withRpcProvider from 'hoc/withRpcProvider'
 import usePriceTolerance from 'hooks/usePriceTolerance'
 import useCurrencySwapper from 'hooks/useCurrencySwapper'
@@ -55,16 +55,16 @@ const SwapHomepage = ({
     s.transactions.filter((tx) => !tx.mined && tx.type === 'mint')
   )
   const balances = useStoreState(AccountStore, (s) => s.balances)
-  const ousdExchangeRates = useStoreState(
+  const xusdExchangeRates = useStoreState(
     ContractStore,
-    (s) => s.ousdExchangeRates
+    (s) => s.xusdExchangeRates
   )
   const swapEstimations = useStoreState(ContractStore, (s) => s.swapEstimations)
   const swapsLoaded = swapEstimations && typeof swapEstimations === 'object'
   const selectedSwap = useStoreState(ContractStore, (s) => s.selectedSwap)
 
-  const [displayedOusdToSell, setDisplayedOusdToSell] = useState('')
-  const [ousdToSell, setOusdToSell] = useState(0)
+  const [displayedXusdToSell, setDisplayedXusdToSell] = useState('')
+  const [xusdToSell, setXusdToSell] = useState(0)
   const [sellAllActive, setSellAllActive] = useState(false)
   const [generalErrorReason, setGeneralErrorReason] = useState(null)
   const [sellWidgetIsCalculating, setSellWidgetIsCalculating] = useState(false)
@@ -103,7 +103,7 @@ const SwapHomepage = ({
     usdt: usdtContract,
     dai: daiContract,
     usdc: usdcContract,
-    ousd: ousdContract,
+    xusd: xusdContract,
     flipper,
   } = useStoreState(ContractStore, (s) => s.contracts || {})
 
@@ -128,11 +128,11 @@ const SwapHomepage = ({
   const buyFormHasWarnings = buyFormWarnings !== null
   const connectorName = useStoreState(AccountStore, (s) => s.connectorName)
   const connectorIcon = getConnectorIcon(connectorName)
-  const addOusdModalState = useStoreState(
+  const addXusdModalState = useStoreState(
     AccountStore,
-    (s) => s.addOusdModalState
+    (s) => s.addXusdModalState
   )
-  const providerNotAutoDetectOUSD = providersNotAutoDetectingOUSD().includes(
+  const providerNotAutoDetectXUSD = providersNotAutoDetectingXUSD().includes(
     providerName()
   )
 
@@ -189,7 +189,7 @@ const SwapHomepage = ({
     let lastUserSelectedCoin = localStorage.getItem(lastUserSelectedCoinKey)
 
     if (swapMode === 'mint') {
-      setSelectedRedeemCoin('ousd')
+      setSelectedRedeemCoin('xusd')
       // TODO: when user comes from 'mix' coin introduce the new empty field
       if (lastUserSelectedCoin === 'mix') {
         lastUserSelectedCoin = 'dai'
@@ -197,7 +197,7 @@ const SwapHomepage = ({
       }
       setSelectedBuyCoin(lastUserSelectedCoin || 'dai')
     } else {
-      setSelectedBuyCoin('ousd')
+      setSelectedBuyCoin('xusd')
       setSelectedRedeemCoin(lastUserSelectedCoin || 'dai')
     }
 
@@ -215,7 +215,7 @@ const SwapHomepage = ({
 
   const userSelectsBuyCoin = (coin) => {
     // treat it as a flip
-    if (coin === 'ousd') {
+    if (coin === 'xusd') {
       setSwapMode(swapMode === 'mint' ? 'redeem' : 'mint')
       return
     }
@@ -226,7 +226,7 @@ const SwapHomepage = ({
 
   const userSelectsRedeemCoin = (coin) => {
     // treat it as a flip
-    if (coin === 'ousd') {
+    if (coin === 'xusd') {
       setSwapMode(swapMode === 'mint' ? 'redeem' : 'mint')
       return
     }
@@ -322,8 +322,8 @@ const SwapHomepage = ({
   }
 
   const swapMetadata = () => {
-    const coinGiven = swapMode === 'mint' ? selectedBuyCoin : 'ousd'
-    const coinReceived = swapMode === 'mint' ? 'ousd' : selectedRedeemCoin
+    const coinGiven = swapMode === 'mint' ? selectedBuyCoin : 'xusd'
+    const coinReceived = swapMode === 'mint' ? 'xusd' : selectedRedeemCoin
     const swapAmount =
       swapMode === 'mint' ? selectedBuyCoinAmount : selectedRedeemCoinAmount
     const stablecoinUsed =
@@ -336,7 +336,7 @@ const SwapHomepage = ({
     }
   }
 
-  const onSwapOusd = async (prependStage) => {
+  const onSwapXusd = async (prependStage) => {
     setBuyWidgetState(`${prependStage}waiting-user`)
     const metadata = swapMetadata()
 
@@ -378,7 +378,7 @@ const SwapHomepage = ({
             swapMode === 'mint'
               ? selectedBuyCoinAmount
               : selectedRedeemCoinAmount,
-          ousd:
+          xusd:
             swapMode === 'mint'
               ? selectedRedeemCoinAmount
               : selectedBuyCoinAmount,
@@ -406,17 +406,15 @@ const SwapHomepage = ({
           currency: 'usd',
         })
 
-        if (twttr) {
-          twttr.conversion.trackPid('o73z1', {
-            tw_sale_amount: selectedRedeemCoinAmount,
-            tw_order_quantity: 1,
-          })
-        }
+        twttr.conversion.trackPid('o73z1', {
+          tw_sale_amount: selectedRedeemCoinAmount,
+          tw_order_quantity: 1,
+        })
       }
 
-      if (localStorage.getItem('addOUSDModalShown') !== 'true') {
+      if (localStorage.getItem('addXUSDModalShown') !== 'true') {
         AccountStore.update((s) => {
-          s.addOusdModalState = 'waiting'
+          s.addXusdModalState = 'waiting'
         })
       }
     } catch (e) {
@@ -435,7 +433,7 @@ const SwapHomepage = ({
       }
 
       onMintingError(e)
-      console.error('Error swapping ousd! ', e)
+      console.error('Error swapping xusd! ', e)
     }
     setBuyWidgetState(`buy`)
   }
@@ -470,8 +468,8 @@ const SwapHomepage = ({
     e.preventDefault()
     analytics.track(
       swapMode === 'mint'
-        ? 'On Approve Swap to OUSD'
-        : 'On Approve Swap from OUSD',
+        ? 'On Approve Swap to XUSD'
+        : 'On Approve Swap from XUSD',
       {
         category: 'swap',
         label: metadata.stablecoinUsed,
@@ -490,7 +488,7 @@ const SwapHomepage = ({
     if (needsApproval) {
       setShowApproveModal(needsApproval)
     } else {
-      await onSwapOusd('')
+      await onSwapXusd('')
     }
   }
 
@@ -505,19 +503,19 @@ const SwapHomepage = ({
         {/* If approve modal is not shown and transactions are pending show
           the pending approval transactions modal */}
         {!showApproveModal && <ApproveCurrencyInProgressModal />}
-        {addOusdModalState === 'show' && providerNotAutoDetectOUSD && (
-          <AddOUSDModal
+        {addXusdModalState === 'show' && providerNotAutoDetectXUSD && (
+          <AddXUSDModal
             onClose={(e) => {
-              localStorage.setItem('addOUSDModalShown', 'true')
+              localStorage.setItem('addXUSDModalShown', 'true')
               AccountStore.update((s) => {
-                s.addOusdModalState = 'none'
+                s.addXusdModalState = 'none'
               })
             }}
           />
         )}
         {showApproveModal && (
           <ApproveModal
-            stableCoinToApprove={swapMode === 'mint' ? selectedBuyCoin : 'ousd'}
+            stableCoinToApprove={swapMode === 'mint' ? selectedBuyCoin : 'xusd'}
             swapMode={swapMode}
             swapMetadata={swapMetadata()}
             contractToApprove={showApproveModal}
@@ -529,7 +527,7 @@ const SwapHomepage = ({
               }
             }}
             onFinalize={async () => {
-              await onSwapOusd('modal-')
+              await onSwapXusd('modal-')
               setShowApproveModal(false)
             }}
             buyWidgetState={buyWidgetState}
@@ -603,14 +601,14 @@ const SwapHomepage = ({
           >
             {/* <span className="pr-2"> */}
             {/*   {fbt( */}
-            {/*     'Read about costs associated with OUSD', */}
-            {/*     'Read about costs associated with OUSD' */}
+            {/*     'Read about costs associated with XUSD', */}
+            {/*     'Read about costs associated with XUSD' */}
             {/*   )} */}
             {/* </span> */}
             {/* <LinkIcon color="1a82ff" /> */}
           </a>
           <button
-            //disabled={formHasErrors || buyFormHasWarnings || !totalOUSD}
+            //disabled={formHasErrors || buyFormHasWarnings || !totalXUSD}
             className={`btn-blue buy-button mt-2 mt-md-0 w-100`}
             disabled={
               !selectedSwap || formHasErrors || swappingGloballyDisabled

@@ -1,1 +1,1 @@
-certoraRun ../spec/harnesses/Dummy.sol --verify Dummy:../spec/math.spec --solc solc5.11 --settings -useNonLinearArithmetic --cloud --msg "OUSD Math NLA"
+certoraRun ../spec/harnesses/Dummy.sol --verify Dummy:../spec/math.spec --solc solc5.11 --settings -useNonLinearArithmetic --cloud --msg "XUSD Math NLA"

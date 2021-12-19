@@ -95,27 +95,27 @@ const AccountListener = (props) => {
       usdt,
       dai,
       usdc,
-      ousd,
+      xusd,
       vault,
       ogn,
       uniV3SwapRouter,
       uniV2Router,
       sushiRouter,
-      liquidityOusdUsdt,
+      liquidityXusdUsdt,
       flipper,
       ognStaking,
       ognStakingView,
-      curveOUSDMetaPool,
+      curveXUSDMetaPool,
     } = contracts
 
     const loadbalancesDev = async () => {
       try {
-        const [ousdBalance, usdtBalance, daiBalance, usdcBalance, ognBalance] =
+        const [xusdBalance, usdtBalance, daiBalance, usdcBalance, ognBalance] =
           await Promise.all([
             /* IMPORTANT (!) production uses a different method to load balances. Any changes here need to
              * also happen in production version of this function.
              */
-            displayCurrency(await ousd.balanceOf(account), ousd),
+            displayCurrency(await xusd.balanceOf(account), xusd),
             displayCurrency(await usdt.balanceOf(account), usdt),
             displayCurrency(await dai.balanceOf(account), dai),
             displayCurrency(await usdc.balanceOf(account), usdc),
@@ -127,7 +127,7 @@ const AccountListener = (props) => {
             usdt: usdtBalance,
             dai: daiBalance,
             usdc: usdcBalance,
-            ousd: ousdBalance,
+            xusd: xusdBalance,
             ogn: ognBalance,
           }
         })
@@ -146,7 +146,7 @@ const AccountListener = (props) => {
         method: 'alchemy_getTokenBalances',
         params: [
           account,
-          [ousd.address, usdt.address, dai.address, usdc.address, ogn.address],
+          [xusd.address, usdt.address, dai.address, usdc.address, ogn.address],
         ],
         id: jsonCallId.toString(),
       }
@@ -166,7 +166,7 @@ const AccountListener = (props) => {
         const balanceData = {}
 
         const allContractData = [
-          { name: 'ousd', decimals: 18, contract: ousd },
+          { name: 'xusd', decimals: 18, contract: xusd },
           { name: 'usdt', decimals: 6, contract: usdt },
           { name: 'dai', decimals: 18, contract: dai },
           { name: 'usdc', decimals: 6, contract: usdc },
@@ -414,20 +414,20 @@ const AccountListener = (props) => {
           usdtAllowanceVault,
           daiAllowanceVault,
           usdcAllowanceVault,
-          ousdAllowanceVault,
+          xusdAllowanceVault,
           usdtAllowanceRouter,
           daiAllowanceRouter,
           usdcAllowanceRouter,
-          ousdAllowanceRouter,
+          xusdAllowanceRouter,
           usdtAllowanceFlipper,
           daiAllowanceFlipper,
           usdcAllowanceFlipper,
-          ousdAllowanceFlipper,
+          xusdAllowanceFlipper,
         ] = await Promise.all([
           displayCurrency(await usdt.allowance(account, vault.address), usdt),
           displayCurrency(await dai.allowance(account, vault.address), dai),
           displayCurrency(await usdc.allowance(account, vault.address), usdc),
-          displayCurrency(await ousd.allowance(account, vault.address), ousd),
+          displayCurrency(await xusd.allowance(account, vault.address), xusd),
           displayCurrency(
             await usdt.allowance(account, uniV3SwapRouter.address),
             usdt
@@ -441,59 +441,59 @@ const AccountListener = (props) => {
             usdc
           ),
           displayCurrency(
-            await ousd.allowance(account, uniV3SwapRouter.address),
-            ousd
+            await xusd.allowance(account, uniV3SwapRouter.address),
+            xusd
           ),
           displayCurrency(await usdt.allowance(account, flipper.address), usdt),
           displayCurrency(await dai.allowance(account, flipper.address), dai),
           displayCurrency(await usdc.allowance(account, flipper.address), usdc),
-          displayCurrency(await ousd.allowance(account, flipper.address), ousd),
+          displayCurrency(await xusd.allowance(account, flipper.address), xusd),
         ])
 
         let usdtAllowanceCurvePool,
           daiAllowanceCurvePool,
           usdcAllowanceCurvePool,
-          ousdAllowanceCurvePool,
+          xusdAllowanceCurvePool,
           usdtAllowanceRouterV2,
           daiAllowanceRouterV2,
           usdcAllowanceRouterV2,
-          ousdAllowanceRouterV2,
+          xusdAllowanceRouterV2,
           usdtAllowanceSushiRouter,
           daiAllowanceSushiRouter,
           usdcAllowanceSushiRouter,
-          ousdAllowanceSushiRouter
+          xusdAllowanceSushiRouter
 
         // curve pool functionality supported on mainnet and hardhat fork
-        if (curveOUSDMetaPool) {
+        if (curveXUSDMetaPool) {
           ;[
             usdtAllowanceCurvePool,
             daiAllowanceCurvePool,
             usdcAllowanceCurvePool,
-            ousdAllowanceCurvePool,
+            xusdAllowanceCurvePool,
             usdtAllowanceRouterV2,
             daiAllowanceRouterV2,
             usdcAllowanceRouterV2,
-            ousdAllowanceRouterV2,
+            xusdAllowanceRouterV2,
             usdtAllowanceSushiRouter,
             daiAllowanceSushiRouter,
             usdcAllowanceSushiRouter,
-            ousdAllowanceSushiRouter,
+            xusdAllowanceSushiRouter,
           ] = await Promise.all([
             displayCurrency(
-              await usdt.allowance(account, curveOUSDMetaPool.address),
+              await usdt.allowance(account, curveXUSDMetaPool.address),
               usdt
             ),
             displayCurrency(
-              await dai.allowance(account, curveOUSDMetaPool.address),
+              await dai.allowance(account, curveXUSDMetaPool.address),
               dai
             ),
             displayCurrency(
-              await usdc.allowance(account, curveOUSDMetaPool.address),
+              await usdc.allowance(account, curveXUSDMetaPool.address),
               usdc
             ),
             displayCurrency(
-              await ousd.allowance(account, curveOUSDMetaPool.address),
-              ousd
+              await xusd.allowance(account, curveXUSDMetaPool.address),
+              xusd
             ),
             displayCurrency(
               await usdt.allowance(account, uniV2Router.address),
@@ -508,8 +508,8 @@ const AccountListener = (props) => {
               usdc
             ),
             displayCurrency(
-              await ousd.allowance(account, uniV2Router.address),
-              ousd
+              await xusd.allowance(account, uniV2Router.address),
+              xusd
             ),
             displayCurrency(
               await usdt.allowance(account, sushiRouter.address),
@@ -524,8 +524,8 @@ const AccountListener = (props) => {
               usdc
             ),
             displayCurrency(
-              await ousd.allowance(account, sushiRouter.address),
-              ousd
+              await xusd.allowance(account, sushiRouter.address),
+              xusd
             ),
           ])
         }
@@ -556,13 +556,13 @@ const AccountListener = (props) => {
               flipper: usdcAllowanceFlipper,
               curve: usdcAllowanceCurvePool,
             },
-            ousd: {
-              vault: ousdAllowanceVault,
-              uniswapV3Router: ousdAllowanceRouter,
-              uniswapV2Router: ousdAllowanceRouterV2,
-              sushiRouter: ousdAllowanceSushiRouter,
-              flipper: ousdAllowanceFlipper,
-              curve: ousdAllowanceCurvePool,
+            xusd: {
+              vault: xusdAllowanceVault,
+              uniswapV3Router: xusdAllowanceRouter,
+              uniswapV2Router: xusdAllowanceRouterV2,
+              sushiRouter: xusdAllowanceSushiRouter,
+              flipper: xusdAllowanceFlipper,
+              curve: xusdAllowanceCurvePool,
             },
           }
         })
@@ -582,7 +582,7 @@ const AccountListener = (props) => {
       AccountStore.update((s) => {
         s.isSafe = isSafe
       })
-      const rebaseOptInState = await ousd.rebaseState(account)
+      const rebaseOptInState = await xusd.rebaseState(account)
       AccountStore.update((s) => {
         s.rebaseOptedOut = isSafe && rebaseOptInState === 0
       })

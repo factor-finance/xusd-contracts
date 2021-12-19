@@ -12,7 +12,7 @@ import PoolStore from 'stores/PoolStore'
 export default function PoolDetailsPage({ locale, onLocale }) {
   const router = useRouter()
   const { pool_name } = router.query
-  const { uniV2OusdUsdt, liquidityOusdUsdt } = useStoreState(
+  const { uniV2XusdUsdt, liquidityXusdUsdt } = useStoreState(
     ContractStore,
     (s) => s.contracts || {}
   )

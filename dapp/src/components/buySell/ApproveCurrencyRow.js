@@ -34,18 +34,18 @@ const ApproveCurrencyRow = ({
     uniV3SwapRouter,
     uniV2Router,
     sushiRouter,
-    curveOUSDMetaPool,
+    curveXUSDMetaPool,
     usdt,
     dai,
     usdc,
-    ousd,
+    xusd,
   } = useStoreState(ContractStore, (s) => s.contracts || {})
 
   const contractMap = {
     vault: vault,
     flipper: flipper,
     uniswap: uniV3SwapRouter,
-    curve: curveOUSDMetaPool,
+    curve: curveXUSDMetaPool,
     uniswapV2: uniV2Router,
     sushiswap: sushiRouter,
   }
@@ -57,8 +57,8 @@ const ApproveCurrencyRow = ({
       setContract(usdt)
     } else if (coin === 'usdc') {
       setContract(usdc)
-    } else if (coin === 'ousd') {
-      setContract(ousd)
+    } else if (coin === 'xusd') {
+      setContract(xusd)
     }
   }, [])
 

@@ -18,7 +18,7 @@ async function main() {
   const ogn = await ethers.getContractAt(ERC20Abi, addresses.mainnet.OGN);
 
   const liquidityProxy = await ethers.getContract(
-    "LiquidityRewardOUSD_USDTProxy"
+    "LiquidityRewardXUSD_USDTProxy"
   );
   const liquidityContract = await ethers.getContractAt(
     "LiquidityReward",

@@ -9,15 +9,15 @@ import AccountStore from 'stores/AccountStore'
 import EtherscanLink from 'components/earn/EtherscanLink'
 
 export default function LiquidityWizard({ pool, onHideWizzard }) {
-  const ousd = Number(useStoreState(AccountStore, (s) => s.balances).ousd)
+  const xusd = Number(useStoreState(AccountStore, (s) => s.balances).xusd)
   const [defaultActiveStep, setDefaultActiveStep] = useState(null)
   const [activeStep, setActiveStep] = useState(null)
   const lpTokens = Number(pool.lp_tokens)
 
   const getDefaultActiveStep = () => {
-    if (ousd === 0 && lpTokens === 0) {
+    if (xusd === 0 && lpTokens === 0) {
       return 1
-    } else if (ousd > 0 && lpTokens === 0) {
+    } else if (xusd > 0 && lpTokens === 0) {
       return 2
     } else {
       return 3
@@ -25,14 +25,14 @@ export default function LiquidityWizard({ pool, onHideWizzard }) {
   }
 
   useEffect(() => {
-    if (Number.isNaN(ousd) || Number.isNaN(lpTokens)) {
+    if (Number.isNaN(xusd) || Number.isNaN(lpTokens)) {
       return
     }
 
     const defaultActiveStep = getDefaultActiveStep()
     setDefaultActiveStep(defaultActiveStep)
     setActiveStep(defaultActiveStep)
-  }, [ousd, lpTokens])
+  }, [xusd, lpTokens])
 
   const getStepClass = (stepNumber) => {
     // not initialised yet
@@ -56,7 +56,7 @@ export default function LiquidityWizard({ pool, onHideWizzard }) {
         <div className="steps-holder">
           <div className="title">
             {fbt(
-              'How to Earn OGN by Providing Liquidity to OUSD',
+              'How to Earn OGN by Providing Liquidity to XUSD',
               'wizzard helper title'
             )}
           </div>
@@ -70,7 +70,7 @@ export default function LiquidityWizard({ pool, onHideWizzard }) {
               <div className="step-number">
                 <img className="checkmark" src="/images/checkmark.svg" />1
               </div>
-              <div>{fbt('Purchase OUSD', 'Purchase OUSD')}</div>
+              <div>{fbt('Purchase XUSD', 'Purchase XUSD')}</div>
             </div>
             <div
               className={`step ${getStepClass(2)}`}
@@ -106,15 +106,15 @@ export default function LiquidityWizard({ pool, onHideWizzard }) {
           )}
           {activeStep === 1 && (
             <>
-              <img className="ousd-icon" src="/images/ousd-coin.svg" />
+              <img className="xusd-icon" src="/images/xusd-coin.svg" />
               <div className="big-title">
                 {fbt(
-                  'Get OUSD by minting it or buying it on an exchange',
-                  'Wizard purchase OUSD text'
+                  'Get XUSD by minting it or buying it on an exchange',
+                  'Wizard purchase XUSD text'
                 )}
               </div>
               <Link href="/swap">
-                <a className="btn-blue h-40">{fbt('Swap OUSD', 'Swap OUSD')}</a>
+                <a className="btn-blue h-40">{fbt('Swap XUSD', 'Swap XUSD')}</a>
               </Link>
             </>
           )}
@@ -134,7 +134,7 @@ export default function LiquidityWizard({ pool, onHideWizzard }) {
               </div>
               <div className="subtitle">
                 {fbt(
-                  "Remember, your OUSD will not grow while it's in Uniswap, but you will earn fees for providing liquidity.",
+                  "Remember, your XUSD will not grow while it's in Uniswap, but you will earn fees for providing liquidity.",
                   'Uniswap step subtitle'
                 )}
               </div>
@@ -277,7 +277,7 @@ export default function LiquidityWizard({ pool, onHideWizzard }) {
           margin-bottom: 25px;
         }
 
-        .graphic-holder .ousd-icon {
+        .graphic-holder .xusd-icon {
           width: 121px;
           height: 121px;
           margin-top: 77px;

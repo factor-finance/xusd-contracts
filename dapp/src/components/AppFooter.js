@@ -114,7 +114,7 @@ export default function Footer({ onLocale, locale, dapp }) {
                 rel="noopener noreferrer"
                 className="nav-link"
               >
-                {fbt('Built by Origin Protocol', 'Built by Origin Protocol')}
+                {fbt('Built by XUSD.fi', 'Built by XUSD.fi')}
               </a>
             </div>
           </div>

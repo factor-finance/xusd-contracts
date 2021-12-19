@@ -68,7 +68,7 @@ const SidePanelTransactionMessage = ({
 
   const coinDataPresent =
     transaction.data &&
-    transaction.data.ousd !== undefined &&
+    transaction.data.xusd !== undefined &&
     transaction.data.dai !== undefined &&
     transaction.data.usdt !== undefined &&
     transaction.data.usdc !== undefined
@@ -147,19 +147,19 @@ const SidePanelTransactionMessage = ({
                 >
                   {!transaction.mined && (
                     <div className="title">
-                      {fbt('Increasing OUSD supply', 'Increasing OUSD supply')}
+                      {fbt('Increasing XUSD supply', 'Increasing XUSD supply')}
                     </div>
                   )}
                   {transaction.mined && !transaction.isError && (
                     <div className="title">
-                      {fbt('OUSD supply increased', 'OUSD supply increased')}
+                      {fbt('XUSD supply increased', 'XUSD supply increased')}
                     </div>
                   )}
                   {transaction.mined && transaction.isError && (
                     <div className="title">
                       {fbt(
-                        'Failed to increase OUSD supply',
-                        'Failed to increase OUSD supply'
+                        'Failed to increase XUSD supply',
+                        'Failed to increase XUSD supply'
                       )}
                     </div>
                   )}
@@ -183,24 +183,24 @@ const SidePanelTransactionMessage = ({
                   {!transaction.mined && (
                     <div className="title">
                       {fbt(
-                        'Opting in to OUSD rebasing',
-                        'Opting in to OUSD rebasing'
+                        'Opting in to XUSD rebasing',
+                        'Opting in to XUSD rebasing'
                       )}
                     </div>
                   )}
                   {transaction.mined && !transaction.isError && (
                     <div className="title">
                       {fbt(
-                        'Opted in to OUSD rebase',
-                        'Opted in to OUSD rebase'
+                        'Opted in to XUSD rebase',
+                        'Opted in to XUSD rebase'
                       )}
                     </div>
                   )}
                   {transaction.mined && transaction.isError && (
                     <div className="title">
                       {fbt(
-                        'Failed to opt in to OUSD rebase',
-                        'Failed to opt in to OUSD rebase'
+                        'Failed to opt in to XUSD rebase',
+                        'Failed to opt in to XUSD rebase'
                       )}
                     </div>
                   )}
@@ -257,7 +257,7 @@ const SidePanelTransactionMessage = ({
                 <div className="d-flex align-items-center">
                   <CoinCircleGraphics
                     transaction={transaction}
-                    coin={'ousd'}
+                    coin={'xusd'}
                     animate={animate}
                     showTxStatusIcon={false}
                     drawType="all-same"
@@ -302,36 +302,36 @@ const SidePanelTransactionMessage = ({
                   {!transaction.mined && (
                     <div className="title">
                       {fbt(
-                        'Swapping OUSD for ' +
+                        'Swapping XUSD for ' +
                           fbt.param(
                             'coin',
                             coin.split(',').join(' & ').toUpperCase()
                           ),
-                        'Swapping OUSD for coins'
+                        'Swapping XUSD for coins'
                       )}
                     </div>
                   )}
                   {transaction.mined && !transaction.isError && (
                     <div className="title">
                       {fbt(
-                        'Swapped OUSD for ' +
+                        'Swapped XUSD for ' +
                           fbt.param(
                             'coin',
                             coin.split(',').join(' & ').toUpperCase()
                           ),
-                        'Swapped OUSD for coins'
+                        'Swapped XUSD for coins'
                       )}
                     </div>
                   )}
                   {transaction.mined && transaction.isError && (
                     <div className="title">
                       {fbt(
-                        'Failed swapping OUSD for ' +
+                        'Failed swapping XUSD for ' +
                           fbt.param(
                             'coin',
                             coin.split(',').join(' & ').toUpperCase()
                           ),
-                        'Failed swapping OUSD for coins'
+                        'Failed swapping XUSD for coins'
                       )}
                     </div>
                   )}
@@ -372,7 +372,7 @@ const SidePanelTransactionMessage = ({
                   </div>
                   <CoinCircleGraphics
                     transaction={transaction}
-                    coin={'ousd'}
+                    coin={'xusd'}
                     animate={animate}
                     showTxStatusIcon={false}
                     drawType="all-same"
@@ -391,8 +391,8 @@ const SidePanelTransactionMessage = ({
                             'coin',
                             coin.split(',').join(' & ').toUpperCase()
                           ) +
-                          ' for OUSD',
-                        'Swapping coins for OUSD'
+                          ' for XUSD',
+                        'Swapping coins for XUSD'
                       )}
                     </div>
                   )}
@@ -402,8 +402,8 @@ const SidePanelTransactionMessage = ({
                         fbt.param(
                           'coin',
                           coin.split(',').join(' & ').toUpperCase()
-                        ) + ' swapped for OUSD',
-                        'Swapped coins for OUSD'
+                        ) + ' swapped for XUSD',
+                        'Swapped coins for XUSD'
                       )}
                     </div>
                   )}
@@ -415,8 +415,8 @@ const SidePanelTransactionMessage = ({
                             'coin',
                             coin.split(',').join(' & ').toUpperCase()
                           ) +
-                          ' for OUSD',
-                        'Failed swapping for OUSD'
+                          ' for XUSD',
+                        'Failed swapping for XUSD'
                       )}
                     </div>
                   )}
@@ -440,12 +440,12 @@ const SidePanelTransactionMessage = ({
                     <>
                       <div>
                         {formatCurrencyConditional(
-                          transaction.data.ousd,
+                          transaction.data.xusd,
                           100,
                           2,
                           0
                         )}{' '}
-                        OUSD
+                        XUSD
                       </div>
                     </>
                   )}
@@ -532,12 +532,12 @@ const SidePanelTransactionMessage = ({
                     <>
                       <div>
                         {formatCurrencyConditional(
-                          transaction.data.ousd,
+                          transaction.data.xusd,
                           100,
                           2,
                           0
                         )}{' '}
-                        OUSD
+                        XUSD
                       </div>
                     </>
                   )}

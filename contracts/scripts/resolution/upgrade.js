@@ -4,7 +4,7 @@ const { ethers, getNamedAccounts } = require("hardhat");
 const { getTxOpts } = require("../../utils/tx");
 const addresses = require("../../utils/addresses");
 
-const OUSD_ADDRESS = addresses.mainnet.OUSDProxy;
+const XUSD_ADDRESS = addresses.mainnet.XUSDProxy;
 const E18 = "1000000000000000000";
 BATCH_SIZE = 120;
 
@@ -18,14 +18,14 @@ async function main(config) {
 
   const { deployerAddr } = getNamedAccounts();
   const sDeployer = ethers.provider.getSigner(deployerAddr);
-  const ousd = await ethers.getContractAt(
-    "OUSDResolutionUpgrade",
-    OUSD_ADDRESS
+  const xusd = await ethers.getContractAt(
+    "XUSDResolutionUpgrade",
+    XUSD_ADDRESS
   );
 
   if (config.upgradeGlobals) {
     console.log("💠💠 Upgrading master");
-    await withConfirmation(ousd.upgradeGlobals(await getTxOpts()));
+    await withConfirmation(xusd.upgradeGlobals(await getTxOpts()));
     console.log("... ✅  Master upgraded");
   }
 
@@ -35,7 +35,7 @@ async function main(config) {
     batchAddress.forEach((x) => console.log("💠", x));
     console.log("Sending...");
     const tx = await withConfirmation(
-      ousd.connect(sDeployer).upgradeAccounts(batchAddress, await getTxOpts())
+      xusd.connect(sDeployer).upgradeAccounts(batchAddress, await getTxOpts())
     );
     console.log(tx);
     console.log("✅");

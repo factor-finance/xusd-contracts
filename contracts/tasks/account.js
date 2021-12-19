@@ -15,10 +15,10 @@ const defaultAccountIndex = 4;
 // By default, fund each test account with 10k worth of each stable coin.
 const defaultFundAmount = 10000;
 
-// By default, mint 1k worth of OUSD for each test account.
+// By default, mint 1k worth of XUSD for each test account.
 const defaultMintAmount = 1000;
 
-// By default, redeem 1k worth of OUSD for each test account.
+// By default, redeem 1k worth of XUSD for each test account.
 const defaultRedeemAmount = 1000;
 
 /**
@@ -216,7 +216,7 @@ async function fund(taskArguments, hre) {
 }
 
 /**
- * Mints OUSD using USDT on local or fork.
+ * Mints XUSD using USDT on local or fork.
  */
 async function mint(taskArguments, hre) {
   const addresses = require("../utils/addresses");
@@ -226,8 +226,8 @@ async function mint(taskArguments, hre) {
     throw new Error("Task can only be used on local or fork");
   }
 
-  const ousdProxy = await ethers.getContract("OUSDProxy");
-  const ousd = await ethers.getContractAt("OUSD", ousdProxy.address);
+  const xusdProxy = await ethers.getContract("XUSDProxy");
+  const xusd = await ethers.getContractAt("XUSD", xusdProxy.address);
 
   const vaultProxy = await ethers.getContract("VaultProxy");
   const vault = await ethers.getContractAt("IVault", vaultProxy.address);
@@ -248,7 +248,7 @@ async function mint(taskArguments, hre) {
     const signer = signers[i];
     const address = signer.address;
     console.log(
-      `Minting ${mintAmount} OUSD for account ${i} at address ${address}`
+      `Minting ${mintAmount} XUSD for account ${i} at address ${address}`
     );
 
     // Ensure the account has sufficient USDT balance to cover the mint.
@@ -279,22 +279,22 @@ async function mint(taskArguments, hre) {
       .mint(usdt.address, usdtUnits(mintAmount), 0, { gasLimit: 2000000 });
 
     // Show new account's balance.
-    const ousdBalance = await ousd.balanceOf(address);
+    const xusdBalance = await xusd.balanceOf(address);
     console.log(
-      "New OUSD balance=",
-      hre.ethers.utils.formatUnits(ousdBalance, 18)
+      "New XUSD balance=",
+      hre.ethers.utils.formatUnits(xusdBalance, 18)
     );
   }
 }
 
 /**
- * Redeems OUSD on local or fork.
+ * Redeems XUSD on local or fork.
  */
 async function redeem(taskArguments, hre) {
   const addresses = require("../utils/addresses");
   const {
-    ousdUnits,
-    ousdUnitsFormat,
+    xusdUnits,
+    xusdUnitsFormat,
     daiUnitsFormat,
     usdcUnitsFormat,
     usdtUnitsFormat,
@@ -306,8 +306,8 @@ async function redeem(taskArguments, hre) {
     throw new Error("Task can only be used on local or fork");
   }
 
-  const ousdProxy = await ethers.getContract("OUSDProxy");
-  const ousd = await ethers.getContractAt("OUSD", ousdProxy.address);
+  const xusdProxy = await ethers.getContract("XUSDProxy");
+  const xusd = await ethers.getContractAt("XUSD", xusdProxy.address);
 
   const vaultProxy = await ethers.getContract("VaultProxy");
   const vault = await ethers.getContractAt("IVault", vaultProxy.address);
@@ -332,15 +332,15 @@ async function redeem(taskArguments, hre) {
     const signer = signers[i];
     const address = signer.address;
     console.log(
-      `Redeeming ${redeemAmount} OUSD for account ${i} at address ${address}`
+      `Redeeming ${redeemAmount} XUSD for account ${i} at address ${address}`
     );
 
     // Show the current balances.
-    let ousdBalance = await ousd.balanceOf(address);
+    let xusdBalance = await xusd.balanceOf(address);
     let daiBalance = await dai.balanceOf(address);
     let usdcBalance = await usdc.balanceOf(address);
     let usdtBalance = await usdt.balanceOf(address);
-    console.log("OUSD balance=", ousdUnitsFormat(ousdBalance, 18));
+    console.log("XUSD balance=", xusdUnitsFormat(xusdBalance, 18));
     console.log("DAI balance=", daiUnitsFormat(daiBalance, 18));
     console.log("USDC balance=", usdcUnitsFormat(usdcBalance, 6));
     console.log("USDT balance=", usdtUnitsFormat(usdtBalance, 6));
@@ -348,25 +348,25 @@ async function redeem(taskArguments, hre) {
     // Redeem.
     await vault
       .connect(signer)
-      .redeem(ousdUnits(redeemAmount), 0, { gasLimit: 2000000 });
+      .redeem(xusdUnits(redeemAmount), 0, { gasLimit: 2000000 });
 
     // Show the new balances.
-    ousdBalance = await ousd.balanceOf(address);
+    xusdBalance = await xusd.balanceOf(address);
     daiBalance = await dai.balanceOf(address);
     usdcBalance = await usdc.balanceOf(address);
     usdtBalance = await usdt.balanceOf(address);
-    console.log("New OUSD balance=", ousdUnitsFormat(ousdBalance, 18));
+    console.log("New XUSD balance=", xusdUnitsFormat(xusdBalance, 18));
     console.log("New DAI balance=", daiUnitsFormat(daiBalance, 18));
     console.log("New USDC balance=", usdcUnitsFormat(usdcBalance, 18));
     console.log("New USDT balance=", usdtUnitsFormat(usdtBalance, 18));
   }
 }
 
-// Sends OUSD to a destination address.
+// Sends XUSD to a destination address.
 async function transfer(taskArguments) {
   const {
-    ousdUnits,
-    ousdUnitsFormat,
+    xusdUnits,
+    xusdUnitsFormat,
     isFork,
     isLocalHost,
   } = require("../test/helpers");
@@ -375,8 +375,8 @@ async function transfer(taskArguments) {
     throw new Error("Task can only be used on local or fork");
   }
 
-  const ousdProxy = await ethers.getContract("OUSDProxy");
-  const ousd = await ethers.getContractAt("OUSD", ousdProxy.address);
+  const xusdProxy = await ethers.getContract("XUSDProxy");
+  const xusd = await ethers.getContractAt("XUSD", xusdProxy.address);
 
   const index = Number(taskArguments.index);
   const amount = taskArguments.amount;
@@ -386,28 +386,28 @@ async function transfer(taskArguments) {
   const signer = signers[index];
 
   // Print balances prior to the transfer
-  console.log("\nOUSD balances prior transfer");
+  console.log("\nXUSD balances prior transfer");
   console.log(
-    `${signer.address}: ${ousdUnitsFormat(
-      await ousd.balanceOf(signer.address)
-    )} OUSD`
+    `${signer.address}: ${xusdUnitsFormat(
+      await xusd.balanceOf(signer.address)
+    )} XUSD`
   );
-  console.log(`${to}: ${ousdUnitsFormat(await ousd.balanceOf(to))} OUSD`);
+  console.log(`${to}: ${xusdUnitsFormat(await xusd.balanceOf(to))} XUSD`);
 
-  // Send OUSD.
+  // Send XUSD.
   console.log(
-    `\nTransferring ${amount} OUSD from ${signer.address} to ${to}...`
+    `\nTransferring ${amount} XUSD from ${signer.address} to ${to}...`
   );
-  await ousd.connect(signer).transfer(to, ousdUnits(amount));
+  await xusd.connect(signer).transfer(to, xusdUnits(amount));
 
   // Print balances after to the transfer
-  console.log("\nOUSD balances after transfer");
+  console.log("\nXUSD balances after transfer");
   console.log(
-    `${signer.address}: ${ousdUnitsFormat(
-      await ousd.balanceOf(signer.address)
-    )} OUSD`
+    `${signer.address}: ${xusdUnitsFormat(
+      await xusd.balanceOf(signer.address)
+    )} XUSD`
   );
-  console.log(`${to}: ${ousdUnitsFormat(await ousd.balanceOf(to))} OUSD`);
+  console.log(`${to}: ${xusdUnitsFormat(await xusd.balanceOf(to))} XUSD`);
 }
 
 module.exports = {

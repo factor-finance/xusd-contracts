@@ -26,7 +26,7 @@ const runDeployment = async (hre) => {
 
   const { governorAddr } = await hre.getNamedAccounts();
 
-  const cOUSDProxy = await ethers.getContract("OUSDProxy");
+  const cXUSDProxy = await ethers.getContract("XUSDProxy");
   const cVaultProxy = await ethers.getContract("VaultProxy");
   const cCompoundStrategyProxy = await ethers.getContract(
     "CompoundStrategyProxy"
@@ -51,7 +51,7 @@ const runDeployment = async (hre) => {
   const propTransferDescription = "Transfer governance";
   const propTransferArgs = await proposeArgs([
     {
-      contract: cOUSDProxy,
+      contract: cXUSDProxy,
       signature: "transferGovernance(address)",
       args: [dGovernor.address],
     },
@@ -96,7 +96,7 @@ const runDeployment = async (hre) => {
   const propClaimDescription = "Claim governance";
   const propClaimArgs = await proposeArgs([
     {
-      contract: cOUSDProxy,
+      contract: cXUSDProxy,
       signature: "claimGovernance()",
     },
     {

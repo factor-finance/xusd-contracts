@@ -1,16 +1,16 @@
 const { fund, mint } = require("../tasks/account");
 const {
   usdtUnits,
-  ousdUnits,
+  xusdUnits,
   usdcUnits,
   daiUnits,
-  ousdUnitsFormat,
+  xusdUnitsFormat,
   isWithinTolerance,
 } = require("../test/helpers");
 const addresses = require("../utils/addresses");
 const erc20Abi = require("../test/abi/erc20.json");
 
-let utils, BigNumber, usdt, dai, usdc, ousd, vault, signer, signer2;
+let utils, BigNumber, usdt, dai, usdc, xusd, vault, signer, signer2;
 
 async function fundAccount4(hre) {
   await fund(
@@ -34,16 +34,16 @@ const getUsdcBalance = async () => {
   return await usdc.connect(signer).balanceOf(signer.address);
 };
 
-const getOusdBalance = async (signer) => {
-  return await ousd.connect(signer).balanceOf(signer.address);
+const getXusdBalance = async (signer) => {
+  return await xusd.connect(signer).balanceOf(signer.address);
 };
 
-const assertExpectedOusd = (bigNumber, bigNumberExpected, tolerance = 0.03) => {
+const assertExpectedXusd = (bigNumber, bigNumberExpected, tolerance = 0.03) => {
   if (!isWithinTolerance(bigNumber, bigNumberExpected, 0.03)) {
     throw new Error(
-      `Unexpected OUSD value. Expected ${ousdUnitsFormat(
+      `Unexpected XUSD value. Expected ${xusdUnitsFormat(
         bigNumberExpected
-      )} with the tolerance of ${tolerance}. Received: ${ousdUnitsFormat(
+      )} with the tolerance of ${tolerance}. Received: ${xusdUnitsFormat(
         bigNumber
       )}`
     );
@@ -65,9 +65,9 @@ const assertExpectedStablecoins = (
 
   if (!isWithinTolerance(allStablecoins, stableCoinsExpected, 0.03)) {
     throw new Error(
-      `Unexpected value. Expected to receive total stablecoin units ${ousdUnitsFormat(
+      `Unexpected value. Expected to receive total stablecoin units ${xusdUnitsFormat(
         stableCoinsExpected
-      )} with the tolerance of ${tolerance}. Received: ${ousdUnitsFormat(
+      )} with the tolerance of ${tolerance}. Received: ${xusdUnitsFormat(
         allStablecoins
       )}`
     );
@@ -77,7 +77,7 @@ const assertExpectedStablecoins = (
 async function setup(hre) {
   utils = hre.ethers.utils;
   BigNumber = hre.ethers.BigNumber;
-  ousd = await hre.ethers.getContractAt("OUSD", addresses.mainnet.OUSDProxy);
+  xusd = await hre.ethers.getContractAt("XUSD", addresses.mainnet.XUSDProxy);
   usdt = await hre.ethers.getContractAt(erc20Abi, addresses.mainnet.USDT);
   dai = await hre.ethers.getContractAt(erc20Abi, addresses.mainnet.DAI);
   usdc = await hre.ethers.getContractAt(erc20Abi, addresses.mainnet.USDC);
@@ -94,7 +94,7 @@ async function beforeDeploy(hre) {
   await setup(hre);
 
   const usdtBeforeMint = await getUsdtBalance();
-  const ousdBeforeMint = await getOusdBalance(signer);
+  const xusdBeforeMint = await getXusdBalance(signer);
   const usdtToMint = "1100";
   await mint(
     {
@@ -105,7 +105,7 @@ async function beforeDeploy(hre) {
   );
 
   const usdtAfterMint = await getUsdtBalance();
-  const ousdAfterMint = await getOusdBalance(signer);
+  const xusdAfterMint = await getXusdBalance(signer);
 
   const expectedUsdt = usdtBeforeMint.sub(usdtUnits(usdtToMint));
   if (!usdtAfterMint.eq(expectedUsdt)) {
@@ -114,17 +114,17 @@ async function beforeDeploy(hre) {
     );
   }
 
-  const expectedOusd = ousdBeforeMint.add(ousdUnits(usdtToMint));
-  assertExpectedOusd(ousdAfterMint, expectedOusd);
+  const expectedXusd = xusdBeforeMint.add(xusdUnits(usdtToMint));
+  assertExpectedXusd(xusdAfterMint, expectedXusd);
 
   return {
-    ousdBeforeMint,
-    ousdAfterMint,
+    xusdBeforeMint,
+    xusdAfterMint,
   };
 }
 
 const testMint = async (hre, beforeDeployData) => {
-  const ousdBeforeMint = await getOusdBalance(signer);
+  const xusdBeforeMint = await getXusdBalance(signer);
   await mint(
     {
       num: 1,
@@ -133,35 +133,35 @@ const testMint = async (hre, beforeDeployData) => {
     hre
   );
 
-  const ousdAfterMint = await getOusdBalance(signer);
+  const xusdAfterMint = await getXusdBalance(signer);
 
-  if (!beforeDeployData.ousdAfterMint.eq(ousdBeforeMint)) {
+  if (!beforeDeployData.xusdAfterMint.eq(xusdBeforeMint)) {
     throw new Error(
-      `Deploy changed the amount of ousd in user's account from ${ousdUnitsFormat(
-        beforeDeployData.ousdAfterMint
-      )} to ${ousdUnitsFormat(ousdBeforeMint)}`
+      `Deploy changed the amount of xusd in user's account from ${xusdUnitsFormat(
+        beforeDeployData.xusdAfterMint
+      )} to ${xusdUnitsFormat(xusdBeforeMint)}`
     );
   }
 
-  return ousdAfterMint;
+  return xusdAfterMint;
 };
 
-const testRedeem = async (ousdAfterMint) => {
+const testRedeem = async (xusdAfterMint) => {
   const usdtBeforeRedeem = await getUsdtBalance();
   const daiBeforeRedeem = await getDaiBalance();
   const usdcBeforeRedeem = await getUsdcBalance();
 
   const unitsToRedeem = "800";
-  const ousdToRedeem = ousdUnits(unitsToRedeem);
-  await vault.connect(signer).redeem(ousdToRedeem, ousdUnits("770"));
+  const xusdToRedeem = xusdUnits(unitsToRedeem);
+  await vault.connect(signer).redeem(xusdToRedeem, xusdUnits("770"));
 
-  const ousdAfterRedeem = await getOusdBalance(signer);
+  const xusdAfterRedeem = await getXusdBalance(signer);
   const usdtAfterRedeem = await getUsdtBalance();
   const daiAfterRedeem = await getDaiBalance();
   const usdcAfterRedeem = await getUsdcBalance();
 
-  const expectedOusd = ousdAfterMint.sub(ousdToRedeem);
-  assertExpectedOusd(ousdAfterRedeem, expectedOusd, 0.0);
+  const expectedXusd = xusdAfterMint.sub(xusdToRedeem);
+  assertExpectedXusd(xusdAfterRedeem, expectedXusd, 0.0);
 
   assertExpectedStablecoins(
     usdtAfterRedeem.sub(usdtBeforeRedeem),
@@ -172,33 +172,34 @@ const testRedeem = async (ousdAfterMint) => {
 };
 
 const testTransfer = async () => {
-  const ousdSenderBeforeSend = await getOusdBalance(signer);
-  const ousdReceiverBeforeSend = await getOusdBalance(signer2);
-  const ousdToTransfer = "245.5";
+  const xusdSenderBeforeSend = await getXusdBalance(signer);
+  const xusdReceiverBeforeSend = await getXusdBalance(signer2);
+  const xusdToTransfer = "245.5";
 
-  await ousd
+  await xusd
     .connect(signer)
-    .transfer(signer2.address, ousdUnits(ousdToTransfer));
+    .transfer(signer2.address, xusdUnits(xusdToTransfer));
 
-  const ousdSenderAfterSend = await getOusdBalance(signer);
-  const ousdReceiverAfterSend = await getOusdBalance(signer2);
+  const xusdSenderAfterSend = await getXusdBalance(signer);
+  const xusdReceiverAfterSend = await getXusdBalance(signer2);
 
-  assertExpectedOusd(
-    ousdSenderAfterSend,
-    ousdSenderBeforeSend.sub(ousdUnits(ousdToTransfer)),
+  assertExpectedXusd(
+    xusdSenderAfterSend,
+    xusdSenderBeforeSend.sub(xusdUnits(xusdToTransfer)),
     0.0
   );
-  assertExpectedOusd(
-    ousdReceiverAfterSend,
-    ousdReceiverBeforeSend.add(ousdUnits(ousdToTransfer)),
+  assertExpectedXusd(
+    xusdReceiverAfterSend,
+    xusdReceiverBeforeSend.add(xusdUnits(xusdToTransfer)),
     0.0
   );
 };
 
 async function afterDeploy(hre, beforeDeployData) {
-  const ousdAfterMint = await testMint(hre, beforeDeployData);
-  await testRedeem(ousdAfterMint);
+  const xusdAfterMint = await testMint(hre, beforeDeployData);
+  await testRedeem(xusdAfterMint);
   await testTransfer();
+  await testMultipleMint();
 }
 
 module.exports = {

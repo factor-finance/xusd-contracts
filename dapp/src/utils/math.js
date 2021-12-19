@@ -169,7 +169,7 @@ export function checkValidInputForCoin(amount, coin) {
     case 'usdt':
       decimals = 6
       break
-    case 'ousd':
+    case 'xusd':
       decimals = 18
       break
     case 'dai':

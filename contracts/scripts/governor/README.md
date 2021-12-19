@@ -1,4 +1,4 @@
-Scripts for OUSD governance.
+Scripts for XUSD governance.
 
 The lifecycle of a governance proposal is as follow:
   1. A proposal for executing some action(s) is submitted by calling the propose(args) method on the governor contract. A proposalId is returned. Anyone can submit a proposal.

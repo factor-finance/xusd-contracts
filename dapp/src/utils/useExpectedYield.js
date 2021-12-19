@@ -41,7 +41,7 @@ const useExpectedYield = () => {
         })
       },
       onCompleteCallback: () => {},
-      // non even duration number so more of the decimals in ousdBalance animate
+      // non even duration number so more of the decimals in xusdBalance animate
       duration: 1985,
       id: 'expected-increase-animation',
       stepTime: 30,
@@ -51,7 +51,7 @@ const useExpectedYield = () => {
   useEffect(() => {
     const expectedIncreaseNum = parseFloat(expectedIncrease)
     const prevExpectedIncreaseNum = parseFloat(prevExpectedIncrease)
-    // user must have minted the OUSD
+    // user must have minted the XUSD
     if (
       typeof expectedIncreaseNum === 'number' &&
       typeof prevExpectedIncreaseNum === 'number' &&

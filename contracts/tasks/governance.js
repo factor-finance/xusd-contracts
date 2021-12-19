@@ -96,7 +96,7 @@ async function proposal(taskArguments, hre) {
 
 // Dumps the governor address for all the known contracts in the system.
 async function governors() {
-  const cOUSDProxy = await ethers.getContract("OUSDProxy");
+  const cXUSDProxy = await ethers.getContract("XUSDProxy");
   const cVaultProxy = await ethers.getContract("VaultProxy");
   const cCompoundStrategyProxy = await ethers.getContract(
     "CompoundStrategyProxy"
@@ -112,7 +112,7 @@ async function governors() {
 
   console.log("Governor addresses:");
   console.log("===================");
-  console.log("OUSDProxy:              ", await cOUSDProxy.governor());
+  console.log("XUSDProxy:              ", await cXUSDProxy.governor());
   console.log("VaultProxy:             ", await cVaultProxy.governor());
   console.log(
     "CompoundStrategyProxy:  ",

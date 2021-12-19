@@ -5,25 +5,25 @@ import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import { IVault } from "../interfaces/IVault.sol";
 
-import { OUSD } from "../token/OUSD.sol";
+import { XUSD } from "../token/XUSD.sol";
 
 contract MockNonRebasing {
-    OUSD oUSD;
+    XUSD xUSD;
 
-    function setOUSD(address _oUSDAddress) public {
-        oUSD = OUSD(_oUSDAddress);
+    function setXUSD(address _xUSDAddress) public {
+        xUSD = XUSD(_xUSDAddress);
     }
 
     function rebaseOptIn() public {
-        oUSD.rebaseOptIn();
+        xUSD.rebaseOptIn();
     }
 
     function rebaseOptOut() public {
-        oUSD.rebaseOptOut();
+        xUSD.rebaseOptOut();
     }
 
     function transfer(address _to, uint256 _value) public {
-        oUSD.transfer(_to, _value);
+        xUSD.transfer(_to, _value);
     }
 
     function transferFrom(
@@ -31,14 +31,14 @@ contract MockNonRebasing {
         address _to,
         uint256 _value
     ) public {
-        oUSD.transferFrom(_from, _to, _value);
+        xUSD.transferFrom(_from, _to, _value);
     }
 
     function increaseAllowance(address _spender, uint256 _addedValue) public {
-        oUSD.increaseAllowance(_spender, _addedValue);
+        xUSD.increaseAllowance(_spender, _addedValue);
     }
 
-    function mintOusd(
+    function mintXusd(
         address _vaultContract,
         address _asset,
         uint256 _amount
@@ -46,7 +46,7 @@ contract MockNonRebasing {
         IVault(_vaultContract).mint(_asset, _amount, 0);
     }
 
-    function redeemOusd(address _vaultContract, uint256 _amount) public {
+    function redeemXusd(address _vaultContract, uint256 _amount) public {
         IVault(_vaultContract).redeem(_amount, 0);
     }
 

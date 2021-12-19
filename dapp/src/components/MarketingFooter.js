@@ -195,7 +195,7 @@ export default function Footer({ locale }) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {fbt('Built by Origin Protocol', 'Built by Origin Protocol')}
+                  {fbt('Built by XUSD.fi', 'Built by XUSD.fi')}
                 </a>
                 <nav className="nav d-flex">
                   <a

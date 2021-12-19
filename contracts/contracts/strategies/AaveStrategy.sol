@@ -2,9 +2,9 @@
 pragma solidity ^0.8.0;
 
 /**
- * @title OUSD Aave Strategy
+ * @title XUSD Aave Strategy
  * @notice Investment strategy for investing stablecoins via Aave
- * @author Origin Protocol Inc
+ * @author XUSD.fi Inc
  */
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 

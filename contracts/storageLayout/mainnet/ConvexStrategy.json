@@ -70,25 +70,25 @@
       "contract": "ConvexStrategy",
       "label": "cvxDepositorAddress",
       "type": "t_address",
-      "src": "contracts/strategies/ConvexStrategy.sol:32"
+      "src": "contracts/strategies/ConvexStrategy.sol:27"
     },
     {
       "contract": "ConvexStrategy",
       "label": "cvxRewardStakerAddress",
       "type": "t_address",
-      "src": "contracts/strategies/ConvexStrategy.sol:33"
+      "src": "contracts/strategies/ConvexStrategy.sol:28"
     },
     {
       "contract": "ConvexStrategy",
-      "label": "cvxRewardTokenAddress",
+      "label": "crvRewardTokenAddress",
       "type": "t_address",
-      "src": "contracts/strategies/ConvexStrategy.sol:34"
+      "src": "contracts/strategies/ConvexStrategy.sol:29"
     },
     {
       "contract": "ConvexStrategy",
       "label": "cvxDepositorPTokenId",
       "type": "t_uint256",
-      "src": "contracts/strategies/ConvexStrategy.sol:35"
+      "src": "contracts/strategies/ConvexStrategy.sol:30"
     }
   ],
   "types": {

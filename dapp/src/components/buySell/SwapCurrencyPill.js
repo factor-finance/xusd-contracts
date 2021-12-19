@@ -131,7 +131,7 @@ const CoinSelect = ({ selected, onChange, options = [] }) => {
                 <div
                   key={option}
                   className={`${
-                    option === 'ousd' ? 'ousd' : ''
+                    option === 'xusd' ? 'xusd' : ''
                   }  d-flex justify-content-start align-items-center p-5px dropdown-item`}
                   onClick={(e) => {
                     onChange(option)
@@ -140,7 +140,7 @@ const CoinSelect = ({ selected, onChange, options = [] }) => {
                 >
                   <CoinImage
                     coin={option}
-                    isSemiTransparent={option === 'ousd'}
+                    isSemiTransparent={option === 'xusd'}
                   />
                   <div
                     className={`coin ${
@@ -214,15 +214,15 @@ const CoinSelect = ({ selected, onChange, options = [] }) => {
           cursor: pointer;
         }
 
-        /*.dropdown-item.ousd {
+        /*.dropdown-item.xusd {
           background-color: #e2e3e5;
         }
 
-        .dropdown-item.ousd:hover {
+        .dropdown-item.xusd:hover {
           background-color: #d2d3d5;
         }*/
 
-        .dropdown-item.ousd .coin {
+        .dropdown-item.xusd .coin {
           color: #18314055;
         }
 
@@ -272,11 +272,11 @@ const SwapCurrencyPill = ({
 }) => {
   const coinBalances = useStoreState(AccountStore, (s) => s.balances)
   const [error, setError] = useState(null)
-  const stableCoinMintOptions = ['ousd', 'dai', 'usdt', 'usdc']
-  const coinRedeemOptions = ['ousd', 'mix', 'dai', 'usdt', 'usdc']
+  const stableCoinMintOptions = ['xusd', 'dai', 'usdt', 'usdc']
+  const coinRedeemOptions = ['xusd', 'mix', 'dai', 'usdt', 'usdc']
 
   const bottomItem = !topItem
-  const showOusd =
+  const showXusd =
     (swapMode === 'redeem' && topItem) || (swapMode === 'mint' && bottomItem)
 
   const roundTo2to6Decimals = (value) => {
@@ -291,11 +291,11 @@ const SwapCurrencyPill = ({
     const roundTo2Decimals = (value) => {
       return formatCurrency(parseFloat(value), 2)
     }
-    if (showOusd) {
+    if (showXusd) {
       return {
-        coin: 'ousd',
-        balance: roundTo2Decimals(coinBalances.ousd),
-        detailedBalance: roundTo2to6Decimals(coinBalances.ousd),
+        coin: 'xusd',
+        balance: roundTo2Decimals(coinBalances.xusd),
+        detailedBalance: roundTo2to6Decimals(coinBalances.xusd),
       }
     } else {
       if (selectedCoin === 'mix') {
@@ -312,7 +312,7 @@ const SwapCurrencyPill = ({
   }
 
   const getSelectOptions = () => {
-    if (showOusd) {
+    if (showXusd) {
       return []
     } else {
       if (topItem) {
@@ -338,7 +338,7 @@ const SwapCurrencyPill = ({
       return
     }
 
-    const coin = swapMode === 'mint' ? selectedCoin : 'ousd'
+    const coin = swapMode === 'mint' ? selectedCoin : 'xusd'
 
     setError(
       parseFloat(coinBalances[coin]) < parseFloat(coinValue)
@@ -400,7 +400,7 @@ const SwapCurrencyPill = ({
         >
           <div className="d-flex flex-column justify-content-between align-items-start h-100">
             <CoinSelect
-              selected={showOusd ? 'ousd' : selectedCoin}
+              selected={showXusd ? 'xusd' : selectedCoin}
               onChange={(coin) => {
                 onSelectChange(coin)
               }}
@@ -467,11 +467,11 @@ const SwapCurrencyPill = ({
                   ? fbt(
                       'Min. received: ' +
                         fbt.param(
-                          'ousd-amount',
+                          'xusd-amount',
                           formatCurrency(minReceived, 2)
                         ) +
-                        ' OUSD',
-                      'Min OUSD amount received'
+                        ' XUSD',
+                      'Min XUSD amount received'
                     )
                   : topItem
                   ? ''

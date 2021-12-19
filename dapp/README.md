@@ -33,7 +33,7 @@ Good to know: In local environment there is a staking option where users stake O
 
 Translations are updated in the dapp with 3 steps
 - cd dapp && yarn run translate (This command extracts new translations from the code). When those are pushed to master the Crowdin website picks up the new strings and translators can translate them
-- cd dapp && git fetch && git checkout master && git merge origin/crowdin (with this command the new Crowdin strings are merged to master but not yet usable by our translation engine)
+- cd dapp && git fetch && git checkout master && git merge xusd/crowdin (with this command the new Crowdin strings are merged to master but not yet usable by our translation engine)
 - cd dapp && yarn run translate (this command extracts translations and also integrates data from Crowdin in a format that can be used by the dapp)
 
 ### Run Dapp on Mainnet
@@ -51,8 +51,8 @@ Note: the main testing accounts (0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD, 0x3
 - with that redeploy the contracts: `yarn run deploy`
 - go to debug dashboard: /dashboard
 - mint 20m or more USDT
-- go to /swap page and exchange that USDT for OUSD
-- go to /dashboard page and click "Send 20m OUSD to contract". Contract must have more than "Total claims in the contract" OUSD to be able to start claim periods
+- go to /swap page and exchange that USDT for XUSD
+- go to /dashboard page and click "Send 20m XUSD to contract". Contract must have more than "Total claims in the contract" XUSD to be able to start claim periods
 - switch to governor account. It is the first account that mnemonic in harhat.config.js  produces
 - unlock the adjuster
 - start claim period

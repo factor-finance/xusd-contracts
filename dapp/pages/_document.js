@@ -39,16 +39,16 @@ class MyDocument extends Document {
             type="text/javascript"
           ></script>
 
-          <meta property="og:url" content="https://ousd.com" />
+          <meta property="og:url" content="https://xusd.fi" />
           <meta property="og:type" content="website" />
-          <meta property="og:title" content="Origin Dollar (OUSD)" />
+          <meta property="og:title" content="XUSD.fi (XUSD)" />
           <meta
             property="og:description"
             content="The first stablecoin that earns a yield while it’s still in your wallet"
           />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:site" content="@originprotocol" />
-          <meta name="twitter:title" content="Origin Dollar (OUSD)" />
+          <meta name="twitter:title" content="XUSD.fi (XUSD)" />
           <meta
             name="twitter:description"
             content="The first stablecoin that earns a yield while it’s still in your wallet"

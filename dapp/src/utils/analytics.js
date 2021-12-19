@@ -28,7 +28,7 @@ plugins.push(
 )
 
 const analytics = Analytics({
-  app: 'origin-dollar-dapp',
+  app: 'xusd-dapp',
   version: 1,
   plugins: plugins,
   debug: isDevelopment,

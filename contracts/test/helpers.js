@@ -55,11 +55,11 @@ function ognUnits(amount) {
   return parseUnits(amount, 18);
 }
 
-function ousdUnits(amount) {
+function xusdUnits(amount) {
   return parseUnits(amount, 18);
 }
 
-function ousdUnitsFormat(amount) {
+function xusdUnitsFormat(amount) {
   return formatUnits(amount, 18);
 }
 
@@ -348,7 +348,7 @@ async function proposeAndExecute(fixture, governorArgsArray, description) {
 }
 
 module.exports = {
-  ousdUnits,
+  xusdUnits,
   usdtUnits,
   usdcUnits,
   tusdUnits,
@@ -358,7 +358,7 @@ module.exports = {
   oracleUnits,
   units,
   daiUnitsFormat,
-  ousdUnitsFormat,
+  xusdUnitsFormat,
   usdcUnitsFormat,
   usdtUnitsFormat,
   humanBalance,

@@ -92,7 +92,7 @@ const CurveStake = ({ rpcProvider, isMobile }) => {
 
     setGaugeContract(
       new Contract(
-        addresses.mainnet.CurveOUSDFactoryGauge,
+        addresses.mainnet.CurveXUSDFactoryGauge,
         gaugeMiniAbi,
         readOnlyProvider
       )
@@ -271,8 +271,8 @@ const CurveStake = ({ rpcProvider, isMobile }) => {
               </div>
               <div className="text-center description pl-md-0">
                 {fbt(
-                  'Provide OUSD + USDT/USDC/ DAI liquidity to the Curve OUSD pool',
-                  'Provide OUSD + USDT/USDC/DAI liquidity to the Curve OUSD pool'
+                  'Provide XUSD + USDT/USDC/ DAI liquidity to the Curve XUSD pool',
+                  'Provide XUSD + USDT/USDC/DAI liquidity to the Curve XUSD pool'
                 )}
               </div>
             </div>

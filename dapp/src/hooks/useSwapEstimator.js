@@ -45,20 +45,20 @@ const useSwapEstimator = ({
   const balances = useStoreState(AccountStore, (s) => s.balances)
 
   const { contract: coinToSwapContract, decimals: coinToSwapDecimals } =
-    coinInfoList[swapMode === 'mint' ? selectedCoin : 'ousd']
+    coinInfoList[swapMode === 'mint' ? selectedCoin : 'xusd']
 
   let coinToReceiveContract, coinToReceiveDecimals
 
   // do not enter conditional body when redeeming a mix
   if (!(swapMode === 'redeem' && selectedCoin === 'mix')) {
     ;({ contract: coinToReceiveContract, decimals: coinToReceiveDecimals } =
-      coinInfoList[swapMode === 'redeem' ? selectedCoin : 'ousd'])
+      coinInfoList[swapMode === 'redeem' ? selectedCoin : 'xusd'])
   }
 
   const allowances = useStoreState(AccountStore, (s) => s.allowances)
   const allowancesLoaded =
     typeof allowances === 'object' &&
-    allowances.ousd !== undefined &&
+    allowances.xusd !== undefined &&
     allowances.usdt !== undefined &&
     allowances.usdc !== undefined &&
     allowances.dai !== undefined
@@ -375,7 +375,7 @@ const useSwapEstimator = ({
       const priceQuoteBn = await quoteCurve(swapAmount)
       const amountReceived = ethers.utils.formatUnits(
         priceQuoteBn,
-        // 18 because ousd has 18 decimals
+        // 18 because xusd has 18 decimals
         isRedeem ? coinToReceiveDecimals : 18
       )
 
@@ -385,9 +385,9 @@ const useSwapEstimator = ({
        * We don't check if positive amount is large enough: since we always approve max_int allowance.
        */
       if (
-        parseFloat(allowances[isRedeem ? 'ousd' : selectedCoin].curve) === 0 ||
+        parseFloat(allowances[isRedeem ? 'xusd' : selectedCoin].curve) === 0 ||
         !userHasEnoughStablecoin(
-          isRedeem ? 'ousd' : selectedCoin,
+          isRedeem ? 'xusd' : selectedCoin,
           parseFloat(inputAmountRaw)
         )
       ) {
@@ -461,7 +461,7 @@ const useSwapEstimator = ({
         : await quoteUniswapV2(swapAmount)
       const priceQuoteBn = priceQuoteValues[priceQuoteValues.length - 1]
 
-      // 18 because ousd has 18 decimals
+      // 18 because xusd has 18 decimals
       const amountReceived = ethers.utils.formatUnits(
         priceQuoteBn,
         isRedeem ? coinToReceiveDecimals : 18
@@ -473,7 +473,7 @@ const useSwapEstimator = ({
        * We don't check if positive amount is large enough: since we always approve max_int allowance.
        */
       const requiredAllowance =
-        allowances[isRedeem ? 'ousd' : selectedCoin][
+        allowances[isRedeem ? 'xusd' : selectedCoin][
           isSushiSwap ? 'sushiRouter' : 'uniswapV2Router'
         ]
       if (requiredAllowance === undefined) {
@@ -481,12 +481,12 @@ const useSwapEstimator = ({
       }
       if (
         parseFloat(
-          allowances[isRedeem ? 'ousd' : selectedCoin][
+          allowances[isRedeem ? 'xusd' : selectedCoin][
             isSushiSwap ? 'sushiRouter' : 'uniswapV2Router'
           ]
         ) === 0 ||
         !userHasEnoughStablecoin(
-          isRedeem ? 'ousd' : selectedCoin,
+          isRedeem ? 'xusd' : selectedCoin,
           parseFloat(inputAmountRaw)
         )
       ) {
@@ -587,7 +587,7 @@ const useSwapEstimator = ({
     try {
       const priceQuote = await quoteUniswap(swapAmount)
       const priceQuoteBn = BigNumber.from(priceQuote)
-      // 18 because ousd has 18 decimals
+      // 18 because xusd has 18 decimals
       const amountReceived = ethers.utils.formatUnits(
         priceQuoteBn,
         isRedeem ? coinToReceiveDecimals : 18
@@ -600,10 +600,10 @@ const useSwapEstimator = ({
        */
       if (
         parseFloat(
-          allowances[isRedeem ? 'ousd' : selectedCoin].uniswapV3Router
+          allowances[isRedeem ? 'xusd' : selectedCoin].uniswapV3Router
         ) === 0 ||
         !userHasEnoughStablecoin(
-          isRedeem ? 'ousd' : selectedCoin,
+          isRedeem ? 'xusd' : selectedCoin,
           parseFloat(inputAmountRaw)
         )
       ) {
@@ -768,7 +768,7 @@ const useSwapEstimator = ({
         .map((coin) => parseFloat(coin.amount))
         .reduce((a, b) => a + b, 0)
 
-      if (!userHasEnoughStablecoin('ousd', amount)) {
+      if (!userHasEnoughStablecoin('xusd', amount)) {
         return {
           canDoSwap: true,
           gasUsed: 1500000,

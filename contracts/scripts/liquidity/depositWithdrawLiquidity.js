@@ -10,7 +10,7 @@ const USDTAbiContainer = require("../../test/abi/usdt.json");
 const {
   usdtUnits,
   usdcUnits,
-  ousdUnits,
+  xusdUnits,
   advanceBlocks,
 } = require("../../test/helpers");
 
@@ -25,21 +25,21 @@ async function main() {
   const usdc = await ethers.getContractAt(ERC20Abi, addresses.mainnet.USDC);
   const ogn = await ethers.getContractAt(ERC20Abi, addresses.mainnet.OGN);
 
-  const uniswapPairOUSD_USDT = await ethers.getContractAt(
+  const uniswapPairXUSD_USDT = await ethers.getContractAt(
     ERC20Abi,
-    addresses.mainnet.uniswapOUSD_USDT
+    addresses.mainnet.uniswapXUSD_USDT
   );
 
   const liquidityProxy = await ethers.getContract(
-    "LiquidityRewardOUSD_USDTProxy"
+    "LiquidityRewardXUSD_USDTProxy"
   );
   const liquidityContract = await ethers.getContractAt(
     "LiquidityReward",
     liquidityProxy.address
   );
 
-  const ousdProxy = await ethers.getContract("OUSDProxy");
-  const ousd = await ethers.getContractAt("OUSD", ousdProxy.address);
+  const xusdProxy = await ethers.getContract("XUSDProxy");
+  const xusd = await ethers.getContractAt("XUSD", xusdProxy.address);
 
   const vaultProxy = await ethers.getContract("VaultProxy");
   const vault = await ethers.getContractAt("IVault", vaultProxy.address);
@@ -58,31 +58,31 @@ async function main() {
     await vault.connect(signers[0]).mint(usdc.address, usdcDesired, 0);
   }
 
-  let ousdBalance = utils.formatUnits(await ousd.balanceOf(signerAddress), 18);
+  let xusdBalance = utils.formatUnits(await xusd.balanceOf(signerAddress), 18);
 
-  const components = ousdBalance.split(".");
+  const components = xusdBalance.split(".");
   if (components.length == 2) {
     // fix it down to 6 precision
     if (components[1].length > 6) {
-      ousdBalance = ousdBalance.substr(
+      xusdBalance = xusdBalance.substr(
         0,
-        ousdBalance.length - (components[1].length - 6)
+        xusdBalance.length - (components[1].length - 6)
       );
     }
   }
 
-  console.log("ousd balance of:", ousdBalance);
+  console.log("xusd balance of:", xusdBalance);
 
   // go for a 1:1
-  const ousdDesired = ousdUnits(ousdBalance);
-  const usdtDesired = usdtUnits(ousdBalance);
+  const xusdDesired = xusdUnits(xusdBalance);
+  const usdtDesired = usdtUnits(xusdBalance);
 
   const txOpts = {};
   txOpts.gasLimit = 6500000;
 
-  await ousd
+  await xusd
     .connect(signers[0])
-    .approve(uniswapRouter.address, ousdDesired, txOpts);
+    .approve(uniswapRouter.address, xusdDesired, txOpts);
   console.log("Usdt approval", usdt.address);
   await usdt.connect(signers[0]).approve(uniswapRouter.address, 0, txOpts);
   await usdt
@@ -90,19 +90,19 @@ async function main() {
     .approve(uniswapRouter.address, usdtDesired, txOpts);
   console.log("Usdt approved");
 
-  console.log("Pair address:", uniswapPairOUSD_USDT.address);
+  console.log("Pair address:", uniswapPairXUSD_USDT.address);
   console.log(
     "[pre ]Pair balance is:",
-    utils.formatUnits(await uniswapPairOUSD_USDT.balanceOf(signerAddress), 18)
+    utils.formatUnits(await uniswapPairXUSD_USDT.balanceOf(signerAddress), 18)
   );
 
-  if (ousdDesired.gt(0)) {
+  if (xusdDesired.gt(0)) {
     await uniswapRouter
       .connect(signers[0])
       .addLiquidity(
-        ousd.address,
+        xusd.address,
         usdt.address,
-        ousdDesired,
+        xusdDesired,
         usdtDesired,
         0,
         0,
@@ -112,7 +112,7 @@ async function main() {
       ); // give it 30 seconds
   }
 
-  const liquidityBalance = await uniswapPairOUSD_USDT.balanceOf(signerAddress);
+  const liquidityBalance = await uniswapPairXUSD_USDT.balanceOf(signerAddress);
   if (liquidityBalance.eq(0)) {
     console.log("There is zero liquidity balance.");
     return;
@@ -128,14 +128,14 @@ async function main() {
     utils.formatUnits(rewardRate, 18)
   );
 
-  await uniswapPairOUSD_USDT
+  await uniswapPairXUSD_USDT
     .connect(signers[0])
     .approve(liquidityContract.address, liquidityBalance);
   console.log("Depositing...");
   await liquidityContract.connect(signers[0]).deposit(liquidityBalance, txOpts);
   console.log(
     "[depo]Pair balance is:",
-    utils.formatUnits(await uniswapPairOUSD_USDT.balanceOf(signerAddress), 18)
+    utils.formatUnits(await uniswapPairXUSD_USDT.balanceOf(signerAddress), 18)
   );
 
   console.log(
@@ -157,7 +157,7 @@ async function main() {
   await liquidityContract.connect(signers[0]).exit(txOpts);
   console.log(
     "[exit]Pair balance is:",
-    utils.formatUnits(await uniswapPairOUSD_USDT.balanceOf(signerAddress), 18)
+    utils.formatUnits(await uniswapPairXUSD_USDT.balanceOf(signerAddress), 18)
   );
   console.log(
     "exit rewards:",

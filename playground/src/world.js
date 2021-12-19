@@ -29,8 +29,8 @@ export const PEOPLE = [
 
 export const CONTRACTS = [
   {
-    name: "OUSD",
-    addressName: "OUSDProxy",
+    name: "XUSD",
+    addressName: "XUSDProxy",
     icon: "🖲",
     isERC20: true,
     decimal: 18,
@@ -39,14 +39,14 @@ export const CONTRACTS = [
         name: "Transfer",
         params: [
           { name: "To", type: "address" },
-          { name: "Amount", token: "OUSD" },
+          { name: "Amount", token: "XUSD" },
         ],
       },
       {
         name: "Approve",
         params: [
           { name: "Allowed Spender", type: "address" },
-          { name: "Amount", token: "OUSD" },
+          { name: "Amount", token: "XUSD" },
         ],
       },
     ],
@@ -68,7 +68,7 @@ export const CONTRACTS = [
       {
         name: "Redeem",
         params: [
-          { name: "Amount", token: "OUSD" },
+          { name: "Amount", token: "XUSD" },
           { name: "Min", default: "0" },
         ],
       },
@@ -124,7 +124,7 @@ export const CONTRACTS = [
       },
       { name: "Mint", params: [{ name: "Amount", token: "USDC" }] },
     ],
-    contractName: "OUSD",
+    contractName: "XUSD",
     mainnetAddress: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
   },
   {
@@ -149,7 +149,7 @@ export const CONTRACTS = [
       },
       { name: "Mint", params: [{ name: "Amount", token: "USDT" }] },
     ],
-    contractName: "OUSD",
+    contractName: "XUSD",
     mainnetAddress: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
   },
   {
@@ -174,7 +174,7 @@ export const CONTRACTS = [
       },
       { name: "Mint", params: [{ name: "Amount", token: "DAI" }] },
     ],
-    contractName: "OUSD",
+    contractName: "XUSD",
     mainnetAddress: "0x6b175474e89094c44da98b954eedeac495271d0f",
   },
   {
@@ -199,7 +199,7 @@ export const CONTRACTS = [
       },
       { name: "Mint", params: [{ name: "Amount", token: "OGN" }] },
     ],
-    contractName: "OUSD",
+    contractName: "XUSD",
     mainnetAddress: "0x8207c1ffc5b6804f6024322ccf34f29c3541ae26",
   },
   // {
@@ -213,7 +213,7 @@ export const CONTRACTS = [
   //       name: "transfer",
   //       params: [
   //         { name: "To", type: "address" },
-  //         { name: "Amount", token: "OUSD" },
+  //         { name: "Amount", token: "XUSD" },
   //       ],
   //     },
   //   ],
@@ -229,7 +229,7 @@ export const CONTRACTS = [
   //       name: "transfer",
   //       params: [
   //         { name: "To", type: "address" },
-  //         { name: "Amount", token: "OUSD" },
+  //         { name: "Amount", token: "XUSD" },
   //       ],
   //     },
   //   ],
@@ -344,8 +344,8 @@ export const CONTRACTS = [
 //   Anna USDC mint 1000USDC
 //   Attacker USDT mint 10000000USDT
 //   Attacker USDT approve Vault 9999999USDT
-//   Governor GenericContract setOUSD OUSD
-//   Governor ACMECollective setOUSD OUSD
+//   Governor GenericContract setXUSD XUSD
+//   Governor ACMECollective setXUSD XUSD
 // `;
 
 export const SETUP = ``;
@@ -354,7 +354,7 @@ export const SCENARIOS = [
   {
     name: "Add Yield",
     actions: `
-    # Fake adding yield for OUSD by directly
+    # Fake adding yield for XUSD by directly
     # depositing money to the vault, then rebasing.
     Suparman USDC transfer Vault 5000USDC
     Governor Vault rebase
@@ -438,7 +438,7 @@ export const SCENARIOS = [
   //     Governor ChOracleUSDT setPrice 8000000000000000
   //     Attacker Vault mint USDT 300000USDT
   //     Attacker Vault rebase
-  //     Attacker Vault redeem 256000OUSD
+  //     Attacker Vault redeem 256000XUSD
   //     `,
   //   },
   //   {
@@ -449,7 +449,7 @@ export const SCENARIOS = [
   //     Governor ChOracleUSDT setPrice 12000000000000000
   //     Attacker Vault mint USDT 300000USDT
   //     Attacker Vault rebase
-  //     Attacker Vault redeem 256000OUSD
+  //     Attacker Vault redeem 256000XUSD
   //     `,
   //   },
   //   {
@@ -466,11 +466,11 @@ export const SCENARIOS = [
   //     Attacker Vault mint USDT 999USDT
   //     Attacker Vault mint USDT 999USDT
   //     Attacker Vault rebase
-  //     Attacker Vault redeem 800OUSD
-  //     Attacker Vault redeem 800OUSD
-  //     Attacker Vault redeem 800OUSD
-  //     Attacker Vault redeem 800OUSD
-  //     Attacker Vault redeem 800OUSD
+  //     Attacker Vault redeem 800XUSD
+  //     Attacker Vault redeem 800XUSD
+  //     Attacker Vault redeem 800XUSD
+  //     Attacker Vault redeem 800XUSD
+  //     Attacker Vault redeem 800XUSD
 
   //     `,
   //   },
@@ -482,14 +482,14 @@ export const SCENARIOS = [
   //     Governor ORACLE setPrice "USDT" 0.80ORACLE
   //     Governor ORACLE setPrice "USDT" 0.80ORACLE
   //     Attacker Vault mint USDT 5000000USDT
-  //     Matt OUSD transfer Attacker 300000OUSD
+  //     Matt XUSD transfer Attacker 300000XUSD
   //     Attacker USDT transfer Matt 375000USDT
   //     Attacker Vault rebase
-  //     Attacker Vault redeem 5297679OUSD
+  //     Attacker Vault redeem 5297679XUSD
   //     `,
   //   },
   //   {
-  //     name: "Mint OUSD",
+  //     name: "Mint XUSD",
   //     actions: `
   //     # Sofi mints 50 USD
   //     Sofi USDC approve Vault 50USDC
@@ -497,15 +497,15 @@ export const SCENARIOS = [
   //     `,
   //   },
   //   {
-  //     name: "Redeem OUSD",
+  //     name: "Redeem XUSD",
   //     actions: `
-  //     Sofi Vault redeem 50OUSD
+  //     Sofi Vault redeem 50XUSD
   //     `,
   //   },
   //   {
   //     name: "Rebase Contract Opt-In",
   //     actions: `
-  //     Sofi OUSD transfer GenericContract 1000.97OUSD
+  //     Sofi XUSD transfer GenericContract 1000.97XUSD
   //     Matt DAI transfer Vault 2000DAI
   //     Governor Vault rebase
   //     Governor GenericContract rebaseOptIn

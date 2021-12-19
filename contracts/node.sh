@@ -1,7 +1,7 @@
 #!/bin/bash
 trap "exit" INT TERM ERR
 trap "kill 0" EXIT
-nodeWaitTimeout=120
+nodeWaitTimeout=60
 RED='\033[0;31m'
 NO_COLOR='\033[0m'
 
@@ -32,12 +32,13 @@ main()
         # the --no-install is here so npx doesn't download some package on its own if it can not find one in the repo
         FORK=true npx --no-install hardhat node --no-reset --export '../dapp/network.json' ${params[@]} > $nodeOutput 2>&1 &
 
-        tail -f $nodeOutput &
-
+        echo "Node output: $nodeOutput"
+        echo "Waiting for node to initialize:"
         i=0
         until grep -q -i 'Started HTTP and WebSocket JSON-RPC server at' $nodeOutput
         do
           let i++
+          printf "."
           sleep 1
           if (( i > nodeWaitTimeout )); then
             printf "\n"
@@ -49,13 +50,8 @@ main()
         echo "🟢 Node initialized"
 
         FORK=true npx hardhat fund --amount 100000 --network localhost --accountsfromenv true &
-        
-        # wait for subprocesses to finish
-        for job in `jobs -p`
-          do
-            wait $job || let "FAIL+=1"
-          done
-
+        cat $nodeOutput
+        tail -f -n0 $nodeOutput
 
     else
         npx --no-install hardhat node --export '../dapp/network.json'

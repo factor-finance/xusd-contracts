@@ -50,7 +50,7 @@ addresses.mainnet.uniswapUSDT_ETH = '0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852'
 // Uniswap V3
 addresses.mainnet.uniswapV3Router = '0xe592427a0aece92de3edee1f18e0157c05861564'
 addresses.mainnet.uniswapV3Quoter = '0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6'
-addresses.mainnet.uniswapV3OUSD_USDT =
+addresses.mainnet.uniswapV3XUSD_USDT =
   '0x129360c964e2e13910d603043f6287e5e9383374'
 addresses.mainnet.uniswapV3DAI_USDT =
   '0x6f48eca74b38d2936b02ab603ff4e36a6c0e3a77'
@@ -74,10 +74,10 @@ addresses.mainnet.chainlinkFAST_GAS =
 // WETH Token
 addresses.mainnet.WETH = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
 
-// Deployed OUSD contracts
+// Deployed XUSD contracts
 addresses.mainnet.VaultProxy = '0x277e80f3E14E7fB3fc40A9d6184088e0241034bD'
 addresses.mainnet.Vault = '0xe75d77b1865ae93c7eaa3040b038d7aa7bc02f70'
-addresses.mainnet.OUSDProxy = '0x2A8e1E676Ec238d8A992307B495b45B3fEAa5e86'
+addresses.mainnet.XUSDProxy = '0x2A8e1E676Ec238d8A992307B495b45B3fEAa5e86'
 addresses.mainnet.CompoundStrategyProxy =
   '0x12115A32a19e4994C2BA4A5437C22CEf5ABb59C3'
 addresses.mainnet.CompoundStrategy =
@@ -92,11 +92,11 @@ addresses.mainnet.CurveUSDTStrategy =
   '0x75Bc09f72db1663Ed35925B89De2b5212b9b6Cb3'
 addresses.mainnet.CurveAddressProvider =
   '0x0000000022d53366457f9d5e68ec105046fc4383'
-addresses.mainnet.CurveOUSDMetaPool =
+addresses.mainnet.CurveXUSDMetaPool =
   '0x87650D7bbfC3A9F10587d7778206671719d9910D'
 addresses.mainnet.CurveGaugeController =
   '0x2f50d538606fa9edd2b11e2446beb18c9d5846bb'
-addresses.mainnet.CurveOUSDFactoryGauge =
+addresses.mainnet.CurveXUSDFactoryGauge =
   '0x25f0cE4E2F8dbA112D9b115710AC297F816087CD'
 
 addresses.mainnet.MixOracle = '0x4d4f5e7a1FE57F5cEB38BfcE8653EFFa5e584458'

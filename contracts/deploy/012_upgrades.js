@@ -19,7 +19,7 @@ const deployName = "012_upgrades";
 
 /**
  * Deploys an upgrade for the following contracts:
- *  - OUSD
+ *  - XUSD
  *  - VaultAdmin
  *  - Compound Strategy
  * @returns {Promise<boolean>}
@@ -32,7 +32,7 @@ const upgrades = async (hre) => {
   // Signers
   const sGovernor = await ethers.provider.getSigner(governorAddr);
 
-  const cOUSDProxy = await ethers.getContract("OUSDProxy");
+  const cXUSDProxy = await ethers.getContract("XUSDProxy");
   const cVaultProxy = await ethers.getContract("VaultProxy");
   const cVaultCoreProxy = await ethers.getContractAt(
     "VaultCore",
@@ -42,8 +42,8 @@ const upgrades = async (hre) => {
     "CompoundStrategyProxy"
   );
 
-  // Deploy a new OUSD contract.
-  const dOUSD = await deployWithConfirmation("OUSD");
+  // Deploy a new XUSD contract.
+  const dXUSD = await deployWithConfirmation("XUSD");
 
   // Deploy a new VaultAdmin contract.
   const dVaultAdmin = await deployWithConfirmation("VaultAdmin");
@@ -52,12 +52,12 @@ const upgrades = async (hre) => {
   const dCompoundStrategy = await deployWithConfirmation("CompoundStrategy");
 
   // Proposal for the governor to do the upgrades.
-  const propDescription = "OUSD, VaultAdmin, CompoundStrategy upgrades";
+  const propDescription = "XUSD, VaultAdmin, CompoundStrategy upgrades";
   const propArgs = await proposeArgs([
     {
-      contract: cOUSDProxy,
+      contract: cXUSDProxy,
       signature: "upgradeTo(address)",
-      args: [dOUSD.address],
+      args: [dXUSD.address],
     },
     {
       contract: cVaultCoreProxy,
@@ -86,11 +86,11 @@ const upgrades = async (hre) => {
     const gasLimit = isRinkeby ? 1000000 : null;
 
     await withConfirmation(
-      cOUSDProxy
+      cXUSDProxy
         .connect(sGovernor)
-        .upgradeTo(dOUSD.address, await getTxOpts(gasLimit))
+        .upgradeTo(dXUSD.address, await getTxOpts(gasLimit))
     );
-    log("Upgraded OUSD to new implementation");
+    log("Upgraded XUSD to new implementation");
 
     await withConfirmation(
       cVaultCoreProxy
@@ -121,7 +121,7 @@ const main = async (hre) => {
 };
 
 main.id = deployName;
-main.dependencies = ["011_ousd_fix"];
+main.dependencies = ["011_xusd_fix"];
 main.skip = () => !(isMainnet || isRinkeby) || isSmokeTest || isFork;
 
 module.exports = main;

@@ -23,13 +23,13 @@ async function defaultFixture() {
 
   const { governorAddr } = await getNamedAccounts();
 
-  const ousdProxy = await ethers.getContract("OUSDProxy");
+  const xusdProxy = await ethers.getContract("XUSDProxy");
   const vaultProxy = await ethers.getContract("VaultProxy");
   const compoundStrategyProxy = await ethers.getContract(
     "CompoundStrategyProxy"
   );
 
-  const ousd = await ethers.getContractAt("OUSD", ousdProxy.address);
+  const xusd = await ethers.getContractAt("XUSD", xusdProxy.address);
   const vault = await ethers.getContractAt("IVault", vaultProxy.address);
   const governorContract = await ethers.getContract("Governor");
   const CompoundStrategyFactory = await ethers.getContractFactory(
@@ -62,10 +62,10 @@ async function defaultFixture() {
     "MockAaveIncentivesController"
   );
 
-  const liquidityRewardOUSD_USDT = await ethers.getContractAt(
+  const liquidityRewardXUSD_USDT = await ethers.getContractAt(
     "LiquidityReward",
     (
-      await ethers.getContract("LiquidityRewardOUSD_USDTProxy")
+      await ethers.getContract("LiquidityRewardXUSD_USDTProxy")
     ).address
   );
 
@@ -122,7 +122,7 @@ async function defaultFixture() {
     threePoolToken,
     threePoolGauge,
     aaveAddressProvider,
-    uniswapPairOUSD_USDT,
+    uniswapPairXUSD_USDT,
     flipper,
     cvx,
     cvxBooster,
@@ -177,7 +177,7 @@ async function defaultFixture() {
     );
     stkAave = await ethers.getContract("MockStkAave");
 
-    uniswapPairOUSD_USDT = await ethers.getContract("MockUniswapPairOUSD_USDT");
+    uniswapPairXUSD_USDT = await ethers.getContract("MockUniswapPairXUSD_USDT");
 
     chainlinkOracleFeedDAI = await ethers.getContract(
       "MockChainlinkOracleFeedDAI"
@@ -197,9 +197,9 @@ async function defaultFixture() {
 
     // Mock contracts for testing rebase opt out
     mockNonRebasing = await ethers.getContract("MockNonRebasing");
-    await mockNonRebasing.setOUSD(ousd.address);
+    await mockNonRebasing.setXUSD(xusd.address);
     mockNonRebasingTwo = await ethers.getContract("MockNonRebasingTwo");
-    await mockNonRebasingTwo.setOUSD(ousd.address);
+    await mockNonRebasingTwo.setXUSD(xusd.address);
 
     flipper = await ethers.getContract("Flipper");
   }
@@ -226,7 +226,7 @@ async function defaultFixture() {
 
   await fundAccounts();
 
-  // Matt and Josh each have $100 OUSD
+  // Matt and Josh each have $100 XUSD
   for (const user of [matt, josh]) {
     await dai.connect(user).approve(vault.address, daiUnits("100"));
     await vault.connect(user).mint(dai.address, daiUnits("100"), 0);
@@ -241,7 +241,7 @@ async function defaultFixture() {
     strategist,
     adjuster,
     // Contracts
-    ousd,
+    xusd,
     vault,
     mockNonRebasing,
     mockNonRebasingTwo,
@@ -288,8 +288,8 @@ async function defaultFixture() {
     aaveIncentivesController,
     aave,
     stkAave,
-    uniswapPairOUSD_USDT,
-    liquidityRewardOUSD_USDT,
+    uniswapPairXUSD_USDT,
+    liquidityRewardXUSD_USDT,
     ognStaking,
     signedPayouts,
     compensationClaims,
@@ -635,7 +635,7 @@ async function rebornFixture() {
   const rebornAttack = async (shouldAttack = true, targetMethod = null) => {
     await sanctum.setShouldAttack(shouldAttack);
     if (targetMethod) await sanctum.setTargetMethod(targetMethod);
-    await sanctum.setOUSDAddress(fixture.ousd.address);
+    await sanctum.setXUSDAddress(fixture.xusd.address);
     await sanctum.deploy(12345, deployCode);
   };
 

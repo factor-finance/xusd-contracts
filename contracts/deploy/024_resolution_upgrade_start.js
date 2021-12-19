@@ -3,10 +3,10 @@ const { deploymentWithProposal } = require("../utils/deploy");
 module.exports = deploymentWithProposal(
   { deployName: "024_resolution_upgrade_start", forceDeploy: false },
   async ({ ethers, deployWithConfirmation }) => {
-    const dOUSDResolutionUpgrade = await deployWithConfirmation(
-      "OUSDResolutionUpgrade"
+    const dXUSDResolutionUpgrade = await deployWithConfirmation(
+      "XUSDResolutionUpgrade"
     );
-    const cOUSDProxy = await ethers.getContract("OUSDProxy");
+    const cXUSDProxy = await ethers.getContract("XUSDProxy");
 
     // Deployments
     const cVaultProxy = await ethers.getContract("VaultProxy");
@@ -17,12 +17,12 @@ module.exports = deploymentWithProposal(
 
     // Governance proposal
     return {
-      name: "Switch OUSD into resolution upgrade mode",
+      name: "Switch XUSD into resolution upgrade mode",
       actions: [
         {
-          contract: cOUSDProxy,
+          contract: cXUSDProxy,
           signature: "upgradeTo(address)",
-          args: [dOUSDResolutionUpgrade.address],
+          args: [dXUSDResolutionUpgrade.address],
         },
         {
           contract: cVaultAdmin,

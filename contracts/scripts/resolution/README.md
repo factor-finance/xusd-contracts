@@ -7,11 +7,11 @@
 
 1) Run deploy 24_resolution_upgrade_start
 
-2) Governance action to execute proposal, switching OUSD into upgrade mode.
+2) Governance action to execute proposal, switching XUSD into upgrade mode.
 
-3) Download list of all accounts that have ever owned OUSD, from analytics.
+3) Download list of all accounts that have ever owned XUSD, from analytics.
 
-    curl https://analytics.ousd.com/api/v1/address/ > scripts/resolution/addresses.json
+    curl https://analytics.xusd.com/api/v1/address/ > scripts/resolution/addresses.json
 
 4) Check all accounts, make a list of accounts to upgrade:
 
@@ -23,7 +23,7 @@ Locally run:
       --upgradeFile=scripts/resolution/upgrade.json \
       --highres
 
-Save the output of this script, for later comparison. Make sure totals roughly match OUSD analytics.
+Save the output of this script, for later comparison. Make sure totals roughly match XUSD analytics.
 
 5) Now upgrade accounts:
 
@@ -46,7 +46,7 @@ If the upgrade script fail part way, you will need to rerun the verification scr
       --upgradeFile=scripts/resolution/upgrade.json \
       --highres
 
-Totals should still match OUSD analytics, no accounts should need to be upgraded.
+Totals should still match XUSD analytics, no accounts should need to be upgraded.
 
 Multiple people can run this and verify.
 

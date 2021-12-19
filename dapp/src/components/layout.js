@@ -34,8 +34,8 @@ const Layout = ({
 }) => {
   const { connector, account } = useWeb3React()
 
-  const ousdContract = useStoreState(ContractStore, (s) =>
-    get(s, 'contracts.ousd')
+  const xusdContract = useStoreState(ContractStore, (s) =>
+    get(s, 'contracts.xusd')
   )
   const rebaseOptedOut = useStoreState(AccountStore, (s) =>
     get(s, 'rebaseOptedOut')
@@ -43,33 +43,33 @@ const Layout = ({
 
   const optIn = async () => {
     try {
-      const result = await ousdContract.rebaseOptIn()
-      storeTransaction(result, `rebaseOptIn`, 'ousd', {})
+      const result = await xusdContract.rebaseOptIn()
+      storeTransaction(result, `rebaseOptIn`, 'xusd', {})
     } catch (error) {
       // 4001 code happens when a user rejects the transaction
       if (error.code !== 4001) {
-        storeTransactionError(`rebaseOptIn`, 'ousd')
+        storeTransactionError(`rebaseOptIn`, 'xusd')
       }
-      console.error('Error OUSD REBASE OPT IN: ', error)
+      console.error('Error XUSD REBASE OPT IN: ', error)
     }
   }
 
   return (
     <>
       <Head>
-        <title>OUSD</title>
+        <title>XUSD</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {isStakePage && (
           <>
             <meta
               property="og:image"
               key="og:image"
-              content="https://ousd.com/images/staking-facebook.png"
+              content="https://xusd.fi/images/staking-facebook.png"
             />
             <meta
               name="twitter:image"
               key="twitter:image"
-              content="https://ousd.com/images/staking-twitter.png"
+              content="https://xusd.fi/images/staking-twitter.png"
             />
           </>
         )}
@@ -78,12 +78,12 @@ const Layout = ({
             <meta
               property="og:image"
               key="og:image"
-              content="https://ousd.com/images/share-facebook.png"
+              content="https://xusd.fi/images/share-facebook.png"
             />
             <meta
               name="twitter:image"
               key="twitter:image"
-              content="https://ousd.com/images/share-twitter.png"
+              content="https://xusd.fi/images/share-twitter.png"
             />
           </>
         )}
@@ -128,7 +128,7 @@ const Layout = ({
         <div className="container d-flex flex-column flex-md-row align-items-center">
           <img src="/images/horsey.svg" className="mb-2 mb-md-0 mr-md-3" />
           {fbt(
-            'Gas fees are high right now. It might be cheaper to buy OUSD on Uniswap.',
+            'Gas fees are high right now. It might be cheaper to buy XUSD on Uniswap.',
             'Uniswap notice'
           )}
           <a

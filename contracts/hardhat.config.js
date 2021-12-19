@@ -17,7 +17,7 @@ const {
   proposal,
   governors,
 } = require("./tasks/governance");
-const { balance } = require("./tasks/ousd");
+const { balance } = require("./tasks/xusd");
 const { smokeTest, smokeTestCheck } = require("./tasks/smokeTest");
 const {
   storeStorageLayoutForAllContracts,
@@ -28,8 +28,8 @@ const {
   isAdjusterLocked,
   fundCompAccountsWithEth,
   claimOGN,
-  claimOUSD,
-  checkOUSDBalances,
+  claimXUSD,
+  checkXUSDBalances,
   supplyStakingContractWithOGN,
 } = require("./tasks/compensation");
 const {
@@ -76,27 +76,27 @@ task("fund", "Fund accounts on local or fork")
     "Fund accounts from the .env file instead of mnemonic"
   )
   .setAction(fund);
-task("mint", "Mint OUSD on local or fork")
+task("mint", "Mint XUSD on local or fork")
   .addOptionalParam("num", "Number of accounts to mint for")
   .addOptionalParam("index", "Account start index")
-  .addOptionalParam("amount", "Amount of OUSD to mint")
+  .addOptionalParam("amount", "Amount of XUSD to mint")
   .setAction(mint);
-task("redeem", "Redeem OUSD on local or fork")
+task("redeem", "Redeem XUSD on local or fork")
   .addOptionalParam("num", "Number of accounts to mint for")
   .addOptionalParam("index", "Account start index")
-  .addOptionalParam("amount", "Amount of OUSD to mint")
+  .addOptionalParam("amount", "Amount of XUSD to mint")
   .setAction(redeem);
-task("transfer", "Transfer OUSD")
+task("transfer", "Transfer XUSD")
   .addParam("index", "Account  index")
-  .addParam("amount", "Amount of OUSD to transfer")
+  .addParam("amount", "Amount of XUSD to transfer")
   .addParam("to", "Destination address")
   .setAction(transfer);
 
 // Debug tasks.
 task("debug", "Print info about contracts and their configs", debug);
 
-// OUSD tasks.
-task("balance", "Get OUSD balance of an account")
+// XUSD tasks.
+task("balance", "Get XUSD balance of an account")
   .addParam("account", "The account's address")
   .setAction(balance);
 
@@ -138,13 +138,13 @@ task(
   "Fund compensation accounts with minimal eth"
 ).setAction(fundCompAccountsWithEth);
 task(
-  "claimOUSD",
-  "Claim the OUSD part of the compensation plan for all eligible users"
-).setAction(claimOUSD);
+  "claimXUSD",
+  "Claim the XUSD part of the compensation plan for all eligible users"
+).setAction(claimXUSD);
 task(
-  "checkOUSDBalances",
-  "Check ousd balances of contract and accounts"
-).setAction(checkOUSDBalances);
+  "checkXUSDBalances",
+  "Check xusd balances of contract and accounts"
+).setAction(checkXUSDBalances);
 task(
   "supplyStakingWithOGN",
   "Supplies a great amount of ogn to staking contract"

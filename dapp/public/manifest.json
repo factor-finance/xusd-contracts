@@ -1,6 +1,6 @@
 {
-  "short_name": "OUSD",
-  "name": "Origin Dollar",
+  "short_name": "XUSD",
+  "name": "XUSD.fi",
   "description": "The first stablecoin that earns a yield while it's still in your wallet",
   "iconPath": "logo.svg",
   "icons": [
@@ -10,17 +10,17 @@
       "type": "image/x-icon"
     },
     {
-      "src": "images/ousd-logo-256x256.png",
+      "src": "images/xusd-logo-256x256.png",
       "type": "image/png",
       "sizes": "256x256"
     },
     {
-      "src": "images/ousd-logo-512x512.png",
+      "src": "images/xusd-logo-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "https://ousd.com/mint",
+  "start_url": "https://xusd.fi/mint",
   "display": "standalone",
   "theme_color": "#183140",
   "background_color": "#ffffff"

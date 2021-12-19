@@ -77,7 +77,7 @@ async function rebase(taskArguments, hre) {
 async function yield(taskArguments, hre) {
   const usdtAbi = require("../test/abi/usdt.json").abi;
   const {
-    ousdUnitsFormat,
+    xusdUnitsFormat,
     usdtUnits,
     usdtUnitsFormat,
     isFork,
@@ -104,16 +104,16 @@ async function yield(taskArguments, hre) {
   const vaultProxy = await ethers.getContract("VaultProxy");
   const vault = await ethers.getContractAt("IVault", vaultProxy.address);
 
-  const ousdProxy = await ethers.getContract("OUSDProxy");
-  const ousd = await ethers.getContractAt("OUSD", ousdProxy.address);
+  const xusdProxy = await ethers.getContract("XUSDProxy");
+  const xusd = await ethers.getContractAt("XUSD", xusdProxy.address);
 
   console.log("Sending yield to vault");
   let usdtBalance = await usdt.balanceOf(vaultProxy.address);
   console.log("USDT vault balance", usdtUnitsFormat(usdtBalance));
   let vaultValue = await vault.totalValue();
-  console.log("Vault value", ousdUnitsFormat(vaultValue));
-  let supply = await ousd.totalSupply();
-  console.log("OUSD supply", ousdUnitsFormat(supply));
+  console.log("Vault value", xusdUnitsFormat(vaultValue));
+  let supply = await xusd.totalSupply();
+  console.log("XUSD supply", xusdUnitsFormat(supply));
 
   // Transfer 100k USDT to the vault.
   await usdt
@@ -123,9 +123,9 @@ async function yield(taskArguments, hre) {
   usdtBalance = await usdt.balanceOf(vaultProxy.address);
   console.log("USDT vault balance", usdtUnitsFormat(usdtBalance));
   vaultValue = await vault.totalValue();
-  console.log("Vault value", ousdUnitsFormat(vaultValue));
-  supply = await ousd.totalSupply();
-  console.log("OUSD supply", ousdUnitsFormat(supply));
+  console.log("Vault value", xusdUnitsFormat(vaultValue));
+  supply = await xusd.totalSupply();
+  console.log("XUSD supply", xusdUnitsFormat(supply));
 }
 
 /**

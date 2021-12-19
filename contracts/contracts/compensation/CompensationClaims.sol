@@ -10,7 +10,7 @@ import { Governable } from "../governance/Governable.sol";
 
 /**
  * @title Compensation Claims
- * @author Origin Protocol Inc
+ * @author XUSD.fi Inc
  * @dev Airdrop for ERC20 tokens.
  *
  *   Provides a coin airdrop with a verification period in which everyone

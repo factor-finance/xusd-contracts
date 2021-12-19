@@ -18,9 +18,9 @@ const ApproveModal = ({
   buyWidgetState,
   onMintingError,
 }) => {
-  const ousdBalance = useStoreState(
+  const xusdBalance = useStoreState(
     AccountStore,
-    (s) => s.balances['ousd'] || 0
+    (s) => s.balances['xusd'] || 0
   )
   const [coinApproved, setCoinApproved] = useState(false)
   const connectorName = useStoreState(AccountStore, (s) => s.connectorName)
@@ -37,7 +37,7 @@ const ApproveModal = ({
           }}
         >
           <div className="body-coins d-flex flex-column">
-            <h2>{fbt('Approve to swap OUSD', 'Approve to swap OUSD')}</h2>
+            <h2>{fbt('Approve to swap XUSD', 'Approve to swap XUSD')}</h2>
             <div className="currencies">
               <ApproveCurrencyRow
                 onApproved={() => {
@@ -65,8 +65,8 @@ const ApproveModal = ({
 
                   analytics.track(
                     swapMode === 'mint'
-                      ? 'On Swap to OUSD'
-                      : 'On Swap from OUSD',
+                      ? 'On Swap to XUSD'
+                      : 'On Swap from XUSD',
                     {
                       category: 'swap',
                       label: swapMetadata.stablecoinUsed,
@@ -92,7 +92,7 @@ const ApproveModal = ({
               </div>
             )}
             {buyWidgetState === 'modal-waiting-network' &&
-              fbt('Swapping OUSD...', 'Swapping OUSD...')}
+              fbt('Swapping XUSD...', 'Swapping XUSD...')}
           </div>
         </div>
       </div>

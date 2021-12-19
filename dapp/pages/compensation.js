@@ -28,14 +28,14 @@ function Compensation({ locale, onLocale, showLogin, rpcProvider }) {
   const [error, setError] = useState(null)
   const {
     blockNumber,
-    eligibleOusdBalance,
+    eligibleXusdBalance,
     compensationData,
     ognCompensationAmount,
-    ousdCompensationAmount,
-    fetchCompensationOUSDBalance,
-    ousdClaimed,
+    xusdCompensationAmount,
+    fetchCompensationXUSDBalance,
+    xusdClaimed,
     queryDataUntilAccountChange,
-    remainingOUSDCompensation,
+    remainingXUSDCompensation,
     ognClaimed,
   } = useCompensation()
   const { track } = useAnalytics()
@@ -70,11 +70,11 @@ function Compensation({ locale, onLocale, showLogin, rpcProvider }) {
         <div className="home d-flex flex-column">
           <div className="d-flex align-items-center flex-column flex-md-row">
             <div className="bold-text mr-md-3">
-              {fbt('OUSD Exploit Compensation', 'OUSD Exploit Compensation')}
+              {fbt('XUSD Exploit Compensation', 'XUSD Exploit Compensation')}
             </div>
             <a
               className="grey-text-link d-flex align-items-center"
-              href="https://medium.com/originprotocol/origin-dollar-ousd-detailed-compensation-plan-faa73f87442e"
+              href="https://medium.com/originprotocol/xusd-xusd-detailed-compensation-plan-faa73f87442e"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -110,16 +110,16 @@ function Compensation({ locale, onLocale, showLogin, rpcProvider }) {
                   <div className="eligible-text">
                     <p>
                       {fbt(
-                        'Eligible OUSD Balance',
-                        'Eligible OUSD balance title'
+                        'Eligible XUSD Balance',
+                        'Eligible XUSD balance title'
                       )}
                     </p>
-                    <h1>{formatCurrency(eligibleOusdBalance)}</h1>
+                    <h1>{formatCurrency(eligibleXusdBalance)}</h1>
                   </div>
                   <div className="widget-message mt-auto w-100">
                     <p>
                       {fbt(
-                        'Compensation for 100% of this OUSD balance is split 25/75 after the first 1,000 OUSD',
+                        'Compensation for 100% of this XUSD balance is split 25/75 after the first 1,000 XUSD',
                         'Compensation strategy notice'
                       )}
                     </p>
@@ -135,23 +135,23 @@ function Compensation({ locale, onLocale, showLogin, rpcProvider }) {
               )}
             </div>
             <div
-              className={`ousd-widget col-md-6 d-flex align-items-center flex-column ${
+              className={`xusd-widget col-md-6 d-flex align-items-center flex-column ${
                 !accountConnected ? 'big-top-widget' : ''
-              } ${ousdClaimed ? 'claimed' : ''}`}
+              } ${xusdClaimed ? 'claimed' : ''}`}
             >
-              <img className="ousd-coin" src="/images/ousd-coin-big.svg" />
+              <img className="xusd-coin" src="/images/xusd-coin-big.svg" />
               <div className="widget-title bold-text">
-                {fbt('OUSD Compensation Amount', 'OUSD Compensation Amount')}
+                {fbt('XUSD Compensation Amount', 'XUSD Compensation Amount')}
               </div>
               {accountConnected &&
-              ousdCompensationAmount !== null &&
-              ousdCompensationAmount !== 0 ? (
+              xusdCompensationAmount !== null &&
+              xusdCompensationAmount !== 0 ? (
                 <>
                   <div className="token-amount">
-                    {formatCurrency(ousdCompensationAmount)}
+                    {formatCurrency(xusdCompensationAmount)}
                   </div>
-                  {ousdClaimed && <h3>{fbt('CLAIMED', 'CLAIMED')}</h3>}
-                  {!ousdClaimed && remainingOUSDCompensation !== 0 && (
+                  {xusdClaimed && <h3>{fbt('CLAIMED', 'CLAIMED')}</h3>}
+                  {!xusdClaimed && remainingXUSDCompensation !== 0 && (
                     <>
                       <p>
                         {fbt(
@@ -182,18 +182,18 @@ function Compensation({ locale, onLocale, showLogin, rpcProvider }) {
                           } catch (e) {
                             setError(
                               fbt(
-                                'Unexpected error happened when claiming OUSD',
-                                'Claim ousd error'
+                                'Unexpected error happened when claiming XUSD',
+                                'Claim xusd error'
                               )
                             )
                             console.error(e)
                             setWaitingForTransaction(false)
                           }
-                          await fetchCompensationOUSDBalance()
+                          await fetchCompensationXUSDBalance()
                         }}
                       >
                         {!waitingForTransaction &&
-                          fbt('Claim OUSD', 'Claim OUSD')}
+                          fbt('Claim XUSD', 'Claim XUSD')}
                         {waitingForTransaction && (
                           <SpinningLoadingCircle backgroundColor="1a82ff" />
                         )}
@@ -263,7 +263,7 @@ function Compensation({ locale, onLocale, showLogin, rpcProvider }) {
                 </>
               )}
               <a
-                href="https://medium.com/originprotocol/accruing-value-to-ogn-with-ousd-governance-and-protocol-fees-ef166702bcb8"
+                href="https://medium.com/originprotocol/accruing-value-to-ogn-with-xusd-governance-and-protocol-fees-ef166702bcb8"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -271,8 +271,8 @@ function Compensation({ locale, onLocale, showLogin, rpcProvider }) {
               </a>
             </div>
           </div>
-          {/* Enabling the warning again once we are able to fetch pre-hack OUSD wallet balance */}
-          {/* <WarningAlert showWarning = {displayAdjustmentWarning} text={fbt('The eligible balance has been adjusted based on your trading activity after the OUSD exploit', 'OUSD compensation trading balances warning notice text')} /> */}
+          {/* Enabling the warning again once we are able to fetch pre-hack XUSD wallet balance */}
+          {/* <WarningAlert showWarning = {displayAdjustmentWarning} text={fbt('The eligible balance has been adjusted based on your trading activity after the XUSD exploit', 'XUSD compensation trading balances warning notice text')} /> */}
         </div>
       </Layout>
       <style jsx>{`
@@ -383,7 +383,7 @@ function Compensation({ locale, onLocale, showLogin, rpcProvider }) {
           color: white;
         }
 
-        .ousd-widget {
+        .xusd-widget {
           background-color: #183140;
           border-radius: 10px 0px 10px 10px;
           padding: 232px 10px 40px;
@@ -391,13 +391,13 @@ function Compensation({ locale, onLocale, showLogin, rpcProvider }) {
           border: solid 1px #000000;
         }
 
-        .ousd-widget p {
+        .xusd-widget p {
           margin-bottom: 33px;
           font-size: 14px;
           opacity: 0.8;
         }
 
-        .ousd-widget h3 {
+        .xusd-widget h3 {
           font-family: Lato;
           font-size: 18px;
           font-weight: bold;
@@ -428,7 +428,7 @@ function Compensation({ locale, onLocale, showLogin, rpcProvider }) {
         }
 
         .ogn-coin,
-        .ousd-coin {
+        .xusd-coin {
           margin-bottom: 17px;
         }
 
@@ -497,7 +497,7 @@ function Compensation({ locale, onLocale, showLogin, rpcProvider }) {
             border-radius: 0px;
           }
 
-          .ousd-widget,
+          .xusd-widget,
           .ogn-widget {
             padding: 40px 20px;
             border-radius: 0px;
@@ -507,7 +507,7 @@ function Compensation({ locale, onLocale, showLogin, rpcProvider }) {
             padding: 35px 0;
           }
 
-          .ousd-widget .btn,
+          .xusd-widget .btn,
           .ogn-widget .btn {
             width: 100%;
           }

@@ -473,9 +473,7 @@ const deployCore = async () => {
 
   // Initialize XUSD
   await withConfirmation(
-    cXUSD
-      .connect(sGovernor)
-      .initialize("XUSD.fi", "XUSD", cVaultProxy.address)
+    cXUSD.connect(sGovernor).initialize("XUSD.fi", "XUSD", cVaultProxy.address)
   );
 
   log("Initialized XUSD");

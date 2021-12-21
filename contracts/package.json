@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "deploy": "(npx hardhat deploy --export '../dapp/network.json') && yarn run copy-interface-artifacts",
-    "deploy:rinkeby": "(npx hardhat deploy --network rinkeby --verbose --export '../dapp/network.rinkeby.json') && yarn run copy-interface-artifacts",
+    "deploy:fuji": "(npx hardhat deploy --network fuji --verbose --export '../dapp/network.fuji.json') && yarn run copy-interface-artifacts",
     "deploy:mainnet": "(npx hardhat deploy --network mainnet --verbose --export '../dapp/network.mainnet.json') && yarn run copy-interface-artifacts",
-    "node": "./node.sh",
-    "node:fork": "./node.sh fork",
+    "run_node": "./node.sh",
+    "run_node:fork": "./node.sh fork",
     "lint": "yarn run lint:js && yarn run lint:sol",
     "lint:js": "eslint \"test/**/*.js\"",
     "lint:sol": "solhint \"contracts/**/*.sol\"",

@@ -1,5 +1,5 @@
 const { parseUnits } = require("ethers").utils;
-const { isMainnetOrRinkebyOrFork } = require("../test/helpers");
+const { isMainnetOrFujiOrFork } = require("../test/helpers");
 const { threeCRVPid } = require("../utils/constants");
 
 const {
@@ -323,6 +323,6 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
 
 deployMocks.id = "000_mock";
 deployMocks.tags = ["mocks"];
-deployMocks.skip = () => isMainnetOrRinkebyOrFork;
+deployMocks.skip = () => isMainnetOrFujiOrFork;
 
 module.exports = deployMocks;

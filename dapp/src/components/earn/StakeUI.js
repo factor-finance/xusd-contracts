@@ -561,7 +561,7 @@ const StakeUI = ({ rpcProvider, isMobile }) => {
               {ognStaking && (
                 <div className="d-flex justify-content-center mt-50">
                   <EtherscanLink
-                    href={`https://etherscan.io/address/${ognStaking.address}`}
+                    href={`https://snowtrace.io/address/${ognStaking.address}`}
                     text={fbt('OGN Staking Contract', 'OGN Staking Contract')}
                   />
                 </div>

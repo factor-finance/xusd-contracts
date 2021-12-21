@@ -7,8 +7,8 @@ const {
   getOracleAddresses,
   isMainnet,
   isFork,
-  isRinkeby,
-  isMainnetOrRinkebyOrFork,
+  isFuji,
+  isMainnetOrFujiOrFork,
 } = require("../test/helpers.js");
 const {
   log,
@@ -253,7 +253,7 @@ const deployOracles = async () => {
   // Note: the args to the MixOracle are as follow:
   //  - for live the bounds are 1.3 - 0.7
   //  - for testing the bounds are 1.6 - 0.5
-  const maxMinDrift = isMainnetOrRinkebyOrFork ? [13e7, 7e7] : [16e7, 5e7];
+  const maxMinDrift = isMainnetOrFujiOrFork ? [13e7, 7e7] : [16e7, 5e7];
   await deployWithConfirmation("MixOracle", maxMinDrift);
   const mixOracle = await ethers.getContract("MixOracle");
   log("Deployed MixOracle");
@@ -710,6 +710,6 @@ const main = async () => {
 
 main.id = deployName;
 main.dependencies = ["002_upgrade_vault", "003_governor"];
-main.skip = () => !(isMainnet || isRinkeby) || isFork;
+main.skip = () => !(isMainnet || isFuji) || isFork;
 
 module.exports = main;

@@ -362,7 +362,7 @@ const TransactionHistory = ({ isMobile }) => {
                         if (!tx.from_address) return
 
                         window.open(
-                          `https://etherscan.io/address/${tx.from_address}`,
+                          `https://snowtrace.io/address/${tx.from_address}`,
                           '_blank'
                         )
                       }}
@@ -378,7 +378,7 @@ const TransactionHistory = ({ isMobile }) => {
                         if (!tx.from_address) return
 
                         window.open(
-                          `https://etherscan.io/address/${tx.to_address}`,
+                          `https://snowtrace.io/address/${tx.to_address}`,
                           '_blank'
                         )
                       }}
@@ -406,7 +406,7 @@ const TransactionHistory = ({ isMobile }) => {
                       )}
                       <div className="etherscan-link">
                         <a
-                          href={`https://etherscan.io/tx/${tx.tx_hash}`}
+                          href={`https://snowtrace.io/tx/${tx.tx_hash}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >

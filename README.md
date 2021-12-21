@@ -66,13 +66,13 @@ Rename `contracts/dev.env` to `.env` and set PROVIDER_URL to a valid one. If you
 
 ```bash
 # Run the local hardhat node in forked mode
-yarn run node:fork
+yarn run_node:fork
 ```
 
 #### Standalone Mode
 ```bash
 # Run the local hardhat node
-yarn run node
+yarn run_node
 ```
 
 ### Minting Stablecoins in Standalone Mode in the Dapp

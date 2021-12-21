@@ -1,17 +1,14 @@
 const networkInfo = {
-  1: 'Mainnet',
-  3: 'Ropsten',
-  4: 'Rinkeby',
-  5: 'Goerli',
-  42: 'Kovan',
-  1337: 'Localhost',
+  43114: 'Mainnet',
+  43113: 'Fuji',
+  43112: 'Localhost',
 }
 
 export function isCorrectNetwork(chainId) {
   if (process.env.NODE_ENV === 'production') {
-    return chainId === 1
+    return chainId === 43114
   } else {
-    return chainId === 1337
+    return chainId === 43113
   }
 }
 
@@ -24,9 +21,8 @@ export async function switchEthereumChain() {
 
 export function getEtherscanHost(web3React) {
   const chainIdToEtherscan = {
-    1: 'https://etherscan.io',
-    3: 'https://ropsten.etherscan.io',
-    4: 'https://rinkeby.etherscan.io',
+    43114: 'https://snowtrace.io',
+    43113: 'https://testnet.snowtrace.io',
   }
 
   if (chainIdToEtherscan[web3React.chainId]) {

@@ -29,7 +29,8 @@
     "translate": "npm run fbt:manifest && npm run fbt:collect && node scripts/fbtToCrowdin && node scripts/crowdinToFbt && npm run fbt:translate && node scripts/splitTranslations && cp .enum_manifest.json translation/fbt/.enum_manifest.json",
     "translate:proof": "npm run fbt:manifest && npm run fbt:collect && node scripts/fbtToCrowdin && node scripts/crowdinToFbt proof && npm run fbt:translate && node scripts/splitTranslations && cp .enum_manifest.json translation/fbt/.enum_manifest.json",
     "prettier": "prettier --write \"src/**/*.js\" \"pages/**/*.js\"",
-    "prettier:check": "prettier -c \"src/**/*.js\" \"pages/**/*.js\""
+    "prettier:check": "prettier -c \"src/**/*.js\" \"pages/**/*.js\"",
+    "prepare": "cd .. && husky install dapp/.husky"
   },
   "dependencies": {
     "@analytics/google-analytics": "^0.5.3",
@@ -118,11 +119,6 @@
       "babel-plugin-fbt",
       "babel-plugin-fbt-runtime"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn run prettier:check"
-    }
   },
   "devDependencies": {
     "bootstrap": "4.5.2",

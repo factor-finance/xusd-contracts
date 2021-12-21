@@ -494,7 +494,7 @@ const Dashboard = ({ locale, onLocale }) => {
     // TODO: This isn't initialized correctly so prices are off, but the transactions still execute
 
     // console.log('PRICE: ', sqrtPriceX96.toString())
-    // the sqrtPriceX96 taken directly from pool creation on mainnet: https://etherscan.io/tx/0xe83eb25244b0e3a5b040f824ac9983cff0bc610747df45bf57755ef7b4bc3c74
+    // the sqrtPriceX96 taken directly from pool creation on mainnet: https://snowtrace.io/tx/0xe83eb25244b0e3a5b040f824ac9983cff0bc610747df45bf57755ef7b4bc3c74
     // await uniV3XusdUsdt.initialize(BigNumber.from('79224306130848112672356'))
 
     await poolContract.initialize(sqrtPriceX96)

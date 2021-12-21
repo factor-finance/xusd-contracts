@@ -1,7 +1,7 @@
 const {
   isMainnet,
   isFork,
-  isRinkeby,
+  isFuji,
   isSmokeTest,
 } = require("../test/helpers.js");
 const {
@@ -15,7 +15,7 @@ const addresses = require("../utils/addresses");
 const deployName = "015_flipper";
 
 /**
- * Deploys the flipper contract on Rinkeby, Fork, Mainnet.
+ * Deploys the flipper contract on Fuji, Fork, Mainnet.
  */
 const trustee = async (hre) => {
   console.log(`Running ${deployName} deployment...`);
@@ -63,7 +63,7 @@ const trustee = async (hre) => {
         value: hre.ethers.utils.parseEther("100"),
       });
     } else {
-      // On Rinkeby we claim governance using the governor account.
+      // On Fuji we claim governance using the governor account.
       signer = await ethers.provider.getSigner(governorAddr);
     }
     await withConfirmation(
@@ -95,6 +95,6 @@ const main = async (hre) => {
 };
 
 main.id = deployName;
-main.skip = () => !(isMainnet || isRinkeby) || isSmokeTest || isFork;
+main.skip = () => !(isMainnet || isFuji) || isSmokeTest || isFork;
 
 module.exports = main;

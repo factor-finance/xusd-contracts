@@ -394,10 +394,10 @@ const useSwapEstimator = ({
         return {
           canDoSwap: true,
           /* This estimate is from the few ones observed on the mainnet:
-           * https://etherscan.io/tx/0x3ff7178d8be668649928d86863c78cd249224211efe67f23623017812e7918bb
-           * https://etherscan.io/tx/0xbf033ffbaf01b808953ca1904d3b0110b50337d60d89c96cd06f3f9a6972d3ca
-           * https://etherscan.io/tx/0x77d98d0307b53e81f50b39132e038a1c6ef87a599a381675ce44038515a04738
-           * https://etherscan.io/tx/0xbce1a2f1e76d4b4f900b3952f34f5f53f8be4a65ccff348661d19b9a3827aa04
+           * https://snowtrace.io/tx/0x3ff7178d8be668649928d86863c78cd249224211efe67f23623017812e7918bb
+           * https://snowtrace.io/tx/0xbf033ffbaf01b808953ca1904d3b0110b50337d60d89c96cd06f3f9a6972d3ca
+           * https://snowtrace.io/tx/0x77d98d0307b53e81f50b39132e038a1c6ef87a599a381675ce44038515a04738
+           * https://snowtrace.io/tx/0xbce1a2f1e76d4b4f900b3952f34f5f53f8be4a65ccff348661d19b9a3827aa04
            *
            */
           gasUsed: 520000,
@@ -493,24 +493,24 @@ const useSwapEstimator = ({
         return {
           canDoSwap: true,
           /* Some example Uniswap transactions. When 2 swaps are done:
-           * - https://etherscan.io/tx/0x436ef157435c93241257fb0b347db7cc1b2c4f73d749c7e5c1181393f3d0aa26
-           * - https://etherscan.io/tx/0x504799fecb64a0452f5635245ca313aa5612132dc6fe66c441b61fd98a0e0766
-           * - https://etherscan.io/tx/0x2e3429fb9f04819a55f85cfdbbaf78dfbb049bff85be84a324650d77ff98dfc3
+           * - https://snowtrace.io/tx/0x436ef157435c93241257fb0b347db7cc1b2c4f73d749c7e5c1181393f3d0aa26
+           * - https://snowtrace.io/tx/0x504799fecb64a0452f5635245ca313aa5612132dc6fe66c441b61fd98a0e0766
+           * - https://snowtrace.io/tx/0x2e3429fb9f04819a55f85cfdbbaf78dfbb049bff85be84a324650d77ff98dfc3
            *
            * And Uniswap when 1 swap:
-           * - https://etherscan.io/tx/0x6ceca6c6c2a829928bbf9cf97a018b431def8e475577fcc7cc97ed6bd35f9f7b
-           * - https://etherscan.io/tx/0x02c1fffb94b06d54e0c6d47da460cb6e5e736e43f928b7e9b2dcd964b1390188
-           * - https://etherscan.io/tx/0xe5a35025ec3fe71ece49a4311319bdc16302b7cc16b3e7a95f0d8e45baa922c7
+           * - https://snowtrace.io/tx/0x6ceca6c6c2a829928bbf9cf97a018b431def8e475577fcc7cc97ed6bd35f9f7b
+           * - https://snowtrace.io/tx/0x02c1fffb94b06d54e0c6d47da460cb6e5e736e43f928b7e9b2dcd964b1390188
+           * - https://snowtrace.io/tx/0xe5a35025ec3fe71ece49a4311319bdc16302b7cc16b3e7a95f0d8e45baa922c7
            *
            * Some example Sushiswap transactions. When 2 swaps are done:
-           * - https://etherscan.io/tx/0x8e66d8d682b8028fd44c916d4318fee7e69704e9f8e386dd7debbfe3157375c5
-           * - https://etherscan.io/tx/0xbb837c5f001a0d71c75db49ddc22bd75b7800e426252ef1f1135e8e543769bea
-           * - https://etherscan.io/tx/0xe00ab2125b55fd398b00e361e2fd22f6fc9225e609fb2bb2b712586523c89824
-           * - https://etherscan.io/tx/0x5c26312ac2bab17aa8895592faa8dc8607f15912de953546136391ee2e955e92
+           * - https://snowtrace.io/tx/0x8e66d8d682b8028fd44c916d4318fee7e69704e9f8e386dd7debbfe3157375c5
+           * - https://snowtrace.io/tx/0xbb837c5f001a0d71c75db49ddc22bd75b7800e426252ef1f1135e8e543769bea
+           * - https://snowtrace.io/tx/0xe00ab2125b55fd398b00e361e2fd22f6fc9225e609fb2bb2b712586523c89824
+           * - https://snowtrace.io/tx/0x5c26312ac2bab17aa8895592faa8dc8607f15912de953546136391ee2e955e92
            *
            * And Sushiswap when 1 swap:
-           * - https://etherscan.io/tx/0xa8a0c5d2433bcb6ddbfdfb1db7c55c674714690e353f305e4f3c72878ab6a3a7
-           * - https://etherscan.io/tx/0x8d2a273d0451ab48c554f8a97d333f7f62b40804946cbd546dc57e2c009514f0
+           * - https://snowtrace.io/tx/0xa8a0c5d2433bcb6ddbfdfb1db7c55c674714690e353f305e4f3c72878ab6a3a7
+           * - https://snowtrace.io/tx/0x8d2a273d0451ab48c554f8a97d333f7f62b40804946cbd546dc57e2c009514f0
            *
            * Both contracts have very similar gas usage (since they share a lot of the code base)
            */
@@ -609,10 +609,10 @@ const useSwapEstimator = ({
       ) {
         return {
           canDoSwap: true,
-          /* This estimate is over the maximum one appearing on mainnet: https://etherscan.io/tx/0x6b1163b012570819e2951fa95a8287ce16be96b8bf18baefb6e738d448188ed5
+          /* This estimate is over the maximum one appearing on mainnet: https://snowtrace.io/tx/0x6b1163b012570819e2951fa95a8287ce16be96b8bf18baefb6e738d448188ed5
            * Swap gas costs are usually between 142k - 162k
            *
-           * Other transactions here: https://etherscan.io/tokentxns?a=0x129360c964e2e13910d603043f6287e5e9383374&p=6
+           * Other transactions here: https://snowtrace.io/tokentxns?a=0x129360c964e2e13910d603043f6287e5e9383374&p=6
            */
           // TODO: if usdc / dai are selected it will cost more gas
           gasUsed: 165000,
@@ -691,10 +691,10 @@ const useSwapEstimator = ({
 
         let gasUsed = 220000
         if (amount > allocateThreshold) {
-          // https://etherscan.io/tx/0x267da9abae04ae600d33d2c3e0b5772872e6138eaa074ce715afc8975c7f2deb
+          // https://snowtrace.io/tx/0x267da9abae04ae600d33d2c3e0b5772872e6138eaa074ce715afc8975c7f2deb
           gasUsed = 2900000
         } else if (amount > rebaseTreshold) {
-          // https://etherscan.io/tx/0xc8ac03e33cab4bad9b54a6e6604ef6b8e11126340b93bbca1348167f548ad8fd
+          // https://snowtrace.io/tx/0xc8ac03e33cab4bad9b54a6e6604ef6b8e11126340b93bbca1348167f548ad8fd
           gasUsed = 520000
         }
 

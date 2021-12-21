@@ -15,13 +15,13 @@
 const { ethers, getNamedAccounts } = require("hardhat");
 const { utils } = require("ethers");
 
-const { isMainnet, isRinkeby } = require("../../test/helpers.js");
+const { isMainnet, isFuji } = require("../../test/helpers.js");
 const { proposeArgs } = require("../../utils/governor");
 const { getTxOpts } = require("../../utils/tx");
 const addresses = require("../../utils/addresses");
 
-// Wait for 3 blocks confirmation on Mainnet/Rinkeby.
-const NUM_CONFIRMATIONS = isMainnet || isRinkeby ? 3 : 0;
+// Wait for 3 blocks confirmation on Mainnet/Fuji.
+const NUM_CONFIRMATIONS = isMainnet || isFuji ? 3 : 0;
 
 // Proposal for setting the timelock delay to 48hrs
 async function proposeGovernorSetDelayArgs() {

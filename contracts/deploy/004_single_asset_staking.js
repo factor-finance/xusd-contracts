@@ -4,10 +4,10 @@
 const {
   getAssetAddresses,
   isMainnet,
-  isRinkeby,
+  isFuji,
   isFork,
   isTest,
-  isMainnetOrRinkebyOrFork,
+  isMainnetOrFujiOrFork,
 } = require("../test/helpers.js");
 const { utils } = require("ethers");
 const {
@@ -82,7 +82,7 @@ const singleAssetStaking = async ({ getNamedAccounts, deployments }) => {
       utils.parseUnits("0.30", 18),
     ];
   } else {
-    // Rinkeby or localhost or ganacheFork need a shorter stake for testing purposes.
+    // Fuji or localhost or ganacheFork need a shorter stake for testing purposes.
     // Add a very quick vesting rate ideal for testing (10 minutes).
     durations = [30 * day, 4 * minute, 365 * day];
     rates = [
@@ -171,7 +171,7 @@ const singleAssetStaking = async ({ getNamedAccounts, deployments }) => {
   //
   // Fund the staking contract with OGN to cover rewards.
   //
-  if (!isMainnetOrRinkebyOrFork) {
+  if (!isMainnetOrFujiOrFork) {
     const ogn = await ethers.getContract("MockOGN");
     // Amount to load in for rewards
     // Put in a small amount so that we can hit limits for testing

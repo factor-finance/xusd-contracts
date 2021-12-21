@@ -3,8 +3,8 @@ const hre = require("hardhat");
 const {
   isMainnet,
   isFork,
-  isRinkeby,
-  isMainnetOrRinkebyOrFork,
+  isFuji,
+  isMainnetOrFujiOrFork,
 } = require("../test/helpers.js");
 const {
   log,
@@ -76,8 +76,8 @@ const fixXUSD = async () => {
     await executeProposal(propResetArgs, propResetDescription);
     log("Proposal executed.");
   } else {
-    // Hardcoding gas estimate on Rinkeby since it fails for an undetermined reason...
-    const gasLimit = isRinkeby ? 1000000 : null;
+    // Hardcoding gas estimate on Fuji since it fails for an undetermined reason...
+    const gasLimit = isFuji ? 1000000 : null;
     await withConfirmation(
       cXUSDProxy
         .connect(sGovernor)
@@ -118,6 +118,6 @@ const main = async () => {
 
 main.id = deployName;
 main.dependencies = ["002_upgrade_vault", "003_governor", "008_xusd_reset"];
-main.skip = () => !(isMainnet || isRinkeby) || isFork;
+main.skip = () => !(isMainnet || isFuji) || isFork;
 
 module.exports = main;

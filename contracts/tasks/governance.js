@@ -3,11 +3,11 @@ function sleep(ms) {
 }
 
 async function execute(taskArguments, hre) {
-  const { isMainnet, isRinkeby, isFork } = require("../test/helpers");
+  const { isMainnet, isFuji, isFork } = require("../test/helpers");
   const { withConfirmation, impersonateGuardian } = require("../utils/deploy");
 
-  if (isMainnet || isRinkeby) {
-    throw new Error("The execute task can not be used on mainnet or rinkeby");
+  if (isMainnet || isFuji) {
+    throw new Error("The execute task can not be used on mainnet or fuji");
   }
 
   const propId = taskArguments.id;

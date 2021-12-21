@@ -30,12 +30,13 @@ main()
 
         nodeOutput=$(mktemp "${TMPDIR:-/tmp/}$(basename 0).XXX")
         # the --no-install is here so npx doesn't download some package on its own if it can not find one in the repo
-        FORK=true npx --no-install hardhat node --no-reset --export '../dapp/network.json' ${params[@]} > $nodeOutput 2>&1 &
+        if [ -z "$GOPATH" ]; then echo "Set GOPATH and maybe install avalanchego" && exit 1; fi
+        $GOPATH/src/github.com/ava-labs/avalanchego/build/avalanchego --public-ip=127.0.0.1 --snow-sample-size=2 --snow-quorum-size=2 --http-port=9650 --db-dir=db/node1 --network-id=local > $nodeOutput 2>&1 &
 
         echo "Node output: $nodeOutput"
         echo "Waiting for node to initialize:"
         i=0
-        until grep -q -i 'Started HTTP and WebSocket JSON-RPC server at' $nodeOutput
+        until grep -q -i 'HTTP API server listening on ' $nodeOutput
         do
           let i++
           printf "."

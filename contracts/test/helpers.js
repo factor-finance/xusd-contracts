@@ -119,12 +119,12 @@ async function humanBalance(user, contract) {
 
 const isFork = process.env.FORK === "true";
 const isLocalhost = !isFork && hre.network.name === "localhost";
-const isRinkeby = hre.network.name === "rinkeby";
+const isFuji = hre.network.name === "fuji";
 const isMainnet = hre.network.name === "mainnet";
 const isTest = process.env.IS_TEST === "true";
 const isSmokeTest = process.env.SMOKE_TEST === "true";
 const isMainnetOrFork = isMainnet || isFork;
-const isMainnetOrRinkebyOrFork = isMainnetOrFork || isRinkeby;
+const isMainnetOrFujiOrFork = isMainnetOrFork || isFuji;
 
 // Fixture loader that is compatible with Ganache
 const loadFixture = createFixtureLoader(
@@ -281,8 +281,8 @@ const getAssetAddresses = async (deployments) => {
       AAVE_TOKEN: (await deployments.get("MockAAVEToken")).address,
       AAVE_ADDRESS_PROVIDER: (await deployments.get("MockAave")).address,
       STKAAVE: (await deployments.get("MockStkAave")).address,
-      OGN: isRinkeby
-        ? addresses.rinkeby.OGN
+      OGN: isFuji
+        ? addresses.fuji.OGN
         : (await deployments.get("MockOGN")).address,
       uniswapRouter: (await deployments.get("MockUniswapRouter")).address,
     };
@@ -366,13 +366,13 @@ module.exports = {
   advanceTime,
   getBlockTimestamp,
   isMainnet,
-  isRinkeby,
+  isFuji,
   isFork,
   isTest,
   isSmokeTest,
   isLocalhost,
   isMainnetOrFork,
-  isMainnetOrRinkebyOrFork,
+  isMainnetOrFujiOrFork,
   loadFixture,
   getOracleAddress,
   setOracleTokenPriceUsd,

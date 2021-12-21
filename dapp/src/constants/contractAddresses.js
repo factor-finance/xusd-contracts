@@ -9,12 +9,13 @@ addresses.zero = '0x0000000000000000000000000000000000000000'
 addresses.dead = '0x0000000000000000000000000000000000000001'
 
 addresses.mainnet = {}
-addresses.mainnet.Binance = ' 0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9'
+addresses.mainnet.Binance = '0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9'
 /* All the Binance addresses. There is not 1 address that has enough of all of the stablecoins and ether.
  * But all together do. In case new ones are added update them from here:
- * https://snowtrace.io/accounts/label/binance?subcatid=3-0&size=100&start[<8;46;16m]=0&col=2&order=desc
+ * https://snowtrace.io/accounts/label/binance?subcatid=3-0&size=100&start=0&col=2&order=desc
  */
-addresses.mainnet.BinanceAll = addresses.mainnet.Binance
+addresses.mainnet.BinanceAll =
+  '0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9,0x0455ea966197a69eccf5fc354b6a7896e0fe38f0,0x2d6b7235db3659c1751f342f6c80a49727bb1a1d'
 
 // E-wrapped stablecoins
 addresses.mainnet.DAIe = '0xd586e7f844cea2f87f50152665bcbc2c279d8d70'
@@ -27,6 +28,8 @@ addresses.mainnet.DAI = addresses.mainnet.DAIe
 // these are very thin
 addresses.mainnet.USDC = '0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e'
 addresses.mainnet.USDT = '0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7'
+addresses.mainnet.USDC = addresses.mainnet.USDCe
+addresses.mainnet.USDT = addresses.mainnet.USDTe
 
 // AAVE
 addresses.mainnet.Aave = '0x63a72806098bd3d9520cc43356dd78afe5d386d9'

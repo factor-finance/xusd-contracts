@@ -41,13 +41,13 @@ const {
   yield,
 } = require("./tasks/vault");
 
-const MAINNET_DEPLOYER = "0x29a8dF4d1c7a219679d197CF04C5FFD3Ecf56887";
+const MAINNET_DEPLOYER = "";
 // Mainnet contracts are governed by the Governor contract (which derives off Timelock).
-const MAINNET_GOVERNOR = "0x72426ba137dec62657306b12b1e869d43fec6ec7";
+const MAINNET_GOVERNOR = "";
 // Multi-sig that controls the Governor. Aka "Guardian".
-const MAINNET_MULTISIG = "0xbe2AB3d3d8F6a32b96414ebbd865dBD276d3d899";
+const MAINNET_MULTISIG = "";
 const MAINNET_CLAIM_ADJUSTER = MAINNET_DEPLOYER;
-const MAINNET_STRATEGIST = "0xf14bbdf064e3f67f51cd9bd646ae3716ad938fdc";
+const MAINNET_STRATEGIST = "";
 
 const mnemonic =
   "replace hover unaware super where filter stone fine garlic address matrix basic";
@@ -223,7 +223,6 @@ module.exports = {
     },
     localhost: {
       timeout: 60000,
-      url: "http://localhost:9650/ext/bc/C/rpc",
     },
     fuji: {
       url: `${process.env.PROVIDER_URL}`,

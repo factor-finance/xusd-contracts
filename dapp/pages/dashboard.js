@@ -44,7 +44,8 @@ const Dashboard = ({ locale, onLocale }) => {
     uniV3SwapRouter,
     flipper,
   } = useStoreState(ContractStore, (s) => s.contracts || {})
-  const isMainnetFork = process.env.NODE_ENV === 'development' && chainId === 1
+  const isMainnetFork =
+    process.env.NODE_ENV === 'development' && chainId === 43112
   const isProduction = process.env.NODE_ENV === 'production'
   const isGovernor = account && account === governorAddress
   const [refreshFlipperData, setRefreshFlipperData] = useState(0)

@@ -8,14 +8,14 @@ export function isCorrectNetwork(chainId) {
   if (process.env.NODE_ENV === 'production') {
     return chainId === 43114
   } else {
-    return chainId === 43113
+    return chainId === 43112
   }
 }
 
 export async function switchEthereumChain() {
   await window.ethereum.request({
     method: 'wallet_switchEthereumChain',
-    params: [{ chainId: '0x1' }],
+    params: [{ chainId: 43114 }],
   })
 }
 
@@ -23,6 +23,7 @@ export function getEtherscanHost(web3React) {
   const chainIdToEtherscan = {
     43114: 'https://snowtrace.io',
     43113: 'https://testnet.snowtrace.io',
+    43112: 'https://snowtrace.io',
   }
 
   if (chainIdToEtherscan[web3React.chainId]) {

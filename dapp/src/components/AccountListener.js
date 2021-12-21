@@ -610,13 +610,14 @@ const AccountListener = (props) => {
     const loadLifetimeEarnings = async () => {
       if (!account) return
 
-      const response = await fetch(
+      let response = null
+      response = await fetch(
         `${
           process.env.ANALYTICS_ENDPOINT
         }/api/v1/address/${account.toLowerCase()}/yield`
       )
 
-      if (response.ok) {
+      if (response && response.ok) {
         const lifetimeYield = (await response.json()).lifetime_yield
         AccountStore.update((s) => {
           s.lifetimeYield = lifetimeYield

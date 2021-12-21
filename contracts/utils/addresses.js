@@ -10,18 +10,29 @@ addresses.dead = "0x0000000000000000000000000000000000000001";
 
 addresses.mainnet = {};
 
-addresses.mainnet.Binance = "0xf977814e90da44bfa03b6295a0616a897441acec";
+addresses.mainnet.Binance = "0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9";
 /* All the Binance addresses. There is not 1 address that has enough of all of the stablecoins and ether.
  * But all together do. In case new ones are added update them from here:
  * https://snowtrace.io/accounts/label/binance?subcatid=3-0&size=100&start=0&col=2&order=desc
  */
-addresses.mainnet.BinanceAll = addresses.mainnet.Binance;
+addresses.mainnet.BinanceAll =
+  "0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9,0x0455ea966197a69eccf5fc354b6a7896e0fe38f0,0x2d6b7235db3659c1751f342f6c80a49727bb1a1d";
 
 // Native stablecoins
-addresses.mainnet.DAI = "0x6b175474e89094c44da98b954eedeac495271d0f";
-addresses.mainnet.USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
-addresses.mainnet.USDT = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
-addresses.mainnet.TUSD = "0x0000000000085d4780B73119b644AE5ecd22b376";
+addresses.mainnet.DAIe = "0xd586e7f844cea2f87f50152665bcbc2c279d8d70";
+addresses.mainnet.USDCe = "0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664";
+addresses.mainnet.USDTe = "0xc7198437980c041c805a1edcba50c1ce5db95118";
+
+// Native stablecoins
+addresses.mainnet.TUSD = "0x1c20e891bab6b1727d14da358fae2984ed9b59eb";
+addresses.mainnet.DAI = addresses.mainnet.DAIe;
+// these are very thin, so...
+addresses.mainnet.USDC = "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e";
+addresses.mainnet.USDT = "0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7";
+// REDEFINE
+addresses.mainnet.USDC = addresses.mainnet.USDCe;
+addresses.mainnet.USDT = addresses.mainnet.USDTe;
+
 // AAVE
 addresses.mainnet.AAVE_ADDRESS_PROVIDER =
   "0xb6A86025F0FE1862B372cb0ca18CE3EDe02A318f"; // v2
@@ -29,38 +40,38 @@ addresses.mainnet.AAVE_ADDRESS_PROVIDER =
 addresses.mainnet.Aave = "0x63a72806098bd3d9520cc43356dd78afe5d386d9"; // v1-v2
 addresses.mainnet.aTUSD = "--"; // Todo: use v2
 addresses.mainnet.aUSDT = "--"; // Todo: use v2
-addresses.mainnet.aDAI = "0x028171bca77440897b824ca71d1c56cac55b68a3"; // v2
+addresses.mainnet.aDAI = ""; // v2
 addresses.mainnet.aUSDC = "--"; // Todo: use v2
 addresses.mainnet.STKAAVE = ""; // v1-v2
 addresses.mainnet.AAVE_INCENTIVES_CONTROLLER =
   "0x01D83Fe6A10D2f2B7AF17034343746188272cAc9"; // v2
 
 // Compound
-addresses.mainnet.COMP = "0xc00e94Cb662C3520282E6f5717214004A7f26888";
-addresses.mainnet.cDAI = "0x5d3a536e4d6dbd6114cc1ead35777bab948e3643";
-addresses.mainnet.cUSDC = "0x39aa39c021dfbae8fac545936693ac917d5e7563";
-addresses.mainnet.cUSDT = "0xf650c3d88d12db855b8bf7d11be6c55a4e07dcc9";
+addresses.mainnet.COMP = "";
+addresses.mainnet.cDAI = "";
+addresses.mainnet.cUSDC = "";
+addresses.mainnet.cUSDT = "";
 // Curve
-addresses.mainnet.CRV = "0xd533a949740bb3306d119cc777fa900ba034cd52";
-addresses.mainnet.CRVMinter = "0xd061D61a4d941c39E5453435B6345Dc261C2fcE0";
-addresses.mainnet.ThreePool = "0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7";
-addresses.mainnet.ThreePoolToken = "0x6c3f90f043a72fa612cbac8115ee7e52bde6e490";
-addresses.mainnet.ThreePoolGauge = "0xbFcF63294aD7105dEa65aA58F8AE5BE2D9d0952A";
+addresses.mainnet.CRV = "";
+addresses.mainnet.CRVMinter = "";
+addresses.mainnet.ThreePool = "";
+addresses.mainnet.ThreePoolToken = "";
+addresses.mainnet.ThreePoolGauge = "";
 // CVX
-addresses.mainnet.CVX = "0x30D9410ED1D5DA1F6C8391af5338C93ab8d4035C";
-addresses.mainnet.CRVRewardsPool = "0x689440f2ff927e1f24c72f1087e1faf471ece1c8";
-addresses.mainnet.CVXBooster = "0xF403C135812408BFbE8713b5A23a04b3D48AAE31";
+addresses.mainnet.CVX = "";
+addresses.mainnet.CRVRewardsPool = "";
+addresses.mainnet.CVXBooster = "";
 // Open Oracle
-addresses.mainnet.openOracle = "0x922018674c12a7f0d394ebeef9b58f186cde13c1";
+addresses.mainnet.openOracle = "";
 // OGN
-addresses.mainnet.OGN = "0x8207c1ffc5b6804f6024322ccf34f29c3541ae26";
+addresses.mainnet.OGN = "";
 
 // Uniswap router
-addresses.mainnet.uniswapRouter = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
+addresses.mainnet.uniswapRouter = "";
 addresses.mainnet.uniswapV3Router =
   "0xe592427a0aece92de3edee1f18e0157c05861564";
 // Chainlink feeds
-// Source https://docs.chain.link/docs/ethereum-addresses
+// Source https://docs.chain.link/docs/avalanche-price-feeds/
 addresses.mainnet.chainlinkETH_USD =
   "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419";
 addresses.mainnet.chainlinkDAI_USD =

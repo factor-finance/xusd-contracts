@@ -13,7 +13,7 @@ const RPC_PROVIDER = process.env.ETHEREUM_RPC_PROVIDER
 const WS_PROVIDER = process.env.ETHEREUM_WEBSOCKET_PROVIDER
 
 export const injectedConnector = new InjectedConnector({
-  supportedChainIds: [1, 1337],
+  supportedChainIds: [43112, 43113, 43114],
 })
 
 export const gnosisConnector = () => {
@@ -41,7 +41,7 @@ walletConnectConnector.on('disconnect', () => {
 })
 
 export const ledgerConnector = new LedgerConnector({
-  chainId: isProduction ? 1 : 1337,
+  chainId: isProduction ? 43114 : 43113,
   url: RPC_PROVIDER,
 })
 

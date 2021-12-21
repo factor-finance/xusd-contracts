@@ -151,7 +151,7 @@ async function fund(taskArguments, hre) {
 
   const contractDataList = [
     {
-      name: "eth",
+      name: "avax",
       contract: null,
       unitsFn: ethers.utils.parseEther,
       forkSigner: isFork ? await findBestSigner(null) : null,
@@ -183,7 +183,7 @@ async function fund(taskArguments, hre) {
         const { contract, unitsFn, forkSigner, name } = contractData;
         const usedFundAmount = contract !== null ? fundAmount : "100";
         if (isFork) {
-          // fund ether
+          // fund avax
           if (!contract) {
             await forkSigner.sendTransaction({
               to: currentAccount,

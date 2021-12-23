@@ -60,19 +60,17 @@ describe("Vault", function () {
   });
 
   it("Should revert when adding a strategy that is already approved", async function () {
-    const { vault, governor, compoundStrategy } = await loadFixture(
-      defaultFixture
-    );
-    await vault.connect(governor).approveStrategy(compoundStrategy.address);
+    const { vault, governor, aaveStrategy } = await loadFixture(defaultFixture);
+    await vault.connect(governor).approveStrategy(aaveStrategy.address);
     await expect(
-      vault.connect(governor).approveStrategy(compoundStrategy.address)
+      vault.connect(governor).approveStrategy(aaveStrategy.address)
     ).to.be.revertedWith("Strategy already approved");
   });
 
   it("Should revert when attempting to approve a strategy and not Governor", async function () {
-    const { vault, josh, compoundStrategy } = await loadFixture(defaultFixture);
+    const { vault, josh, aaveStrategy } = await loadFixture(defaultFixture);
     await expect(
-      vault.connect(josh).approveStrategy(compoundStrategy.address)
+      vault.connect(josh).approveStrategy(aaveStrategy.address)
     ).to.be.revertedWith("Caller is not the Governor");
   });
 
@@ -344,23 +342,25 @@ describe("Vault", function () {
   });
 
   it("Should allow the Governor to call reallocate", async () => {
-    const { vault, governor, dai, josh, compoundStrategy, aaveStrategy } =
-      await loadFixture(defaultFixture);
+    const { vault, governor, dai, josh, aaveStrategy } = await loadFixture(
+      defaultFixture
+    );
 
-    await vault.connect(governor).approveStrategy(compoundStrategy.address);
+    await vault.connect(governor).approveStrategy(aaveStrategy.address);
     // Send all DAI to Compound
     await vault
       .connect(governor)
-      .setAssetDefaultStrategy(dai.address, compoundStrategy.address);
+      .setAssetDefaultStrategy(dai.address, aaveStrategy.address);
     await dai.connect(josh).approve(vault.address, daiUnits("200"));
     await vault.connect(josh).mint(dai.address, daiUnits("200"), 0);
     await vault.connect(governor).allocate();
-    await vault.connect(governor).approveStrategy(aaveStrategy.address);
+    // FIXME bad to test reallocation to only 1 strategy
+    // await vault.connect(governor).approveStrategy(aaveStrategy.address);
 
     await vault
       .connect(governor)
       .reallocate(
-        compoundStrategy.address,
+        aaveStrategy.address,
         aaveStrategy.address,
         [dai.address],
         [daiUnits("200")]
@@ -368,24 +368,26 @@ describe("Vault", function () {
   });
 
   it("Should allow the Strategist to call reallocate", async () => {
-    const { vault, governor, dai, josh, compoundStrategy, aaveStrategy } =
-      await loadFixture(defaultFixture);
+    const { vault, governor, dai, josh, aaveStrategy } = await loadFixture(
+      defaultFixture
+    );
 
     await vault.connect(governor).setStrategistAddr(await josh.getAddress());
-    await vault.connect(governor).approveStrategy(compoundStrategy.address);
+    await vault.connect(governor).approveStrategy(aaveStrategy.address);
     // Send all DAI to Compound
     await vault
       .connect(governor)
-      .setAssetDefaultStrategy(dai.address, compoundStrategy.address);
+      .setAssetDefaultStrategy(dai.address, aaveStrategy.address);
     await dai.connect(josh).approve(vault.address, daiUnits("200"));
     await vault.connect(josh).mint(dai.address, daiUnits("200"), 0);
     await vault.connect(governor).allocate();
-    await vault.connect(governor).approveStrategy(aaveStrategy.address);
+    // FIXME bad to test reallocation to only 1 strategy
+    // await vault.connect(governor).approveStrategy(aaveStrategy.address);
 
     await vault
       .connect(josh)
       .reallocate(
-        compoundStrategy.address,
+        aaveStrategy.address,
         aaveStrategy.address,
         [dai.address],
         [daiUnits("200")]
@@ -437,9 +439,9 @@ describe("Vault", function () {
   });
 
   it("Should only allow Governor and Strategist to call withdrawAllFromStrategy", async () => {
-    const { vault, governor, strategist, compoundStrategy, matt, josh, dai } =
+    const { vault, governor, strategist, aaveStrategy, matt, josh, dai } =
       await loadFixture(defaultFixture);
-    await vault.connect(governor).approveStrategy(compoundStrategy.address);
+    await vault.connect(governor).approveStrategy(aaveStrategy.address);
 
     // Get the vault's initial DAI balance.
     const vaultDaiBalance = await dai.balanceOf(vault.address);
@@ -447,15 +449,13 @@ describe("Vault", function () {
     // Mint and allocate DAI to Compound.
     await vault
       .connect(governor)
-      .setAssetDefaultStrategy(dai.address, compoundStrategy.address);
+      .setAssetDefaultStrategy(dai.address, aaveStrategy.address);
     await dai.connect(josh).approve(vault.address, daiUnits("200"));
     await vault.connect(josh).mint(dai.address, daiUnits("200"), 0);
     await vault.connect(governor).allocate();
 
     // Call to withdrawAll by the governor should go thru.
-    await vault
-      .connect(governor)
-      .withdrawAllFromStrategy(compoundStrategy.address);
+    await vault.connect(governor).withdrawAllFromStrategy(aaveStrategy.address);
 
     // All the DAI should have been moved back to the vault.
     const expectedVaultDaiBalance = vaultDaiBalance.add(daiUnits("200"));
@@ -466,11 +466,11 @@ describe("Vault", function () {
     // Call to withdrawAll by the strategist should go thru.
     await vault
       .connect(strategist)
-      .withdrawAllFromStrategy(compoundStrategy.address);
+      .withdrawAllFromStrategy(aaveStrategy.address);
 
     // Call to withdrawAll from random dude matt should get rejected.
     await expect(
-      vault.connect(matt).withdrawAllFromStrategy(compoundStrategy.address)
+      vault.connect(matt).withdrawAllFromStrategy(aaveStrategy.address)
     ).to.be.revertedWith("Caller is not the Strategist or Governor");
   });
 
@@ -483,42 +483,42 @@ describe("Vault", function () {
   });
 
   it("Should not allow non-Governor to add swap token", async () => {
-    const { vault, anna, comp } = await loadFixture(defaultFixture);
+    const { vault, anna, wavax } = await loadFixture(defaultFixture);
 
     await expect(
       // Use the vault address for an address that definitely won't have a price
       // feed
-      vault.connect(anna).addSwapToken(comp.address)
+      vault.connect(anna).addSwapToken(wavax.address)
     ).to.be.revertedWith("Caller is not the Governor");
   });
 
   it("Should allow Governor to add swap token", async () => {
-    const { vault, governor, comp } = await loadFixture(defaultFixture);
-    await vault.connect(governor).addSwapToken(comp.address);
+    const { vault, governor, wavax } = await loadFixture(defaultFixture);
+    await vault.connect(governor).addSwapToken(wavax.address);
     // Check it can't be added twice
     await expect(
-      vault.connect(governor).addSwapToken(comp.address)
+      vault.connect(governor).addSwapToken(wavax.address)
     ).to.be.revertedWith("Swap token already added");
   });
 
   it("Should not allow non-Governor to remove swap token", async () => {
-    const { vault, anna, governor, comp } = await loadFixture(defaultFixture);
+    const { vault, anna, governor, wavax } = await loadFixture(defaultFixture);
     // Add a swap token with governor
-    await vault.connect(governor).addSwapToken(comp.address);
+    await vault.connect(governor).addSwapToken(wavax.address);
     // Try and remove with non-governor
     await expect(
-      vault.connect(anna).addSwapToken(comp.address)
+      vault.connect(anna).addSwapToken(wavax.address)
     ).to.be.revertedWith("Caller is not the Governor");
   });
 
   it("Should allow Governor to remove swap token", async () => {
-    const { vault, governor, comp } = await loadFixture(defaultFixture);
+    const { vault, governor, wavax } = await loadFixture(defaultFixture);
     // Add a swap token with governor
-    await vault.connect(governor).addSwapToken(comp.address);
+    await vault.connect(governor).addSwapToken(wavax.address);
     // Remove swap token with governor
-    await vault.connect(governor).removeSwapToken(comp.address);
+    await vault.connect(governor).removeSwapToken(wavax.address);
     await expect(
-      vault.connect(governor).removeSwapToken(comp.address)
+      vault.connect(governor).removeSwapToken(wavax.address)
     ).to.be.revertedWith("Swap token not added");
   });
 });

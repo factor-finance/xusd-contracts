@@ -61,7 +61,7 @@ const deployAaveStrategy = async () => {
       cVaultProxy.address,
       addresses.zero, // No reward token for Aave
       [assetAddresses.DAI],
-      [assetAddresses.aDAI],
+      [assetAddresses.avDAI],
       await getTxOpts()
     )
   );
@@ -211,7 +211,7 @@ const deployOracles = async () => {
 
   // Deploy the Chainlink oracle
   await deployWithConfirmation("ChainlinkOracle", [
-    oracleAddresses.chainlink.ETH_USD,
+    oracleAddresses.chainlink.AVAX_USD,
   ]);
   const chainlinkOracle = await ethers.getContract("ChainlinkOracle");
   await withConfirmation(

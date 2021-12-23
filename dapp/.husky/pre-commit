@@ -3,3 +3,4 @@
 
 cd dapp
 yarn prettier:check
+yarn lint

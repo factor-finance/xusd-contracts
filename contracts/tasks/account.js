@@ -3,8 +3,8 @@ const _ = require("lodash");
 // USDT has its own ABI because of non standard returns
 const usdtAbi = require("../test/abi/usdt.json").abi;
 const daiAbi = require("../test/abi/erc20.json");
-const tusdAbi = require("../test/abi/erc20.json");
 const usdcAbi = require("../test/abi/erc20.json");
+const tusdAbi = require("../test/abi/erc20.json");
 
 // By default we use 10 test accounts.
 const defaultNumAccounts = 10;
@@ -46,7 +46,7 @@ async function accounts(taskArguments, hre, privateKeys) {
 }
 
 /**
- * Funds test accounts on local or fork with DAI, USDT, USDC and TUSD.
+ * Funds test accounts on local or fork with DAI, USDT, USDC, and TUSD.
  */
 async function fund(taskArguments, hre) {
   const addresses = require("../utils/addresses");
@@ -68,17 +68,17 @@ async function fund(taskArguments, hre) {
     return;
   }
 
-  let usdt, dai, tusd, usdc;
+  let usdt, dai, usdc, tusd;
   if (isFork) {
     usdt = await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
     dai = await hre.ethers.getContractAt(daiAbi, addresses.mainnet.DAI);
-    tusd = await hre.ethers.getContractAt(tusdAbi, addresses.mainnet.TUSD);
     usdc = await hre.ethers.getContractAt(usdcAbi, addresses.mainnet.USDC);
+    usdc = await hre.ethers.getContractAt(tusdAbi, addresses.mainnet.TUSD);
   } else {
     usdt = await hre.ethers.getContract("MockUSDT");
     dai = await hre.ethers.getContract("MockDAI");
-    tusd = await hre.ethers.getContract("MockTUSD");
     usdc = await hre.ethers.getContract("MockUSDC");
+    tusd = await hre.ethers.getContract("MockTUSD");
   }
 
   const binanceAddresses = addresses.mainnet.BinanceAll.split(",");

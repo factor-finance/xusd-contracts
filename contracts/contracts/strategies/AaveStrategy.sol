@@ -20,7 +20,6 @@ contract AaveStrategy is InitializableAbstractStrategy {
     uint16 constant referralCode = 92;
 
     IAaveIncentivesController public incentivesController;
-    IAaveStakedToken public stkAave;
 
     /**
      * Initializer for setting up strategy internal state. This overrides the
@@ -32,7 +31,6 @@ contract AaveStrategy is InitializableAbstractStrategy {
      * @param _assets Addresses of supported assets
      * @param _pTokens Platform Token corresponding addresses
      * @param _incentivesAddress Address of the AAVE incentives controller
-     * @param _stkAaveAddress Address of the stkAave contract
      */
     function initialize(
         address _platformAddress, // AAVE pool
@@ -40,11 +38,9 @@ contract AaveStrategy is InitializableAbstractStrategy {
         address _rewardTokenAddress, // AAVE
         address[] calldata _assets,
         address[] calldata _pTokens,
-        address _incentivesAddress,
-        address _stkAaveAddress
+        address _incentivesAddress
     ) external onlyGovernor initializer {
         incentivesController = IAaveIncentivesController(_incentivesAddress);
-        stkAave = IAaveStakedToken(_stkAaveAddress);
         InitializableAbstractStrategy._initialize(
             _platformAddress,
             _vaultAddress,
@@ -232,71 +228,29 @@ contract AaveStrategy is InitializableAbstractStrategy {
     }
 
     /**
-     * @dev Collect stkAave, convert it to AAVE send to Vault.
+     * @dev Collect AAVE, send to Vault.
      */
     function collectRewardToken() external override onlyVault nonReentrant {
-        if (address(stkAave) == address(0)) {
-            return;
+        IERC20 rewardToken = IERC20(rewardTokenAddress);
+
+        address[] memory aTokens = new address[](assetsMapped.length);
+        for (uint256 i = 0; i < assetsMapped.length; i++) {
+            aTokens[i] = _getATokenFor(assetsMapped[i]);
         }
 
-        // Check staked AAVE cooldown timer
-        uint256 cooldown = stkAave.stakersCooldowns(address(this));
-        uint256 windowStart = cooldown + stkAave.COOLDOWN_SECONDS();
-        uint256 windowEnd = windowStart + stkAave.UNSTAKE_WINDOW();
-
-        // If inside the unlock window, then we can redeem stkAave
-        // for AAVE and send it to the vault.
-        if (block.timestamp > windowStart && block.timestamp <= windowEnd) {
-            // Redeem to AAVE
-            uint256 stkAaveBalance = stkAave.balanceOf(address(this));
-            if (stkAaveBalance > rewardLiquidationThreshold) {
-                stkAave.redeem(address(this), stkAaveBalance);
-            }
-            // Transfer AAVE to vaultAddress
-            uint256 aaveBalance = IERC20(rewardTokenAddress).balanceOf(
-                address(this)
-            );
-            if (aaveBalance > 0) {
-                IERC20(rewardTokenAddress).safeTransfer(
-                    vaultAddress,
-                    aaveBalance
-                );
-            }
-        }
-
-        // Collect avaiable rewards and restart the cooldown timer, if either of
-        // those should be run.
-        if (block.timestamp > windowStart || cooldown == 0) {
-            // aToken addresses for incentives controller
-            address[] memory aTokens = new address[](assetsMapped.length);
-            for (uint256 i = 0; i < assetsMapped.length; i++) {
-                aTokens[i] = _getATokenFor(assetsMapped[i]);
-            }
-
-            // 1. If we have rewards availabile, collect them
-            uint256 pendingRewards = incentivesController.getRewardsBalance(
+        // If we have rewards availabile, collect them
+        uint256 pendingRewards = incentivesController.getRewardsBalance(
+            aTokens,
+            address(this)
+        );
+        if (pendingRewards > 0) {
+            uint256 collected = incentivesController.claimRewards(
                 aTokens,
+                pendingRewards,
                 address(this)
             );
-            if (pendingRewards > 0) {
-                // Because getting more stkAAVE from the incentives controller
-                // with claimRewards() may push the stkAAVE cooldown time
-                // forward, it is called after stakedAAVE has been turned into
-                // AAVE.
-                uint256 collected = incentivesController.claimRewards(
-                    aTokens,
-                    pendingRewards,
-                    address(this)
-                );
-                require(collected == pendingRewards, "AAVE reward difference");
-            }
-
-            // 2. Start cooldown counting down.
-            if (stkAave.balanceOf(address(this)) > 0) {
-                // Protected with if since cooldown call would revert
-                // if no stkAave balance.
-                stkAave.cooldown();
-            }
+            require(collected == pendingRewards, "AAVE reward difference");
+            rewardToken.safeTransfer(vaultAddress, collected);
         }
     }
 }

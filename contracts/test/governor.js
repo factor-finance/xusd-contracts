@@ -101,13 +101,12 @@ describe("Can claim governance with Governor contract and govern", () => {
 
   it("Should be able to do one call to rule them all[Push simulation here]", async () => {
     const fixture = await loadFixture(defaultFixture);
-    const { compoundStrategy, vault, governor, governorContract, xusd } =
-      fixture;
+    const { aaveStrategy, vault, governor, governorContract, xusd } = fixture;
 
     // Transfer everyone to the governorContract
     await vault.connect(governor).transferGovernance(governorContract.address);
     await xusd.connect(governor).transferGovernance(governorContract.address);
-    await compoundStrategy
+    await aaveStrategy
       .connect(governor)
       .transferGovernance(governorContract.address);
 
@@ -138,7 +137,7 @@ describe("Can claim governance with Governor contract and govern", () => {
           signature: "claimGovernance()",
         },
         {
-          contract: compoundStrategy,
+          contract: aaveStrategy,
           signature: "claimGovernance()",
         },
         {
@@ -171,7 +170,7 @@ describe("Can claim governance with Governor contract and govern", () => {
     ).to.be.equal(governorContract.address);
     expect(
       await (
-        await ethers.getContractAt("Governable", compoundStrategy.address)
+        await ethers.getContractAt("Governable", aaveStrategy.address)
       ).governor()
     ).to.be.equal(governorContract.address);
     expect(await vault.totalValue()).to.be.equal(54);

@@ -51,10 +51,6 @@ async function units(amount, contract) {
   return parseUnits(amount, await decimalsFor(contract));
 }
 
-function ognUnits(amount) {
-  return parseUnits(amount, 18);
-}
-
 function xusdUnits(amount) {
   return parseUnits(amount, 18);
 }
@@ -91,7 +87,7 @@ function daiUnitsFormat(amount) {
   return formatUnits(amount, 18);
 }
 
-function ethUnits(amount) {
+function avaxUnits(amount) {
   return parseUnits(amount, 18);
 }
 
@@ -189,14 +185,10 @@ const getOracleAddresses = async (deployments) => {
     // On mainnet or fork, return mainnet addresses.
     return {
       chainlink: {
-        ETH_USD: addresses.mainnet.chainlinkETH_USD,
+        AVAX_USD: addresses.mainnet.chainlinkAVAX_USD,
         DAI_USD: addresses.mainnet.chainlinkDAI_USD,
         USDC_USD: addresses.mainnet.chainlinkUSDC_USD,
         USDT_USD: addresses.mainnet.chainlinkUSDT_USD,
-        COMP_USD: addresses.mainnet.chainlinkCOMP_USD,
-        AAVE_USD: addresses.mainnet.chainlinkAAVE_USD,
-        CRV_USD: addresses.mainnet.chainlinkCRV_USD,
-        OGN_ETH: addresses.mainnet.chainlinkOGN_ETH,
       },
       openOracle: addresses.mainnet.openOracle, // Deprecated
     };
@@ -204,20 +196,16 @@ const getOracleAddresses = async (deployments) => {
     // On other environments, return mock feeds.
     return {
       chainlink: {
-        ETH_USD: (await deployments.get("MockChainlinkOracleFeedETH")).address,
+        AVAX_USD: (await deployments.get("MockChainlinkOracleFeedAVAX"))
+          .address,
+        WAVAX_USD: (await deployments.get("MockChainlinkOracleFeedWAVAX"))
+          .address,
         DAI_USD: (await deployments.get("MockChainlinkOracleFeedDAI")).address,
         USDC_USD: (await deployments.get("MockChainlinkOracleFeedUSDC"))
           .address,
         USDT_USD: (await deployments.get("MockChainlinkOracleFeedUSDT"))
           .address,
         TUSD_USD: (await deployments.get("MockChainlinkOracleFeedTUSD"))
-          .address,
-        COMP_USD: (await deployments.get("MockChainlinkOracleFeedCOMP"))
-          .address,
-        AAVE_USD: (await deployments.get("MockChainlinkOracleFeedAAVE"))
-          .address,
-        CRV_USD: (await deployments.get("MockChainlinkOracleFeedCRV")).address,
-        OGN_ETH: (await deployments.get("MockChainlinkOracleFeedOGNETH"))
           .address,
         NonStandardToken_USD: (
           await deployments.get("MockChainlinkOracleFeedNonStandardToken")
@@ -232,59 +220,32 @@ const getAssetAddresses = async (deployments) => {
     return {
       USDT: addresses.mainnet.USDT,
       USDC: addresses.mainnet.USDC,
-      TUSD: addresses.mainnet.TUSD,
       DAI: addresses.mainnet.DAI,
-      cDAI: addresses.mainnet.cDAI,
-      cUSDC: addresses.mainnet.cUSDC,
-      cUSDT: addresses.mainnet.cUSDT,
-      WETH: addresses.mainnet.WETH,
-      COMP: addresses.mainnet.COMP,
-      ThreePool: addresses.mainnet.ThreePool,
-      ThreePoolToken: addresses.mainnet.ThreePoolToken,
-      ThreePoolGauge: addresses.mainnet.ThreePoolGauge,
-      CRV: addresses.mainnet.CRV,
-      CVX: addresses.mainnet.CVX,
-      CRVMinter: addresses.mainnet.CRVMinter,
-      aDAI: addresses.mainnet.aDAI,
-      aDAI_v2: addresses.mainnet.aDAI_v2,
-      aUSDC: addresses.mainnet.aUSDC,
-      aUSDT: addresses.mainnet.aUSDT,
+      TUSD: addresses.mainnet.TUSD,
+      WAVAX: addresses.mainnet.WAVAX,
+      avDAI: addresses.mainnet.avDAI,
+      avUSDC: addresses.mainnet.avUSDC,
+      avUSDT: addresses.mainnet.avUSDT,
       AAVE: addresses.mainnet.Aave,
       AAVE_ADDRESS_PROVIDER: addresses.mainnet.AAVE_ADDRESS_PROVIDER,
       AAVE_INCENTIVES_CONTROLLER: addresses.mainnet.AAVE_INCENTIVES_CONTROLLER,
-      STKAAVE: addresses.mainnet.STKAAVE,
-      OGN: addresses.mainnet.OGN,
-      uniswapRouter: addresses.mainnet.uniswapRouter,
     };
   } else {
     return {
       USDT: (await deployments.get("MockUSDT")).address,
       USDC: (await deployments.get("MockUSDC")).address,
-      TUSD: (await deployments.get("MockTUSD")).address,
       DAI: (await deployments.get("MockDAI")).address,
-      cDAI: (await deployments.get("MockCDAI")).address,
-      cUSDC: (await deployments.get("MockCUSDC")).address,
-      cUSDT: (await deployments.get("MockCUSDT")).address,
+      TUSD: (await deployments.get("MockTUSD")).address,
       NonStandardToken: (await deployments.get("MockNonStandardToken")).address,
-      WETH: (await deployments.get("MockWETH")).address,
-      COMP: (await deployments.get("MockCOMP")).address,
-      ThreePool: (await deployments.get("MockCurvePool")).address,
-      ThreePoolToken: (await deployments.get("Mock3CRV")).address,
-      ThreePoolGauge: (await deployments.get("MockCurveGauge")).address,
-      CRV: (await deployments.get("MockCRV")).address,
-      CVX: (await deployments.get("MockCVX")).address,
-      CRVMinter: (await deployments.get("MockCRVMinter")).address,
-      aDAI: (await deployments.get("MockADAI")).address,
-      aUSDC: (await deployments.get("MockAUSDC")).address,
-      aUSDT: (await deployments.get("MockAUSDT")).address,
+      WAVAX: (await deployments.get("MockWAVAX")).address,
+      avDAI: (await deployments.get("MockADAI")).address,
+      avUSDC: (await deployments.get("MockAUSDC")).address,
+      avUSDT: (await deployments.get("MockAUSDT")).address,
       AAVE: (await deployments.get("MockAave")).address,
-      AAVE_TOKEN: (await deployments.get("MockAAVEToken")).address,
       AAVE_ADDRESS_PROVIDER: (await deployments.get("MockAave")).address,
-      STKAAVE: (await deployments.get("MockStkAave")).address,
-      OGN: isFuji
-        ? addresses.fuji.OGN
-        : (await deployments.get("MockOGN")).address,
-      uniswapRouter: (await deployments.get("MockUniswapRouter")).address,
+      AAVE_INCENTIVES_CONTROLLER: (
+        await deployments.get("MockAaveIncentivesController")
+      ).address,
     };
   }
 };
@@ -353,8 +314,7 @@ module.exports = {
   usdcUnits,
   tusdUnits,
   daiUnits,
-  ognUnits,
-  ethUnits,
+  avaxUnits,
   oracleUnits,
   units,
   daiUnitsFormat,

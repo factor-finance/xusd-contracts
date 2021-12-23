@@ -46,7 +46,7 @@ module.exports = deploymentWithProposal(
       assetAddresses.USDT,
       assetAddresses.WETH,
       oracleAddresses.chainlink.OGN_ETH,
-      oracleAddresses.chainlink.ETH_USD,
+      oracleAddresses.chainlink.AVAX_USD,
     ]);
     log("Deployed Buyback...");
 
@@ -151,9 +151,8 @@ module.exports = deploymentWithProposal(
           cVault.address,
           assetAddresses.AAVE,
           [assetAddresses.DAI],
-          [assetAddresses.aDAI],
-          assetAddresses.AAVE_INCENTIVES_CONTROLLER,
-          assetAddresses.STKAAVE
+          [assetAddresses.avDAI],
+          assetAddresses.AAVE_INCENTIVES_CONTROLLER
         )
     );
     log("Initialized AaveStrategy...");

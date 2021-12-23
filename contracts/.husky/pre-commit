@@ -3,3 +3,4 @@
 
 cd contracts
 yarn prettier:check
+yarn lint

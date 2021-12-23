@@ -18,29 +18,8 @@ contract VaultProxy is InitializeGovernedUpgradeabilityProxy {
 }
 
 /**
- * @notice CompoundStrategyProxy delegates calls to a CompoundStrategy implementation
- */
-contract CompoundStrategyProxy is InitializeGovernedUpgradeabilityProxy {
-
-}
-
-/**
  * @notice AaveStrategyProxy delegates calls to a AaveStrategy implementation
  */
 contract AaveStrategyProxy is InitializeGovernedUpgradeabilityProxy {
-
-}
-
-/**
- * @notice ThreePoolStrategyProxy delegates calls to a ThreePoolStrategy implementation
- */
-contract ThreePoolStrategyProxy is InitializeGovernedUpgradeabilityProxy {
-
-}
-
-/**
- * @notice ConvexStrategyProxy delegates calls to a ConvexStrategy implementation
- */
-contract ConvexStrategyProxy is InitializeGovernedUpgradeabilityProxy {
 
 }

@@ -33,9 +33,9 @@ addresses.mainnet.USDT = addresses.mainnet.USDTe
 
 // AAVE
 addresses.mainnet.Aave = '0x63a72806098bd3d9520cc43356dd78afe5d386d9'
-addresses.mainnet.aUSDC = '0x46A51127C3ce23fb7AB1DE06226147F446e4a857'
-addresses.mainnet.aUSDT = '0x532E6537FEA298397212F09A61e03311686f548e'
-addresses.mainnet.aDAI = '0x47AFa96Cdc9fAb46904A55a6ad4bf6660B53c38a'
+addresses.mainnet.avUSDC = '0x46A51127C3ce23fb7AB1DE06226147F446e4a857'
+addresses.mainnet.avUSDT = '0x532E6537FEA298397212F09A61e03311686f548e'
+addresses.mainnet.avDAI = '0x47AFa96Cdc9fAb46904A55a6ad4bf6660B53c38a'
 // Compound
 addresses.mainnet.COMP = ''
 addresses.mainnet.cDAI = ''
@@ -64,7 +64,7 @@ addresses.mainnet.uniswapV3USDC_USDT = ''
 addresses.mainnet.Flipper = ''
 
 // Chainlink feeds
-addresses.mainnet.chainlinkETH_USD = ''
+addresses.mainnet.chainlinkAVAX_USD = ''
 addresses.mainnet.chainlinkDAI_ETH = ''
 addresses.mainnet.chainlinkUSDC_ETH = ''
 addresses.mainnet.chainlinkUSDT_ETH = ''

@@ -280,7 +280,7 @@ export async function setupContracts(account, library, chainId, fetchId) {
     uniV2SwapRouterJson.abi
   )
   chainlinkEthAggregator = getContract(
-    addresses.mainnet.chainlinkETH_USD,
+    addresses.mainnet.chainlinkAVAX_USD,
     chainlinkAggregatorV3Json.abi
   )
 

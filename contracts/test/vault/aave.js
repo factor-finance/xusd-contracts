@@ -197,6 +197,29 @@ describe("Vault with Aave strategy", function () {
     );
   });
 
+  it("Should calculate the balance correctly with USDT in strategy", async () => {
+    expect(await vault.totalValue()).to.approxEqual(
+      utils.parseUnits("200", 18)
+    );
+
+    // Matt deposits USDT, 6 decimals
+    await usdt.connect(matt).approve(vault.address, usdtUnits("11.0"));
+    await vault.connect(matt).mint(usdt.address, usdtUnits("11.0"), 0);
+
+    await vault.connect(governor).allocate();
+
+    // Verify the deposit went to Aave
+    await expect(matt).has.an.approxBalanceOf("989.0", usdt, "Matt has less");
+
+    expect(await aaveStrategy.checkBalance(usdt.address)).to.approxEqual(
+      usdtUnits("11.0")
+    );
+
+    expect(await vault.totalValue()).to.approxEqual(
+      utils.parseUnits("211", 18)
+    );
+  });
+
   it("Should calculate the balance correct with TUSD in Vault and DAI, USDC, USDT in Aave strategy", async () => {
     expect(await vault.totalValue()).to.approxEqual(
       utils.parseUnits("200", 18)

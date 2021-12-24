@@ -4,7 +4,9 @@ Refer to our [documentation](https://github.com/OriginProtocol/security) for mor
 
 
 Contract change checklist:
-  - [ ] Code reviewed by 2 reviewers. See [template](https://github.com/OriginProtocol/security/blob/master/templates/Contract-Code-Review.md) and [example](https://github.com/OriginProtocol/security/blob/master/templates/Contract-Code-Review-Example.md).
-  - [ ] Unit tests pass
+  - [ ] Code reviewed by 1 reviewers. See [template](https://github.com/OriginProtocol/security/blob/master/templates/Contract-Code-Review.md) and [example](https://github.com/OriginProtocol/security/blob/master/templates/Contract-Code-Review-Example.md).
+
+  - [ ] Unit tests pass – yarn test in /contracts and /dapp
+  - [ ] Smoke tests pass: cd contracts && ./scripts/test/smokeTest.sh
   - [ ] Slither tests pass with no warning
   - [ ] Echidna tests pass if PR includes changes to XUSD contract (not automated, run manually on local)

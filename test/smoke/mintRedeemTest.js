@@ -1,12 +1,12 @@
-const { fund, mint } = require("../tasks/account");
+const { fund, mint } = require("../../tasks/account");
 const {
   usdtUnits,
   xusdUnits,
   xusdUnitsFormat,
   isWithinTolerance,
-} = require("../test/helpers");
-const addresses = require("../utils/addresses");
-const erc20Abi = require("../test/abi/erc20.json");
+} = require("../helpers");
+const addresses = require("../../utils/addresses");
+const erc20Abi = require("../abi/erc20.json");
 
 let utils, BigNumber, usdt, dai, usdc, xusd, vault, signer, signer2;
 

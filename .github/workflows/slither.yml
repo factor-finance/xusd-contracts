@@ -29,6 +29,5 @@ jobs:
 
       - name: Test with Slither
         run: |
-          cd contracts
           yarn install
           yarn run slither

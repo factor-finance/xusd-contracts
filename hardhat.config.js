@@ -25,14 +25,6 @@ const {
   assertStorageLayoutChangeSafeForAll,
 } = require("./tasks/storageSlots");
 const {
-  isAdjusterLocked,
-  fundCompAccountsWithEth,
-  claimOGN,
-  claimXUSD,
-  checkXUSDBalances,
-  supplyStakingContractWithOGN,
-} = require("./tasks/compensation");
-const {
   allocate,
   capital,
   harvest,
@@ -128,31 +120,6 @@ task("proposal", "Dumps the state of a proposal")
 task("governors", "Get list of governors for all contracts").setAction(
   governors
 );
-
-// Compensation tasks
-task("isAdjusterLocked", "Is adjuster on Compensation claims locked").setAction(
-  isAdjusterLocked
-);
-task(
-  "fundCompAccountsWithEth",
-  "Fund compensation accounts with minimal eth"
-).setAction(fundCompAccountsWithEth);
-task(
-  "claimXUSD",
-  "Claim the XUSD part of the compensation plan for all eligible users"
-).setAction(claimXUSD);
-task(
-  "checkXUSDBalances",
-  "Check xusd balances of contract and accounts"
-).setAction(checkXUSDBalances);
-task(
-  "supplyStakingWithOGN",
-  "Supplies a great amount of ogn to staking contract"
-).setAction(supplyStakingContractWithOGN);
-task(
-  "claimOGN",
-  "Claims the OGN part of the compensation plan for all eligible users"
-).setAction(claimOGN);
 
 // Smoke tests
 task(

@@ -77,7 +77,8 @@ const assertExpectedStablecoins = (
 async function setup(hre) {
   utils = hre.ethers.utils;
   BigNumber = hre.ethers.BigNumber;
-  xusd = await hre.ethers.getContractAt("XUSD", addresses.mainnet.XUSDProxy);
+  const xusdProxy = await hre.ethers.getContract("XUSDProxy");
+  xusd = await hre.ethers.getContractAt("XUSD", xusdProxy.address);
   usdt = await hre.ethers.getContractAt(erc20Abi, addresses.mainnet.USDT);
   dai = await hre.ethers.getContractAt(erc20Abi, addresses.mainnet.DAI);
   usdc = await hre.ethers.getContractAt(erc20Abi, addresses.mainnet.USDC);

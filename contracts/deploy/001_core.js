@@ -1,6 +1,5 @@
 const hre = require("hardhat");
 
-const addresses = require("../utils/addresses");
 const {
   getAssetAddresses,
   getOracleAddresses,
@@ -181,12 +180,32 @@ const deployOracles = async () => {
   );
 };
 
+//
+// Deploys a new governor contract on Mainnet
+//
+
+const deployGovernor = async () => {
+  console.log("Running governor deployment...");
+  const { guardianAddr } = await hre.getNamedAccounts();
+  if (!guardianAddr) {
+    throw new Error("No guardian address defined.");
+  }
+  // Deploy a new governor contract.
+  // The governor's admin is the guardian account (e.g. the multi-sig).
+  // Set a min delay of 60sec for executing proposals.
+  await deployWithConfirmation("Governor", [guardianAddr, 60]);
+
+  console.log("Governonr deploy done.");
+  return true;
+};
+
 /**
  * Deploy the core contracts (Vault and XUSD).
  *
  */
 const deployCore = async () => {
   const { governorAddr } = await hre.getNamedAccounts();
+  console.log(await hre.getNamedAccounts());
 
   const assetAddresses = await getAssetAddresses(deployments);
   log(`Using asset addresses: ${JSON.stringify(assetAddresses, null, 2)}`);
@@ -204,7 +223,7 @@ const deployCore = async () => {
   const dVaultCore = await deployWithConfirmation("VaultCore");
   const dVaultAdmin = await deployWithConfirmation("VaultAdmin");
 
-  await deployWithConfirmation("Governor", [governorAddr, 60]);
+  await deployGovernor();
 
   // Get contract instances
   const cXUSDProxy = await ethers.getContract("XUSDProxy");
@@ -278,6 +297,7 @@ const deployFlipper = async () => {
 
 const main = async () => {
   console.log("Running 001_core deployment...");
+  // assumes you have a guardian deployed
   await deployOracles();
   await deployCore();
   await deployAaveStrategy();
@@ -289,6 +309,6 @@ const main = async () => {
 
 main.id = "001_core";
 main.dependencies = ["mocks"];
-main.skip = () => isFork;
+// main.skip = () => isFork;
 
 module.exports = main;

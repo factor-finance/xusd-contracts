@@ -27,6 +27,15 @@ nodeWaitTimeout=60
 
 main()  
 {
+    # Fetch env variables like PROVIDER_URL and BLOCK_NUMBER from .env file so they don't
+    # need to be separately set in terminal environment
+    ENV_FILE=.env
+    source .env
+    if [ ! -f "$ENV_FILE" ]; then
+        echo -e "${RED} File $ENV_FILE does not exist. Have you forgotten to rename the dev.env to .env? ${NO_COLOR}"
+        exit 1
+    fi
+
     if [ -z "$PROVIDER_URL" ]; then echo "Set PROVIDER_URL" && exit 1; fi
     if [ -z "$BLOCK_NUMBER" ]; then
         echo "It is recommended that BLOCK_NUMBER is set to a recent block to improve performance of the fork";
@@ -39,7 +48,7 @@ main()
     fi
 
     nodeOutput=$(mktemp "${TMPDIR:-/tmp/}$(basename 0).XXX")
-    SMOKE_TEST=true yarn run node:fork &> $nodeOutput &
+    SMOKE_TEST=true yarn run run_node:fork &> $nodeOutput &
 
     echo "Node output: $nodeOutput"
     echo "Waiting for node to initialize:"

@@ -41,13 +41,13 @@ const {
   yield,
 } = require("./tasks/vault");
 
-const MAINNET_DEPLOYER = "";
+const MAINNET_DEPLOYER = "__MAINNET_DEPLOYER";
 // Mainnet contracts are governed by the Governor contract (which derives off Timelock).
-const MAINNET_GOVERNOR = "";
+const MAINNET_GOVERNOR = "__MAINNET_GOVERNOR";
 // Multi-sig that controls the Governor. Aka "Guardian".
-const MAINNET_MULTISIG = "";
+const MAINNET_MULTISIG = "0xeaa70BfaF7dc872B3Ad9B177C461544e9F897b66";
 const MAINNET_CLAIM_ADJUSTER = MAINNET_DEPLOYER;
-const MAINNET_STRATEGIST = "";
+const MAINNET_STRATEGIST = "__MAINNET_STRATEGIST";
 
 const mnemonic =
   "replace hover unaware super where filter stone fine garlic address matrix basic";
@@ -59,18 +59,6 @@ for (let i = 0; i <= 10; i++) {
   const wallet = new ethers.Wallet.fromMnemonic(mnemonic, `${derivePath}${i}`);
   privateKeys.push(wallet.privateKey);
 }
-
-const FORK_FUJI = false;
-const FORK_MAINNET = false;
-const forkingData = FORK_FUJI
-  ? {
-      url: "https://api.avax-test.network/ext/bc/C/rpc",
-    }
-  : FORK_MAINNET
-  ? {
-      url: "https://api.avax.network/ext/bc/C/rpc",
-    }
-  : undefined;
 
 // Environment tasks.
 task("env", "Check env vars are properly set for a Mainnet deployment", env);
@@ -218,8 +206,7 @@ module.exports = {
       },
       initialBaseFeePerGas: 0,
       gasPrice: 225000000000,
-      chainId: 43112,
-      forking: forkingData,
+      chainId: 43114,
     },
     localhost: {
       timeout: 60000,
@@ -251,7 +238,7 @@ module.exports = {
   namedAccounts: {
     deployerAddr: {
       default: 0,
-      localhost: 0,
+      localhost: MAINNET_MULTISIG,
       mainnet: MAINNET_DEPLOYER,
     },
     governorAddr: {

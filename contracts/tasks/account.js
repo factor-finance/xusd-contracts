@@ -13,7 +13,7 @@ const defaultNumAccounts = 10;
 const defaultAccountIndex = 4;
 
 // By default, fund each test account with 10k worth of each stable coin.
-const defaultFundAmount = 10000;
+const defaultFundAmount = "10000";
 
 // By default, mint 1k worth of XUSD for each test account.
 const defaultMintAmount = 1000;
@@ -54,7 +54,6 @@ async function fund(taskArguments, hre) {
     usdtUnits,
     daiUnits,
     usdcUnits,
-    tusdUnits,
     isFork,
     isLocalhost,
   } = require("../test/helpers");
@@ -73,7 +72,7 @@ async function fund(taskArguments, hre) {
     usdt = await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
     dai = await hre.ethers.getContractAt(daiAbi, addresses.mainnet.DAI);
     usdc = await hre.ethers.getContractAt(usdcAbi, addresses.mainnet.USDC);
-    usdc = await hre.ethers.getContractAt(tusdAbi, addresses.mainnet.TUSD);
+    tusd = await hre.ethers.getContractAt(tusdAbi, addresses.mainnet.TUSD);
   } else {
     usdt = await hre.ethers.getContract("MockUSDT");
     dai = await hre.ethers.getContract("MockDAI");

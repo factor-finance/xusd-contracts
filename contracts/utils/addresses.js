@@ -57,16 +57,16 @@ addresses.mainnet.chainlinkUSDT_USD =
 // WAVAX Token
 addresses.mainnet.WAVAX = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
 // Deployed XUSD contracts
-addresses.mainnet.Guardian = ""; // ERC 20 owner multisig.
-addresses.mainnet.VaultProxy = "";
-addresses.mainnet.Vault = "";
-addresses.mainnet.XUSDProxy = "";
-addresses.mainnet.XUSD = "";
+addresses.mainnet.Guardian = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3"; // ERC 20 owner multisig.
+addresses.mainnet.VaultProxy = "__VaultProxy";
+addresses.mainnet.Vault = "__Vault";
+addresses.mainnet.XUSDProxy = "__XUSDProxy";
+addresses.mainnet.XUSD = "__XUSD";
 
-addresses.mainnet.MixOracle = "";
-addresses.mainnet.UniswapOracle = "";
-addresses.mainnet.CompensationClaims = "";
-addresses.mainnet.Flipper = "";
+addresses.mainnet.MixOracle = "__Mixoracle";
+addresses.mainnet.UniswapOracle = "__UniswapOracle";
+addresses.mainnet.CompensationClaims = "__CompensationClaims";
+addresses.mainnet.Flipper = "__Flipper";
 
 /* --- FUJI --- */
 addresses.fuji = {};

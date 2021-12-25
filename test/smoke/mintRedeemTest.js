@@ -2,8 +2,6 @@ const { fund, mint } = require("../tasks/account");
 const {
   usdtUnits,
   xusdUnits,
-  usdcUnits,
-  daiUnits,
   xusdUnitsFormat,
   isWithinTolerance,
 } = require("../test/helpers");
@@ -200,7 +198,6 @@ async function afterDeploy(hre, beforeDeployData) {
   const xusdAfterMint = await testMint(hre, beforeDeployData);
   await testRedeem(xusdAfterMint);
   await testTransfer();
-  await testMultipleMint();
 }
 
 module.exports = {

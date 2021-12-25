@@ -2,9 +2,9 @@ name: Slither
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
   workflow_dispatch:
 
@@ -29,6 +29,5 @@ jobs:
 
       - name: Test with Slither
         run: |
-          cd contracts
           yarn install
           yarn run slither

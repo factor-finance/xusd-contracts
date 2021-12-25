@@ -1,7 +1,7 @@
 /**
  * Execute smoke tests on the mainnet:fork network.
  *
- * This script reads all of the tests present in the `contracts/scripts/test/smokeTest` folder. Each
+ * This script reads all of the tests present in the `test/smoke` folder. Each
  * file should contain one tests and export these functions:
  *  - beforeDeploy (hre) -> function executes before contract deployment and can return validation data
  *  - afterDeploy (hre, beforeDeployData) -> function executes after contract deployment and as a second
@@ -26,7 +26,7 @@ process.stdin.on("keypress", (str, key) => {
 });
 
 async function getAllTests() {
-  const testsFolder = `${__dirname}/../smoke`;
+  const testsFolder = `${__dirname}/../test/smoke`;
   const testFiles = await getFilesInFolder(testsFolder);
   const tests = [];
 

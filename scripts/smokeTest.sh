@@ -3,7 +3,7 @@
 # Runs smoke tests to verify that contract changes don't break the basic functionality.
 # They can be run 2 ways: 
 #
-# 1. With `deployid` parameter. Example: `scripts/test/smokeTest.sh --deployid 11`
+# 1. With `deployid` parameter. Example: `scripts/smokeTest.sh --deployid 11`
 # When this mode is used
 # - all the before functions of smoke tests are ran.
 # - contract upgrade specified by the `deployid` is executed

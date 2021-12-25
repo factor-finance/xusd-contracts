@@ -23,7 +23,7 @@ const getStorageFileLocation = (hre, contractName) => {
 
   const layoutFolder = `./storageLayout/${folder}/`;
   if (!existsSync(layoutFolder)) {
-    mkdirSync(layoutFolder);
+    mkdirSync(layoutFolder, { recursive: true });
   }
 
   return `${layoutFolder}${contractName}.json`;

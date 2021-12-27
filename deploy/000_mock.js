@@ -140,6 +140,7 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
 
 deployMocks.id = "000_mock";
 deployMocks.tags = ["mocks"];
+// cannot run bc no funds
 deployMocks.skip = () => isMainnetOrFujiOrFork;
 
 module.exports = deployMocks;

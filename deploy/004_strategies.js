@@ -1,5 +1,6 @@
 const hre = require("hardhat");
 
+const path = require("path");
 const {
   getAssetAddresses,
   getOracleAddresses,
@@ -19,7 +20,8 @@ const {
  */
 const deployAaveStrategy = async () => {
   const assetAddresses = await getAssetAddresses(hre.deployments);
-  const { deployerAddr, governorAddr } = await getNamedAccounts();
+  const { guardianAddr, deployerAddr } = await getNamedAccounts();
+  const governorAddr = guardianAddr;
   // Signers
   const sDeployer = await ethers.provider.getSigner(deployerAddr);
   const sGovernor = await ethers.provider.getSigner(governorAddr);
@@ -45,10 +47,6 @@ const deployAaveStrategy = async () => {
     )
   );
 
-  const cAaveIncentivesController = await ethers.getContract(
-    "MockAaveIncentivesController"
-  );
-
   log("Initialized AaveStrategyProxy");
   const initFunctionName =
     "initialize(address,address,address,address[],address[],address)";
@@ -61,7 +59,7 @@ const deployAaveStrategy = async () => {
         assetAddresses.WAVAX,
         [assetAddresses.DAI, assetAddresses.USDT, assetAddresses.USDC],
         [assetAddresses.avDAI, assetAddresses.avUSDT, assetAddresses.avUSDC],
-        cAaveIncentivesController.address
+        assetAddresses.AAVE_INCENTIVES_CONTROLLER
       )
   );
   log("Initialized AaveStrategy");
@@ -90,7 +88,9 @@ const deployAaveStrategy = async () => {
  */
 const configureVault = async () => {
   const assetAddresses = await getAssetAddresses(deployments);
-  const { governorAddr, strategistAddr } = await getNamedAccounts();
+  const { guardianAddr, strategistAddr } = await getNamedAccounts();
+  const governorAddr = guardianAddr;
+  console.log(governorAddr, strategistAddr);
   // Signers
   const sGovernor = await ethers.provider.getSigner(governorAddr);
 
@@ -128,112 +128,18 @@ const configureVault = async () => {
   );
 };
 
-/**
- * Deploy the core contracts (Vault and XUSD).
- *
- */
-const deployCore = async () => {
-  // const { governorAddr } = await hre.getNamedAccounts();
-  const cGovernor = await ethers.getContract("Governor");
-
-  const assetAddresses = await getAssetAddresses(deployments);
-  log(`Using asset addresses: ${JSON.stringify(assetAddresses, null, 2)}`);
-
-  // Signers
-  const sGovernor = await ethers.provider.getSigner(cGovernor.address);
-
-  // Proxies
-  await deployWithConfirmation("XUSDProxy");
-  await deployWithConfirmation("VaultProxy");
-
-  // Main contracts
-  const dXUSD = await deployWithConfirmation("XUSD");
-  const dVault = await deployWithConfirmation("Vault");
-  const dVaultCore = await deployWithConfirmation("VaultCore");
-  const dVaultAdmin = await deployWithConfirmation("VaultAdmin");
-
-  // Get contract instances
-  const cXUSDProxy = await ethers.getContract("XUSDProxy");
-  const cVaultProxy = await ethers.getContract("VaultProxy");
-  const cXUSD = await ethers.getContractAt("XUSD", cXUSDProxy.address);
-  const cOracleRouter = await ethers.getContract("OracleRouter");
-  const cVault = await ethers.getContractAt("Vault", cVaultProxy.address);
-  await withConfirmation(
-    cXUSDProxy["initialize(address,address,bytes)"](
-      dXUSD.address,
-      cGovernor.address,
-      []
-    )
-  );
-  log("Initialized XUSDProxy");
-
-  // Need to call the initializer on the Vault then upgraded it to the actual
-  // VaultCore implementation
-  await withConfirmation(
-    cVaultProxy["initialize(address,address,bytes)"](
-      dVault.address,
-      cGovernor.address,
-      []
-    )
-  );
-  log("Initialized VaultProxy");
-
-  await withConfirmation(
-    cVault
-      .connect(sGovernor)
-      .initialize(cOracleRouter.address, cXUSDProxy.address)
-  );
-  log("Initialized Vault");
-
-  await withConfirmation(
-    cVaultProxy.connect(sGovernor).upgradeTo(dVaultCore.address)
-  );
-  log("Upgraded VaultCore implementation");
-
-  await withConfirmation(
-    cVault.connect(sGovernor).setAdminImpl(dVaultAdmin.address)
-  );
-  log("Initialized VaultAdmin implementation");
-
-  // Initialize XUSD
-  await withConfirmation(
-    cXUSD.connect(sGovernor).initialize("XUSD.fi", "XUSD", cVaultProxy.address)
-  );
-
-  log("Initialized XUSD");
-};
-
-// Deploy the Flipper trading contract
-const deployFlipper = async () => {
-  const assetAddresses = await getAssetAddresses(deployments);
-  const { governorAddr } = await hre.getNamedAccounts();
-  const sGovernor = await ethers.provider.getSigner(governorAddr);
-  const xusd = await ethers.getContract("XUSDProxy");
-
-  await deployWithConfirmation("Flipper", [
-    assetAddresses.DAI,
-    xusd.address,
-    assetAddresses.USDC,
-    assetAddresses.USDT,
-  ]);
-  const flipper = await ethers.getContract("Flipper");
-  await withConfirmation(flipper.transferGovernance(cGovernor.address));
-  await withConfirmation(flipper.connect(sGovernor).claimGovernance());
-};
-
+const baseName = path.basename(__filename);
 const main = async () => {
-  console.log("Running 002_core deployment...");
-  // assumes you have a guardian deployed
-  await deployCore();
-  await deployAaveStrategy();
+  console.log(`Running ${baseName} deployment...`);
   await configureVault();
-  await deployFlipper();
-  console.log("002_core deploy done.");
+  await deployAaveStrategy();
+
+  console.log(`${baseName} deploy done.`);
   return true;
 };
 
-main.id = "002_proxies";
-main.dependencies = ["core"];
-main.skip = () => isFork && !(process.env.FORCE == "true");
+main.id = baseName;
+main.dependencies = ["proxies", "oracles", "mocks"];
+main.tags = ["strategies"];
 
 module.exports = main;

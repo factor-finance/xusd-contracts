@@ -5,6 +5,8 @@ import "../interfaces/chainlink/AggregatorV3Interface.sol";
 import { IOracle } from "../interfaces/IOracle.sol";
 import { Helpers } from "../utils/Helpers.sol";
 
+import "hardhat/console.sol";
+
 abstract contract OracleRouterBase is IOracle {
     uint256 constant MIN_DRIFT = uint256(70000000);
     uint256 constant MAX_DRIFT = uint256(130000000);
@@ -23,6 +25,9 @@ abstract contract OracleRouterBase is IOracle {
      */
     function price(address asset) external view override returns (uint256) {
         address _feed = feed(asset);
+        console.log(asset);
+        console.log(_feed);
+
         require(_feed != address(0), "Asset not available");
         (, int256 _iprice, , , ) = AggregatorV3Interface(_feed)
             .latestRoundData();
@@ -50,34 +55,28 @@ contract OracleRouter is OracleRouterBase {
      * @param asset address of the asset
      */
     function feed(address asset) internal pure override returns (address) {
-        if (asset == address(0x6B175474E89094C44Da98b954EedeAC495271d0F)) {
+        // DAI
+        if (asset == address(0xd586E7F844cEa2F87f50152665BCbc2C279D8d70)) {
             // Chainlink: DAI/USD
-            return address(0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9);
+            return address(0x51D7180edA2260cc4F6e4EebB82FEF5c3c2B8300);
         } else if (
-            asset == address(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)
+            // USDCe
+            asset == address(0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664)
         ) {
             // Chainlink: USDC/USD
-            return address(0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6);
+            return address(0xF096872672F44d6EBA71458D74fe67F9a77a23B9);
         } else if (
-            asset == address(0xdAC17F958D2ee523a2206206994597C13D831ec7)
+            // USDTe
+            asset == address(0xc7198437980c041c805A1EDcbA50c1Ce5db95118)
         ) {
             // Chainlink: USDT/USD
-            return address(0x3E7d1eAB13ad0104d2750B8863b489D65364e32D);
+            return address(0xEBE676ee90Fe1112671f19b6B7459bC678B67e8a);
         } else if (
-            asset == address(0xc00e94Cb662C3520282E6f5717214004A7f26888)
+            // WAVAX
+            asset == address(0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7)
         ) {
-            // Chainlink: COMP/USD
-            return address(0xdbd020CAeF83eFd542f4De03e3cF0C28A4428bd5);
-        } else if (
-            asset == address(0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9)
-        ) {
-            // Chainlink: AAVE/USD
-            return address(0x547a514d5e3769680Ce22B2361c10Ea13619e8a9);
-        } else if (
-            asset == address(0xD533a949740bb3306d119CC777fa900bA034cd52)
-        ) {
-            // Chainlink: CRV/USD
-            return address(0xCd627aA160A6fA45Eb793D19Ef54f5062F20f33f);
+            // Chainlink: WAVAX/USD
+            return address(0x0A77230d17318075983913bC2145DB16C7366156);
         } else {
             revert("Asset not available");
         }
@@ -96,6 +95,7 @@ contract OracleRouterDev is OracleRouterBase {
      * @param asset address of the asset
      */
     function feed(address asset) internal view override returns (address) {
+        console.log(asset);
         return assetToFeed[asset];
     }
 }

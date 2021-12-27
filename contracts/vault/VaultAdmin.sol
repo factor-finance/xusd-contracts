@@ -14,6 +14,8 @@ import { IOracle } from "../interfaces/IOracle.sol";
 import { IUniswapV2Router } from "../interfaces/uniswap/IUniswapV2Router02.sol";
 import "./VaultStorage.sol";
 
+import "hardhat/console.sol";
+
 contract VaultAdmin is VaultStorage {
     using SafeERC20 for IERC20;
     using StableMath for uint256;
@@ -161,7 +163,7 @@ contract VaultAdmin is VaultStorage {
 
         assets[_asset] = Asset({ isSupported: true });
         allAssets.push(_asset);
-
+        console.log(_asset);
         // Verify that our oracle supports the asset
         // slither-disable-next-line unused-return
         IOracle(priceProvider).price(_asset);

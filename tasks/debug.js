@@ -13,7 +13,6 @@ async function debug(taskArguments, hre) {
   const vaultProxy = await hre.ethers.getContract("VaultProxy");
   const xusdProxy = await hre.ethers.getContract("XUSDProxy");
   const aaveProxy = await hre.ethers.getContract("AaveStrategyProxy");
-  const compoundProxy = await hre.ethers.getContract("CompoundStrategyProxy");
   const vault = await hre.ethers.getContractAt("IVault", vaultProxy.address);
   const cVault = await hre.ethers.getContract("Vault");
   const vaultAdmin = await hre.ethers.getContract("VaultAdmin");
@@ -25,28 +24,9 @@ async function debug(taskArguments, hre) {
     aaveProxy.address
   );
   const cAaveStrategy = await hre.ethers.getContract("AaveStrategy");
-  const compoundStrategy = await hre.ethers.getContractAt(
-    "CompoundStrategy",
-    compoundProxy.address
-  );
-  const cCompoundStrategy = await hre.ethers.getContract("CompoundStrategy");
-  const threePoolStrategyProxy = await hre.ethers.getContract(
-    "ConvexStrategyProxy"
-  );
-  const threePoolStrategy = await hre.ethers.getContractAt(
-    "ConvexStrategy",
-    threePoolStrategyProxy.address
-  );
-  const cThreePoolStrategy = await hre.ethers.getContract("ConvexStrategy");
-
   const oracleRouter = await hre.ethers.getContract("OracleRouter");
 
   const governor = await hre.ethers.getContract("Governor");
-
-  const ognStakingProxy = await hre.ethers.getContract("OGNStakingProxy");
-  const ognStaking = await hre.ethers.getContract("SingleAssetStaking");
-
-  const cBuyback = await hre.ethers.getContract("Buyback");
 
   //
   // Addresses
@@ -65,23 +45,7 @@ async function debug(taskArguments, hre) {
   console.log(`AaveStrategy proxy:      ${aaveProxy.address}`);
   console.log(`AaveStrategy impl:       ${await aaveProxy.implementation()}`);
   console.log(`AaveStrategy:            ${cAaveStrategy.address}`);
-  console.log(`CompoundStrategy proxy:  ${compoundProxy.address}`);
-  console.log(
-    `CompoundStrategy impl:   ${await compoundProxy.implementation()}`
-  );
-  console.log(`CompoundStrategy:        ${cCompoundStrategy.address}`);
-  console.log(`ThreePoolStrategy proxy: ${threePoolStrategyProxy.address}`);
-  console.log(
-    `ThreePoolStrategy impl:  ${await threePoolStrategyProxy.implementation()}`
-  );
-  console.log(`ThreePoolStrategy:       ${cThreePoolStrategy.address}`);
   console.log(`Governor:                ${governor.address}`);
-  console.log(`Buyback:                 ${cBuyback.address}`);
-  console.log(`OGNStaking proxy:        ${ognStakingProxy.address}`);
-  console.log(
-    `OGNStaking proxy impl:   ${await ognStakingProxy.implementation()}`
-  );
-  console.log(`OGNStaking:              ${ognStaking.address}`);
 
   //
   // Governor
@@ -105,16 +69,12 @@ async function debug(taskArguments, hre) {
   const xusdGovernorAddr = await xusd.governor();
   const vaultGovernorAddr = await vault.governor();
   const aaveStrategyGovernorAddr = await aaveStrategy.governor();
-  const compoundStrategyGovernorAddr = await compoundStrategy.governor();
-  const threePoolStrategyGovernorAddr = await threePoolStrategy.governor();
 
   console.log("\nGovernor addresses");
   console.log("====================");
   console.log("XUSD:              ", xusdGovernorAddr);
   console.log("Vault:             ", vaultGovernorAddr);
   console.log("AaveStrategy:      ", aaveStrategyGovernorAddr);
-  console.log("CompoundStrategy:  ", compoundStrategyGovernorAddr);
-  console.log("ThreePoolStrategy: ", threePoolStrategyGovernorAddr);
 
   //
   // XUSD
@@ -264,26 +224,6 @@ async function debug(taskArguments, hre) {
   console.log(`Aave ${asset.symbol}:\t balance=${balance}`);
 
   //
-  // Compound Strategy
-  //
-  let compoundsAssets = [assets[0], assets[1], assets[2]]; // Compound only holds USDC and USDT
-  for (asset of compoundsAssets) {
-    balanceRaw = await compoundStrategy.checkBalance(asset.address);
-    balance = formatUnits(balanceRaw.toString(), asset.decimals);
-    console.log(`Compound ${asset.symbol}:\t balance=${balance}`);
-  }
-
-  //
-  // ThreePool Strategy
-  // Supports all stablecoins
-  //
-  for (asset of assets) {
-    balanceRaw = await threePoolStrategy.checkBalance(asset.address);
-    balance = formatUnits(balanceRaw.toString(), asset.decimals);
-    console.log(`ThreePool ${asset.symbol}:\t balance=${balance}`);
-  }
-
-  //
   // Strategies settings
   //
 
@@ -312,48 +252,6 @@ async function debug(taskArguments, hre) {
     console.log(
       `supportsAsset(${asset.symbol}):\t\t`,
       await aaveStrategy.supportsAsset(asset.address)
-    );
-  }
-
-  console.log("\nCompound strategy settings");
-  console.log("============================");
-  console.log("vaultAddress:\t\t\t", await compoundStrategy.vaultAddress());
-  console.log("platformAddress:\t\t", await compoundStrategy.platformAddress());
-  console.log(
-    "rewardTokenAddress:\t\t",
-    await compoundStrategy.rewardTokenAddress()
-  );
-  console.log(
-    "rewardLiquidationThreshold:\t",
-    (await compoundStrategy.rewardLiquidationThreshold()).toString()
-  );
-  for (const asset of assets) {
-    console.log(
-      `supportsAsset(${asset.symbol}):\t\t`,
-      await compoundStrategy.supportsAsset(asset.address)
-    );
-  }
-
-  console.log("\n3pool strategy settings");
-  console.log("==============================");
-  console.log("vaultAddress:\t\t\t", await threePoolStrategy.vaultAddress());
-  console.log(
-    "platformAddress:\t\t",
-    await threePoolStrategy.platformAddress()
-  );
-  console.log(
-    "rewardTokenAddress:\t\t",
-    await threePoolStrategy.rewardTokenAddress()
-  );
-  console.log(
-    "rewardLiquidationThreshold:\t",
-    (await threePoolStrategy.rewardLiquidationThreshold()).toString()
-  );
-
-  for (const asset of assets) {
-    console.log(
-      `supportsAsset(${asset.symbol}):\t\t`,
-      await threePoolStrategy.supportsAsset(asset.address)
     );
   }
 }

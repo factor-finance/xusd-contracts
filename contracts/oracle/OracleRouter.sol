@@ -5,8 +5,6 @@ import "../interfaces/chainlink/AggregatorV3Interface.sol";
 import { IOracle } from "../interfaces/IOracle.sol";
 import { Helpers } from "../utils/Helpers.sol";
 
-import "hardhat/console.sol";
-
 abstract contract OracleRouterBase is IOracle {
     uint256 constant MIN_DRIFT = uint256(70000000);
     uint256 constant MAX_DRIFT = uint256(130000000);
@@ -25,8 +23,6 @@ abstract contract OracleRouterBase is IOracle {
      */
     function price(address asset) external view override returns (uint256) {
         address _feed = feed(asset);
-        console.log(asset);
-        console.log(_feed);
 
         require(_feed != address(0), "Asset not available");
         (, int256 _iprice, , , ) = AggregatorV3Interface(_feed)
@@ -95,7 +91,6 @@ contract OracleRouterDev is OracleRouterBase {
      * @param asset address of the asset
      */
     function feed(address asset) internal view override returns (address) {
-        console.log(asset);
         return assetToFeed[asset];
     }
 }

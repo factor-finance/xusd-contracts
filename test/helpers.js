@@ -217,6 +217,7 @@ const getOracleAddresses = async (deployments) => {
 
 const getAssetAddresses = async (deployments) => {
   if (isMainnetOrFork) {
+    console.log("Using mainnet addresses.");
     return {
       USDT: addresses.mainnet.USDT,
       USDC: addresses.mainnet.USDC,
@@ -231,6 +232,7 @@ const getAssetAddresses = async (deployments) => {
       AAVE_INCENTIVES_CONTROLLER: addresses.mainnet.AAVE_INCENTIVES_CONTROLLER,
     };
   } else {
+    console.log("Using mock addresses.");
     return {
       USDT: (await deployments.get("MockUSDT")).address,
       USDC: (await deployments.get("MockUSDC")).address,

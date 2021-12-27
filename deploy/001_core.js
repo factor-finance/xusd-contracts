@@ -195,7 +195,7 @@ const deployGovernor = async () => {
   // Set a min delay of 60sec for executing proposals.
   await deployWithConfirmation("Governor", [guardianAddr, 60]);
 
-  console.log("Governon 1-minute lock deploy done.");
+  console.log("Governor 1-minute lock deploy done.");
   return true;
 };
 

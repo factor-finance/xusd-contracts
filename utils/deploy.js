@@ -57,6 +57,8 @@ const deployWithConfirmation = async (
   const { deployerAddr } = await getNamedAccounts();
   if (!args) args = null;
   if (!contract) contract = contractName;
+  console.log(contractName, contract, deployerAddr);
+
   const result = await withConfirmation(
     deploy(contractName, {
       from: deployerAddr,

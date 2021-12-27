@@ -358,6 +358,23 @@ async function debug(taskArguments, hre) {
   }
 }
 
+async function printHashes() {
+  console.log(utils.keccak256(utils.toUtf8Bytes("XUSD.governor")), [
+    "XUSD.governor",
+  ]);
+  console.log(utils.keccak256(utils.toUtf8Bytes("XUSD.pending.governor")), [
+    "XUSD.pending.governor",
+  ]);
+  console.log(utils.keccak256(utils.toUtf8Bytes("XUSD.reentry.status")), [
+    "XUSD.reentry.status",
+  ]);
+  console.log(
+    utils.keccak256(utils.toUtf8Bytes("XUSD.vault.governor.admin.impl")),
+    ["XUSD.vault.governor.admin.impl"]
+  );
+}
+
 module.exports = {
   debug,
+  printHashes,
 };

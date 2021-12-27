@@ -95,6 +95,6 @@ const main = async () => {
 main.id = "001_core";
 main.dependencies = ["mocks"];
 main.tags = ["core"];
-main.skip = () => isFork && !(process.env.FORCE == "true");
+// main.skip = () => isFork && !(process.env.FORCE == "true");
 
 module.exports = main;

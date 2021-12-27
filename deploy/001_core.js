@@ -77,8 +77,11 @@ const deployGovernor = async () => {
   // Deploy a new governor contract.
   // The governor's admin is the guardian account (e.g. the multi-sig).
   // Set a min delay of 60sec for executing proposals.
-  await deployWithConfirmation("Governor", [guardianAddr, 60]);
-
+  const dGovernor = await deployWithConfirmation("Governor", [
+    guardianAddr,
+    60,
+  ]);
+  console.log(`Governor deployed to ${dGovernor.address}`);
   log("Governor 1-minute lock deploy done.");
   return true;
 };
@@ -95,6 +98,5 @@ const main = async () => {
 main.id = "001_core";
 main.dependencies = ["mocks"];
 main.tags = ["core"];
-// main.skip = () => isFork && !(process.env.FORCE == "true");
 
 module.exports = main;

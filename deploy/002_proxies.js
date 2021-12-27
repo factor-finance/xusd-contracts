@@ -129,89 +129,18 @@ const configureVault = async () => {
 };
 
 /**
- * Deploy the OracleRouter and initialise it with Chainlink sources.
- */
-const deployOracles = async () => {
-  const { deployerAddr } = await getNamedAccounts();
-  // Signers
-  const sDeployer = await ethers.provider.getSigner(deployerAddr);
-
-  // TODO: Change this to intelligently decide which router contract to deploy?
-  const oracleContract = isMainnet ? "OracleRouter" : "OracleRouterDev";
-  await deployWithConfirmation("OracleRouter", [], oracleContract);
-  const oracleRouter = await ethers.getContract("OracleRouter");
-
-  // Register feeds
-  // Not needed in production
-  const oracleAddresses = await getOracleAddresses(deployments);
-  const assetAddresses = await getAssetAddresses(deployments);
-  withConfirmation(
-    oracleRouter
-      .connect(sDeployer)
-      .setFeed(assetAddresses.DAI, oracleAddresses.chainlink.DAI_USD)
-  );
-  withConfirmation(
-    oracleRouter
-      .connect(sDeployer)
-      .setFeed(assetAddresses.USDC, oracleAddresses.chainlink.USDC_USD)
-  );
-  withConfirmation(
-    oracleRouter
-      .connect(sDeployer)
-      .setFeed(assetAddresses.USDT, oracleAddresses.chainlink.USDT_USD)
-  );
-  withConfirmation(
-    oracleRouter
-      .connect(sDeployer)
-      .setFeed(assetAddresses.TUSD, oracleAddresses.chainlink.TUSD_USD)
-  );
-  withConfirmation(
-    oracleRouter
-      .connect(sDeployer)
-      .setFeed(assetAddresses.WAVAX, oracleAddresses.chainlink.AVAX_USD)
-  );
-  withConfirmation(
-    oracleRouter
-      .connect(sDeployer)
-      .setFeed(
-        assetAddresses.NonStandardToken,
-        oracleAddresses.chainlink.NonStandardToken_USD
-      )
-  );
-};
-
-//
-// Deploys a new governor contract on Mainnet
-//
-
-const deployGovernor = async () => {
-  console.log("Running governor 1-minute deployment...");
-  const { guardianAddr } = await hre.getNamedAccounts();
-  if (!guardianAddr) {
-    throw new Error("No guardian address defined.");
-  }
-  // Deploy a new governor contract.
-  // The governor's admin is the guardian account (e.g. the multi-sig).
-  // Set a min delay of 60sec for executing proposals.
-  await deployWithConfirmation("Governor", [guardianAddr, 60]);
-
-  console.log("Governor 1-minute lock deploy done.");
-  return true;
-};
-
-/**
  * Deploy the core contracts (Vault and XUSD).
  *
  */
 const deployCore = async () => {
-  const { governorAddr } = await hre.getNamedAccounts();
-  console.log(await hre.getNamedAccounts());
+  // const { governorAddr } = await hre.getNamedAccounts();
+  const cGovernor = await ethers.getContract("Governor");
 
   const assetAddresses = await getAssetAddresses(deployments);
   log(`Using asset addresses: ${JSON.stringify(assetAddresses, null, 2)}`);
 
   // Signers
-  const sGovernor = await ethers.provider.getSigner(governorAddr);
+  const sGovernor = await ethers.provider.getSigner(cGovernor.address);
 
   // Proxies
   await deployWithConfirmation("XUSDProxy");
@@ -229,11 +158,10 @@ const deployCore = async () => {
   const cXUSD = await ethers.getContractAt("XUSD", cXUSDProxy.address);
   const cOracleRouter = await ethers.getContract("OracleRouter");
   const cVault = await ethers.getContractAt("Vault", cVaultProxy.address);
-
   await withConfirmation(
     cXUSDProxy["initialize(address,address,bytes)"](
       dXUSD.address,
-      governorAddr,
+      cGovernor.address,
       []
     )
   );
@@ -244,7 +172,7 @@ const deployCore = async () => {
   await withConfirmation(
     cVaultProxy["initialize(address,address,bytes)"](
       dVault.address,
-      governorAddr,
+      cGovernor.address,
       []
     )
   );
@@ -289,7 +217,7 @@ const deployFlipper = async () => {
     assetAddresses.USDT,
   ]);
   const flipper = await ethers.getContract("Flipper");
-  await withConfirmation(flipper.transferGovernance(governorAddr));
+  await withConfirmation(flipper.transferGovernance(cGovernor.address));
   await withConfirmation(flipper.connect(sGovernor).claimGovernance());
 };
 

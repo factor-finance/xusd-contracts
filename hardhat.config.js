@@ -35,11 +35,11 @@ const {
 
 const MAINNET_DEPLOYER = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD";
 // Mainnet contracts are governed by the Governor contract (which derives off Timelock).
-const MAINNET_GOVERNOR = "__MAINNET_GOVERNOR";
+const MAINNET_GOVERNOR = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3";
 // Multi-sig that controls the Governor. Aka "Guardian".
 const MAINNET_MULTISIG = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD"; //"0x3afF095D0Dc1099643fE76010B458A8f68614Dff";
 const MAINNET_CLAIM_ADJUSTER = MAINNET_DEPLOYER;
-const MAINNET_STRATEGIST = "__MAINNET_STRATEGIST";
+const MAINNET_STRATEGIST = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3";
 
 const mnemonic =
   "replace hover unaware super where filter stone fine garlic address matrix basic";

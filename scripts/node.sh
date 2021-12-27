@@ -26,6 +26,7 @@ main()
         else
             params+=(--fork-block-number ${BLOCK_NUMBER})
         fi
+        yarn clean
         cp -r deployments/mainnet deployments/localhost
 
         nodeOutput=$(mktemp "${TMPDIR:-/tmp/}$(basename 0).XXX")

@@ -91,7 +91,6 @@ async function setup(hre) {
 async function beforeDeploy(hre) {
   // fund stablecoins to the 4th account in signers
   await setup(hre);
-
   const usdtBeforeMint = await getUsdtBalance();
   const xusdBeforeMint = await getXusdBalance(signer);
   const usdtToMint = "1100";
@@ -102,7 +101,7 @@ async function beforeDeploy(hre) {
     },
     hre
   );
-
+  console.log("106 minted");
   const usdtAfterMint = await getUsdtBalance();
   const xusdAfterMint = await getXusdBalance(signer);
 
@@ -112,7 +111,7 @@ async function beforeDeploy(hre) {
       `Incorrect usdt value. Got ${usdtAfterMint.toString()} expected: ${expectedUsdt.toString()}`
     );
   }
-
+  console.log("116 minted");
   const expectedXusd = xusdBeforeMint.add(xusdUnits(usdtToMint));
   assertExpectedXusd(xusdAfterMint, expectedXusd);
 

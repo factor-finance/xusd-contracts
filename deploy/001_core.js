@@ -185,7 +185,7 @@ const deployOracles = async () => {
 //
 
 const deployGovernor = async () => {
-  console.log("Running governor deployment...");
+  console.log("Running governor 1-minute deployment...");
   const { guardianAddr } = await hre.getNamedAccounts();
   if (!guardianAddr) {
     throw new Error("No guardian address defined.");
@@ -195,7 +195,7 @@ const deployGovernor = async () => {
   // Set a min delay of 60sec for executing proposals.
   await deployWithConfirmation("Governor", [guardianAddr, 60]);
 
-  console.log("Governonr deploy done.");
+  console.log("Governon 1-minute lock deploy done.");
   return true;
 };
 
@@ -222,8 +222,6 @@ const deployCore = async () => {
   const dVault = await deployWithConfirmation("Vault");
   const dVaultCore = await deployWithConfirmation("VaultCore");
   const dVaultAdmin = await deployWithConfirmation("VaultAdmin");
-
-  await deployGovernor();
 
   // Get contract instances
   const cXUSDProxy = await ethers.getContract("XUSDProxy");
@@ -298,6 +296,7 @@ const deployFlipper = async () => {
 const main = async () => {
   console.log("Running 001_core deployment...");
   // assumes you have a guardian deployed
+  await deployGovernor();
   await deployOracles();
   await deployCore();
   await deployAaveStrategy();
@@ -309,6 +308,6 @@ const main = async () => {
 
 main.id = "001_core";
 main.dependencies = ["mocks"];
-// main.skip = () => isFork;
+main.skip = () => isFork && !process.env.FORCE;
 
 module.exports = main;

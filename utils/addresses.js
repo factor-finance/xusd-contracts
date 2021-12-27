@@ -10,18 +10,18 @@ addresses.dead = "0x0000000000000000000000000000000000000001";
 
 addresses.mainnet = {};
 
-addresses.mainnet.Binance = "0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9";
+addresses.mainnet.Binance = "0xf851cbb9940f8baebd1d0eaf259335c108e9e893";
 /* All the whale  addresses. There is not 1 address that has enough of all of the stablecoins and ether.
  * But all together do. In case new ones are added update them from here:
  * https://snowtrace.io/accounts/label/binance?subcatid=3-0&size=100&start=0&col=2&order=desc
  */
 addresses.mainnet.BinanceAll =
-  "0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9,0x0455ea966197a69eccf5fc354b6a7896e0fe38f0,0x2d6b7235db3659c1751f342f6c80a49727bb1a1d";
+  "0xf851cbb9940f8baebd1d0eaf259335c108e9e893,0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9,0x0455ea966197a69eccf5fc354b6a7896e0fe38f0,0x2d6b7235db3659c1751f342f6c80a49727bb1a1d";
 
 // Native stablecoins
 addresses.mainnet.DAIe = "0xd586e7f844cea2f87f50152665bcbc2c279d8d70";
 addresses.mainnet.USDCe = "0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664";
-addresses.mainnet.USDTe = "0xc7198437980c041c805a1edcba50c1ce5db95118";
+addresses.mainnet.USDTe = "0xc7198437980c041c805A1EDcbA50c1Ce5db95118";
 
 // Native stablecoins
 addresses.mainnet.TUSD = "0x1c20e891bab6b1727d14da358fae2984ed9b59eb";

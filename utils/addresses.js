@@ -57,7 +57,7 @@ addresses.mainnet.chainlinkUSDT_USD =
 // WAVAX Token
 addresses.mainnet.WAVAX = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
 // Deployed XUSD contracts
-addresses.mainnet.Guardian = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3"; // ERC 20 owner multisig.
+addresses.mainnet.Guardian = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD"; // ERC 20 owner multisig.
 addresses.mainnet.VaultProxy = "__VaultProxy";
 addresses.mainnet.Vault = "__Vault";
 addresses.mainnet.XUSDProxy = "__XUSDProxy";

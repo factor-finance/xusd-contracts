@@ -53,7 +53,7 @@ const deployWithConfirmation = async (
     await assertUpgradeIsSafe(hre, contractName);
   }
 
-  const { deploy } = deployments;
+  const { deploy, catchUnknownSigner } = deployments;
   const { deployerAddr } = await getNamedAccounts();
   if (!args) args = null;
   if (!contract) contract = contractName;

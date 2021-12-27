@@ -4,7 +4,7 @@
   "description": "XUSD.fi Contracts",
   "main": "index.js",
   "scripts": {
-    "deploy": "npx hardhat deploy --export 'deployments/network.json'",
+    "deploy": "npx hardhat deploy --export 'deployments/localhost/network.json'",
     "deploy:fuji": "npx hardhat deploy --network fuji --verbose --export 'deployments/network.fuji.json'",
     "deploy:mainnet": "npx hardhat deploy --network mainnet --verbose --export 'deployments/network.mainnet.json'",
     "run_node": "./scripts/node.sh",

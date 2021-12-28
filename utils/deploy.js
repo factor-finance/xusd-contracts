@@ -57,6 +57,7 @@ const deployWithConfirmation = async (
   const { deployerAddr } = await getNamedAccounts();
   if (!args) args = null;
   if (!contract) contract = contractName;
+
   const result = await withConfirmation(
     deploy(contractName, {
       from: deployerAddr,
@@ -67,10 +68,8 @@ const deployWithConfirmation = async (
     })
   );
 
-  // if upgrade happened on the mainnet save the new storage slot layout to the repo
-  if (isMainnet) {
-    await storeStorageLayoutForContract(hre, contractName);
-  }
+  // save the new storage slot layout to the repo
+  await storeStorageLayoutForContract(hre, contractName);
 
   log(`Deployed ${contractName}`, result);
   return result;

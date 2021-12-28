@@ -12,15 +12,15 @@ contract Governable {
     // Storage position of the owner and pendingOwner of the contract
     // keccak256("XUSD.governor");
     bytes32 private constant governorPosition =
-        0x7bea13895fa79d2831e0a9e28edede30099005a50d652d8957cf8a607ee6ca4a;
+        0xfe7bb572d5723516ce4fe7a6a664f5adb38f5714efcd271411ed70a34d3ef2f7;
 
     // keccak256("XUSD.pending.governor");
     bytes32 private constant pendingGovernorPosition =
-        0x44c4d30b2eaad5130ad70c3ba6972730566f3e6359ab83e800d905c61b1c51db;
+        0x1973cae3d8695cb4c31dce9679edb790944900898ecc70570ba365e7de143b0a;
 
     // keccak256("XUSD.reentry.status");
     bytes32 private constant reentryStatusPosition =
-        0x53bf423e48ed90e97d02ab0ebab13b2a235a6bfbe9c321847d5c175333ac4535;
+        0x218adab1852f0bdeacb3305483cf296dbcf6abf496f646284463c8e6a43fa665;
 
     // See OpenZeppelin ReentrancyGuard implementation
     uint256 constant _NOT_ENTERED = 1;

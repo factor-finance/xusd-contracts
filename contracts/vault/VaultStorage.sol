@@ -83,7 +83,7 @@ contract VaultStorage is Initializable, Governable {
 
     //keccak256("XUSD.vault.governor.admin.impl");
     bytes32 constant adminImplPosition =
-        0xa2bd3d3cf188a41358c8b401076eb59066b09dec5775650c0de4c55187d17bd9;
+        0x10465603890dc6628fbe448d5030103026f8b8fd67cf4837783af8b8dde720a3;
 
     // Address of the contract responsible for post rebase syncs with AMMs
     address private _deprecated_rebaseHooksAddr = address(0);

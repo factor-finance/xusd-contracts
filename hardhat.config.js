@@ -9,7 +9,7 @@ require("hardhat-deploy-ethers");
 require("@openzeppelin/hardhat-upgrades");
 
 const { accounts, fund, mint, redeem, transfer } = require("./tasks/account");
-const { debug } = require("./tasks/debug");
+const { debug, printHashes } = require("./tasks/debug");
 const { env } = require("./tasks/env");
 const {
   execute,
@@ -33,13 +33,14 @@ const {
   yield,
 } = require("./tasks/vault");
 
-const MAINNET_DEPLOYER = "__MAINNET_DEPLOYER";
+const MAINNET_DEPLOYER = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD";
 // Mainnet contracts are governed by the Governor contract (which derives off Timelock).
-const MAINNET_GOVERNOR = "__MAINNET_GOVERNOR";
+const MAINNET_GOVERNOR = "0x20E0c5F61124D184101a0A8d9afaeA69F5dAB907";
+// 0x2836f32e009F031e3Fa15E8CD1e7277C560d6Fe3;
 // Multi-sig that controls the Governor. Aka "Guardian".
-const MAINNET_MULTISIG = "0xeaa70BfaF7dc872B3Ad9B177C461544e9F897b66";
+const MAINNET_MULTISIG = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD"; //"0x3afF095D0Dc1099643fE76010B458A8f68614Dff";
 const MAINNET_CLAIM_ADJUSTER = MAINNET_DEPLOYER;
-const MAINNET_STRATEGIST = "__MAINNET_STRATEGIST";
+const MAINNET_STRATEGIST = MAINNET_MULTISIG; // FIXME
 
 const mnemonic =
   "replace hover unaware super where filter stone fine garlic address matrix basic";
@@ -120,6 +121,8 @@ task("proposal", "Dumps the state of a proposal")
 task("governors", "Get list of governors for all contracts").setAction(
   governors
 );
+
+task("printHashes", "print hashes needed for storage slots", printHashes);
 
 // Smoke tests
 task(

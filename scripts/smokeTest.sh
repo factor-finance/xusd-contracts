@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Runs smoke tests to verify that contract changes don't break the basic functionality.
-# They can be run 2 ways: 
+# They can be run 2 ways:
 #
 # 1. With `deployid` parameter. Example: `scripts/smokeTest.sh --deployid 11`
 # When this mode is used
@@ -15,7 +15,7 @@
 # When this mode is used:
 # - all the before functions of smoke tests are ran
 # - process is waiting for user input, so user can connect to the node using hardhat console and
-#   execute commands on contracts. 
+#   execute commands on contracts.
 # - user confirms with `Enter` that the after functions of the smoke tests can continue.
 # - process waits for confirmation again to repeat the process
 
@@ -25,7 +25,7 @@ trap "exit" INT TERM ERR
 trap "kill 0" EXIT
 nodeWaitTimeout=60
 
-main()  
+main()
 {
     # Fetch env variables like PROVIDER_URL and BLOCK_NUMBER from .env file so they don't
     # need to be separately set in terminal environment
@@ -55,7 +55,7 @@ main()
     i=0
     until grep -q -i 'Started HTTP and WebSocket JSON-RPC server at' $nodeOutput
     do
-      let i++      
+      let i++
       printf "."
       sleep 1
       if (( i > nodeWaitTimeout )); then

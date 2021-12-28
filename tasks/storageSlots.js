@@ -20,7 +20,6 @@ const getStorageFileLocation = (hre, contractName) => {
   } else if (isFuji) {
     folder = "fuji";
   }
-
   const layoutFolder = `./storageLayout/${folder}/`;
   if (!existsSync(layoutFolder)) {
     mkdirSync(layoutFolder, { recursive: true });

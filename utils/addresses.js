@@ -10,18 +10,18 @@ addresses.dead = "0x0000000000000000000000000000000000000001";
 
 addresses.mainnet = {};
 
-addresses.mainnet.Binance = "0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9";
+addresses.mainnet.Binance = "0xf851cbb9940f8baebd1d0eaf259335c108e9e893";
 /* All the whale  addresses. There is not 1 address that has enough of all of the stablecoins and ether.
  * But all together do. In case new ones are added update them from here:
  * https://snowtrace.io/accounts/label/binance?subcatid=3-0&size=100&start=0&col=2&order=desc
  */
 addresses.mainnet.BinanceAll =
-  "0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9,0x0455ea966197a69eccf5fc354b6a7896e0fe38f0,0x2d6b7235db3659c1751f342f6c80a49727bb1a1d";
+  "0xf851cbb9940f8baebd1d0eaf259335c108e9e893,0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9,0x0455ea966197a69eccf5fc354b6a7896e0fe38f0,0x2d6b7235db3659c1751f342f6c80a49727bb1a1d";
 
 // Native stablecoins
-addresses.mainnet.DAIe = "0xd586e7f844cea2f87f50152665bcbc2c279d8d70";
-addresses.mainnet.USDCe = "0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664";
-addresses.mainnet.USDTe = "0xc7198437980c041c805a1edcba50c1ce5db95118";
+addresses.mainnet.DAIe = "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70";
+addresses.mainnet.USDCe = "0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664";
+addresses.mainnet.USDTe = "0xc7198437980c041c805A1EDcbA50c1Ce5db95118";
 
 // Native stablecoins
 addresses.mainnet.TUSD = "0x1c20e891bab6b1727d14da358fae2984ed9b59eb";
@@ -48,16 +48,18 @@ addresses.mainnet.AAVE_INCENTIVES_CONTROLLER =
 addresses.mainnet.chainlinkAVAX_USD =
   "0x0a77230d17318075983913bc2145db16c7366156";
 addresses.mainnet.chainlinkDAI_USD =
-  "0x51d7180eda2260cc4f6e4eebb82fef5c3c2b8300";
+  "0x51D7180edA2260cc4F6e4EebB82FEF5c3c2B8300";
 addresses.mainnet.chainlinkUSDC_USD =
   "0xf096872672f44d6eba71458d74fe67f9a77a23b9";
 addresses.mainnet.chainlinkUSDT_USD =
+  "0xebe676ee90fe1112671f19b6b7459bc678b67e8a";
+addresses.mainnet.chainlinkTUSD_USD =
   "0xebe676ee90fe1112671f19b6b7459bc678b67e8a";
 
 // WAVAX Token
 addresses.mainnet.WAVAX = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
 // Deployed XUSD contracts
-addresses.mainnet.Guardian = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3"; // ERC 20 owner multisig.
+addresses.mainnet.Guardian = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD"; // ERC 20 owner multisig.
 addresses.mainnet.VaultProxy = "__VaultProxy";
 addresses.mainnet.Vault = "__Vault";
 addresses.mainnet.XUSDProxy = "__XUSDProxy";

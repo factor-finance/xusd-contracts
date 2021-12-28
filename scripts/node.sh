@@ -30,7 +30,7 @@ main()
 
         nodeOutput=$(mktemp "${TMPDIR:-/tmp/}$(basename 0).XXX")
         # the --no-install is here so npx doesn't download some package on its own if it can not find one in the repo
-        npx --no-install hardhat node --no-reset --export 'deployments/network.json' ${params[@]} > $nodeOutput 2>&1 &
+        npx --no-install hardhat node --no-reset --no-deploy --export 'deployments/network.json' ${params[@]} > $nodeOutput 2>&1 &
 
         echo "Node output: $nodeOutput"
         echo "Waiting for node to initialize:"
@@ -48,13 +48,14 @@ main()
         done
         printf "\n"
         echo "🟢 Node initialized"
-
+        yarn deploy --network localhost --tags mocks
         FORK=true npx hardhat fund --amount 100000 --network localhost --accountsfromenv true &
+        FORK=true yarn deploy --network localhost
         cat $nodeOutput
         tail -f -n0 $nodeOutput
 
     else
-        npx --no-install hardhat node --export 'deployments/network.json'
+        npx --no-install hardhat node --export 'deployments/network.json' --no-deploy
     fi
 }
 

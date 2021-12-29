@@ -32,7 +32,7 @@ const {
   rebase,
   yield,
 } = require("./tasks/vault");
-const { mintToken } = require("./tasks/contracts.js");
+const { mintToken, getAVTokenAddress } = require("./tasks/contracts.js");
 const addresses = require("./utils/addresses.js");
 
 const mnemonic =
@@ -78,12 +78,6 @@ task("transfer", "Transfer XUSD")
   .addParam("to", "Destination address")
   .setAction(transfer);
 
-task("mintToken", "Mint mintable token on testest")
-  .addParam("address", "The address of the mintable ERC20")
-  .addParam("from", "The address of caller")
-  .addParam("amount", "The amount to mint")
-  .setAction(mintToken);
-
 // Debug tasks.
 task("debug", "Print info about contracts and their configs", debug);
 
@@ -94,7 +88,10 @@ task("balance", "Get XUSD balance of an account")
 
 // Vault tasks.
 task("allocate", "Call allocate() on the Vault", allocate);
-task("capital", "Set the Vault's pauseCapital flag", capital);
+task("capital", "Set the Vault's pauseCapital flag", capital).addParam(
+  "pause",
+  "true to pause, false to unpause"
+);
 task("harvest", "Call harvest() on Vault", harvest);
 task("rebase", "Call rebase() on the Vault", rebase);
 task("yield", "Artificially generate yield on the Vault", yield);
@@ -121,7 +118,16 @@ task("governors", "Get list of governors for all contracts").setAction(
   governors
 );
 
+// util tasks
 task("printHashes", "print hashes needed for storage slots", printHashes);
+task("mintToken", "Mint mintable token on testest")
+  .addParam("address", "The address of the mintable ERC20")
+  .addParam("from", "The address of caller")
+  .addParam("amount", "The amount to mint")
+  .setAction(mintToken);
+task("getAVTokenAddress", "print the aave AV token addresses")
+  .addParam("address", "the address to call getReserveTokenAddresses() on")
+  .setAction(getAVTokenAddress);
 
 // Smoke tests
 task(

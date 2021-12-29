@@ -240,17 +240,16 @@ const getAssetAddresses = async (deployments) => {
     };
   } else if (isFuji) {
     return {
-      // FIXME USDC
-      USDT: addresses.mainnet.USDT,
-      DAI: addresses.mainnet.DAI,
+      USDT: addresses.fuji.USDT,
+      DAI: addresses.fuji.DAI,
       USDC: addresses.fuji.USDC,
-      WAVAX: addresses.mainnet.WAVAX,
-      avDAI: addresses.mainnet.avDAI,
-      avUSDC: addresses.mainnet.avUSDC,
-      avUSDT: addresses.mainnet.avUSDT,
-      AAVE: addresses.mainnet.Aave,
-      AAVE_ADDRESS_PROVIDER: addresses.mainnet.AAVE_ADDRESS_PROVIDER,
-      AAVE_INCENTIVES_CONTROLLER: addresses.mainnet.AAVE_INCENTIVES_CONTROLLER,
+      WAVAX: addresses.fuji.WAVAX,
+      avDAI: addresses.fuji.avDAI,
+      avUSDC: addresses.fuji.avUSDC,
+      avUSDT: addresses.fuji.avUSDT,
+      AAVE: addresses.fuji.Aave,
+      AAVE_ADDRESS_PROVIDER: addresses.fuji.AAVE_ADDRESS_PROVIDER,
+      AAVE_INCENTIVES_CONTROLLER: addresses.fuji.AAVE_INCENTIVES_CONTROLLER,
     };
   } else {
     console.log("Using mock addresses.");

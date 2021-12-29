@@ -79,10 +79,10 @@ addresses.fuji.Deployer = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3";
 addresses.fuji.Guardian = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3"; // ERC 20 owner multisig.
 addresses.fuji.Governor = "0xE93407D0100dc7660cCD45BF65b0D35F7dFE3FAb";
 addresses.fuji.Strategist = addresses.fuji.Guardian; // FIXME: separation!
-addresses.fuji.VaultProxy = "__VaultProxy";
-addresses.fuji.Vault = "__Vault";
-addresses.fuji.XUSDProxy = "__XUSDProxy";
-addresses.fuji.XUSD = "__XUSD";
+addresses.fuji.VaultProxy = "0x79603f8Abb6EcD6FEf34D1f77a58AAC2871C5ec0";
+addresses.fuji.Vault = "0xe370bAE2B74781cD22BC27DbA2D187DF7b7DC70C";
+addresses.fuji.XUSDProxy = "0xF3F0aD94433f2D291b1051A97984a02B1f828D03";
+addresses.fuji.XUSD = "0x0ff6AccE4a4fFa221930773F21d771F7114C06c0";
 
 addresses.fuji.chainlinkAVAX_USD = "0x5498bb86bc934c8d34fda08e81d444153d0d06ad";
 addresses.fuji.chainlinkUSDT_USD = "0x7898AcCC83587C3C55116c5230C17a6Cd9C71bad";

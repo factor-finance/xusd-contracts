@@ -58,19 +58,42 @@ addresses.mainnet.chainlinkTUSD_USD =
 
 // WAVAX Token
 addresses.mainnet.WAVAX = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
-// Deployed XUSD contracts
+
+// XUSD contracts and tools
+addresses.mainnet.Deployer = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD";
+// Mainnet contracts are governed by the Governor contract (which derives off Timelock).
+addresses.mainnet.Governor = "0x20E0c5F61124D184101a0A8d9afaeA69F5dAB907";
 addresses.mainnet.Guardian = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD"; // ERC 20 owner multisig.
+addresses.mainnet.Strategist = addresses.mainnet.Guardian; // FIXME: separation!
 addresses.mainnet.VaultProxy = "__VaultProxy";
 addresses.mainnet.Vault = "__Vault";
 addresses.mainnet.XUSDProxy = "__XUSDProxy";
 addresses.mainnet.XUSD = "__XUSD";
-
 addresses.mainnet.MixOracle = "__Mixoracle";
-addresses.mainnet.UniswapOracle = "__UniswapOracle";
-addresses.mainnet.CompensationClaims = "__CompensationClaims";
-addresses.mainnet.Flipper = "__Flipper";
 
 /* --- FUJI --- */
 addresses.fuji = {};
+// XUSD contracts and tools
+addresses.fuji.Deployer = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3";
+// Fuji contracts are governed by the Governor contract (which derives off Timelock).
+addresses.fuji.Guardian = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3"; // ERC 20 owner multisig.
+addresses.fuji.Governor = "0xE93407D0100dc7660cCD45BF65b0D35F7dFE3FAb";
+addresses.fuji.Strategist = addresses.fuji.Guardian; // FIXME: separation!
+addresses.fuji.VaultProxy = "__VaultProxy";
+addresses.fuji.Vault = "__Vault";
+addresses.fuji.XUSDProxy = "__XUSDProxy";
+addresses.fuji.XUSD = "__XUSD";
+
+addresses.fuji.chainlinkAVAX_USD = "0x5498bb86bc934c8d34fda08e81d444153d0d06ad";
+addresses.fuji.chainlinkUSDT_USD = "0x7898AcCC83587C3C55116c5230C17a6Cd9C71bad";
+
+addresses.fuji.WAVAX = "0xd00ae08403B9bbb9124bB305C09058E32C39A48c";
+addresses.fuji.USDT = "0x02823f9B469960Bb3b1de0B3746D4b95B7E35543"; // mintable
+addresses.fuji.DAI = "0x51BC2DfB9D12d9dB50C855A5330fBA0faF761D15";
+addresses.fuji.USDC = "0x3a9fc2533eafd09bc5c36a7d6fdd0c664c81d659";
+addresses.fuji.AAVE_INCENTIVES_CONTROLLER =
+  "0xa1EF206fb9a8D8186157FC817fCddcC47727ED55";
+addresses.fuji.AAVE_ADDRESS_PROVIDER =
+  "0x7fdC1FdF79BE3309bf82f4abdAD9f111A6590C0f";
 
 module.exports = addresses;

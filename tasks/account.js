@@ -28,11 +28,6 @@ async function accounts(taskArguments, hre, privateKeys) {
   const accounts = await hre.ethers.getSigners();
   const roles = ["Deployer", "Governor"];
 
-  const isMainnetOrFuji = ["mainnet", "fuji"].includes(hre.network.name);
-  if (isMainnetOrFuji) {
-    privateKeys = [process.env.DEPLOYER_PK, process.env.GOVERNOR_PK];
-  }
-
   let i = 0;
   for (const account of accounts) {
     const role = roles.length > i ? `[${roles[i]}]` : "";

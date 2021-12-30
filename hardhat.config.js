@@ -215,7 +215,7 @@ module.exports = {
   namedAccounts: {
     deployerAddr: {
       default: 0,
-      localhost: addresses.mainnet.Deployer,
+      localhost: addresses.mainnet.Guardian,
       fuji: addresses.fuji.Deployer,
       mainnet: addresses.mainnet.Deployer,
     },

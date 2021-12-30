@@ -26,7 +26,6 @@ const configureVault = async () => {
       await ethers.getContract("VaultProxy")
     ).address
   );
-  console.log(34);
   // Set up supported assets for Vault
   await withConfirmation(
     cVault.connect(sGovernor).supportAsset(assetAddresses.USDT)

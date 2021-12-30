@@ -91,7 +91,7 @@ contract OracleRouterTestnet is OracleRouterBase {
             return address(0x7898AcCC83587C3C55116c5230C17a6Cd9C71bad);
         } else if (
             // rando USDC
-            asset == address(0x3a9fc2533eafd09bc5c36a7d6fdd0c664c81d659)
+            asset == address(0x3a9fC2533eaFd09Bc5C36A7D6fdd0C664C81d659)
         ) {
             // Chainlink: USDT/USD ~1
             return address(0x7898AcCC83587C3C55116c5230C17a6Cd9C71bad);
@@ -106,7 +106,7 @@ contract OracleRouterTestnet is OracleRouterBase {
             asset == address(0xd00ae08403B9bbb9124bB305C09058E32C39A48c)
         ) {
             // Chainlink: WAVAX/USD
-            return address(0x5498bb86bc934c8d34fda08e81d444153d0d06ad);
+            return address(0x5498BB86BC934c8D34FDA08E81D444153d0D06aD);
         } else {
             revert("Asset not available");
         }

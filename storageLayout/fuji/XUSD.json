@@ -93,7 +93,7 @@
     {
       "contract": "XUSD",
       "label": "rebaseState",
-      "type": "t_mapping(t_address,t_enum(RebaseOptions)8767)",
+      "type": "t_mapping(t_address,t_enum(RebaseOptions)8837)",
       "src": "contracts/token/XUSD.sol:51"
     },
     {
@@ -116,10 +116,10 @@
     "t_mapping(t_address,t_uint256)": {
       "label": "mapping(address => uint256)"
     },
-    "t_mapping(t_address,t_enum(RebaseOptions)8767)": {
+    "t_mapping(t_address,t_enum(RebaseOptions)8837)": {
       "label": "mapping(address => enum XUSD.RebaseOptions)"
     },
-    "t_enum(RebaseOptions)8767": {
+    "t_enum(RebaseOptions)8837": {
       "label": "enum XUSD.RebaseOptions",
       "members": [
         "NotSet",

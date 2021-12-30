@@ -17,7 +17,6 @@ const deployOracles = async () => {
   // Signers
   const sDeployer = await ethers.provider.getSigner(deployerAddr);
 
-  // TODO: Change this to intelligently decide which router contract to deploy?
   let oracleContract;
   if (isTest) {
     oracleContract = "OracleRouterDev";

@@ -79,6 +79,40 @@ contract OracleRouter is OracleRouterBase {
     }
 }
 
+contract OracleRouterTestnet is OracleRouterBase {
+    /**
+     * @dev The price feed contract to use for a particular asset. Testnet hacks.
+     * @param asset address of the asset
+     */
+    function feed(address asset) internal pure override returns (address) {
+        // DAI
+        if (asset == address(0x51BC2DfB9D12d9dB50C855A5330fBA0faF761D15)) {
+            // Chainlink: USDT/USD ~1
+            return address(0x7898AcCC83587C3C55116c5230C17a6Cd9C71bad);
+        } else if (
+            // rando USDC
+            asset == address(0x3a9fC2533eaFd09Bc5C36A7D6fdd0C664C81d659)
+        ) {
+            // Chainlink: USDT/USD ~1
+            return address(0x7898AcCC83587C3C55116c5230C17a6Cd9C71bad);
+        } else if (
+            // USDTe
+            asset == address(0x02823f9B469960Bb3b1de0B3746D4b95B7E35543)
+        ) {
+            // Chainlink: USDT/USD ~1
+            return address(0x7898AcCC83587C3C55116c5230C17a6Cd9C71bad);
+        } else if (
+            // WAVAX
+            asset == address(0xd00ae08403B9bbb9124bB305C09058E32C39A48c)
+        ) {
+            // Chainlink: WAVAX/USD
+            return address(0x5498BB86BC934c8D34FDA08E81D444153d0D06aD);
+        } else {
+            revert("Asset not available");
+        }
+    }
+}
+
 contract OracleRouterDev is OracleRouterBase {
     mapping(address => address) public assetToFeed;
 

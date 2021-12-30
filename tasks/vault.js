@@ -138,7 +138,7 @@ async function capital(taskArguments, hre) {
 
   const param = taskArguments.pause.toLowerCase();
   if (param !== "true" && param !== "false")
-    throw new Error("Set unpause param to true or false");
+    throw new Error("Set pause param to true or false");
   const pause = param === "true";
   console.log("Setting Vault capitalPause to", pause);
 

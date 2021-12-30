@@ -190,7 +190,14 @@ const getOracleAddresses = async (deployments) => {
         USDC_USD: addresses.mainnet.chainlinkUSDC_USD,
         USDT_USD: addresses.mainnet.chainlinkUSDT_USD,
       },
-      openOracle: addresses.mainnet.openOracle, // Deprecated
+    };
+  } else if (isFuji) {
+    return {
+      AVAX_USD: addresses.fuji.chainlinkAVAX_USD,
+      // for stablecoins, only USDT/USD is available, so it it for all: https://docs.chain.link/docs/avalanche-price-feeds/#Avalanche%20Testnet
+      USDT_USD: addresses.fuji.chainlinkUSDT_USD,
+      DAI_USD: addresses.fuji.chainlinkUSDT_USD,
+      USDC_USD: addresses.fuji.chainlinkUSDT_USD,
     };
   } else {
     // On other environments, return mock feeds.
@@ -230,6 +237,19 @@ const getAssetAddresses = async (deployments) => {
       AAVE: addresses.mainnet.Aave,
       AAVE_ADDRESS_PROVIDER: addresses.mainnet.AAVE_ADDRESS_PROVIDER,
       AAVE_INCENTIVES_CONTROLLER: addresses.mainnet.AAVE_INCENTIVES_CONTROLLER,
+    };
+  } else if (isFuji) {
+    return {
+      USDT: addresses.fuji.USDT,
+      DAI: addresses.fuji.DAI,
+      USDC: addresses.fuji.USDC,
+      WAVAX: addresses.fuji.WAVAX,
+      avDAI: addresses.fuji.avDAI,
+      avUSDC: addresses.fuji.avUSDC,
+      avUSDT: addresses.fuji.avUSDT,
+      AAVE: addresses.fuji.Aave,
+      AAVE_ADDRESS_PROVIDER: addresses.fuji.AAVE_ADDRESS_PROVIDER,
+      AAVE_INCENTIVES_CONTROLLER: addresses.fuji.AAVE_INCENTIVES_CONTROLLER,
     };
   } else {
     console.log("Using mock addresses.");

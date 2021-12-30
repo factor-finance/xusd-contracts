@@ -4,8 +4,8 @@ const path = require("path");
 const {
   getAssetAddresses,
   getOracleAddresses,
-  isMainnet,
   isTest,
+  isFuji,
 } = require("../test/helpers.js");
 const { deployWithConfirmation, withConfirmation } = require("../utils/deploy");
 
@@ -17,8 +17,14 @@ const deployOracles = async () => {
   // Signers
   const sDeployer = await ethers.provider.getSigner(deployerAddr);
 
-  // TODO: Change this to intelligently decide which router contract to deploy?
-  const oracleContract = !isTest ? "OracleRouter" : "OracleRouterDev";
+  let oracleContract;
+  if (isTest) {
+    oracleContract = "OracleRouterDev";
+  } else if (isFuji) {
+    oracleContract = "OracleRouterTestnet";
+  } else {
+    oracleContract = "OracleRouter";
+  }
   await deployWithConfirmation("OracleRouter", [], oracleContract);
   const oracleRouter = await ethers.getContract("OracleRouter");
 

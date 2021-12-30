@@ -1,12 +1,7 @@
 const hre = require("hardhat");
 
 const path = require("path");
-const {
-  getAssetAddresses,
-  getOracleAddresses,
-  isMainnet,
-  isFork,
-} = require("../test/helpers.js");
+const { getAssetAddresses, isMainnet } = require("../test/helpers.js");
 const {
   log,
   deployWithConfirmation,
@@ -66,7 +61,7 @@ const deployAaveStrategy = async () => {
   await withConfirmation(
     cAaveStrategy.connect(sDeployer).transferGovernance(governorAddr)
   );
-  log(`AaveStrategy transferGovernance(${governorAddr} called`);
+  console.log(`AaveStrategy transferGovernance(${governorAddr} called`);
 
   // On Mainnet the governance transfer gets executed separately, via the
   // multi-sig wallet. On other networks, this migration script can claim
@@ -77,61 +72,15 @@ const deployAaveStrategy = async () => {
         .connect(sGovernor) // Claim governance with governor
         .claimGovernance()
     );
-    log("Claimed governance for AaveStrategy");
+    console.log("Claimed governance for AaveStrategy");
   }
 
   return cAaveStrategy;
 };
 
-/**
- * Configure Vault by adding supported assets and Strategies.
- */
-const configureVault = async () => {
-  const assetAddresses = await getAssetAddresses(deployments);
-  const { guardianAddr, strategistAddr } = await getNamedAccounts();
-  const governorAddr = guardianAddr;
-  console.log(governorAddr, strategistAddr);
-  // Signers
-  const sGovernor = await ethers.provider.getSigner(governorAddr);
-
-  await ethers.getContractAt(
-    "VaultInitializer",
-    (
-      await ethers.getContract("VaultProxy")
-    ).address
-  );
-  const cVault = await ethers.getContractAt(
-    "VaultAdmin",
-    (
-      await ethers.getContract("VaultProxy")
-    ).address
-  );
-  // Set up supported assets for Vault
-  await withConfirmation(
-    cVault.connect(sGovernor).supportAsset(assetAddresses.DAI)
-  );
-  log("Added DAI asset to Vault");
-  await withConfirmation(
-    cVault.connect(sGovernor).supportAsset(assetAddresses.USDT)
-  );
-  log("Added USDT asset to Vault");
-  await withConfirmation(
-    cVault.connect(sGovernor).supportAsset(assetAddresses.USDC)
-  );
-  log("Added USDC asset to Vault");
-  // Unpause deposits
-  await withConfirmation(cVault.connect(sGovernor).unpauseCapital());
-  log("Unpaused deposits on Vault");
-  // Set Strategist address.
-  await withConfirmation(
-    cVault.connect(sGovernor).setStrategistAddr(strategistAddr)
-  );
-};
-
 const baseName = path.basename(__filename);
 const main = async () => {
   console.log(`Running ${baseName} deployment...`);
-  await configureVault();
   await deployAaveStrategy();
 
   console.log(`${baseName} deploy done.`);
@@ -139,7 +88,7 @@ const main = async () => {
 };
 
 main.id = baseName;
-main.dependencies = ["proxies", "oracles", "mocks"];
+main.dependencies = ["proxies", "oracles", "vault_config"];
 main.tags = ["strategies"];
 
 module.exports = main;

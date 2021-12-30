@@ -28,11 +28,6 @@ async function accounts(taskArguments, hre, privateKeys) {
   const accounts = await hre.ethers.getSigners();
   const roles = ["Deployer", "Governor"];
 
-  const isMainnetOrFuji = ["mainnet", "fuji"].includes(hre.network.name);
-  if (isMainnetOrFuji) {
-    privateKeys = [process.env.DEPLOYER_PK, process.env.GOVERNOR_PK];
-  }
-
   let i = 0;
   for (const account of accounts) {
     const role = roles.length > i ? `[${roles[i]}]` : "";
@@ -219,10 +214,10 @@ async function fund(taskArguments, hre) {
  */
 async function mint(taskArguments, hre) {
   const addresses = require("../utils/addresses");
-  const { usdtUnits, isFork, isLocalhost } = require("../test/helpers");
+  const { usdtUnits, isFork, isFuji, isLocalhost } = require("../test/helpers");
 
-  if (!isFork && !isLocalhost) {
-    throw new Error("Task can only be used on local or fork");
+  if (!isFork && !isLocalhost && !isFuji) {
+    throw new Error("Task can only be used on local, fork, or testnet");
   }
 
   const xusdProxy = await ethers.getContract("XUSDProxy");
@@ -234,12 +229,20 @@ async function mint(taskArguments, hre) {
   let usdt;
   if (isFork) {
     usdt = await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
+  } else if (isFuji) {
+    usdt = await hre.ethers.getContractAt(
+      usdtAbi,
+      addresses[hre.network.name].USDT
+    );
   } else {
     usdt = await hre.ethers.getContract("MockUSDT");
   }
 
   const numAccounts = Number(taskArguments.num) || defaultNumAccounts;
-  const accountIndex = Number(taskArguments.index) || defaultAccountIndex;
+  const accountIndex =
+    Number(taskArguments.index) > -1
+      ? Number(taskArguments.index)
+      : defaultAccountIndex;
   const mintAmount = taskArguments.amount || defaultMintAmount;
 
   const signers = await hre.ethers.getSigners();
@@ -258,24 +261,26 @@ async function mint(taskArguments, hre) {
       );
     }
 
-    // for some reason we need to call impersonateAccount even on default list of signers
-    await hre.network.provider.request({
-      method: "hardhat_impersonateAccount",
-      params: [signer.address],
-    });
+    if (isFork) {
+      // for some reason we need to call impersonateAccount even on default list of signers
+      await hre.network.provider.request({
+        method: "hardhat_impersonateAccount",
+        params: [signer.address],
+      });
+    }
 
     // Reset approval before requesting a fresh one, or non first approve calls will fail
     await usdt
       .connect(signer)
-      .approve(vault.address, "0x0", { gasLimit: 1000000 });
+      .approve(vault.address, "0x0", { gasLimit: 270000 });
     await usdt
       .connect(signer)
-      .approve(vault.address, usdtUnits(mintAmount), { gasLimit: 1000000 });
+      .approve(vault.address, usdtUnits(mintAmount), { gasLimit: 470000 });
 
     // Mint.
     await vault
       .connect(signer)
-      .mint(usdt.address, usdtUnits(mintAmount), 0, { gasLimit: 2000000 });
+      .mint(usdt.address, usdtUnits(mintAmount), 0, { gasLimit: 8000000 });
 
     // Show new account's balance.
     const xusdBalance = await xusd.balanceOf(address);

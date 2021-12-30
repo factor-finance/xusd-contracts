@@ -17,7 +17,7 @@ import { IAaveIncentivesController } from "./IAaveIncentivesController.sol";
 contract AaveStrategy is InitializableAbstractStrategy {
     using SafeERC20 for IERC20;
 
-    uint16 constant referralCode = 92;
+    uint16 constant referralCode = 0;
 
     IAaveIncentivesController public incentivesController;
 

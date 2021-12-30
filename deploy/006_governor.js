@@ -21,6 +21,7 @@ const deployNewGovernor = async () => {
   return true;
 };
 
+// TODO update to 3-day governor
 const updateToNewGovernor = async (governor) => {};
 
 const baseName = path.basename(__filename);

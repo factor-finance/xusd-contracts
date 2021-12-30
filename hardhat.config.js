@@ -32,15 +32,8 @@ const {
   rebase,
   yield,
 } = require("./tasks/vault");
-
-const MAINNET_DEPLOYER = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD";
-// Mainnet contracts are governed by the Governor contract (which derives off Timelock).
-const MAINNET_GOVERNOR = "0x20E0c5F61124D184101a0A8d9afaeA69F5dAB907";
-// 0x2836f32e009F031e3Fa15E8CD1e7277C560d6Fe3;
-// Multi-sig that controls the Governor. Aka "Guardian".
-const MAINNET_MULTISIG = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD"; //"0x3afF095D0Dc1099643fE76010B458A8f68614Dff";
-const MAINNET_CLAIM_ADJUSTER = MAINNET_DEPLOYER;
-const MAINNET_STRATEGIST = MAINNET_MULTISIG; // FIXME
+const { mintToken, getAVTokenAddress } = require("./tasks/contracts.js");
+const addresses = require("./utils/addresses.js");
 
 const mnemonic =
   "replace hover unaware super where filter stone fine garlic address matrix basic";
@@ -95,7 +88,10 @@ task("balance", "Get XUSD balance of an account")
 
 // Vault tasks.
 task("allocate", "Call allocate() on the Vault", allocate);
-task("capital", "Set the Vault's pauseCapital flag", capital);
+task("capital", "Set the Vault's pauseCapital flag", capital).addParam(
+  "pause",
+  "true to pause, false to unpause"
+);
 task("harvest", "Call harvest() on Vault", harvest);
 task("rebase", "Call rebase() on the Vault", rebase);
 task("yield", "Artificially generate yield on the Vault", yield);
@@ -122,7 +118,18 @@ task("governors", "Get list of governors for all contracts").setAction(
   governors
 );
 
+// util tasks
 task("printHashes", "print hashes needed for storage slots", printHashes);
+task("mintToken", "Mint mintable token on testest")
+  .addParam("address", "The address of the mintable ERC20")
+  .addParam("from", "The address of caller")
+  .addParam("amount", "The amount to mint")
+  .setAction(mintToken);
+task(
+  "getAVTokenAddress",
+  "print the aave AV token addresses",
+  getAVTokenAddress
+);
 
 // Smoke tests
 task(
@@ -208,34 +215,32 @@ module.exports = {
   namedAccounts: {
     deployerAddr: {
       default: 0,
-      localhost: MAINNET_MULTISIG,
-      mainnet: MAINNET_DEPLOYER,
+      localhost: addresses.mainnet.Guardian,
+      fuji: addresses.fuji.Deployer,
+      mainnet: addresses.mainnet.Deployer,
     },
     governorAddr: {
       default: 1,
       // On Mainnet and fork, the governor is the Governor contract.
-      localhost: process.env.FORK === "true" ? MAINNET_GOVERNOR : 1,
-      hardhat: process.env.FORK === "true" ? MAINNET_GOVERNOR : 1,
-      mainnet: MAINNET_GOVERNOR,
+      localhost: process.env.FORK === "true" ? addresses.mainnet.Governor : 1,
+      hardhat: process.env.FORK === "true" ? addresses.mainnet.Governor : 1,
+      fuji: addresses.fuji.Governor,
+      mainnet: addresses.mainnet.Governor,
     },
     guardianAddr: {
       default: 1,
       // On mainnet and fork, the guardian is the multi-sig.
-      localhost: process.env.FORK === "true" ? MAINNET_MULTISIG : 1,
-      hardhat: process.env.FORK === "true" ? MAINNET_MULTISIG : 1,
-      mainnet: MAINNET_MULTISIG,
-    },
-    adjusterAddr: {
-      default: 0,
-      localhost: process.env.FORK === "true" ? MAINNET_CLAIM_ADJUSTER : 0,
-      hardhat: process.env.FORK === "true" ? MAINNET_CLAIM_ADJUSTER : 0,
-      mainnet: MAINNET_CLAIM_ADJUSTER,
+      localhost: process.env.FORK === "true" ? addresses.mainnet.Guardian : 1,
+      hardhat: process.env.FORK === "true" ? addresses.mainnet.Guardian : 1,
+      fuji: addresses.fuji.Guardian,
+      mainnet: addresses.mainnet.Guardian,
     },
     strategistAddr: {
       default: 0,
-      localhost: process.env.FORK === "true" ? MAINNET_STRATEGIST : 0,
-      hardhat: process.env.FORK === "true" ? MAINNET_STRATEGIST : 0,
-      mainnet: MAINNET_STRATEGIST,
+      localhost: process.env.FORK === "true" ? addresses.mainnet.Strategist : 0,
+      hardhat: process.env.FORK === "true" ? addresses.mainnet.Strategist : 0,
+      fuji: addresses.fuji.Strategist,
+      mainnet: addresses.mainnet.Strategist,
     },
   },
   contractSizer: {
@@ -243,6 +248,6 @@ module.exports = {
     runOnCompile: true,
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    apiKey: process.env.XUSD_SNOWTRACE_API_KEY,
   },
 };

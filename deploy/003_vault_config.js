@@ -28,13 +28,13 @@ const configureVault = async () => {
   );
   // Set up supported assets for Vault
   await withConfirmation(
-    cVault.connect(sGovernor).supportAsset(assetAddresses.USDT)
-  );
-  log("Added USDT asset to Vault");
-  await withConfirmation(
     cVault.connect(sGovernor).supportAsset(assetAddresses.DAI)
   );
   log("Added DAI asset to Vault");
+  await withConfirmation(
+    cVault.connect(sGovernor).supportAsset(assetAddresses.USDT)
+  );
+  log("Added USDT asset to Vault");
   await withConfirmation(
     cVault.connect(sGovernor).supportAsset(assetAddresses.USDC)
   );

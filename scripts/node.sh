@@ -26,7 +26,7 @@ main()
         else
             params+=(--fork-block-number ${BLOCK_NUMBER})
         fi
-        cp -r deployments/fuji  deployments/localhost
+        cp -r deployments/mainnet  deployments/localhost
 
         nodeOutput=$(mktemp "${TMPDIR:-/tmp/}$(basename 0).XXX")
         # the --no-install is here so npx doesn't download some package on its own if it can not find one in the repo

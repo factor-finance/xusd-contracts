@@ -1,12 +1,7 @@
 const hre = require("hardhat");
 
 const path = require("path");
-const {
-  getAssetAddresses,
-  getOracleAddresses,
-  isMainnet,
-  isFork,
-} = require("../test/helpers.js");
+const { getAssetAddresses, isMainnet } = require("../test/helpers.js");
 const {
   log,
   deployWithConfirmation,
@@ -66,7 +61,7 @@ const deployAaveStrategy = async () => {
   await withConfirmation(
     cAaveStrategy.connect(sDeployer).transferGovernance(governorAddr)
   );
-  log(`AaveStrategy transferGovernance(${governorAddr} called`);
+  console.log(`AaveStrategy transferGovernance(${governorAddr} called`);
 
   // On Mainnet the governance transfer gets executed separately, via the
   // multi-sig wallet. On other networks, this migration script can claim
@@ -77,7 +72,7 @@ const deployAaveStrategy = async () => {
         .connect(sGovernor) // Claim governance with governor
         .claimGovernance()
     );
-    log("Claimed governance for AaveStrategy");
+    console.log("Claimed governance for AaveStrategy");
   }
 
   return cAaveStrategy;
@@ -93,7 +88,7 @@ const main = async () => {
 };
 
 main.id = baseName;
-main.dependencies = ["proxies", "oracles", "mocks", "vault_config"];
+main.dependencies = ["proxies", "oracles", "vault_config"];
 main.tags = ["strategies"];
 
 module.exports = main;

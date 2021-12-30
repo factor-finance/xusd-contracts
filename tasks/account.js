@@ -270,10 +270,10 @@ async function mint(taskArguments, hre) {
     // Reset approval before requesting a fresh one, or non first approve calls will fail
     await usdt
       .connect(signer)
-      .approve(vault.address, "0x0", { gasLimit: 27001 });
+      .approve(vault.address, "0x0", { gasLimit: 270000 });
     await usdt
       .connect(signer)
-      .approve(vault.address, usdtUnits(mintAmount), { gasLimit: 47001 });
+      .approve(vault.address, usdtUnits(mintAmount), { gasLimit: 470000 });
 
     // Mint.
     await vault

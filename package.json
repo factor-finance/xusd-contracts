@@ -57,6 +57,6 @@
     "web3-utils": "^1.5.2"
   },
   "dependencies": {
-    "@aave/protocol-v2": "^1.0.1"
+    "@aave/protocol-v2": "^1.0.0"
   }
 }

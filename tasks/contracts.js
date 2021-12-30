@@ -1,7 +1,6 @@
 const { parseUnits } = require("ethers").utils;
-const addressProviderAbi =
+const aaveProviderAbi =
   require("@aave/protocol-v2/artifacts/contracts/misc/AaveProtocolDataProvider.sol/AaveProtocolDataProvider.json").abi;
-const addresses = require("../utils/addresses");
 
 async function mintToken(taskArguments, hre) {
   if (hre.network.name !== "fuji") {
@@ -18,16 +17,27 @@ async function mintToken(taskArguments, hre) {
 }
 
 async function getAVTokenAddress(taskArguments, hre) {
-  const { address } = taskArguments;
+  const addresses = require("../utils/addresses");
   const cAddressProvider = new hre.ethers.Contract(
-    "0x0668EDE013c1c475724523409b8B6bE633469585",
-    addressProviderAbi,
-    await hre.ethers.getDefaultProvider()
+    addresses[hre.network.name].AAVE_DATA_PROVIDER,
+    aaveProviderAbi,
+    await hre.ethers.getSigner("0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3")
   );
-  console.log(
-    hre.network.name,
-    await cAddressProvider.getReserveTokensAddresses(address)
-  );
+
+  const tokenNames = ["USDC", "USDT", "DAI"];
+  let address;
+  for (const token of tokenNames) {
+    console.log(token);
+    address = addresses[hre.network.name][token];
+    console.log(address);
+    console.log(
+      hre.network.name,
+      token,
+      address,
+      await cAddressProvider.getReserveTokensAddresses(address)
+    );
+  }
+  console.log(await cAddressProvider.getAllATokens());
 }
 
 module.exports = {

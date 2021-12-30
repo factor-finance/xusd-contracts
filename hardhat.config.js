@@ -125,9 +125,11 @@ task("mintToken", "Mint mintable token on testest")
   .addParam("from", "The address of caller")
   .addParam("amount", "The amount to mint")
   .setAction(mintToken);
-task("getAVTokenAddress", "print the aave AV token addresses")
-  .addParam("address", "the address to call getReserveTokenAddresses() on")
-  .setAction(getAVTokenAddress);
+task(
+  "getAVTokenAddress",
+  "print the aave AV token addresses",
+  getAVTokenAddress
+);
 
 // Smoke tests
 task(

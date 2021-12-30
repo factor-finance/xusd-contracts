@@ -227,7 +227,9 @@ async function mint(taskArguments, hre) {
   const vault = await ethers.getContractAt("IVault", vaultProxy.address);
 
   let usdt;
-  if (isFork || isFuji) {
+  if (isFork) {
+    usdt = await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
+  } else if (isFuji) {
     usdt = await hre.ethers.getContractAt(
       usdtAbi,
       addresses[hre.network.name].USDT

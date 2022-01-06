@@ -113,12 +113,19 @@ async function humanBalance(user, contract) {
   return parseFloat(balance.div(divisor).toString()).toFixed(2);
 }
 
-const isFork = process.env.FORK === "true";
+const isFork = process.env.FORK === "mainnet" || process.env.FORK === "fuji";
 const isLocalhost = !isFork && hre.network.name === "localhost";
-const isFuji = hre.network.name === "fuji";
-const isMainnet = hre.network.name === "mainnet";
+
+const isFuji = hre.network.name === "fuji-prod";
+const isFujiFork =
+  hre.network.name === "localhost" && process.env.FORK === "fuji";
+const isMainnet = hre.network.name === "mainnet-prod";
+const isMainnetFork =
+  hre.network.name === "localhost" && process.env.FORK === "mainnet";
+
 const isTest = process.env.IS_TEST === "true";
 const isSmokeTest = process.env.SMOKE_TEST === "true";
+
 const isMainnetOrFork = isMainnet || isFork;
 const isMainnetOrFujiOrFork = isMainnetOrFork || isFuji;
 
@@ -167,7 +174,7 @@ const getOracleAddress = async (deployments) => {
  * @returns {Promise<void>}
  */
 const setOracleTokenPriceUsd = async (tokenSymbol, usdPrice) => {
-  if (isMainnetOrFork) {
+  if (isMainnet || isFuji) {
     throw new Error(
       `setOracleTokenPriceUsd not supported on network ${hre.network.name}`
     );
@@ -181,7 +188,7 @@ const setOracleTokenPriceUsd = async (tokenSymbol, usdPrice) => {
 };
 
 const getOracleAddresses = async (deployments) => {
-  if (isMainnetOrFork) {
+  if (isMainnet || isMainnetFork) {
     // On mainnet or fork, return mainnet addresses.
     return {
       chainlink: {
@@ -191,7 +198,7 @@ const getOracleAddresses = async (deployments) => {
         USDT_USD: addresses.mainnet.chainlinkUSDT_USD,
       },
     };
-  } else if (isFuji) {
+  } else if (isFuji || isFujiFork) {
     return {
       AVAX_USD: addresses.fuji.chainlinkAVAX_USD,
       // for stablecoins, only USDT/USD is available, so it it for all: https://docs.chain.link/docs/avalanche-price-feeds/#Avalanche%20Testnet
@@ -223,7 +230,7 @@ const getOracleAddresses = async (deployments) => {
 };
 
 const getAssetAddresses = async (deployments) => {
-  if (isMainnetOrFork) {
+  if (isMainnet || isMainnetFork) {
     console.log("Using mainnet addresses.");
     return {
       USDT: addresses.mainnet.USDT,
@@ -238,7 +245,8 @@ const getAssetAddresses = async (deployments) => {
       AAVE_ADDRESS_PROVIDER: addresses.mainnet.AAVE_ADDRESS_PROVIDER,
       AAVE_INCENTIVES_CONTROLLER: addresses.mainnet.AAVE_INCENTIVES_CONTROLLER,
     };
-  } else if (isFuji) {
+  } else if (isFuji || isFujiFork) {
+    console.log("Using fuji addresses.");
     return {
       USDT: addresses.fuji.USDT,
       DAI: addresses.fuji.DAI,

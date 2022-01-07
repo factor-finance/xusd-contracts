@@ -79,13 +79,12 @@ async function fund(taskArguments, hre) {
     signersToFund = signers.splice(accountIndex, numAccounts);
     accountsToFund = signersToFund.map((signer) => signer.address);
   }
-
   let usdt, dai, usdc, tusd;
   if (isMainnetFork) {
-    usdt = await hre.ethers.getContractAt(usdtAbi, addresses.main.USDT);
-    dai = await hre.ethers.getContractAt(daiAbi, addresses.main.DAI);
-    usdc = await hre.ethers.getContractAt(usdcAbi, addresses.main.USDC);
-    tusd = await hre.ethers.getContractAt(tusdAbi, addresses.main.TUSD);
+    usdt = await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
+    dai = await hre.ethers.getContractAt(daiAbi, addresses.mainnet.DAI);
+    usdc = await hre.ethers.getContractAt(usdcAbi, addresses.mainnet.USDC);
+    tusd = await hre.ethers.getContractAt(tusdAbi, addresses.mainnet.TUSD);
   } else if (isFork) {
     // because we cannot transfer funds, just mind USDT and return
     const mintAmount = defaultMintAmount;
@@ -109,7 +108,6 @@ async function fund(taskArguments, hre) {
     usdc = await hre.ethers.getContract("MockUSDC");
     tusd = await hre.ethers.getContract("MockTUSD");
   }
-
   const binanceAddresses = addresses.mainnet.BinanceAll.split(",");
 
   if (isMainnetFork) {
@@ -122,7 +120,6 @@ async function fund(taskArguments, hre) {
       })
     );
   }
-
   let binanceSigners;
   binanceSigners = await Promise.all(
     binanceAddresses.map((binanceAddress) => {
@@ -238,6 +235,8 @@ async function mint(taskArguments, hre) {
     isFork,
     isMainnet,
     isFuji,
+    isMainnetFork,
+    isFujiFork,
     isLocalhost,
   } = require("../test/helpers");
 
@@ -252,9 +251,9 @@ async function mint(taskArguments, hre) {
   const vault = await ethers.getContractAt("IVault", vaultProxy.address);
 
   let usdt;
-  if (isMainnet) {
+  if (isMainnet || isMainnetFork) {
     usdt = await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
-  } else if (isFuji) {
+  } else if (isFuji || isFujiFork) {
     usdt = await hre.ethers.getContractAt(usdtAbi, addresses.fuji.USDT);
   } else {
     usdt = await hre.ethers.getContract("MockUSDT");

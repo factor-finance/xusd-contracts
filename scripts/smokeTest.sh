@@ -30,6 +30,11 @@ main()
     if [[ "$FORK" == "" ]]; then
       FORK="mainnet"
     fi
+    if [[ "$FORK" == "fuji" ]]; then
+      # cannot execute mintRedeem without whale wallets
+      echo "only supports smokeTest against mainnet"
+      exit 1
+    fi
 
     SMOKE_TEST=true FORK=$FORK npx hardhat smokeTestCheck --network localhost "$@"
     if [ $? -ne 0 ]

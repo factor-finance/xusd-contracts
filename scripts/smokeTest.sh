@@ -41,7 +41,7 @@ main()
         echo "It is recommended that BLOCK_NUMBER is set to a recent block to improve performance of the fork";
     fi
 
-    SMOKE_TEST=true FORK=true npx hardhat smokeTestCheck --network localhost "$@"
+    SMOKE_TEST=true FORK=fuji npx hardhat smokeTestCheck --network localhost "$@"
     if [ $? -ne 0 ]
     then
       exit 1

@@ -8,7 +8,7 @@ const {
   isCurrentValidationData,
   assertStorageUpgradeSafe,
 } = require("@openzeppelin/upgrades-core");
-const isFork = process.env.FORK === "true";
+const isFork = process.env.FORK === "fuji" && process.env.FORK == "mainnet";
 
 const getStorageFileLocation = (hre, contractName) => {
   const isFuji = hre.network.name === "fuji";

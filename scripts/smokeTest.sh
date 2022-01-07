@@ -27,28 +27,18 @@ nodeWaitTimeout=60
 
 main()
 {
-    # Fetch env variables like PROVIDER_URL and BLOCK_NUMBER from .env file so they don't
-    # need to be separately set in terminal environment
-    ENV_FILE=.env
-    source .env
-    if [ ! -f "$ENV_FILE" ]; then
-        echo -e "${RED} File $ENV_FILE does not exist. Have you forgotten to rename the dev.env to .env? ${NO_COLOR}"
-        exit 1
+    if [[ "$FORK" == "" ]]; then
+      FORK="mainnet"
     fi
 
-    if [ -z "$PROVIDER_URL" ]; then echo "Set PROVIDER_URL" && exit 1; fi
-    if [ -z "$BLOCK_NUMBER" ]; then
-        echo "It is recommended that BLOCK_NUMBER is set to a recent block to improve performance of the fork";
-    fi
-
-    SMOKE_TEST=true FORK=fuji npx hardhat smokeTestCheck --network localhost "$@"
+    SMOKE_TEST=true FORK=$FORK npx hardhat smokeTestCheck --network localhost "$@"
     if [ $? -ne 0 ]
     then
       exit 1
     fi
 
     nodeOutput=$(mktemp "${TMPDIR:-/tmp/}$(basename 0).XXX")
-    SMOKE_TEST=true yarn run run_node:fork &> $nodeOutput &
+    SMOKE_TEST=true FORK=$FORK yarn run run_node:fork &> $nodeOutput &
 
     echo "Node output: $nodeOutput"
     echo "Waiting for node to initialize:"
@@ -67,7 +57,7 @@ main()
     printf "\n"
     echo "🟢 Node initialized running smoke tests"
 
-    SMOKE_TEST=true FORK=true npx hardhat smokeTest --network localhost "$@"
+    SMOKE_TEST=true FORK=$FORK npx hardhat smokeTest --network localhost "$@"
 }
 
 main "$@"

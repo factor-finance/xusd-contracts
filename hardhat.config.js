@@ -186,7 +186,7 @@ module.exports = {
       chainId:
         (process.env.FORK === "mainnet" && 43114) ||
         (process.env.FORK === "fuji" && 43113) ||
-        1,
+        43114,
     },
     localhost: {
       timeout: 60000,

@@ -1,5 +1,5 @@
 const { parseUnits } = require("ethers").utils;
-const { isTest } = require("../test/helpers");
+const { isTest, isLocalhost } = require("../test/helpers");
 
 const deployMocks = async ({ getNamedAccounts, deployments }) => {
   const { deploy } = deployments;
@@ -141,6 +141,6 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
 deployMocks.id = "000_mock";
 deployMocks.tags = ["mocks"];
 // cannot run bc no funds
-deployMocks.skip = () => !isTest;
+deployMocks.skip = () => !isTest && !isLocalhost;
 
 module.exports = deployMocks;

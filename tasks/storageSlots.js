@@ -11,14 +11,14 @@ const {
 const isFork = process.env.FORK === "fuji" && process.env.FORK == "mainnet";
 
 const getStorageFileLocation = (hre, contractName) => {
-  const isFuji = hre.network.name === "fuji";
-  const isMainnet = hre.network.name === "mainnet";
+  const isFuji = hre.network.name === "fuji-prod";
+  const isMainnet = hre.network.name === "mainnet-prod";
 
   let folder = "localhost";
-  if (isFork || isMainnet) {
-    folder = "mainnet";
+  if (isMainnet) {
+    folder = "mainnet-prod";
   } else if (isFuji) {
-    folder = "fuji";
+    folder = "fuji-prod";
   }
   const layoutFolder = `./storageLayout/${folder}/`;
   if (!existsSync(layoutFolder)) {

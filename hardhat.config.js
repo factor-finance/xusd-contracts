@@ -229,10 +229,7 @@ module.exports = {
         (process.env.FORK === "mainnet" && addresses.mainnet.Governor) ||
         (process.env.FORK === "fuji" && addresses.fuji.Governor) ||
         1,
-      hardhat:
-        (process.env.FORK === "mainnet" && addresses.mainnet.Governor) ||
-        (process.env.FORK === "fuji" && addresses.fuji.Governor) ||
-        1,
+      hardhat: 1,
       fuji: addresses.fuji.Governor,
       mainnet: addresses.mainnet.Governor,
     },
@@ -243,10 +240,7 @@ module.exports = {
         (process.env.FORK === "mainnet" && addresses.mainnet.Guardian) ||
         (process.env.FORK === "fuji" && addresses.fuji.Guardian) ||
         1,
-      hardhat:
-        (process.env.FORK === "mainnet" && addresses.mainnet.Guardian) ||
-        (process.env.FORK === "fuji" && addresses.fuji.Guardian) ||
-        1,
+      hardhat: 1,
       fuji: addresses.fuji.Guardian,
       mainnet: addresses.mainnet.Guardian,
     },
@@ -256,10 +250,7 @@ module.exports = {
         (process.env.FORK === "mainnet" && addresses.mainnet.Strategist) ||
         (process.env.FORK === "fuji" && addresses.fuji.Strategist) ||
         1,
-      hardhat:
-        (process.env.FORK === "mainnet" && addresses.mainnet.Strategist) ||
-        (process.env.FORK === "fuji" && addresses.fuji.Strategist) ||
-        1,
+      hardhat: 1,
       fuji: addresses.fuji.Strategist,
       mainnet: addresses.mainnet.Strategist,
     },

@@ -23,13 +23,13 @@ main()
         fi
 
         if [[ "$FORK" == "mainnet" ]]; then
-            echo "Forking to mainnet"
+            echo "Forking mainnet"
             rm -rf deployments/localhost
             cp -r deployments/mainnet-prod deployments/localhost
             export PROVIDER_URL="$MAINNET_PROVIDER_URL"
             export BLOCK_NUMBER="$MAINNET_BLOCK_NUMBER"
         elif [ "$FORK" == "fuji" ]; then
-            echo "Forking to fuji"
+            echo "Forking fuji"
             rm -rf deployments/localhost
             cp -r deployments/fuji-prod deployments/localhost
             export PROVIDER_URL="$FUJI_PROVIDER_URL"

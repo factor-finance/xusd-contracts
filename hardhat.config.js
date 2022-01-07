@@ -219,8 +219,8 @@ module.exports = {
     deployerAddr: {
       default: 0,
       localhost: addresses.mainnet.Guardian,
-      fuji: addresses.fuji.Deployer,
-      mainnet: addresses.mainnet.Deployer,
+      "fuji-prod": addresses.fuji.Deployer,
+      "mainnet-prod": addresses.mainnet.Deployer,
     },
     governorAddr: {
       default: 1,
@@ -229,9 +229,8 @@ module.exports = {
         (process.env.FORK === "mainnet" && addresses.mainnet.Governor) ||
         (process.env.FORK === "fuji" && addresses.fuji.Governor) ||
         1,
-      hardhat: 1,
-      fuji: addresses.fuji.Governor,
-      mainnet: addresses.mainnet.Governor,
+      "fuji-prod": addresses.fuji.Governor,
+      "mainnet-prod": addresses.mainnet.Governor,
     },
     guardianAddr: {
       default: 1,
@@ -240,9 +239,8 @@ module.exports = {
         (process.env.FORK === "mainnet" && addresses.mainnet.Guardian) ||
         (process.env.FORK === "fuji" && addresses.fuji.Guardian) ||
         1,
-      hardhat: 1,
-      fuji: addresses.fuji.Guardian,
-      mainnet: addresses.mainnet.Guardian,
+      "fuji-prod": addresses.fuji.Guardian,
+      "mainnet-prod": addresses.mainnet.Guardian,
     },
     strategistAddr: {
       default: 0,
@@ -250,9 +248,8 @@ module.exports = {
         (process.env.FORK === "mainnet" && addresses.mainnet.Strategist) ||
         (process.env.FORK === "fuji" && addresses.fuji.Strategist) ||
         1,
-      hardhat: 1,
-      fuji: addresses.fuji.Strategist,
-      mainnet: addresses.mainnet.Strategist,
+      "fuji-prod": addresses.fuji.Strategist,
+      "mainnet-prod": addresses.mainnet.Strategist,
     },
   },
   contractSizer: {

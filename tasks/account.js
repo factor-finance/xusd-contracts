@@ -66,6 +66,7 @@ async function fund(taskArguments, hre) {
     // No need to fund accounts if no accounts to fund
     return;
   }
+  const signers = await hre.ethers.getSigners();
   if (taskArguments.accountsfromenv) {
     if (!isFork) {
       throw new Error("accountsfromenv param only works in fork mode");
@@ -110,7 +111,6 @@ async function fund(taskArguments, hre) {
   }
 
   const binanceAddresses = addresses.mainnet.BinanceAll.split(",");
-  const signers = await hre.ethers.getSigners();
 
   if (isMainnetFork) {
     await Promise.all(

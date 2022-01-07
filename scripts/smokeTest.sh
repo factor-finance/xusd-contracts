@@ -21,8 +21,7 @@
 
 
 # any child processes created by this process are killed once the main process is terminated
-trap "exit" INT TERM ERR
-trap "kill 0" EXIT
+trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
 nodeWaitTimeout=60
 
 main()

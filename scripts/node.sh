@@ -1,6 +1,5 @@
 #!/bin/bash
-trap "exit" INT TERM ERR
-trap "kill 0" EXIT
+trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
 nodeWaitTimeout=60
 RED='\033[0;31m'
 NO_COLOR='\033[0m'

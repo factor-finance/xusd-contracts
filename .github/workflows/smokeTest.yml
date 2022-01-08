@@ -1,4 +1,4 @@
-name: Run tests
+name: Run smoketests
 on: push
 
 jobs:
@@ -14,6 +14,5 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: yarn install
-    - run: yarn run lint
-    - run: yarn prettier:check
-    - run: yarn run test
+    - name: mainnet smoketest
+      run: ./scripts/smokeTest.sh

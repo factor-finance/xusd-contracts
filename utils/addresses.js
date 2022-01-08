@@ -90,6 +90,7 @@ addresses.fuji.chainlinkUSDT_USD = "0x7898AcCC83587C3C55116c5230C17a6Cd9C71bad";
 addresses.fuji.WAVAX = "0xd00ae08403B9bbb9124bB305C09058E32C39A48c";
 addresses.fuji.USDT = "0x02823f9B469960Bb3b1de0B3746D4b95B7E35543"; // mintable
 addresses.fuji.DAI = "0x51BC2DfB9D12d9dB50C855A5330fBA0faF761D15";
+
 addresses.fuji.USDC = "0x3a9fc2533eafd09bc5c36a7d6fdd0c664c81d659";
 addresses.fuji.avUSDT = "0x5f049c41aF3856cBc171F61FB04D58C1e7445f5F";
 addresses.fuji.avDAI = "0x5f049c41aF3856cBc171F61FB04D58C1e7445f5F"; // hack

@@ -84,7 +84,6 @@ async function setup(hre) {
   vault = await ethers.getContractAt("IVault", vaultProxy.address);
   signer = (await hre.ethers.getSigners())[4];
   signer2 = (await hre.ethers.getSigners())[5];
-
   await fundAccount4(hre);
 }
 

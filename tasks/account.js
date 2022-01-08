@@ -1,5 +1,7 @@
 const _ = require("lodash");
 
+const { mintToken } = require("./contracts.js");
+
 // USDT has its own ABI because of non standard returns
 const usdtAbi = require("../test/abi/usdt.json").abi;
 const daiAbi = require("../test/abi/erc20.json");
@@ -51,53 +53,20 @@ async function fund(taskArguments, hre) {
     usdcUnits,
     isFork,
     isLocalhost,
+    isMainnetFork,
   } = require("../test/helpers");
 
   if (!isFork && !isLocalhost) {
     throw new Error("Task can only be used on local or fork");
   }
 
+  let accountsToFund;
+  let signersToFund;
   if (!process.env.ACCOUNTS_TO_FUND) {
     // No need to fund accounts if no accounts to fund
     return;
   }
-
-  let usdt, dai, usdc, tusd;
-  if (isFork) {
-    usdt = await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
-    dai = await hre.ethers.getContractAt(daiAbi, addresses.mainnet.DAI);
-    usdc = await hre.ethers.getContractAt(usdcAbi, addresses.mainnet.USDC);
-    tusd = await hre.ethers.getContractAt(tusdAbi, addresses.mainnet.TUSD);
-  } else {
-    usdt = await hre.ethers.getContract("MockUSDT");
-    dai = await hre.ethers.getContract("MockDAI");
-    usdc = await hre.ethers.getContract("MockUSDC");
-    tusd = await hre.ethers.getContract("MockTUSD");
-  }
-
-  const binanceAddresses = addresses.mainnet.BinanceAll.split(",");
   const signers = await hre.ethers.getSigners();
-
-  if (isFork) {
-    await Promise.all(
-      binanceAddresses.map(async (binanceAddress) => {
-        return hre.network.provider.request({
-          method: "hardhat_impersonateAccount",
-          params: [binanceAddress],
-        });
-      })
-    );
-  }
-
-  let accountsToFund;
-  let signersToFund;
-  let binanceSigners;
-  binanceSigners = await Promise.all(
-    binanceAddresses.map((binanceAddress) => {
-      return hre.ethers.provider.getSigner(binanceAddress);
-    })
-  );
-
   if (taskArguments.accountsfromenv) {
     if (!isFork) {
       throw new Error("accountsfromenv param only works in fork mode");
@@ -110,6 +79,53 @@ async function fund(taskArguments, hre) {
     signersToFund = signers.splice(accountIndex, numAccounts);
     accountsToFund = signersToFund.map((signer) => signer.address);
   }
+  let usdt, dai, usdc, tusd;
+  if (isMainnetFork) {
+    usdt = await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
+    dai = await hre.ethers.getContractAt(daiAbi, addresses.mainnet.DAI);
+    usdc = await hre.ethers.getContractAt(usdcAbi, addresses.mainnet.USDC);
+    tusd = await hre.ethers.getContractAt(tusdAbi, addresses.mainnet.TUSD);
+  } else if (isFork) {
+    // because we cannot transfer funds, just mind USDT and return
+    const mintAmount = defaultMintAmount;
+    usdt = await hre.ethers.getContractAt(usdtAbi, addresses.fuji.USDT);
+    await Promise.all(
+      accountsToFund.map(async (address) => {
+        return mintToken(
+          {
+            address: usdt.address,
+            from: address,
+            amount: mintAmount,
+          },
+          hre
+        );
+      })
+    );
+    return;
+  } else {
+    usdt = await hre.ethers.getContract("MockUSDT");
+    dai = await hre.ethers.getContract("MockDAI");
+    usdc = await hre.ethers.getContract("MockUSDC");
+    tusd = await hre.ethers.getContract("MockTUSD");
+  }
+  const binanceAddresses = addresses.mainnet.BinanceAll.split(",");
+
+  if (isMainnetFork) {
+    await Promise.all(
+      binanceAddresses.map(async (binanceAddress) => {
+        return hre.network.provider.request({
+          method: "hardhat_impersonateAccount",
+          params: [binanceAddress],
+        });
+      })
+    );
+  }
+  let binanceSigners;
+  binanceSigners = await Promise.all(
+    binanceAddresses.map((binanceAddress) => {
+      return hre.ethers.provider.getSigner(binanceAddress);
+    })
+  );
 
   // if contract is null return the signer with the most eth
   const findBestSigner = async (contract) => {
@@ -214,7 +230,15 @@ async function fund(taskArguments, hre) {
  */
 async function mint(taskArguments, hre) {
   const addresses = require("../utils/addresses");
-  const { usdtUnits, isFork, isFuji, isLocalhost } = require("../test/helpers");
+  const {
+    usdtUnits,
+    isFork,
+    isMainnet,
+    isFuji,
+    isMainnetFork,
+    isFujiFork,
+    isLocalhost,
+  } = require("../test/helpers");
 
   if (!isFork && !isLocalhost && !isFuji) {
     throw new Error("Task can only be used on local, fork, or testnet");
@@ -227,13 +251,10 @@ async function mint(taskArguments, hre) {
   const vault = await ethers.getContractAt("IVault", vaultProxy.address);
 
   let usdt;
-  if (isFork) {
+  if (isMainnet || isMainnetFork) {
     usdt = await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
-  } else if (isFuji) {
-    usdt = await hre.ethers.getContractAt(
-      usdtAbi,
-      addresses[hre.network.name].USDT
-    );
+  } else if (isFuji || isFujiFork) {
+    usdt = await hre.ethers.getContractAt(usdtAbi, addresses.fuji.USDT);
   } else {
     usdt = await hre.ethers.getContract("MockUSDT");
   }

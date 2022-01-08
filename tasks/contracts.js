@@ -3,7 +3,7 @@ const aaveProviderAbi =
   require("@aave/protocol-v2/artifacts/contracts/misc/AaveProtocolDataProvider.sol/AaveProtocolDataProvider.json").abi;
 
 async function mintToken(taskArguments, hre) {
-  if (hre.network.name !== "fuji") {
+  if (hre.network.name !== "localhost") {
     throw new Error("Only mint rando ERC20s on testnet!");
   }
   const { address, from, amount } = taskArguments;

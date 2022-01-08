@@ -87,7 +87,7 @@ async function smokeTest(taskArguments, hre) {
   }
 
   const waitForInteractiveModeInput = async (message) => {
-    if (!interactiveMode) {
+    if (!interactiveMode || !process.stdin.isTTY) {
       return;
     }
 

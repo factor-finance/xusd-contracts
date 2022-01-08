@@ -183,13 +183,16 @@ module.exports = {
       },
       initialBaseFeePerGas: 0,
       gasPrice: 225000000000,
-      chainId: 43114,
+      chainId:
+        (process.env.FORK === "mainnet" && 43114) ||
+        (process.env.FORK === "fuji" && 43113) ||
+        43114,
     },
     localhost: {
       timeout: 60000,
     },
-    fuji: {
-      url: `${process.env.PROVIDER_URL}`,
+    "fuji-prod": {
+      url: "https://api.avax-test.network/ext/bc/C/rpc",
       chainId: 43113,
       gasPrice: 225000000000,
       accounts: [
@@ -197,8 +200,8 @@ module.exports = {
         process.env.GOVERNOR_PK || privateKeys[1],
       ],
     },
-    mainnet: {
-      url: `${process.env.PROVIDER_URL}`,
+    "mainnet-prod": {
+      url: "https://api.avax.network/ext/bc/C/rpc",
       chainId: 43114,
       gasPrice: 225000000000,
       accounts: [
@@ -216,31 +219,37 @@ module.exports = {
     deployerAddr: {
       default: 0,
       localhost: addresses.mainnet.Guardian,
-      fuji: addresses.fuji.Deployer,
-      mainnet: addresses.mainnet.Deployer,
+      "fuji-prod": addresses.fuji.Deployer,
+      "mainnet-prod": addresses.mainnet.Deployer,
     },
     governorAddr: {
       default: 1,
       // On Mainnet and fork, the governor is the Governor contract.
-      localhost: process.env.FORK === "true" ? addresses.mainnet.Governor : 1,
-      hardhat: process.env.FORK === "true" ? addresses.mainnet.Governor : 1,
-      fuji: addresses.fuji.Governor,
-      mainnet: addresses.mainnet.Governor,
+      localhost:
+        (process.env.FORK === "mainnet" && addresses.mainnet.Governor) ||
+        (process.env.FORK === "fuji" && addresses.fuji.Governor) ||
+        1,
+      "fuji-prod": addresses.fuji.Governor,
+      "mainnet-prod": addresses.mainnet.Governor,
     },
     guardianAddr: {
       default: 1,
       // On mainnet and fork, the guardian is the multi-sig.
-      localhost: process.env.FORK === "true" ? addresses.mainnet.Guardian : 1,
-      hardhat: process.env.FORK === "true" ? addresses.mainnet.Guardian : 1,
-      fuji: addresses.fuji.Guardian,
-      mainnet: addresses.mainnet.Guardian,
+      localhost:
+        (process.env.FORK === "mainnet" && addresses.mainnet.Guardian) ||
+        (process.env.FORK === "fuji" && addresses.fuji.Guardian) ||
+        1,
+      "fuji-prod": addresses.fuji.Guardian,
+      "mainnet-prod": addresses.mainnet.Guardian,
     },
     strategistAddr: {
       default: 0,
-      localhost: process.env.FORK === "true" ? addresses.mainnet.Strategist : 0,
-      hardhat: process.env.FORK === "true" ? addresses.mainnet.Strategist : 0,
-      fuji: addresses.fuji.Strategist,
-      mainnet: addresses.mainnet.Strategist,
+      localhost:
+        (process.env.FORK === "mainnet" && addresses.mainnet.Strategist) ||
+        (process.env.FORK === "fuji" && addresses.fuji.Strategist) ||
+        1,
+      "fuji-prod": addresses.fuji.Strategist,
+      "mainnet-prod": addresses.mainnet.Strategist,
     },
   },
   contractSizer: {

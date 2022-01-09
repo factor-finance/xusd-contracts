@@ -52,7 +52,6 @@ cache/**
 .env.local
 artifacts/
 deployments/localhost*
-deployments/network.json
 storageLayout/localhost*
 db/
 coverage/

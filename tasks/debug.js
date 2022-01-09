@@ -9,10 +9,11 @@ const addresses = require("../utils/addresses");
  */
 async function debug(taskArguments, hre) {
   //
+  const chainId = await hre.getChainId();
   let networkName;
-  if (hre.network.config.chainId === 43113) {
+  if (chainId == 43113) {
     networkName = "fuji";
-  } else if (hre.network.config.chainId === 43114) {
+  } else if (chainId == 43114) {
     networkName = "mainnet";
   }
   console.log(`Network: ${networkName}`);

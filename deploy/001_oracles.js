@@ -6,6 +6,7 @@ const {
   getOracleAddresses,
   isTest,
   isFuji,
+  isFujiFork,
 } = require("../test/helpers.js");
 const { deployWithConfirmation, withConfirmation } = require("../utils/deploy");
 
@@ -20,7 +21,7 @@ const deployOracles = async () => {
   let oracleContract;
   if (isTest) {
     oracleContract = "OracleRouterDev";
-  } else if (isFuji) {
+  } else if (isFuji || isFujiFork) {
     oracleContract = "OracleRouterTestnet";
   } else {
     oracleContract = "OracleRouter";

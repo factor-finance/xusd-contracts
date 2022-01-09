@@ -10,7 +10,6 @@ const {
   isMainnet,
   isFork,
   isFuji,
-  isMainnetOrFujiOrFork,
   getOracleAddresses,
   getAssetAddresses,
   isSmokeTest,
@@ -29,7 +28,7 @@ const { proposeArgs } = require("../utils/governor");
 const NUM_CONFIRMATIONS = isMainnet || isFuji ? 3 : 0;
 
 function log(msg, deployResult = null) {
-  if (isMainnetOrFujiOrFork || process.env.VERBOSE) {
+  if (isMainnet || isFuji || isFork || process.env.VERBOSE) {
     if (deployResult && deployResult.receipt) {
       const gasUsed = Number(deployResult.receipt.gasUsed.toString());
       msg += ` Address: ${deployResult.address} Gas Used: ${gasUsed}`;

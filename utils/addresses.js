@@ -43,6 +43,9 @@ addresses.mainnet.avUSDC = "0x46A51127C3ce23fb7AB1DE06226147F446e4a857"; // *: 6
 addresses.mainnet.AAVE_INCENTIVES_CONTROLLER =
   "0x01D83Fe6A10D2f2B7AF17034343746188272cAc9";
 
+// Pangolin router
+addresses.mainnet.UNISWAP_ROUTER = "0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106";
+
 // Chainlink feeds
 // Source https://data.chain.link/avalanche/mainnet
 addresses.mainnet.chainlinkAVAX_USD =

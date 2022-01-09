@@ -3,13 +3,9 @@ const hre = require("hardhat");
 
 const path = require("path");
 const { getTxOpts } = require("../utils/tx");
-const {
-  getAssetAddresses,
-  isFuji,
-  isFujiFork,
-  isTest,
-} = require("../test/helpers.js");
+const { isMainnet, isMainnetFork, isTest } = require("../test/helpers.js");
 const { log, withConfirmation } = require("../utils/deploy");
+const { addresses } = require("../utils/addresses");
 
 /**
  * Set default strategies for USDT, USDC, DAI
@@ -42,17 +38,15 @@ const setVaultSettings = async () => {
   );
   log("Set redeem free bps");
 
-  // FIXME: update with pangolin for WAVAX->USD?
-  // Set Uniswap addr
-  // await withConfirmation(
-  //   cVault
-  //     .connect(sGovernor)
-  //     .setUniswapAddr(
-  //       "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
-  //       await getTxOpts()
-  //     )
-  // );
-  // log("Set Uniswap address");
+  if (isMainnet || isMainnetFork) {
+    // Set Uniswap addr
+    await withConfirmation(
+      cVault
+        .connect(sGovernor)
+        .setUniswapAddr(addresses.mainnet.UNISWAP_ROUTER, await getTxOpts())
+    );
+    log("Set Uniswap address");
+  }
 
   // Set strategist addr
   await withConfirmation(

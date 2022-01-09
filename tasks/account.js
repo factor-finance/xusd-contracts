@@ -18,7 +18,7 @@ const defaultAccountIndex = 4;
 const defaultFundAmount = "10000";
 
 // By default, mint 1k worth of XUSD for each test account.
-const defaultMintAmount = 1000;
+const defaultMintAmount = "1000";
 
 // By default, redeem 1k worth of XUSD for each test account.
 const defaultRedeemAmount = 1000;

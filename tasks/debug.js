@@ -226,10 +226,13 @@ async function debug(taskArguments, hre) {
   //
   // Aave Strategy
   //
-  let asset = assets[0]; // Aave only holds DAI
-  let balanceRaw = await aaveStrategy.checkBalance(asset.address);
-  let balance = formatUnits(balanceRaw.toString(), asset.decimals);
-  console.log(`Aave ${asset.symbol}:\t balance=${balance}`);
+  await Promise.all(
+    assets.map(async (asset) => {
+      let balanceRaw = await aaveStrategy.checkBalance(asset.address);
+      let balance = formatUnits(balanceRaw.toString(), asset.decimals);
+      console.log(`Aave ${asset.symbol}:\t balance=${balance}`);
+    })
+  );
 
   //
   // Strategies settings

@@ -3,9 +3,9 @@ const hre = require("hardhat");
 
 const path = require("path");
 const { getTxOpts } = require("../utils/tx");
-const { isMainnet, isMainnetFork, isTest } = require("../test/helpers.js");
+const { isFuji, isFujiFork, isTest } = require("../test/helpers.js");
 const { log, withConfirmation } = require("../utils/deploy");
-const { addresses } = require("../utils/addresses");
+const addresses = require("../utils/addresses");
 
 /**
  * Set default strategies for USDT, USDC, DAI
@@ -38,15 +38,16 @@ const setVaultSettings = async () => {
   );
   log("Set redeem free bps");
 
-  if (isMainnet || isMainnetFork) {
-    // Set Uniswap addr
-    await withConfirmation(
-      cVault
-        .connect(sGovernor)
-        .setUniswapAddr(addresses.mainnet.UNISWAP_ROUTER, await getTxOpts())
-    );
-    log("Set Uniswap address");
+  let routerAddress = addresses.mainnet.UNISWAP_ROUTER;
+  if (isFuji || isFujiFork) {
+    routerAddress = addresses.fuji.UNISWAP_ROUTER;
   }
+
+  // Set Uniswap addr
+  await withConfirmation(
+    cVault.connect(sGovernor).setUniswapAddr(routerAddress, await getTxOpts())
+  );
+  log("Set Uniswap address");
 
   // Set strategist addr
   await withConfirmation(

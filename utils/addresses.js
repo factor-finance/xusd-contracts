@@ -106,4 +106,7 @@ addresses.fuji.AAVE_ADDRESS_PROVIDER =
 addresses.fuji.AAVE_DATA_PROVIDER =
   "0x0668EDE013c1c475724523409b8B6bE633469585";
 
+// Pangolin router
+addresses.fuji.UNISWAP_ROUTER = "0x2D99ABD9008Dc933ff5c0CD271B88309593aB921";
+
 module.exports = addresses;

@@ -9,6 +9,13 @@ const addresses = require("../utils/addresses");
  */
 async function debug(taskArguments, hre) {
   //
+  let networkName;
+  if (hre.network.config.chainId === 43113) {
+    networkName = "fuji";
+  } else if (hre.network.config.chainId === 43114) {
+    networkName = "mainnet";
+  }
+  console.log(`Network: ${networkName}`);
   // Get all contracts to operate on.
   const vaultProxy = await hre.ethers.getContract("VaultProxy");
   const xusdProxy = await hre.ethers.getContract("XUSDProxy");
@@ -106,9 +113,9 @@ async function debug(taskArguments, hre) {
   //
   console.log("\nOracle");
   console.log("========");
-  const priceDAI = await oracleRouter.price(addresses.mainnet.DAI);
-  const priceUSDC = await oracleRouter.price(addresses.mainnet.USDC);
-  const priceUSDT = await oracleRouter.price(addresses.mainnet.USDT);
+  const priceDAI = await oracleRouter.price(addresses[networkName].DAI);
+  const priceUSDC = await oracleRouter.price(addresses[networkName].USDC);
+  const priceUSDT = await oracleRouter.price(addresses[networkName].USDT);
   console.log(`DAI price :  ${formatUnits(priceDAI, 8)} USD`);
   console.log(`USDC price:  ${formatUnits(priceUSDC, 8)} USD`);
   console.log(`USDT price:  ${formatUnits(priceUSDT, 8)} USD`);
@@ -165,17 +172,17 @@ async function debug(taskArguments, hre) {
   const assets = [
     {
       symbol: "DAI",
-      address: addresses.mainnet.DAI,
+      address: addresses[networkName].DAI,
       decimals: 18,
     },
     {
       symbol: "USDC",
-      address: addresses.mainnet.USDC,
+      address: addresses[networkName].USDC,
       decimals: 6,
     },
     {
       symbol: "USDT",
-      address: addresses.mainnet.USDT,
+      address: addresses[networkName].USDT,
       decimals: 6,
     },
   ];

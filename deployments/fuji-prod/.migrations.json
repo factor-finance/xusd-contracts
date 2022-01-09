@@ -1,8 +1,10 @@
 {
-  "002_proxies.js": 1640833630,
-  "003_vault_config.js": 1640833989,
-  "006_governor.js": 1640837888,
-  "004_strategies.js": 1640839582,
-  "005_flipper.js": 1641096161,
-  "001_oracles.js": 1641701034
+  "001_oracles.js": 1641766190,
+  "002_proxies.js": 1641766338,
+  "003_vault_config.js": 1641766394,
+  "004_strategies.js": 1641766471,
+  "005_flipper.js": 1641766507,
+  "006_governor.js": 1641766518,
+  "007_default_strategies.js": 1641766553,
+  "008_vault_settings.js": 1641766597
 }

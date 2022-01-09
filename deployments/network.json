@@ -1580,6 +1580,30 @@
         }
       ]
     },
+    "OracleRouter": {
+      "address": "0xDad08E923fd1AA9361d96672e87FDE2d7392a732",
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "asset",
+              "type": "address"
+            }
+          ],
+          "name": "price",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        }
+      ]
+    },
     "Vault": {
       "address": "0xF8fE0307104945D0d00D0d94893c2b889EAB67F3",
       "abi": [
@@ -5480,30 +5504,6 @@
           "name": "upgradeToAndCall",
           "outputs": [],
           "stateMutability": "payable",
-          "type": "function"
-        }
-      ]
-    },
-    "OracleRouter": {
-      "address": "0xDad08E923fd1AA9361d96672e87FDE2d7392a732",
-      "abi": [
-        {
-          "inputs": [
-            {
-              "internalType": "address",
-              "name": "asset",
-              "type": "address"
-            }
-          ],
-          "name": "price",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
           "type": "function"
         }
       ]

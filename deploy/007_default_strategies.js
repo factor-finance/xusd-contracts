@@ -2,7 +2,12 @@ const hre = require("hardhat");
 
 const path = require("path");
 const { getTxOpts } = require("../utils/tx");
-const { getAssetAddresses, isFuji, isFujiFork } = require("../test/helpers.js");
+const {
+  getAssetAddresses,
+  isFuji,
+  isFujiFork,
+  isTest,
+} = require("../test/helpers.js");
 const { log, withConfirmation } = require("../utils/deploy");
 
 /**
@@ -10,11 +15,10 @@ const { log, withConfirmation } = require("../utils/deploy");
  */
 const setDefaultStrategies = async () => {
   const assetAddresses = await getAssetAddresses(hre.deployments);
-  const { guardianAddr, deployerAddr } = await getNamedAccounts();
+  const { guardianAddr } = await getNamedAccounts();
   const governorAddr = guardianAddr;
   // Signers
   const sGovernor = await ethers.provider.getSigner(governorAddr);
-  const sDeployer = await ethers.provider.getSigner(deployerAddr);
 
   const cAaveStrategyProxy = await ethers.getContract("AaveStrategyProxy");
 
@@ -24,13 +28,18 @@ const setDefaultStrategies = async () => {
       await ethers.getContract("VaultProxy")
     ).address
   );
-  // Approve strategies
-  await withConfirmation(
-    cVault
-      .connect(sGovernor)
-      .approveStrategy(cAaveStrategyProxy.address, await getTxOpts())
-  );
-  log("Approved Aave strategy");
+  try {
+    // Approve strategies
+    await withConfirmation(
+      cVault
+        .connect(sGovernor)
+        .approveStrategy(cAaveStrategyProxy.address, await getTxOpts())
+    );
+    log("Approved Aave strategy");
+  } catch (e) {
+    log(e);
+    log("continuing deploy...");
+  }
 
   // Set up the default strategy for each asset
   await withConfirmation(
@@ -80,5 +89,6 @@ const main = async () => {
 main.id = baseName;
 main.dependencies = ["strategies"];
 main.tags = ["setdefaultstrats"];
+main.skip = () => isTest;
 
 module.exports = main;

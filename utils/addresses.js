@@ -80,13 +80,13 @@ addresses.fuji = {};
 addresses.fuji.Deployer = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3";
 // Fuji contracts are governed by the Governor contract (which derives off Timelock).
 addresses.fuji.Guardian = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3"; // ERC 20 owner multisig.
-addresses.fuji.Governor = "0xE93407D0100dc7660cCD45BF65b0D35F7dFE3FAb";
+addresses.fuji.Governor = "0x1fBE15f2E60A89361A02D2fc5eADce6926fd3Df1";
 addresses.fuji.Strategist = addresses.fuji.Guardian; // FIXME: separation!
-addresses.fuji.VaultProxy = "0x45eFA8D5edE29adf67D86BB2B953a96081359B0F";
-addresses.fuji.Vault = "0xF8fE0307104945D0d00D0d94893c2b889EAB67F3";
-addresses.fuji.XUSDProxy = "0x66B0Ced1ae158871cd9aCCB2F55e355c1A636025";
-addresses.fuji.XUSD = "0x45Fd456E2E5E2B59cceE0052745025F562928cEA";
-addresses.fuji.Oracle = "0xDad08E923fd1AA9361d96672e87FDE2d7392a732";
+addresses.fuji.VaultProxy = "0xF649f2337055767A077C1C77A465f36e7f719BF5";
+addresses.fuji.Vault = "0x263cC387260574A3e7E7C20dF7CB4E1302E8F358";
+addresses.fuji.XUSDProxy = "0xcfB8563ECE6153c585db58858407f70aB1D5d914";
+addresses.fuji.XUSD = "0xD5186b971756B4EE180b6b884Ad95D121E6Aa6e6";
+addresses.fuji.Oracle = "0x4c9aE96EA0FD0cCF5a6b39487A112e9252756AeC";
 
 addresses.fuji.chainlinkAVAX_USD = "0x5498bb86bc934c8d34fda08e81d444153d0d06ad";
 addresses.fuji.chainlinkUSDT_USD = "0x7898AcCC83587C3C55116c5230C17a6Cd9C71bad";

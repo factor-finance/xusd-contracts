@@ -83,6 +83,7 @@ addresses.fuji.VaultProxy = "0x45eFA8D5edE29adf67D86BB2B953a96081359B0F";
 addresses.fuji.Vault = "0xF8fE0307104945D0d00D0d94893c2b889EAB67F3";
 addresses.fuji.XUSDProxy = "0x66B0Ced1ae158871cd9aCCB2F55e355c1A636025";
 addresses.fuji.XUSD = "0x45Fd456E2E5E2B59cceE0052745025F562928cEA";
+addresses.fuji.Oracle = "0xDad08E923fd1AA9361d96672e87FDE2d7392a732";
 
 addresses.fuji.chainlinkAVAX_USD = "0x5498bb86bc934c8d34fda08e81d444153d0d06ad";
 addresses.fuji.chainlinkUSDT_USD = "0x7898AcCC83587C3C55116c5230C17a6Cd9C71bad";

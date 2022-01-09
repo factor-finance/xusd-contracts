@@ -25,6 +25,7 @@ const deployOracles = async () => {
   } else {
     oracleContract = "OracleRouter";
   }
+  console.log(`Deploying ${oracleContract} oracle`);
   await deployWithConfirmation("OracleRouter", [], oracleContract);
   const oracleRouter = await ethers.getContract("OracleRouter");
 
@@ -79,7 +80,7 @@ const main = async () => {
 };
 
 main.id = baseName;
-main.dependencies = ["mocks"];
+main.dependencies = [];
 main.tags = ["oracles"];
 
 module.exports = main;

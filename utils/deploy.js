@@ -91,22 +91,16 @@ const impersonateGuardian = async (optGuardianAddr = null) => {
     throw new Error("impersonateGuardian only works on Fork");
   }
 
+  const namedAccounts = await hre.getNamedAccounts();
   // If an address is passed, use that otherwise default to
   // the guardian address from the default hardhat accounts.
-  const guardianAddr =
-    optGuardianAddr || (await hre.getNamedAccounts()).guardianAddr;
+  const guardianAddr = optGuardianAddr || namedAccounts.guardianAddr;
 
-  // Send some ETH to the Guardian account to pay for gas fees.
-  await hre.network.provider.request({
-    method: "hardhat_impersonateAccount",
-    params: [addresses.mainnet.Binance],
-  });
-  const binanceSigner = await hre.ethers.provider.getSigner(
-    addresses.mainnet.Binance
-  );
-  await binanceSigner.sendTransaction({
+  const sDeployer = hre.ethers.provider.getSigner(namedAccounts.deployerAddr);
+  // Send some gas to the Guardian account to pay for gas fees.
+  await sDeployer.sendTransaction({
     to: guardianAddr,
-    value: utils.parseEther("100"),
+    value: utils.parseEther("1"),
   });
 
   await hre.network.provider.request({
@@ -141,7 +135,6 @@ const executeProposal = async (proposalArgs, description, opts = {}) => {
   if (isFork) {
     await impersonateGuardian(opts.guardianAddr);
   }
-
   let governorContract;
   if (opts.governorAddr) {
     governorContract = await ethers.getContractAt(

@@ -81,20 +81,27 @@ async function yield(taskArguments, hre) {
     usdtUnits,
     usdtUnitsFormat,
     isFork,
+    isFuji,
+    isFujiFork,
+    isMainnetFork,
     isLocalhost,
   } = require("../test/helpers");
-  if (!isFork && !isLocalhost) {
-    throw new Error("Task can only be used on local or fork");
+  if (!isFork && !isLocalhost && !isFuji) {
+    throw new Error("Task can only be used on local, fork, or fuji");
   }
 
   let richSigner, usdt;
-  if (isFork) {
+  if (isMainnetFork) {
     await hre.network.provider.request({
       method: "hardhat_impersonateAccount",
       params: [addresses.mainnet.Binance],
     });
     richSigner = await hre.ethers.provider.getSigner(addresses.mainnet.Binance);
     usdt = await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
+  } else if (isFuji || isFujiFork) {
+    const signers = await hre.ethers.getSigners();
+    richSigner = signers[0];
+    usdt = await hre.ethers.getContractAt("MintableERC20", addresses.fuji.USDT);
   } else {
     const signers = await hre.ethers.getSigners();
     richSigner = signers;
@@ -115,11 +122,12 @@ async function yield(taskArguments, hre) {
   let supply = await xusd.totalSupply();
   console.log("XUSD supply", xusdUnitsFormat(supply));
 
+  if (isFujiFork) {
+    // Mint 100k USDT
+    await usdt.connect(richSigner).mint(usdtUnits("100"));
+  }
   // Transfer 100k USDT to the vault.
-  await usdt
-    .connect(richSigner)
-    .transfer(vaultProxy.address, usdtUnits("100000"));
-
+  await usdt.connect(richSigner).transfer(vaultProxy.address, usdtUnits("100"));
   usdtBalance = await usdt.balanceOf(vaultProxy.address);
   console.log("USDT vault balance", usdtUnitsFormat(usdtBalance));
   vaultValue = await vault.totalValue();

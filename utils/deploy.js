@@ -146,7 +146,7 @@ const executeProposal = async (proposalArgs, description, opts = {}) => {
   }
   const admin = await governorContract.admin();
   log(
-    `Using governor contract at ${governorContract.address} with admin ${admin}`
+    `Executing proposal using governor contract at ${governorContract.address} with admin ${admin}`
   );
 
   const txOpts = await getTxOpts();
@@ -161,6 +161,7 @@ const executeProposal = async (proposalArgs, description, opts = {}) => {
   log(`Submitted proposal ${proposalId}`);
 
   await withConfirmation(
+    // queue is admin-only
     governorContract.connect(sGuardian).queue(proposalId, txOpts)
   );
   log(`Proposal ${proposalId} queued`);
@@ -169,6 +170,7 @@ const executeProposal = async (proposalArgs, description, opts = {}) => {
   await advanceTime(172801);
 
   await withConfirmation(
+    // propose is public
     governorContract.connect(sGuardian).execute(proposalId, txOpts)
   );
   log("Proposal executed");

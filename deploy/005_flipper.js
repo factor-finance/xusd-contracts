@@ -7,8 +7,7 @@ const { deployWithConfirmation, withConfirmation } = require("../utils/deploy");
 // Deploy the Flipper trading contract
 const deployFlipper = async () => {
   const assetAddresses = await getAssetAddresses(deployments);
-  const { guardianAddr } = await hre.getNamedAccounts();
-  const governorAddr = guardianAddr;
+  const { governorAddr } = await hre.getNamedAccounts();
 
   const sGovernor = await ethers.provider.getSigner(governorAddr);
   const xusd = await ethers.getContract("XUSDProxy");

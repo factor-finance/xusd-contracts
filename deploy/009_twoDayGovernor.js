@@ -1,12 +1,27 @@
 const hre = require("hardhat");
 
 const path = require("path");
-const { log, executeProposal, sendProposal } = require("../utils/deploy");
+const {
+  log,
+  executeProposal,
+  sendProposal,
+  deployWithConfirmation,
+} = require("../utils/deploy");
 const { isTest, isFork, isMainnet } = require("../test/helpers");
 const { proposeArgs } = require("../utils/governor");
 
 const claimGovernance = async () => {
-  const { guardianAddr, governorAddr } = await hre.getNamedAccounts();
+  const { guardianAddr } = await hre.getNamedAccounts();
+
+  const oldGovernor = await ethers.getContract("Governor");
+  // Deploy a new governor contract.
+  // The governor's admin is the guardian account (e.g. the multi-sig).
+  // Set a min delay of 2 days
+  const newGovernor = await deployWithConfirmation("Governor", [
+    guardianAddr,
+    172800, // 2 days
+  ]);
+  log("Deployed new 2-day timelock governor");
 
   const cXUSDProxy = await ethers.getContract("XUSDProxy");
   const cVaultProxy = await ethers.getContract("VaultProxy");
@@ -20,10 +35,16 @@ const claimGovernance = async () => {
       return {
         contract: contract,
         signature: "transferGovernance(address)",
-        args: [governorAddr],
+        args: [newGovernor.address],
       };
     })
   );
+
+  // Debug any stray contracts
+  // await contracts.forEach(async (contract) => {
+  //   const thisGovernorAddr = await contract.governor()
+  //   console.log(`Contract: ${contract.address} has governor ${thisGovernorAddr} with admin: ${await oldGovernor.admin()}`);
+  // });
 
   const propClaimDescription = "Transfer governance to 1-minute governor";
   const propClaimArgs = await proposeArgs(
@@ -39,7 +60,7 @@ const claimGovernance = async () => {
     // On Mainnet, only propose. The enqueue and execution are handled manually via multi-sig.
     log("Sending transfer proposal to old governor...");
     await sendProposal(propTransferArgs, propTransferDescription, {
-      governorAddr,
+      governorAddr: oldGovernor.address,
     });
     log("Transfer proposal sent.");
 
@@ -51,12 +72,12 @@ const claimGovernance = async () => {
     log("Sending and executing transfer proposal...");
     // Note: we send the proposal to the old governor by passing explicitly its address.
     await executeProposal(propTransferArgs, propTransferDescription, {
-      governorAddr,
+      governorAddr: oldGovernor.address,
     });
 
     log("Sending and executing claim proposal...");
     await executeProposal(propClaimArgs, propClaimDescription, {
-      guardianAddr: guardianAddr,
+      guardianAddr,
     });
   }
 };
@@ -71,7 +92,7 @@ const main = async () => {
 
 main.id = baseName;
 main.dependencies = [];
-main.tags = ["claimGovernance"];
+main.tags = ["twoDayGovernor"];
 main.skip = () => isTest;
 
 module.exports = main;

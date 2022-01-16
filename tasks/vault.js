@@ -123,10 +123,10 @@ async function yield(taskArguments, hre) {
   console.log("XUSD supply", xusdUnitsFormat(supply));
 
   if (isFujiFork) {
-    // Mint 100k USDT
+    // Mint 100 USDT
     await usdt.connect(richSigner).mint(usdtUnits("100"));
   }
-  // Transfer 100k USDT to the vault.
+  // Transfer 100 USDT to the vault.
   await usdt.connect(richSigner).transfer(vaultProxy.address, usdtUnits("100"));
   usdtBalance = await usdt.balanceOf(vaultProxy.address);
   console.log("USDT vault balance", usdtUnitsFormat(usdtBalance));

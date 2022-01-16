@@ -111,7 +111,8 @@ const updateToNewGovernor = async (dNewGovernor) => {
 const baseName = path.basename(__filename);
 const main = async () => {
   console.log(`Running ${baseName} deployment...`);
-  const newGovernor = await deployNewGovernor();
+  // const newGovernor = await deployNewGovernor();
+  const newGovernor = { address: "0x4150d828fE8c5CAF3BD5507dACad33c7C54d3A65" };
   await updateToNewGovernor(newGovernor);
   console.log(`${baseName} deploy done.`);
   return true;

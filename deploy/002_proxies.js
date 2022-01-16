@@ -13,12 +13,7 @@ const {
  *
  */
 const deployCore = async () => {
-  const { guardianAddr } = await hre.getNamedAccounts();
-  // const dGovernor = await deployWithConfirmation("Governor", [
-  //   guardianAddr,
-  //   60,
-  // ]);
-  const governorAddr = guardianAddr; // dGovernor.address;
+  const { governorAddr } = await hre.getNamedAccounts();
   if (!governorAddr) {
     throw new Error("governor address not set.");
   }
@@ -65,6 +60,7 @@ const deployCore = async () => {
   );
   log("Initialized VaultProxy");
 
+  // we can connect with sGovernor account, but not governor contract.
   await withConfirmation(
     cVault
       .connect(sGovernor)

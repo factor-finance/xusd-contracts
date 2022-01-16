@@ -11,8 +11,7 @@ const addresses = require("../utils/addresses");
  * Set default strategies for USDT, USDC, DAI
  */
 const setVaultSettings = async () => {
-  const { guardianAddr } = await getNamedAccounts();
-  const governorAddr = guardianAddr;
+  const { governorAddr } = await getNamedAccounts();
   // Signers
   const sGovernor = await ethers.provider.getSigner(governorAddr);
 

@@ -91,22 +91,16 @@ const impersonateGuardian = async (optGuardianAddr = null) => {
     throw new Error("impersonateGuardian only works on Fork");
   }
 
+  const namedAccounts = await hre.getNamedAccounts();
   // If an address is passed, use that otherwise default to
   // the guardian address from the default hardhat accounts.
-  const guardianAddr =
-    optGuardianAddr || (await hre.getNamedAccounts()).guardianAddr;
+  const guardianAddr = optGuardianAddr || namedAccounts.guardianAddr;
 
-  // Send some ETH to the Guardian account to pay for gas fees.
-  await hre.network.provider.request({
-    method: "hardhat_impersonateAccount",
-    params: [addresses.mainnet.Binance],
-  });
-  const binanceSigner = await hre.ethers.provider.getSigner(
-    addresses.mainnet.Binance
-  );
-  await binanceSigner.sendTransaction({
+  const sDeployer = hre.ethers.provider.getSigner(namedAccounts.deployerAddr);
+  // Send some gas to the Guardian account to pay for gas fees.
+  await sDeployer.sendTransaction({
     to: guardianAddr,
-    value: utils.parseEther("100"),
+    value: utils.parseEther("1"),
   });
 
   await hre.network.provider.request({
@@ -141,7 +135,6 @@ const executeProposal = async (proposalArgs, description, opts = {}) => {
   if (isFork) {
     await impersonateGuardian(opts.guardianAddr);
   }
-
   let governorContract;
   if (opts.governorAddr) {
     governorContract = await ethers.getContractAt(
@@ -153,7 +146,7 @@ const executeProposal = async (proposalArgs, description, opts = {}) => {
   }
   const admin = await governorContract.admin();
   log(
-    `Using governor contract at ${governorContract.address} with admin ${admin}`
+    `Executing proposal using governor contract at ${governorContract.address} with admin ${admin}`
   );
 
   const txOpts = await getTxOpts();
@@ -168,6 +161,7 @@ const executeProposal = async (proposalArgs, description, opts = {}) => {
   log(`Submitted proposal ${proposalId}`);
 
   await withConfirmation(
+    // queue is admin-only
     governorContract.connect(sGuardian).queue(proposalId, txOpts)
   );
   log(`Proposal ${proposalId} queued`);
@@ -176,6 +170,7 @@ const executeProposal = async (proposalArgs, description, opts = {}) => {
   await advanceTime(172801);
 
   await withConfirmation(
+    // propose is public
     governorContract.connect(sGuardian).execute(proposalId, txOpts)
   );
   log("Proposal executed");
@@ -220,8 +215,8 @@ const executeProposalOnFork = async (proposalId, executeGasLimit = null) => {
  * @returns {Promise<void>}
  */
 const sendProposal = async (proposalArgs, description, opts = {}) => {
-  if (!isMainnet && !isFork) {
-    throw new Error("sendProposal only works on Mainnet and Fork networks");
+  if (!isMainnet && !isFuji && !isFork) {
+    throw new Error("sendProposal does not work on local test network");
   }
 
   const { deployerAddr } = await hre.getNamedAccounts();

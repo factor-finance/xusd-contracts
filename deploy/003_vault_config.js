@@ -9,8 +9,7 @@ const { log, withConfirmation } = require("../utils/deploy");
  */
 const configureVault = async () => {
   const assetAddresses = await getAssetAddresses(deployments);
-  const { guardianAddr, strategistAddr } = await getNamedAccounts();
-  const governorAddr = guardianAddr;
+  const { governorAddr, strategistAddr } = await getNamedAccounts();
   // Signers
   const sGovernor = await ethers.provider.getSigner(governorAddr);
 

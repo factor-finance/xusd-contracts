@@ -15,8 +15,7 @@ const {
  */
 const deployAaveStrategy = async () => {
   const assetAddresses = await getAssetAddresses(hre.deployments);
-  const { guardianAddr, deployerAddr } = await getNamedAccounts();
-  const governorAddr = guardianAddr;
+  const { governorAddr, deployerAddr } = await getNamedAccounts();
   // Signers
   const sDeployer = await ethers.provider.getSigner(deployerAddr);
   const sGovernor = await ethers.provider.getSigner(governorAddr);
@@ -37,7 +36,7 @@ const deployAaveStrategy = async () => {
   await withConfirmation(
     cAaveStrategyProxy["initialize(address,address,bytes)"](
       dAaveStrategy.address,
-      deployerAddr,
+      governorAddr,
       []
     )
   );
@@ -47,7 +46,7 @@ const deployAaveStrategy = async () => {
     "initialize(address,address,address,address[],address[],address)";
   await withConfirmation(
     cAaveStrategy
-      .connect(sDeployer)
+      .connect(sGovernor)
       [initFunctionName](
         assetAddresses.AAVE_ADDRESS_PROVIDER,
         cVaultProxy.address,
@@ -57,24 +56,6 @@ const deployAaveStrategy = async () => {
         assetAddresses.AAVE_INCENTIVES_CONTROLLER
       )
   );
-  log("Initialized AaveStrategy");
-  await withConfirmation(
-    cAaveStrategy.connect(sDeployer).transferGovernance(governorAddr)
-  );
-  console.log(`AaveStrategy transferGovernance(${governorAddr} called`);
-
-  // On Mainnet the governance transfer gets executed separately, via the
-  // multi-sig wallet. On other networks, this migration script can claim
-  // governance by the governor.
-  if (!isMainnet) {
-    await withConfirmation(
-      cAaveStrategy
-        .connect(sGovernor) // Claim governance with governor
-        .claimGovernance()
-    );
-    console.log("Claimed governance for AaveStrategy");
-  }
-
   return cAaveStrategy;
 };
 

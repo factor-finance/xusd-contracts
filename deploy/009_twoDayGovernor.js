@@ -14,7 +14,7 @@ const claimGovernance = async () => {
   const { guardianAddr } = await hre.getNamedAccounts();
 
   let minDelay = 60 * 60 * 24 * 2; // 2 days
-  if (isFuji()) {
+  if (isFuji) {
     minDelay = 60 * 60; // 1 hour
   }
 

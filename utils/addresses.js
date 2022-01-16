@@ -79,7 +79,7 @@ addresses.mainnet.MixOracle = "__Mixoracle";
 /* --- FUJI --- */
 addresses.fuji = {};
 // XUSD contracts and tools
-addresses.fuji.Deployer = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD";
+addresses.fuji.Deployer = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3";
 // Fuji contracts are governed by the Governor contract (which derives off Timelock).
 addresses.fuji.Guardian = "0x40EA1e3428a0Aa951bd09D3214053f800fcE3A26"; // ERC 20 owner multisig.
 addresses.fuji.Governor = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3";

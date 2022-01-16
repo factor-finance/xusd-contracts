@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "deploy": "npx hardhat deploy --export 'deployments/network.json'",
-    "deploy:fuji": "npx hardhat deploy --network fuji --verbose --export 'deployments/network.fuji.json'",
-    "deploy:mainnet": "npx hardhat deploy --network mainnet --verbose --export 'deployments/network.mainnet.json'",
+    "deploy:fuji": "npx hardhat deploy --network fuji-prod --verbose --export 'deployments/network.fuji.json'",
+    "deploy:mainnet": "npx hardhat deploy --network mainnet-prod --verbose --export 'deployments/network.mainnet.json'",
     "run_node": "./scripts/node.sh",
     "run_node:fork": "./scripts/node.sh fork",
     "lint": "yarn run lint:js && yarn run lint:sol",

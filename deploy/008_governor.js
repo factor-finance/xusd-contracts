@@ -10,6 +10,7 @@ const {
 } = require("../utils/deploy");
 const { proposeArgs } = require("../utils/governor");
 const { isMainnet, isFuji, isFork, isTest } = require("../test/helpers.js");
+const { getTxOpts } = require("../utils/tx");
 
 const deployNewGovernor = async () => {
   log("Running governor 1-minute deployment...");
@@ -42,14 +43,25 @@ const updateToNewGovernor = async (dNewGovernor) => {
   const cAaveStrategyProxy = await ethers.getContract("AaveStrategyProxy");
   const cFlipper = await ethers.getContract("Flipper");
 
-  const contracts = [cXUSDProxy, cVaultProxy, cFlipper, cAaveStrategyProxy];
   // Governor is a signer. We can connect and transfer to a contract Governor+Admin
   const newGovernorAddr = isTest == true ? governorAddr : newGovernor.address;
-  contracts.forEach(async (contract) => {
-    await withConfirmation(
-      contract.connect(sGovernor).transferGovernance(newGovernorAddr)
-    );
-  });
+  if (!newGovernorAddr) {
+    throw new Error("newGovernoAddr not defined");
+  }
+  await withConfirmation(
+    cXUSDProxy.connect(sGovernor).transferGovernance(newGovernorAddr)
+  );
+  await withConfirmation(
+    cVaultProxy.connect(sGovernor).transferGovernance(newGovernorAddr)
+  );
+  await withConfirmation(
+    cAaveStrategyProxy.connect(sGovernor).transferGovernance(newGovernorAddr)
+  );
+  await withConfirmation(
+    cFlipper.connect(sGovernor).transferGovernance(newGovernorAddr)
+  );
+
+  const contracts = [cXUSDProxy, cVaultProxy, cFlipper, cAaveStrategyProxy];
   const propDescription = "Transfer governance to 1-minute governor";
   const propArgs = await proposeArgs(
     contracts.map((contract) => {
@@ -70,12 +82,10 @@ const updateToNewGovernor = async (dNewGovernor) => {
       "Next step: propose, enqueue and execute a governance proposal to claim governance."
     );
     log(`Governor address: ${governorAddr}`);
-    log(`Proposal [targets, values, sigs, datas]:`);
-    log(JSON.stringify(propArgs, null, 2));
     log("Sending transfer proposal to old governor...");
     // anyone can propose
     await sendProposal(propArgs, propDescription, {
-      governorAddr,
+      governorAddr: newGovernorAddr,
     });
     log("Transfer proposal sent.");
   } else if (isFork) {
@@ -86,7 +96,7 @@ const updateToNewGovernor = async (dNewGovernor) => {
     log("Executed claim proposal...");
   } else {
     // Testmode where sGovernor is a signer
-    contracts.forEach(async (contract) => {
+    await contracts.forEach(async (contract) => {
       await withConfirmation(
         contract
           // Claim governance with governor account
@@ -101,7 +111,8 @@ const updateToNewGovernor = async (dNewGovernor) => {
 const baseName = path.basename(__filename);
 const main = async () => {
   console.log(`Running ${baseName} deployment...`);
-  const newGovernor = await deployNewGovernor();
+  // const newGovernor = await deployNewGovernor();
+  const newGovernor = { address: "0x4150d828fE8c5CAF3BD5507dACad33c7C54d3A65" };
   await updateToNewGovernor(newGovernor);
   console.log(`${baseName} deploy done.`);
   return true;

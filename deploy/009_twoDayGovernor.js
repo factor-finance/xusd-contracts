@@ -7,19 +7,23 @@ const {
   sendProposal,
   deployWithConfirmation,
 } = require("../utils/deploy");
-const { isTest, isFork, isMainnet } = require("../test/helpers");
+const { isTest, isFork, isMainnet, isFuji } = require("../test/helpers");
 const { proposeArgs } = require("../utils/governor");
 
 const claimGovernance = async () => {
   const { guardianAddr } = await hre.getNamedAccounts();
 
+  let minDelay = 60 * 60 * 24 * 2; // 2 days
+  if (isFuji()) {
+    minDelay = 60 * 60; // 1 hour
+  }
+
   const oldGovernor = await ethers.getContract("Governor");
   // Deploy a new governor contract.
   // The governor's admin is the guardian account (e.g. the multi-sig).
-  // Set a min delay of 2 days
   const newGovernor = await deployWithConfirmation("Governor", [
     guardianAddr,
-    172800, // 2 days
+    minDelay,
   ]);
   log("Deployed new 2-day timelock governor");
 

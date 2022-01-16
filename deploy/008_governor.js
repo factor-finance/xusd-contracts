@@ -45,13 +45,11 @@ const updateToNewGovernor = async (dNewGovernor) => {
   const contracts = [cXUSDProxy, cVaultProxy, cFlipper, cAaveStrategyProxy];
   // Governor is a signer. We can connect and transfer to a contract Governor+Admin
   const newGovernorAddr = isTest == true ? governorAddr : newGovernor.address;
-  await Promise.all(
-    contracts.map((contract) => {
-      return withConfirmation(
-        contract.connect(sGovernor).transferGovernance(newGovernorAddr)
-      );
-    })
-  );
+  contracts.forEach(async (contract) => {
+    await withConfirmation(
+      contract.connect(sGovernor).transferGovernance(newGovernorAddr)
+    );
+  });
   const propDescription = "Transfer governance to 1-minute governor";
   const propArgs = await proposeArgs(
     contracts.map((contract) => {
@@ -88,16 +86,14 @@ const updateToNewGovernor = async (dNewGovernor) => {
     log("Executed claim proposal...");
   } else {
     // Testmode where sGovernor is a signer
-    await Promise.all(
-      contracts.map((contract) => {
-        return withConfirmation(
-          contract
-            // Claim governance with governor account
-            .connect(sGovernor)
-            .claimGovernance()
-        );
-      })
-    );
+    contracts.forEach(async (contract) => {
+      await withConfirmation(
+        contract
+          // Claim governance with governor account
+          .connect(sGovernor)
+          .claimGovernance()
+      );
+    });
     log(`Claimed governance signer ${governorAddr}`);
   }
 };

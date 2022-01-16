@@ -15,8 +15,7 @@ const { log, withConfirmation } = require("../utils/deploy");
  */
 const setDefaultStrategies = async () => {
   const assetAddresses = await getAssetAddresses(hre.deployments);
-  const { guardianAddr } = await getNamedAccounts();
-  const governorAddr = guardianAddr;
+  const { governorAddr } = await getNamedAccounts();
   // Signers
   const sGovernor = await ethers.provider.getSigner(governorAddr);
 

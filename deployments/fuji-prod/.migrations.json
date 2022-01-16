@@ -4,7 +4,6 @@
   "003_vault_config.js": 1641766394,
   "004_strategies.js": 1641766471,
   "005_flipper.js": 1641766507,
-  "006_governor.js": 1641766518,
-  "007_default_strategies.js": 1641766553,
-  "008_vault_settings.js": 1641766597
+  "006_default_strategies.js": 1641766553,
+  "007_vault_settings.js": 1641766597
 }

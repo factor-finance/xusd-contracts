@@ -60,7 +60,7 @@ const claimGovernance = async () => {
     })
   );
 
-  if (isMainnet) {
+  if (isMainnet || isFuji) {
     // On Mainnet, only propose. The enqueue and execution are handled manually via multi-sig.
     log("Sending transfer proposal to old governor...");
     await sendProposal(propTransferArgs, propTransferDescription, {

@@ -215,8 +215,8 @@ const executeProposalOnFork = async (proposalId, executeGasLimit = null) => {
  * @returns {Promise<void>}
  */
 const sendProposal = async (proposalArgs, description, opts = {}) => {
-  if (!isMainnet && !isFork) {
-    throw new Error("sendProposal only works on Mainnet and Fork networks");
+  if (!isMainnet && !isFuji && !isFork) {
+    throw new Error("sendProposal does not work on local test network");
   }
 
   const { deployerAddr } = await hre.getNamedAccounts();

@@ -215,7 +215,7 @@ const executeProposalOnFork = async (proposalId, executeGasLimit = null) => {
  * @returns {Promise<void>}
  */
 const sendProposal = async (proposalArgs, description, opts = {}) => {
-  if (!isMainnet && !isFork) {
+  if ((!isMainnet || !isFuji) && !isFork) {
     throw new Error("sendProposal only works on Mainnet and Fork networks");
   }
 

@@ -15,7 +15,7 @@ const claimGovernance = async () => {
 
   let minDelay = 60 * 60 * 24 * 2; // 2 days
   if (isFuji) {
-    minDelay = 60 * 60; // 1 hour
+    minDelay = 60; // 1 minute. The change demostrates gov->gov handoff
   }
 
   const oldGovernor = await ethers.getContract("Governor");

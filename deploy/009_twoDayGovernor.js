@@ -7,11 +7,7 @@ const {
   sendProposal,
   deployWithConfirmation,
 } = require("../utils/deploy");
-<<<<<<< HEAD
 const { isTest, isFork, isMainnet, isFuji } = require("../test/helpers");
-=======
-const { isTest, isFork, isMainnet } = require("../test/helpers");
->>>>>>> 8e34b63e (claim governance with idemopotency)
 const { proposeArgs } = require("../utils/governor");
 
 const claimGovernance = async () => {

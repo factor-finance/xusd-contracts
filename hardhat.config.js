@@ -113,6 +113,7 @@ task("executeOnFork", "Enqueue and execute a proposal on the Fork")
   .setAction(executeOnFork);
 task("proposal", "Dumps the state of a proposal")
   .addParam("id", "Id of the proposal")
+  .addOptionalParam("governor", "Override Governor address")
   .setAction(proposal);
 task("governors", "Get list of governors for all contracts").setAction(
   governors

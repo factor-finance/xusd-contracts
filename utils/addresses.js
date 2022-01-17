@@ -82,7 +82,7 @@ addresses.fuji = {};
 addresses.fuji.Deployer = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3";
 // Fuji contracts are governed by the Governor contract (which derives off Timelock).
 addresses.fuji.Guardian = "0x40EA1e3428a0Aa951bd09D3214053f800fcE3A26"; // ERC 20 owner multisig.
-addresses.fuji.Governor = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3";
+addresses.fuji.Governor = "0xed24eaa9993132FA5a762148A01d20ee6516cD41";
 addresses.fuji.Strategist = addresses.fuji.Guardian; // FIXME: separation!
 addresses.fuji.VaultProxy = "0xF649f2337055767A077C1C77A465f36e7f719BF5";
 addresses.fuji.Vault = "0x263cC387260574A3e7E7C20dF7CB4E1302E8F358";

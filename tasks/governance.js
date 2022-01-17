@@ -81,7 +81,15 @@ async function executeOnFork(taskArguments) {
 
 async function proposal(taskArguments, hre) {
   const proposalId = Number(taskArguments.id);
-  const governor = await hre.ethers.getContract("Governor");
+  let governor;
+  if (taskArguments.governor) {
+    governor = await hre.ethers.getContractAt(
+      "Governor",
+      taskArguments.governor
+    );
+  } else {
+    governor = await hre.ethers.getContract("Governor");
+  }
   const proposal = await governor["proposals(uint256)"](proposalId);
   const actions = await governor.getActions(proposalId);
 

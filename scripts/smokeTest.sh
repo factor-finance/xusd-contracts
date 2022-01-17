@@ -22,7 +22,7 @@
 
 # any child processes created by this process are killed once the main process is terminated
 trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
-nodeWaitTimeout=60
+nodeWaitTimeout=120
 
 main()
 {

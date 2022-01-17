@@ -25,8 +25,7 @@ const claimGovernance = async () => {
     guardianAddr,
     minDelay,
   ]);
-  log("Deployed new 2-day timelock governor");
-
+  log(`Deployed new 2-day timelock governor: ${newGovernor.address}`);
   const cXUSDProxy = await ethers.getContract("XUSDProxy");
   const cVaultProxy = await ethers.getContract("VaultProxy");
   const cAaveStrategyProxy = await ethers.getContract("AaveStrategyProxy");
@@ -69,7 +68,9 @@ const claimGovernance = async () => {
     log("Transfer proposal sent.");
 
     log("Sending claim proposal to new governor...");
-    await sendProposal(propClaimArgs, propClaimDescription);
+    await sendProposal(propClaimArgs, propClaimDescription, {
+      governorAddr: newGovernor.address,
+    });
     log("Claim proposal sent.");
   } else if (isFork) {
     // On Fork we can send the proposal then impersonate the guardian to execute it.

@@ -6,5 +6,6 @@
   "005_flipper.js": 1641766507,
   "006_default_strategies.js": 1641766553,
   "007_vault_settings.js": 1641766597,
-  "008_governor.js": 1642375394
+  "008_governor.js": 1642375394,
+  "009_twoDayGovernor.js": 1642376554
 }

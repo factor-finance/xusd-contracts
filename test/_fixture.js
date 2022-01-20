@@ -33,6 +33,17 @@ async function defaultFixture() {
     "MockAaveIncentivesController"
   );
 
+  // const alphaHomoraStrategyProxy = await ethers.getContract(
+  //   "AlphaHomoraStrategyProxy"
+  // );
+  // const alphaHomoraStrategy = await ethers.getContractAt(
+  //   "AlphaHomoraStrategy",
+  //   alphaHomoraStrategyProxy.address
+  // );
+  // const alphaHomoraIncentivesController = await ethers.getContract(
+  //   "MockAlphaHomoraIncentivesController"
+  // );
+
   const oracleRouter = await ethers.getContract("OracleRouter");
 
   let usdt,
@@ -211,6 +222,37 @@ async function aaveVaultFixture() {
   await fixture.vault
     .connect(sGovernor)
     .approveStrategy(fixture.aaveStrategy.address);
+  // Add direct allocation of DAI, USDC, USDT to Aave
+  await fixture.vault
+    .connect(sGovernor)
+    .setAssetDefaultStrategy(fixture.dai.address, fixture.aaveStrategy.address);
+  await fixture.vault
+    .connect(sGovernor)
+    .setAssetDefaultStrategy(
+      fixture.usdc.address,
+      fixture.aaveStrategy.address
+    );
+  await fixture.vault
+    .connect(sGovernor)
+    .setAssetDefaultStrategy(
+      fixture.usdt.address,
+      fixture.aaveStrategy.address
+    );
+  return fixture;
+}
+
+/**
+ * Configure a Vault with only the Aave strategy.
+ */
+async function alphaHomoraVaultFixture() {
+  const fixture = await loadFixture(defaultFixture);
+
+  const { governorAddr } = await getNamedAccounts();
+  const sGovernor = await ethers.provider.getSigner(governorAddr);
+  // Add Aave which only supports DAI
+  await fixture.vault
+    .connect(sGovernor)
+    .approveStrategy(fixture.alphaHomoraStrategy.address);
   // Add direct allocation of DAI, USDC, USDT to Aave
   await fixture.vault
     .connect(sGovernor)

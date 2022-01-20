@@ -43,6 +43,12 @@ addresses.mainnet.avUSDC = "0x46A51127C3ce23fb7AB1DE06226147F446e4a857"; // *: 6
 addresses.mainnet.AAVE_INCENTIVES_CONTROLLER =
   "0x01D83Fe6A10D2f2B7AF17034343746188272cAc9";
 
+// AlphaHomora https://alphafinancelab.gitbook.io/alpha-homora-v2-avalanche/resources/contract-addresses
+addresses.mainnet.SafeBoxUSDTe = "0x858D6353A52c25C53Df1869230282d22b41f5790";
+addresses.mainnet.SafeBoxUSDCe = "0xD3843b60e69f958eF93BeC299467e6Ed301CbEeB";
+addresses.mainnet.SafeBoxDAIe = "0x69491FD9a6D9e32f32113cC076B1B69D8B9EBD3F";
+addresses.mainnet.ALPHA = "0x2147efff675e4a4ee1c2f918d181cdbd7a8e208f";
+
 // Pangolin router
 addresses.mainnet.UNISWAP_ROUTER = "0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106";
 

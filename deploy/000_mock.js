@@ -70,6 +70,43 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
     usdt.address
   );
 
+  // Deploy CTokens aka ibTokens (AlphaHomora)
+  const dCUSDT = await deploy("MockCUSDT.e", {
+    args: [usdt.address],
+    contract: "MockCErc20",
+    from: deployerAddr,
+  });
+  const dCDAI = await deploy("MockCDAI.e", {
+    args: [dai.address],
+    contract: "MockCErc20",
+    from: deployerAddr,
+  });
+  const dCUSDC = await deploy("MockCUSDC.e", {
+    args: [usdc.address],
+    contract: "MockCErc20",
+    from: deployerAddr,
+  });
+  // Deploy SafeBoxes. Perhaps only USDT is useable due to minting
+  await deploy("MockSafeBoxUSDT.e", {
+    args: [dCUSDT.address, "Interest Bearing USDT.e v2", "CUSDT.ev2"],
+    contract: "MockSafeBox",
+    from: deployerAddr,
+  });
+  // Deploy SafeBoxes
+  await deploy("MockSafeBoxDAI.e", {
+    args: [dCDAI.address, "Interest Bearing DAI.e v2", "CDAI.ev2"],
+    contract: "MockSafeBox",
+    from: deployerAddr,
+  });
+  // Deploy SafeBoxes
+  await deploy("MockSafeBoxUSDC.e", {
+    args: [dCUSDC.address, "Interest Bearing USDC.e v2", "CUSDC.ev2"],
+    contract: "MockSafeBox",
+    from: deployerAddr,
+  });
+  // TODO Deploy mock MerkleProof?
+  // Deploy AlphaHomora proxy, strategy, incentivescontroller
+
   // Deploy mock chainlink oracle price feeds.
   await deploy("MockChainlinkOracleFeedDAI", {
     from: deployerAddr,
@@ -114,6 +151,10 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
   });
 
   await deploy("MockAAVEToken", {
+    from: deployerAddr,
+    args: [],
+  });
+  await deploy("MockALPHAToken", {
     from: deployerAddr,
     args: [],
   });

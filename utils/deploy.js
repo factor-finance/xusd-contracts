@@ -256,7 +256,7 @@ const sendProposal = async (proposalArgs, description, opts = {}) => {
  * @returns {Object} main object used by hardhat
  */
 function deploymentWithProposal(opts, fn) {
-  const { deployName, dependencies, forceDeploy } = opts;
+  const { deployName, dependencies, forceDeploy, skip } = opts;
   const runDeployment = async (hre) => {
     const oracleAddresses = await getOracleAddresses(hre.deployments);
     const assetAddresses = await getAssetAddresses(hre.deployments);
@@ -274,8 +274,8 @@ function deploymentWithProposal(opts, fn) {
     const propArgs = await proposeArgs(proposal.actions);
     const propOpts = proposal.opts || {};
 
-    if (isMainnet) {
-      // On Mainnet, only propose. The enqueue and execution are handled manually via multi-sig.
+    if (isMainnet || isFuji) {
+      // On prod networks, only propose. The enqueue and execution are handled manually via multi-sig.
       log("Sending proposal to governor...");
       await sendProposal(propArgs, propDescription, propOpts);
       log("Proposal sent.");
@@ -316,7 +316,9 @@ function deploymentWithProposal(opts, fn) {
   };
   main.id = deployName;
   main.dependencies = dependencies;
-  if (forceDeploy) {
+  if (skip) {
+    main.skip = skip;
+  } else if (forceDeploy) {
     main.skip = () => false;
   } else {
     main.skip = () => !(isMainnet || isFuji) || isSmokeTest || isFork;

@@ -985,7 +985,7 @@
       ]
     },
     "Governor": {
-      "address": "0x4150d828fE8c5CAF3BD5507dACad33c7C54d3A65",
+      "address": "0xed24eaa9993132FA5a762148A01d20ee6516cD41",
       "abi": [
         {
           "inputs": [
@@ -4652,7 +4652,7 @@
       ]
     },
     "XUSD": {
-      "address": "0xD5186b971756B4EE180b6b884Ad95D121E6Aa6e6",
+      "address": "0x45BB48688F07C15e188b4bfB12264BbEb077d8F2",
       "abi": [
         {
           "anonymous": false,
@@ -4739,7 +4739,7 @@
               "type": "uint256"
             }
           ],
-          "name": "TotalSupplyUpdatedHighres",
+          "name": "TotalSupplyUpdated",
           "type": "event"
         },
         {
@@ -4904,35 +4904,6 @@
               "internalType": "uint256",
               "name": "",
               "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "address",
-              "name": "_account",
-              "type": "address"
-            }
-          ],
-          "name": "creditsBalanceOfHighres",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            },
-            {
-              "internalType": "bool",
-              "name": "",
-              "type": "bool"
             }
           ],
           "stateMutability": "view",
@@ -5178,33 +5149,7 @@
         },
         {
           "inputs": [],
-          "name": "rebasingCreditsHighres",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
           "name": "rebasingCreditsPerToken",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "rebasingCreditsPerTokenHighres",
           "outputs": [
             {
               "internalType": "uint256",

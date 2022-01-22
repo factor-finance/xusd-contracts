@@ -87,7 +87,7 @@ addresses.fuji.Strategist = addresses.fuji.Guardian; // FIXME: separation!
 addresses.fuji.VaultProxy = "0xF649f2337055767A077C1C77A465f36e7f719BF5";
 addresses.fuji.Vault = "0x263cC387260574A3e7E7C20dF7CB4E1302E8F358";
 addresses.fuji.XUSDProxy = "0xcfB8563ECE6153c585db58858407f70aB1D5d914";
-addresses.fuji.XUSD = "0xD5186b971756B4EE180b6b884Ad95D121E6Aa6e6";
+addresses.fuji.XUSD = "0x45BB48688F07C15e188b4bfB12264BbEb077d8F2";
 addresses.fuji.Oracle = "0x4c9aE96EA0FD0cCF5a6b39487A112e9252756AeC";
 
 addresses.fuji.chainlinkAVAX_USD = "0x5498bb86bc934c8d34fda08e81d444153d0d06ad";

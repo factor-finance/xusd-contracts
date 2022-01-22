@@ -25,7 +25,7 @@ contract XUSD is Initializable, InitializableERC20Detailed, Governable {
     using SafeMath for uint256;
     using StableMath for uint256;
 
-    event TotalSupplyUpdatedHighres(
+    event TotalSupplyUpdated(
         uint256 totalSupply,
         uint256 rebasingCredits,
         uint256 rebasingCreditsPerToken
@@ -49,9 +49,7 @@ contract XUSD is Initializable, InitializableERC20Detailed, Governable {
     uint256 public nonRebasingSupply;
     mapping(address => uint256) public nonRebasingCreditsPerToken;
     mapping(address => RebaseOptions) public rebaseState;
-    mapping(address => uint256) public isUpgraded;
-
-    uint256 private constant RESOLUTION_INCREASE = 1e9;
+    mapping(address => uint256) public isUpgraded; // DEPRECATED
 
     function initialize(
         string calldata _nameArg,
@@ -79,30 +77,16 @@ contract XUSD is Initializable, InitializableERC20Detailed, Governable {
     }
 
     /**
-     * @return Low resolution rebasingCreditsPerToken
+     * @return rebasingCreditsPerToken
      */
     function rebasingCreditsPerToken() public view returns (uint256) {
-        return _rebasingCreditsPerToken / RESOLUTION_INCREASE;
-    }
-
-    /**
-     * @return Low resolution total number of rebasing credits
-     */
-    function rebasingCredits() public view returns (uint256) {
-        return _rebasingCredits / RESOLUTION_INCREASE;
-    }
-
-    /**
-     * @return High resolution rebasingCreditsPerToken
-     */
-    function rebasingCreditsPerTokenHighres() public view returns (uint256) {
         return _rebasingCreditsPerToken;
     }
 
     /**
-     * @return High resolution total number of rebasing credits
+     * @return Total number of rebasing credits
      */
-    function rebasingCreditsHighres() public view returns (uint256) {
+    function rebasingCredits() public view returns (uint256) {
         return _rebasingCredits;
     }
 
@@ -125,9 +109,8 @@ contract XUSD is Initializable, InitializableERC20Detailed, Governable {
 
     /**
      * @dev Gets the credits balance of the specified address.
-     * @dev Backwards compatible with old low res credits per token.
      * @param _account The address to query the balance of.
-     * @return (uint256, uint256) Credit balance and credits per token of the
+     * @return (uint256, uint256, bool) Credit balance, credits per token of the
      *         address
      */
     function creditsBalanceOf(address _account)
@@ -135,40 +118,7 @@ contract XUSD is Initializable, InitializableERC20Detailed, Governable {
         view
         returns (uint256, uint256)
     {
-        uint256 cpt = _creditsPerToken(_account);
-        if (cpt == 1e27) {
-            // For a period before the resolution upgrade, we created all new
-            // contract accounts at high resolution. Since they are not changing
-            // as a result of this upgrade, we will return their true values
-            return (_creditBalances[_account], cpt);
-        } else {
-            return (
-                _creditBalances[_account] / RESOLUTION_INCREASE,
-                cpt / RESOLUTION_INCREASE
-            );
-        }
-    }
-
-    /**
-     * @dev Gets the credits balance of the specified address.
-     * @param _account The address to query the balance of.
-     * @return (uint256, uint256, bool) Credit balance, credits per token of the
-     *         address, and isUpgraded
-     */
-    function creditsBalanceOfHighres(address _account)
-        public
-        view
-        returns (
-            uint256,
-            uint256,
-            bool
-        )
-    {
-        return (
-            _creditBalances[_account],
-            _creditsPerToken(_account),
-            isUpgraded[_account] == 1
-        );
+        return (_creditBalances[_account], _creditsPerToken(_account));
     }
 
     /**
@@ -547,7 +497,7 @@ contract XUSD is Initializable, InitializableERC20Detailed, Governable {
         require(_totalSupply > 0, "Cannot increase 0 supply");
 
         if (_totalSupply == _newTotalSupply) {
-            emit TotalSupplyUpdatedHighres(
+            emit TotalSupplyUpdated(
                 _totalSupply,
                 _rebasingCredits,
                 _rebasingCreditsPerToken
@@ -569,7 +519,7 @@ contract XUSD is Initializable, InitializableERC20Detailed, Governable {
             .divPrecisely(_rebasingCreditsPerToken)
             .add(nonRebasingSupply);
 
-        emit TotalSupplyUpdatedHighres(
+        emit TotalSupplyUpdated(
             _totalSupply,
             _rebasingCredits,
             _rebasingCreditsPerToken

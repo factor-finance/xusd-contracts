@@ -2,5 +2,6 @@
   "001_oracles.js": 1642967217,
   "002_proxies.js": 1642968449,
   "003_vault_config.js": 1642969642,
-  "004_strategies.js": 1642970184
+  "004_strategies.js": 1642970184,
+  "005_flipper.js": 1642970655
 }

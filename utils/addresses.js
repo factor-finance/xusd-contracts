@@ -68,7 +68,7 @@ addresses.mainnet.WAVAX = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
 addresses.mainnet.Deployer = "0xFF1AE57723A4d6d5301e4C7145eF5E9e51901fdc";
 // Mainnet contracts are governed by the Governor contract (which derives off Timelock).
 // FIXME: replace with deployed contract
-addresses.mainnet.Governor = "0xFF20C3d343B77EfB365565e9991A2F28Fba6C5FA";
+addresses.mainnet.Governor = "0xC47E590EACdb0D7DCd9E55cF05AE2C213AE7A213";
 addresses.mainnet.Guardian = "0xA141613fFC33B61330bea3957ce4CA2cDDf8dd74"; // ERC 20 owner multisig.
 addresses.mainnet.Strategist = "0xFF20C3d343B77EfB365565e9991A2F28Fba6C5FA";
 

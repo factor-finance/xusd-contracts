@@ -65,11 +65,11 @@ addresses.mainnet.chainlinkTUSD_USD =
 addresses.mainnet.WAVAX = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
 
 // XUSD contracts and tools
-addresses.mainnet.Deployer = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD";
+addresses.mainnet.Deployer = "0xFF1AE57723A4d6d5301e4C7145eF5E9e51901fdc";
 // Mainnet contracts are governed by the Governor contract (which derives off Timelock).
 // FIXME: replace with deployed contract
-addresses.mainnet.Governor = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3";
-addresses.mainnet.Guardian = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD"; // ERC 20 owner multisig.
+addresses.mainnet.Governor = "0xFF20C3d343B77EfB365565e9991A2F28Fba6C5FA";
+addresses.mainnet.Guardian = "0xA141613fFC33B61330bea3957ce4CA2cDDf8dd74"; // ERC 20 owner multisig.
 addresses.mainnet.Strategist = "0xFF20C3d343B77EfB365565e9991A2F28Fba6C5FA";
 
 /* --- FUJI --- */

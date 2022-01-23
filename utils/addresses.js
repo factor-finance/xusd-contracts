@@ -69,9 +69,8 @@ addresses.mainnet.Deployer = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD";
 // Mainnet contracts are governed by the Governor contract (which derives off Timelock).
 // FIXME: replace with deployed contract
 addresses.mainnet.Governor = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3";
-// FIXME: replace with deployed multisig
 addresses.mainnet.Guardian = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD"; // ERC 20 owner multisig.
-addresses.mainnet.Strategist = addresses.mainnet.Guardian; // FIXME: separation!
+addresses.mainnet.Strategist = "0xFF20C3d343B77EfB365565e9991A2F28Fba6C5FA";
 
 /* --- FUJI --- */
 addresses.fuji = {};
@@ -80,7 +79,7 @@ addresses.fuji.Deployer = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3";
 // Fuji contracts are governed by the Governor contract (which derives off Timelock).
 addresses.fuji.Guardian = "0x40EA1e3428a0Aa951bd09D3214053f800fcE3A26"; // ERC 20 owner multisig.
 addresses.fuji.Governor = "0xed24eaa9993132FA5a762148A01d20ee6516cD41";
-addresses.fuji.Strategist = addresses.fuji.Guardian; // FIXME: separation!
+addresses.fuji.Strategist = addresses.fuji.Guardian; // No separation on Fuji.
 
 addresses.fuji.chainlinkAVAX_USD = "0x5498bb86bc934c8d34fda08e81d444153d0d06ad";
 addresses.fuji.chainlinkUSDT_USD = "0x7898AcCC83587C3C55116c5230C17a6Cd9C71bad";

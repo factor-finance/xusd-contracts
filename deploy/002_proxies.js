@@ -80,7 +80,9 @@ const deployCore = async () => {
 
   // Initialize XUSD
   await withConfirmation(
-    cXUSD.connect(sGovernor).initialize("XUSD", "XUSD", cVaultProxy.address)
+    cXUSD
+      .connect(sGovernor)
+      .initialize("Factor XUSD", "XUSD", cVaultProxy.address)
   );
 
   log("Initialized XUSD");
@@ -89,7 +91,6 @@ const deployCore = async () => {
 const baseName = path.basename(__filename);
 const main = async () => {
   console.log(`Running ${baseName} deployment...`);
-  // assumes you have a guardian deployed
   await deployCore();
   console.log(`${baseName} deploy done.`);
   return true;

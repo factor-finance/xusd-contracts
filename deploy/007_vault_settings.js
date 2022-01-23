@@ -11,7 +11,7 @@ const addresses = require("../utils/addresses");
  * Set default strategies for USDT, USDC, DAI
  */
 const setVaultSettings = async () => {
-  const { governorAddr } = await getNamedAccounts();
+  const { governorAddr, strategistAddr } = await getNamedAccounts();
   // Signers
   const sGovernor = await ethers.provider.getSigner(governorAddr);
 
@@ -50,8 +50,9 @@ const setVaultSettings = async () => {
 
   // Set strategist addr
   await withConfirmation(
-    // TODO update with strategist!
-    cVault.connect(sGovernor).setStrategistAddr(governorAddr, await getTxOpts())
+    cVault
+      .connect(sGovernor)
+      .setStrategistAddr(strategistAddr, await getTxOpts())
   );
   log("Set strategist address");
 };

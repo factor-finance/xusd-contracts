@@ -17,7 +17,7 @@ describe("Token", function () {
 
   it("Should return the token name and symbol", async () => {
     const { xusd } = await loadFixture(defaultFixture);
-    expect(await xusd.name()).to.equal("XUSD");
+    expect(await xusd.name()).to.equal("Factor XUSD");
     expect(await xusd.symbol()).to.equal("XUSD");
   });
 

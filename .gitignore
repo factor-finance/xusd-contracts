@@ -50,6 +50,8 @@ node_modules
 cache/**
 .env
 .env.local
+.env.mainnet.production
+.env.fuji.production
 artifacts/
 deployments/localhost*
 storageLayout/localhost*

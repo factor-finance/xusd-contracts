@@ -2,8 +2,8 @@
 pragma solidity ^0.8.0;
 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import { IPangolinRouter } from
-    "@pangolindex/exchange-contracts/contracts/pangolin-periphery/interfaces/IPangolinRouter.sol";
+// solhint-disable-next-line max-line-length
+import { IPangolinRouter } from "@pangolindex/exchange-contracts/contracts/pangolin-periphery/interfaces/IPangolinRouter.sol";
 
 import { Helpers } from "../utils/Helpers.sol";
 import { StableMath } from "../utils/StableMath.sol";
@@ -17,6 +17,10 @@ contract MockUniswapRouter is IPangolinRouter {
     function initialize(address _token0, address _token1) public {
         tok0 = _token0;
         tok1 = _token1;
+    }
+
+    function WAVAX() external pure override returns (address) {
+        return address(0);
     }
 
     function swapExactTokensForTokens(
@@ -36,31 +40,7 @@ contract MockUniswapRouter is IPangolinRouter {
         IERC20(tok1).transfer(to, amountOut);
     }
 
-    struct ExactInputParams {
-        bytes path;
-        address recipient;
-        uint256 deadline;
-        uint256 amountIn;
-        uint256 amountOutMinimum;
-    }
-
-    function exactInput(ExactInputParams calldata params)
-        external
-        payable
-        returns (uint256 amountOut)
-    {
-        amountOut = params.amountIn.scaleBy(
-            Helpers.getDecimals(tok1),
-            Helpers.getDecimals(tok0)
-        );
-        IERC20(tok0).transferFrom(msg.sender, address(this), params.amountIn);
-        IERC20(tok1).transfer(params.recipient, amountOut);
-        require(
-            amountOut >= params.amountOutMinimum,
-            "UniswapMock: amountOut less than amountOutMinimum"
-        );
-        return amountOut;
-    }
+    function factory() external pure override returns (address) {}
 
     function addLiquidity(
         address tokenA,
@@ -79,11 +59,184 @@ contract MockUniswapRouter is IPangolinRouter {
             uint256 amountB,
             uint256 liquidity
         )
-    {
-        // this is needed to make this contract whole else it'd be just virtual
-    }
+    {}
 
-    function WAVAX() external pure override returns (address) {
-        return address(0);
-    }
+    function addLiquidityAVAX(
+        address token,
+        uint256 amountTokenDesired,
+        uint256 amountTokenMin,
+        uint256 amountAVAXMin,
+        address to,
+        uint256 deadline
+    )
+        external
+        payable
+        override
+        returns (
+            uint256 amountToken,
+            uint256 amountAVAX,
+            uint256 liquidity
+        )
+    {}
+
+    function removeLiquidity(
+        address tokenA,
+        address tokenB,
+        uint256 liquidity,
+        uint256 amountAMin,
+        uint256 amountBMin,
+        address to,
+        uint256 deadline
+    ) external override returns (uint256 amountA, uint256 amountB) {}
+
+    function removeLiquidityAVAX(
+        address token,
+        uint256 liquidity,
+        uint256 amountTokenMin,
+        uint256 amountAVAXMin,
+        address to,
+        uint256 deadline
+    ) external override returns (uint256 amountToken, uint256 amountAVAX) {}
+
+    function removeLiquidityWithPermit(
+        address tokenA,
+        address tokenB,
+        uint256 liquidity,
+        uint256 amountAMin,
+        uint256 amountBMin,
+        address to,
+        uint256 deadline,
+        bool approveMax,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external override returns (uint256 amountA, uint256 amountB) {}
+
+    function removeLiquidityAVAXWithPermit(
+        address token,
+        uint256 liquidity,
+        uint256 amountTokenMin,
+        uint256 amountAVAXMin,
+        address to,
+        uint256 deadline,
+        bool approveMax,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external override returns (uint256 amountToken, uint256 amountAVAX) {}
+
+    function swapTokensForExactTokens(
+        uint256 amountOut,
+        uint256 amountInMax,
+        address[] calldata path,
+        address to,
+        uint256 deadline
+    ) external override returns (uint256[] memory amounts) {}
+
+    function swapExactAVAXForTokens(
+        uint256 amountOutMin,
+        address[] calldata path,
+        address to,
+        uint256 deadline
+    ) external payable override returns (uint256[] memory amounts) {}
+
+    function swapTokensForExactAVAX(
+        uint256 amountOut,
+        uint256 amountInMax,
+        address[] calldata path,
+        address to,
+        uint256 deadline
+    ) external override returns (uint256[] memory amounts) {}
+
+    function swapExactTokensForAVAX(
+        uint256 amountIn,
+        uint256 amountOutMin,
+        address[] calldata path,
+        address to,
+        uint256 deadline
+    ) external override returns (uint256[] memory amounts) {}
+
+    function swapAVAXForExactTokens(
+        uint256 amountOut,
+        address[] calldata path,
+        address to,
+        uint256 deadline
+    ) external payable override returns (uint256[] memory amounts) {}
+
+    function quote(
+        uint256 amountA,
+        uint256 reserveA,
+        uint256 reserveB
+    ) external pure override returns (uint256 amountB) {}
+
+    function getAmountOut(
+        uint256 amountIn,
+        uint256 reserveIn,
+        uint256 reserveOut
+    ) external pure override returns (uint256 amountOut) {}
+
+    function getAmountIn(
+        uint256 amountOut,
+        uint256 reserveIn,
+        uint256 reserveOut
+    ) external pure override returns (uint256 amountIn) {}
+
+    function getAmountsOut(uint256 amountIn, address[] calldata path)
+        external
+        view
+        override
+        returns (uint256[] memory amounts)
+    {}
+
+    function getAmountsIn(uint256 amountOut, address[] calldata path)
+        external
+        view
+        override
+        returns (uint256[] memory amounts)
+    {}
+
+    function removeLiquidityAVAXSupportingFeeOnTransferTokens(
+        address token,
+        uint256 liquidity,
+        uint256 amountTokenMin,
+        uint256 amountAVAXMin,
+        address to,
+        uint256 deadline
+    ) external override returns (uint256 amountAVAX) {}
+
+    function removeLiquidityAVAXWithPermitSupportingFeeOnTransferTokens(
+        address token,
+        uint256 liquidity,
+        uint256 amountTokenMin,
+        uint256 amountAVAXMin,
+        address to,
+        uint256 deadline,
+        bool approveMax,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external override returns (uint256 amountAVAX) {}
+
+    function swapExactTokensForTokensSupportingFeeOnTransferTokens(
+        uint256 amountIn,
+        uint256 amountOutMin,
+        address[] calldata path,
+        address to,
+        uint256 deadline
+    ) external override {}
+
+    function swapExactAVAXForTokensSupportingFeeOnTransferTokens(
+        uint256 amountOutMin,
+        address[] calldata path,
+        address to,
+        uint256 deadline
+    ) external payable override {}
+
+    function swapExactTokensForAVAXSupportingFeeOnTransferTokens(
+        uint256 amountIn,
+        uint256 amountOutMin,
+        address[] calldata path,
+        address to,
+        uint256 deadline
+    ) external override {}
 }

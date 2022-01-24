@@ -8,7 +8,7 @@ import { IPangolinRouter } from "@pangolindex/exchange-contracts/contracts/pango
 import { Helpers } from "../utils/Helpers.sol";
 import { StableMath } from "../utils/StableMath.sol";
 
-contract MockUniswapRouter is IPangolinRouter {
+contract MockPangolinRouter is IPangolinRouter {
     using StableMath for uint256;
 
     address tok0;

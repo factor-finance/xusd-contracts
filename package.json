@@ -18,6 +18,7 @@
     "prettier:sol": "prettier --write \"contracts/**/*.sol\"",
     "prepare": "husky install .husky",
     "test": "IS_TEST=true npx hardhat test",
+    "coverage": "IS_TEST=true npx hardhat coverage",
     "fund": "FORK=true npx hardhat fund --network localhost",
     "echidna": "yarn run clean && echidna-test . --contract PropertiesXUSDTransferable --config contracts/crytic/TestXUSDTransferable.yaml",
     "slither": "yarn run clean && slither . --filter-paths \"crytic|mocks|@openzeppelin\" --exclude-low --exclude-informational --exclude conformance-to-solidity-naming-conventions,different-pragma-directives-are-used,external-function,assembly,incorrect-equality",

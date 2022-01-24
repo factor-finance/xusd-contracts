@@ -2,12 +2,13 @@
 pragma solidity ^0.8.0;
 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { IPangolinRouter } from
+    "@pangolindex/exchange-contracts/contracts/pangolin-periphery/interfaces/IPangolinRouter.sol";
 
-import { IUniswapV2Router } from "../interfaces/uniswap/IUniswapV2Router02.sol";
 import { Helpers } from "../utils/Helpers.sol";
 import { StableMath } from "../utils/StableMath.sol";
 
-contract MockUniswapRouter is IUniswapV2Router {
+contract MockUniswapRouter is IPangolinRouter {
     using StableMath for uint256;
 
     address tok0;
@@ -82,7 +83,7 @@ contract MockUniswapRouter is IUniswapV2Router {
         // this is needed to make this contract whole else it'd be just virtual
     }
 
-    function WETH() external pure override returns (address) {
+    function WAVAX() external pure override returns (address) {
         return address(0);
     }
 }

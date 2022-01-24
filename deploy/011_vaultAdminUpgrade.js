@@ -1,10 +1,10 @@
 const { deploymentWithProposal, log } = require("../utils/deploy");
-const { isTest } = require("../test/helpers.js");
+const { isTest, isSmokeTest } = require("../test/helpers.js");
 
 module.exports = deploymentWithProposal(
   {
     deployName: "011_vaultAdminUpgrade",
-    skip: () => isTest, // only on mainnet and fuji
+    skip: () => isTest || isSmokeTest, // only on mainnet and fuji
   },
   async ({ deployWithConfirmation, ethers }) => {
     // Current contract

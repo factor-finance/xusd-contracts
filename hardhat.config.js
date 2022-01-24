@@ -219,7 +219,10 @@ module.exports = {
   namedAccounts: {
     deployerAddr: {
       default: 0,
-      localhost: addresses.mainnet.Guardian,
+      localhost:
+        (process.env.FORK === "mainnet" && addresses.mainnet.Deployer) ||
+        (process.env.FORK === "fuji" && addresses.fuji.Deployer) ||
+        0,
       "fuji-prod": addresses.fuji.Deployer,
       "mainnet-prod": addresses.mainnet.Deployer,
     },

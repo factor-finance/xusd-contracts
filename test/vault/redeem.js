@@ -305,8 +305,12 @@ describe("Vault Redeem", function () {
     for (const [user, startBalance] of usersWithBalances) {
       for (const [asset, units] of assetsWithUnits) {
         for (const amount of [5.09, 10.32, 20.99, 100.01]) {
-          asset.connect(user).approve(vault.address, units(amount.toString()));
-          vault.connect(user).mint(asset.address, units(amount.toString()), 0);
+          await asset
+            .connect(user)
+            .approve(vault.address, units(amount.toString()));
+          await vault
+            .connect(user)
+            .mint(asset.address, units(amount.toString()), 0);
           await expect(user).has.an.approxBalanceOf(
             (startBalance + amount).toString(),
             xusd
@@ -415,10 +419,10 @@ describe("Vault Redeem", function () {
 
     await vault.connect(anna).redeemAll(0);
 
-    dai.connect(josh).approve(vault.address, daiUnits("50"));
-    vault.connect(josh).mint(dai.address, daiUnits("50"), 0);
-    dai.connect(matt).approve(vault.address, daiUnits("100"));
-    vault.connect(matt).mint(dai.address, daiUnits("100"), 0);
+    await dai.connect(josh).approve(vault.address, daiUnits("50"));
+    await vault.connect(josh).mint(dai.address, daiUnits("50"), 0);
+    await dai.connect(matt).approve(vault.address, daiUnits("100"));
+    await vault.connect(matt).mint(dai.address, daiUnits("100"), 0);
 
     let newBalance = await usdc.balanceOf(await anna.getAddress());
     let newDaiBalance = await dai.balanceOf(await anna.getAddress());

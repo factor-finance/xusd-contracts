@@ -258,6 +258,9 @@ module.exports = {
     runOnCompile: true,
   },
   etherscan: {
-    apiKey: process.env.XUSD_SNOWTRACE_API_KEY,
+    apiKey: {
+      avalanche: process.env.XUSD_SNOWTRACE_API_KEY,
+      avalancheFujiTestnet: process.env.XUSD_SNOWTRACE_API_KEY,
+    },
   },
 };

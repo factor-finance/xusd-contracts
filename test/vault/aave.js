@@ -624,7 +624,7 @@ describe("Vault with Aave strategy", function () {
   });
 
   it("Should collect reward tokens and swap via Uniswap", async () => {
-    const mockUniswapRouter = await ethers.getContract("MockUniswapRouter");
+    const mockUniswapRouter = await ethers.getContract("MockPangolinRouter");
 
     await mockUniswapRouter.initialize(wavax.address, usdt.address);
 
@@ -674,7 +674,7 @@ describe("Vault with Aave strategy", function () {
   });
 
   it("Should not swap if slippage is too high", async () => {
-    const mockUniswapRouter = await ethers.getContract("MockUniswapRouter");
+    const mockUniswapRouter = await ethers.getContract("MockPangolinRouter");
 
     // Mock router gives 1:1, if we set this to something high there will be
     // too much slippage
@@ -721,7 +721,7 @@ describe("Vault with Aave strategy", function () {
   });
 
   it("Should collect reward tokens and swap as separate calls", async () => {
-    const mockUniswapRouter = await ethers.getContract("MockUniswapRouter");
+    const mockUniswapRouter = await ethers.getContract("MockPangolinRouter");
     await mockUniswapRouter.initialize(wavax.address, usdt.address);
 
     const wavaxAmount = utils.parseUnits("100", 18);

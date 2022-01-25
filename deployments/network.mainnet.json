@@ -2643,7 +2643,7 @@
       ]
     },
     "VaultAdmin": {
-      "address": "0x62D5BaEc6d86e396f5F322d968137262b65Be3CE",
+      "address": "0xD43fc229C2e76991FB38Ec87058664C373ba8Bc4",
       "abi": [
         {
           "anonymous": false,

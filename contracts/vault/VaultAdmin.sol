@@ -8,10 +8,11 @@ pragma solidity ^0.8.0;
  */
 
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+// solhint-disable-next-line max-line-length
+import { IPangolinRouter } from "@pangolindex/exchange-contracts/contracts/pangolin-periphery/interfaces/IPangolinRouter.sol";
 
 import { StableMath } from "../utils/StableMath.sol";
 import { IOracle } from "../interfaces/IOracle.sol";
-import { IUniswapV2Router } from "../interfaces/uniswap/IUniswapV2Router02.sol";
 import "./VaultStorage.sol";
 
 contract VaultAdmin is VaultStorage {
@@ -492,14 +493,22 @@ contract VaultAdmin is VaultStorage {
                 // Oracle price is 1e8, USDT output is 1e6
                 uint256 minExpected = ((balance * oraclePrice * 97) / 100)
                     .scaleBy(6, Helpers.getDecimals(_swapToken) + 8);
+                address wavaxAddr = IPangolinRouter(uniswapAddr).WAVAX();
 
                 // Uniswap redemption path
-                address[] memory path = new address[](3);
-                path[0] = _swapToken;
-                path[1] = IUniswapV2Router(uniswapAddr).WETH();
-                path[2] = allAssets[1]; // USDT
+                address[] memory path;
+                if (_swapToken == wavaxAddr) {
+                    path = new address[](2);
+                    path[0] = _swapToken;
+                    path[1] = allAssets[1]; // USDT
+                } else {
+                    path = new address[](3);
+                    path[0] = _swapToken;
+                    path[1] = wavaxAddr;
+                    path[2] = allAssets[1]; // USDT
+                }
 
-                swapResult = IUniswapV2Router(uniswapAddr)
+                swapResult = IPangolinRouter(uniswapAddr)
                     .swapExactTokensForTokens(
                         balance,
                         minExpected,

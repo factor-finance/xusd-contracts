@@ -57,6 +57,43 @@ async function harvest(taskArguments, hre) {
   console.log("Harvest done");
 }
 
+async function addSwapToken(taskArguments, hre) {
+  const { isMainnet, isFuji, isFork } = require("../test/helpers");
+  const { executeProposal } = require("../utils/deploy");
+  const { proposeArgs } = require("../utils/governor");
+  const { address } = taskArguments;
+
+  if (isMainnet || isFuji) {
+    throw new Error("The harvest task can not be used on mainnet or fuji");
+  }
+  const vaultProxy = await hre.ethers.getContract("VaultProxy");
+  const vault = await hre.ethers.getContractAt("IVault", vaultProxy.address);
+
+  if (isFork) {
+    // On the fork, impersonate the guardian and execute a proposal to call harvest.
+    const propDescription = "Call addSwapToken on vault";
+    const propArgs = await proposeArgs([
+      {
+        contract: vault,
+        signature: "addSwapToken(address)",
+        args: [address],
+      },
+    ]);
+    await executeProposal(propArgs, propDescription);
+  } else {
+    const { governorAddr } = await getNamedAccounts();
+    const sGovernor = hre.ethers.provider.getSigner(governorAddr);
+
+    // Localhost network. Call harvest directly from the governor account.
+    console.log(
+      "Sending a transaction to call addSwapToken() on",
+      vaultProxy.address
+    );
+    await vault.connect(sGovernor)["addSwapToken()"](address);
+  }
+  console.log("Harvest done");
+}
+
 async function rebase(taskArguments, hre) {
   const { withConfirmation } = require("../utils/deploy");
 
@@ -319,4 +356,5 @@ module.exports = {
   reallocate,
   rebase,
   yield,
+  addSwapToken,
 };

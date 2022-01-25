@@ -7,6 +7,7 @@ require("hardhat-deploy");
 require("hardhat-contract-sizer");
 require("hardhat-deploy-ethers");
 require("@openzeppelin/hardhat-upgrades");
+require("solidity-coverage");
 
 const { accounts, fund, mint, redeem, transfer } = require("./tasks/account");
 const { debug, printHashes } = require("./tasks/debug");

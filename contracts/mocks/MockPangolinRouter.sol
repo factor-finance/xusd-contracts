@@ -30,6 +30,8 @@ contract MockPangolinRouter is IPangolinRouter {
         address to,
         uint256 deadline
     ) external override returns (uint256[] memory amounts) {
+        require(path.length > 1, "Path must have at least 2 addresses");
+        require(path[0] != path[1], "Duplicate path addresses are not allowed");
         // Give 1:1
         uint256 amountOut = amountIn.scaleBy(
             Helpers.getDecimals(tok1),

@@ -5,6 +5,7 @@ const usdtAbi = require("../test/abi/usdt.json").abi;
 const daiAbi = require("../test/abi/erc20.json");
 const usdcAbi = require("../test/abi/erc20.json");
 const tusdAbi = require("../test/abi/erc20.json");
+const wavaxAbi = require("../test/abi/erc20.json");
 
 // By default we use 10 test accounts.
 const defaultNumAccounts = 10;
@@ -77,12 +78,13 @@ async function fund(taskArguments, hre) {
     signersToFund = signers.splice(accountIndex, numAccounts);
     accountsToFund = signersToFund.map((signer) => signer.address);
   }
-  let usdt, dai, usdc, tusd;
+  let usdt, dai, usdc, tusd, wavax;
   if (isMainnetFork) {
     usdt = await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
     dai = await hre.ethers.getContractAt(daiAbi, addresses.mainnet.DAI);
     usdc = await hre.ethers.getContractAt(usdcAbi, addresses.mainnet.USDC);
     tusd = await hre.ethers.getContractAt(tusdAbi, addresses.mainnet.TUSD);
+    wavax = await hre.ethers.getContractAt(wavaxAbi, addresses.mainnet.WAVAX);
   } else if (isFork) {
     // because we cannot transfer funds, just mind USDT and return
     const mintAmount = defaultMintAmount;
@@ -105,6 +107,7 @@ async function fund(taskArguments, hre) {
     dai = await hre.ethers.getContract("MockDAI");
     usdc = await hre.ethers.getContract("MockUSDC");
     tusd = await hre.ethers.getContract("MockTUSD");
+    wavax = await hre.ethers.getContract("MockWAVAX");
   }
   const binanceAddresses = addresses.mainnet.BinanceAll.split(",");
 
@@ -156,6 +159,7 @@ async function fund(taskArguments, hre) {
   console.log(`USDC: ${usdc.address}`);
   console.log(`USDT: ${usdt.address}`);
   console.log(`TUSD: ${tusd.address}`);
+  console.log(`WAVAX: ${wavax.address}`);
 
   const contractDataList = [
     {
@@ -181,6 +185,12 @@ async function fund(taskArguments, hre) {
       contract: usdt,
       unitsFn: usdtUnits,
       forkSigner: isFork ? await findBestSigner(usdt) : null,
+    },
+    {
+      name: "wavax",
+      contract: wavax,
+      unitsFn: ethers.utils.parseEther,
+      forkSigner: isFork ? await findBestSigner(wavax) : null,
     },
   ];
 

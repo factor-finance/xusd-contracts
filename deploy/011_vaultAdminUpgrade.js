@@ -1,5 +1,13 @@
 const { deploymentWithProposal, log } = require("../utils/deploy");
-const { isTest, isSmokeTest } = require("../test/helpers.js");
+const {
+  isTest,
+  isSmokeTest,
+  isFuji,
+  isFujiFork,
+  isMainnet,
+  isMainnetFork,
+} = require("../test/helpers.js");
+const addresses = require("../utils/addresses.js");
 
 module.exports = deploymentWithProposal(
   {
@@ -7,6 +15,13 @@ module.exports = deploymentWithProposal(
     skip: () => isTest || isSmokeTest, // only on mainnet and fuji
   },
   async ({ deployWithConfirmation, ethers }) => {
+    let wavaxAddr;
+    if (isMainnet || isMainnetFork) {
+      wavaxAddr = addresses.mainnet.WAVAX;
+    } else if (isFuji || isFujiFork) {
+      wavaxAddr = addresses.fuji.WAVAX;
+    }
+
     // Current contract
     const cVaultProxy = await ethers.getContract("VaultProxy");
     const cVault = await ethers.getContractAt("Vault", cVaultProxy.address);
@@ -24,6 +39,12 @@ module.exports = deploymentWithProposal(
           contract: cVault,
           signature: "setAdminImpl(address)",
           args: [dVaultAdmin.address],
+        },
+        // 2. Vault swaps WAVAX
+        {
+          contract: cVault,
+          signature: "addSwapToken(address)",
+          args: [wavaxAddr],
         },
       ],
     };

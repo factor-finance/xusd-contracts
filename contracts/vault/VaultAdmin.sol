@@ -493,12 +493,20 @@ contract VaultAdmin is VaultStorage {
                 // Oracle price is 1e8, USDT output is 1e6
                 uint256 minExpected = ((balance * oraclePrice * 97) / 100)
                     .scaleBy(6, Helpers.getDecimals(_swapToken) + 8);
+                address wavaxAddr = IPangolinRouter(uniswapAddr).WAVAX();
 
                 // Uniswap redemption path
-                address[] memory path = new address[](3);
-                path[0] = _swapToken;
-                path[1] = IPangolinRouter(uniswapAddr).WAVAX();
-                path[2] = allAssets[1]; // USDT
+                address[] memory path;
+                if (_swapToken == wavaxAddr) {
+                    path = new address[](2);
+                    path[0] = _swapToken;
+                    path[1] = allAssets[1]; // USDT
+                } else {
+                    path = new address[](3);
+                    path[0] = _swapToken;
+                    path[1] = wavaxAddr;
+                    path[2] = allAssets[1]; // USDT
+                }
 
                 swapResult = IPangolinRouter(uniswapAddr)
                     .swapExactTokensForTokens(

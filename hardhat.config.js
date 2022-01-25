@@ -32,6 +32,7 @@ const {
   reallocate,
   rebase,
   yield,
+  addSwapToken,
 } = require("./tasks/vault");
 const {
   mintToken,
@@ -98,6 +99,11 @@ task("capital", "Set the Vault's pauseCapital flag", capital).addParam(
   "true to pause, false to unpause"
 );
 task("harvest", "Call harvest() on Vault", harvest);
+task(
+  "addSwapToken",
+  "Add token and approval for swapping",
+  addSwapToken
+).addParam("address", "The token address to be added.");
 task("rebase", "Call rebase() on the Vault", rebase);
 task("yield", "Artificially generate yield on the Vault", yield);
 task("reallocate", "Allocate assets from one Strategy to another")

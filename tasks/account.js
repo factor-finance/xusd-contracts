@@ -1,5 +1,3 @@
-const _ = require("lodash");
-
 const { mintToken } = require("./contracts.js");
 
 // USDT has its own ABI because of non standard returns

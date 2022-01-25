@@ -16,6 +16,23 @@ async function mintToken(taskArguments, hre) {
   console.log(`Minted ${amount} x 10^${decimals} of ${address} to ${from}`);
 }
 
+async function ercBalanceOf(taskArguments, hre) {
+  const { address } = taskArguments;
+  const addresses = require("../utils/addresses");
+  const tokenNames = ["WAVAX", "USDC", "USDT", "DAI"];
+  const networkName =
+    hre.network.name === "localhost" && process.env.FORK === "mainnet"
+      ? "mainnet"
+      : "fuji";
+  let _address, cToken, balance;
+  for (const token of tokenNames) {
+    _address = addresses[networkName][token];
+    cToken = await hre.ethers.getContractAt("ERC20", _address);
+    balance = await cToken.balanceOf(address);
+    console.log(hre.network.name, token, _address, balance.toString());
+  }
+}
+
 async function getAVTokenAddress(taskArguments, hre) {
   const addresses = require("../utils/addresses");
   const cAddressProvider = new hre.ethers.Contract(
@@ -43,4 +60,5 @@ async function getAVTokenAddress(taskArguments, hre) {
 module.exports = {
   mintToken,
   getAVTokenAddress,
+  ercBalanceOf,
 };

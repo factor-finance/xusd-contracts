@@ -33,7 +33,11 @@ const {
   rebase,
   yield,
 } = require("./tasks/vault");
-const { mintToken, getAVTokenAddress } = require("./tasks/contracts.js");
+const {
+  mintToken,
+  getAVTokenAddress,
+  ercBalanceOf,
+} = require("./tasks/contracts.js");
 const addresses = require("./utils/addresses.js");
 
 const mnemonic =
@@ -132,6 +136,11 @@ task(
   "print the aave AV token addresses",
   getAVTokenAddress
 );
+task(
+  "ercBalanceOf",
+  "prints erc20 token balances for coins",
+  ercBalanceOf
+).addParam("address", "The address to query the balances of");
 
 // Smoke tests
 task(

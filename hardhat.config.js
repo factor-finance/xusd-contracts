@@ -7,6 +7,7 @@ require("hardhat-deploy");
 require("hardhat-contract-sizer");
 require("hardhat-deploy-ethers");
 require("@openzeppelin/hardhat-upgrades");
+require("solidity-coverage");
 
 const { accounts, fund, mint, redeem, transfer } = require("./tasks/account");
 const { debug, printHashes } = require("./tasks/debug");
@@ -219,17 +220,14 @@ module.exports = {
   namedAccounts: {
     deployerAddr: {
       default: 0,
-      localhost: addresses.mainnet.Guardian,
+      localhost: (process.env.FORK === "fuji" && addresses.fuji.Deployer) || 0,
       "fuji-prod": addresses.fuji.Deployer,
       "mainnet-prod": addresses.mainnet.Deployer,
     },
     governorAddr: {
       default: 1,
       // On Mainnet and fork, the governor is the Governor contract.
-      localhost:
-        (process.env.FORK === "mainnet" && addresses.mainnet.Governor) ||
-        (process.env.FORK === "fuji" && addresses.fuji.Governor) ||
-        1,
+      localhost: (process.env.FORK === "fuji" && addresses.fuji.Governor) || 1,
       "fuji-prod": addresses.fuji.Governor,
       "mainnet-prod": addresses.mainnet.Governor,
     },
@@ -246,9 +244,7 @@ module.exports = {
     strategistAddr: {
       default: 0,
       localhost:
-        (process.env.FORK === "mainnet" && addresses.mainnet.Strategist) ||
-        (process.env.FORK === "fuji" && addresses.fuji.Strategist) ||
-        1,
+        (process.env.FORK === "fuji" && addresses.fuji.Strategist) || 1,
       "fuji-prod": addresses.fuji.Strategist,
       "mainnet-prod": addresses.mainnet.Strategist,
     },

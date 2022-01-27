@@ -1,6 +1,6 @@
 # XUSD.fi
 
-XUSD is a new kind of stablecoin that passively accrues yield while you are holding it.
+XUSD is a new kind of stablecoin that passively accrues yield while you are holding it. If you want to learn about XUSD, visit the [docs](https://docs.xusd.fi)
 
 ## Requirements
 - Node Version
@@ -13,60 +13,53 @@ XUSD is a new kind of stablecoin that passively accrues yield while you are hold
 
 ## Installation
 ```bash
-# Clone the xusd project
-git clone git@github.com:xusd-fi/xusd.git
+# Clone the xusd-contracts project
+git clone git@github.com:factor-finance/xusd-contracts.git
 ```  
 
 ---
 
 ## Description
 
-The `xusd` project is a mono repo that houses both the `smart contracts` and `dApp` codebases. In order to run this project locally, you will need to run both the `node` and the `dapp` in separate processes or terminals. 
+The `xusd-contracts` project houses the `smart contracts` codebase. In order to run this project locally, you will need to run both the `node` and the `dapp` from [xusd-dapp](https://github.com/factor-finance/xusd-dapp) in separate processes or terminals. 
 
 
-### Eth Node
-The `smart contracts` and all of their associated code is located in the `<project-root>/contracts` directory. Ethereum tests and local Ethereum EVM are managed by [Hardhat](https://hardhat.org/).
+### EVM Node
+The `smart contracts` and all of their associated code is located in the `<project-root>/` directory. Contract tests and local EVM are managed by [Hardhat](https://hardhat.org/).
 
-A variety of Hardhat [tasks](https://hardhat.org/guides/create-task.html) are available to interact with the contracts. Additional information can be found by running `npx hardhat` from the `contracts/` directory.
-<br/><br/>
-
-### dApp(Decentralized Application)
-The `dApp` and it's associated code is located in the `<project-root>/contracts` directory.
+A variety of Hardhat [tasks](https://hardhat.org/guides/create-task.html) are available to interact with the contracts. Additional information can be found by running `npx hardhat`
 <br/><br/>
 
 ---
 ## Developing Locally
 
-You have two options for running the Ethereum node locally via hardhat.
-- Forked mode - A forked version of mainnet at a particular block height
+You have two options for running the EVM node locally via hardhat.
+- Forked mode - A forked version of mainnet or testnet at a particular block height (specified in `.env` file)
 - Standalone mode - A private blockchain with a clean slate
 
-Preferred default development mode is Forked mode. It has a benefit of more closely mimicking behavior of mainnet which is helpful for discovering bugs (that are not evident in local mode) and not requiring setting up complex third party contracts (like Curve and Uniswap V3)
-
-The dApp will be started in development mode by default with debugging enabled and runs in `standalone` or `forked` as well - depending on the mode that the underlying hardhat node is running.
+Preferred default development mode is Forked mode. It has a benefit of more closely mimicking behavior of mainnet which is helpful for discovering bugs (that are not evident in local mode) and not requiring setting up complex third party contracts (like Aave and Pangolin).
 <br/><br/>
 
 
 ### Running a Local Hardhat Node
 Open a separate terminal to run the hardhat node in.
 ```bash
-# Enter the smart contracts dir
-cd contracts
-
 # Install the dependencies - Note your Node version 'Requirements' 
 yarn install
-
-# Compiles and deploys the contracts (necessary to populate dapp/abis dir, which is needed to run the dapp)
-yarn deploy
 ```
 
 #### Forked Mode
 
-Rename `contracts/dev.env` to `.env` and set PROVIDER_URL to a valid one. If you would like the forked net to mimic a more recent state of mainnet update the `BLOCK_NUMBER`. And add your mainnet testing account(s) (if more than one comma separate them) under the `ACCOUNTS_TO_FUND`. After the node is started up the script will transfer 100k of USDT, XUSD and DAI to those accounts.
+If you would like the forked net to mimic a more recent state of mainnet or fuji update the `BLOCK_NUMBER`. And add your mainnet testing account(s) (if more than one comma separate them) under the `ACCOUNTS_TO_FUND`. After the node is started up the script will transfer 100k of USDT, XUSD and DAI to those accounts.
 
 ```bash
-# Run the local hardhat node in forked mode
-yarn run_node:fork
+# Run the local hardhat node in forked mainnet mode
+`FORK=mainnet yarn run_node:fork`
+```
+
+```bash
+# Run the local hardhat node in forked fuji mode
+`FORK=fuji yarn run_node:fork`
 ```
 
 #### Standalone Mode
@@ -75,21 +68,15 @@ yarn run_node:fork
 yarn run_node
 ```
 
-### Minting Stablecoins in Standalone Mode in the Dapp
-You will be needing stablecoins such as `USDT`, `USDC`, `DAI`, etc to mint the `XUSD` coin for usage in the dApp. Visit:
-- visit http://localhost:3000/dashboard
-and click on the buttons of the coins you want minted
-<br/><br/>
-
 ### Minting Stablecoins in Standalone Mode in via hardhat task
 ```bash
 # Mint 1000 of each supported stablecoin to each account defined in the mnemonic
-npx hardhat fund --amount 1000 --network localhost
+FORK=mainnet yarn hardhat fund --amount 1000 --network localhost
 ```
 
 ##### Requirements
 - You will need your web3 wallet configured before you can interact with the dapp. Make sure that you have one - refer [HERE](### Configure Web3 Wallet) for `Metamask` instructions.
-- You will also need the dApp to be running, so refer [HERE](### Running the dApp Locally) for instructions.
+- You will also need the dApp to be running, so refer [xusd-dapp](https://github.com/factor-finance/xusd-dapp) for instructions.
 
 ### Configure Web3 Wallet
 You will need a web3 wallet to interact with the dApp and sign transactions. Below are the instructions to setup `Metamask` to interact with the dApp running locally.
@@ -99,7 +86,7 @@ You will need a web3 wallet to interact with the dApp and sign transactions. Bel
 - Add a custom RPC endpoint 
   - Name: `xusd` - just an example
   - URL: `http://localhost:8545`
-  - Chain ID: `1337`
+  - Chain ID: `43114`
 <br/><br/>
 
 #### Add Accounts to Metamask
@@ -125,34 +112,6 @@ Note:
 If you want to add all the accounts via a new `Metamask` wallet and import the `mnemonic` it is located in `contracts/hardhat.config.js`. Make sure that you use Account 4 and up for test accounts as 0-3 are reserved.
 <br/><br/>
 
-### Running the dApp Locally
-
-Open a separate terminal to run the dApp in.
-
-```bash
-# Enter the smart dApp dir
-cd dApp
-
-# Install the dependencies - Note your Node version 'Requirements' 
-yarn install
-```
-
-The dApp will need to be started in standalone or forked mode - depending on how the hardhat node is running.
-#### Forked Mode
-```bash
-# Start the dApp in forked mode
-yarn run start:fork
-```
-
-#### Standalone Mode
-```bash
-# Start the dApp in standalone mode
-yarn run start
-```
-
-- Open http://localhost:3000 in your browser and connect your `Metamask` account. See [HERE](### Configure Web3 Wallet) for instructions if you have not done that yet.
-- Open http://localhost:3000/swap and verify that you have stablecoins in your account. See [HERE](### Minting Stablecoins on the Local Hardhat Node) for instructions if you don't see a balance.
-
 ### Troubleshooting
 When freshly starting a node it is usually necessary to also reset Metamask Account being used:
 - `Metamask` => `Settings` => `Advanced` => `Reset Account`
@@ -162,38 +121,6 @@ This will reset the nonce number that is incorrect if you have submitted any tra
 If you get an `error Command "husky-run" not found.` type of error: 
 Go to root of the project and run `npx husky install`
 
----
-## (Core Contributors) Running dApp in Production/Staging Mode Locally
-There may be a time that you will need to run the dApp in production/staging mode to test out a certain feature or do verification before a deploy. In this case there is no need for a local node as you will connect directly to the mainnet/testnet. 
-
-### Requirements
-- `Google Cloud` CLI tool installed as explained [HERE](https://cloud.google.com/sdk/docs/quickstart)
-- Permission to the GCP Account to decrypt `*.secrets.enc` and deploy infrastructure
-
-#### Login to Google Cloud
-```
-# Login to GCP
-gcloud auth login
-```
-
-#### Staging
-```
-# Decrypt staging secrets to local
-yarn run decrypt-secrets:staging
-
-# Start local dApp in Staging mode
-yarn run start:staging
-```
-
-#### Production
-```
-# Decrypt staging secrets to local
-yarn run decrypt-secrets:production
-
-# Start local dApp in Production mode
-yarn run start:production
-```
----
 
 ## Running Smoke Tests
 

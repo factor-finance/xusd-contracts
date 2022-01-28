@@ -1,0 +1,29 @@
+name: Mainnet periodic rebase
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */8 * * *"
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: echo "PROCEED=$((RANDOM%2))" >> $GITHUB_ENV
+
+      - if: env.PROCEED == '0'
+        run: |
+          yarn install
+          yarn hardhat compile
+
+      - if: env.PROCEED == '0'
+        run: |
+          sleep $((RANDOM%60))
+          yarn hardhat allocate --network mainnet-prod
+          yarn hardhat rebase --network mainnet-prod
+        env:
+          DEPLOYER_PK: ${{ secrets.DEPLOYER_PK }}

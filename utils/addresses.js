@@ -16,7 +16,7 @@ addresses.mainnet.Binance = "0xf851cbb9940f8baebd1d0eaf259335c108e9e893";
  * https://snowtrace.io/accounts/label/binance?subcatid=3-0&size=100&start=0&col=2&order=desc
  */
 addresses.mainnet.BinanceAll =
-  "0xf851cbb9940f8baebd1d0eaf259335c108e9e893,0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9,0x0455ea966197a69eccf5fc354b6a7896e0fe38f0,0x2d6b7235db3659c1751f342f6c80a49727bb1a1d";
+  "0xf851cbb9940f8baebd1d0eaf259335c108e9e893,0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9,0x0455ea966197a69eccf5fc354b6a7896e0fe38f0,0x2d6b7235db3659c1751f342f6c80a49727bb1a1d,0xF39FeE2FDfe7DB022591F4a82e3537fA0B55fb9c";
 
 // Native stablecoins
 addresses.mainnet.DAIe = "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70";
@@ -24,7 +24,7 @@ addresses.mainnet.USDCe = "0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664";
 addresses.mainnet.USDTe = "0xc7198437980c041c805A1EDcbA50c1Ce5db95118";
 
 // Native stablecoins
-addresses.mainnet.TUSD = "0x1c20e891bab6b1727d14da358fae2984ed9b59eb";
+addresses.mainnet.TUSD = "0x19860ccb0a68fd4213ab9d8266f7bbf05a8dde98"; // BUSD
 addresses.mainnet.USDC_native = "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e";
 addresses.mainnet.USDT_native = "0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7";
 // REDEFINE
@@ -33,8 +33,6 @@ addresses.mainnet.USDC = addresses.mainnet.USDCe;
 addresses.mainnet.USDT = addresses.mainnet.USDTe;
 
 // AAVE https://docs.aave.com/developers/deployed-contracts/avalanche-market
-addresses.mainnet.AAVE_ADDRESS_PROVIDER =
-  "0xb6A86025F0FE1862B372cb0ca18CE3EDe02A318f";
 // technially wrapped ether version
 addresses.mainnet.Aave = "0x63a72806098bd3d9520cc43356dd78afe5d386d9";
 addresses.mainnet.avUSDT = "0x532E6537FEA298397212F09A61e03311686f548e";
@@ -42,6 +40,10 @@ addresses.mainnet.avDAI = "0x47AFa96Cdc9fAb46904A55a6ad4bf6660B53c38a"; // *: 6 
 addresses.mainnet.avUSDC = "0x46A51127C3ce23fb7AB1DE06226147F446e4a857"; // *: 6 decimals
 addresses.mainnet.AAVE_INCENTIVES_CONTROLLER =
   "0x01D83Fe6A10D2f2B7AF17034343746188272cAc9";
+addresses.mainnet.AAVE_ADDRESS_PROVIDER =
+  "0xb6A86025F0FE1862B372cb0ca18CE3EDe02A318f";
+addresses.mainnet.AAVE_DATA_PROVIDER =
+  "0x65285E9dfab318f57051ab2b139ccCf232945451";
 
 // AlphaHomora https://alphafinancelab.gitbook.io/alpha-homora-v2-avalanche/resources/contract-addresses
 addresses.mainnet.SafeBoxUSDTe = "0x858D6353A52c25C53Df1869230282d22b41f5790";
@@ -63,24 +65,18 @@ addresses.mainnet.chainlinkUSDC_USD =
 addresses.mainnet.chainlinkUSDT_USD =
   "0xebe676ee90fe1112671f19b6b7459bc678b67e8a";
 addresses.mainnet.chainlinkTUSD_USD =
-  "0xebe676ee90fe1112671f19b6b7459bc678b67e8a";
+  "0x827f8a0dc5c943f7524dda178e2e7f275aad743f"; // actually BUSD
 
 // WAVAX Token
 addresses.mainnet.WAVAX = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
 
 // XUSD contracts and tools
-addresses.mainnet.Deployer = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD";
+addresses.mainnet.Deployer = "0xFF1AE57723A4d6d5301e4C7145eF5E9e51901fdc";
 // Mainnet contracts are governed by the Governor contract (which derives off Timelock).
 // FIXME: replace with deployed contract
-addresses.mainnet.Governor = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3";
-// FIXME: replace with deployed multisig
-addresses.mainnet.Guardian = "0x17BAd8cbCDeC350958dF0Bfe01E284dd8Fec3fcD"; // ERC 20 owner multisig.
-addresses.mainnet.Strategist = addresses.mainnet.Guardian; // FIXME: separation!
-addresses.mainnet.VaultProxy = "__VaultProxy";
-addresses.mainnet.Vault = "__Vault";
-addresses.mainnet.XUSDProxy = "__XUSDProxy";
-addresses.mainnet.XUSD = "__XUSD";
-addresses.mainnet.MixOracle = "__Mixoracle";
+addresses.mainnet.Governor = "0xC47E590EACdb0D7DCd9E55cF05AE2C213AE7A213";
+addresses.mainnet.Guardian = "0xA141613fFC33B61330bea3957ce4CA2cDDf8dd74"; // ERC 20 owner multisig.
+addresses.mainnet.Strategist = "0xFF20C3d343B77EfB365565e9991A2F28Fba6C5FA";
 
 /* --- FUJI --- */
 addresses.fuji = {};
@@ -89,12 +85,7 @@ addresses.fuji.Deployer = "0x3cECEAe65A70d7f5b7D579Ba25093A37A47706B3";
 // Fuji contracts are governed by the Governor contract (which derives off Timelock).
 addresses.fuji.Guardian = "0x40EA1e3428a0Aa951bd09D3214053f800fcE3A26"; // ERC 20 owner multisig.
 addresses.fuji.Governor = "0xed24eaa9993132FA5a762148A01d20ee6516cD41";
-addresses.fuji.Strategist = addresses.fuji.Guardian; // FIXME: separation!
-addresses.fuji.VaultProxy = "0xF649f2337055767A077C1C77A465f36e7f719BF5";
-addresses.fuji.Vault = "0x263cC387260574A3e7E7C20dF7CB4E1302E8F358";
-addresses.fuji.XUSDProxy = "0xcfB8563ECE6153c585db58858407f70aB1D5d914";
-addresses.fuji.XUSD = "0xD5186b971756B4EE180b6b884Ad95D121E6Aa6e6";
-addresses.fuji.Oracle = "0x4c9aE96EA0FD0cCF5a6b39487A112e9252756AeC";
+addresses.fuji.Strategist = addresses.fuji.Guardian; // No separation on Fuji.
 
 addresses.fuji.chainlinkAVAX_USD = "0x5498bb86bc934c8d34fda08e81d444153d0d06ad";
 addresses.fuji.chainlinkUSDT_USD = "0x7898AcCC83587C3C55116c5230C17a6Cd9C71bad";

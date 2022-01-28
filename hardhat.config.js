@@ -7,6 +7,7 @@ require("hardhat-deploy");
 require("hardhat-contract-sizer");
 require("hardhat-deploy-ethers");
 require("@openzeppelin/hardhat-upgrades");
+require("solidity-coverage");
 
 const { accounts, fund, mint, redeem, transfer } = require("./tasks/account");
 const { debug, printHashes } = require("./tasks/debug");
@@ -31,8 +32,13 @@ const {
   reallocate,
   rebase,
   yield,
+  addSwapToken,
 } = require("./tasks/vault");
-const { mintToken, getAVTokenAddress } = require("./tasks/contracts.js");
+const {
+  mintToken,
+  getAVTokenAddress,
+  ercBalanceOf,
+} = require("./tasks/contracts.js");
 const addresses = require("./utils/addresses.js");
 
 const mnemonic =
@@ -93,6 +99,11 @@ task("capital", "Set the Vault's pauseCapital flag", capital).addParam(
   "true to pause, false to unpause"
 );
 task("harvest", "Call harvest() on Vault", harvest);
+task(
+  "addSwapToken",
+  "Add token and approval for swapping",
+  addSwapToken
+).addParam("address", "The token address to be added.");
 task("rebase", "Call rebase() on the Vault", rebase);
 task("yield", "Artificially generate yield on the Vault", yield);
 task("reallocate", "Allocate assets from one Strategy to another")
@@ -131,6 +142,11 @@ task(
   "print the aave AV token addresses",
   getAVTokenAddress
 );
+task(
+  "ercBalanceOf",
+  "prints erc20 token balances for coins",
+  ercBalanceOf
+).addParam("address", "The address to query the balances of");
 
 // Smoke tests
 task(
@@ -219,17 +235,14 @@ module.exports = {
   namedAccounts: {
     deployerAddr: {
       default: 0,
-      localhost: addresses.mainnet.Guardian,
+      localhost: (process.env.FORK === "fuji" && addresses.fuji.Deployer) || 0,
       "fuji-prod": addresses.fuji.Deployer,
       "mainnet-prod": addresses.mainnet.Deployer,
     },
     governorAddr: {
       default: 1,
       // On Mainnet and fork, the governor is the Governor contract.
-      localhost:
-        (process.env.FORK === "mainnet" && addresses.mainnet.Governor) ||
-        (process.env.FORK === "fuji" && addresses.fuji.Governor) ||
-        1,
+      localhost: (process.env.FORK === "fuji" && addresses.fuji.Governor) || 1,
       "fuji-prod": addresses.fuji.Governor,
       "mainnet-prod": addresses.mainnet.Governor,
     },
@@ -246,9 +259,7 @@ module.exports = {
     strategistAddr: {
       default: 0,
       localhost:
-        (process.env.FORK === "mainnet" && addresses.mainnet.Strategist) ||
-        (process.env.FORK === "fuji" && addresses.fuji.Strategist) ||
-        1,
+        (process.env.FORK === "fuji" && addresses.fuji.Strategist) || 1,
       "fuji-prod": addresses.fuji.Strategist,
       "mainnet-prod": addresses.mainnet.Strategist,
     },
@@ -258,6 +269,9 @@ module.exports = {
     runOnCompile: true,
   },
   etherscan: {
-    apiKey: process.env.XUSD_SNOWTRACE_API_KEY,
+    apiKey: {
+      avalanche: process.env.XUSD_SNOWTRACE_API_KEY,
+      avalancheFujiTestnet: process.env.XUSD_SNOWTRACE_API_KEY,
+    },
   },
 };

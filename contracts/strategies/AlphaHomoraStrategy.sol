@@ -9,6 +9,8 @@ pragma solidity ^0.8.0;
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 import { IERC20, InitializableAbstractStrategy } from "../utils/InitializableAbstractStrategy.sol";
+import { ICERC20 } from "../interfaces/alphaHomora/ICERC20.sol";
+import { ISafeBox } from "../interfaces/alphaHomora/ISafeBox.sol";
 
 contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     using SafeERC20 for IERC20;
@@ -21,7 +23,8 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
         address[] calldata _pTokens,
         address _incentivesAddress
     ) external onlyGovernor initializer {
-        incentivesController = IAlphaIncentivesController(_incentivesAddress);
+        // TODO implement incentives
+        // incentivesController = IAlphaIncentivesController(_incentivesAddress);
         InitializableAbstractStrategy._initialize(
             _platformAddress,
             _vaultAddress,
@@ -37,7 +40,9 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
      * @dev Collect accumulated ALPHA and send to Vault.
      */
     function collectRewardToken() external override onlyVault nonReentrant {
-        ICERC20 cToken = _getCTokenFor(assetsMapped[0]);
+        // TODO: implement!
+        ISafeBox safeBox = _getSafeBoxFor(assetsMapped[0]);
+        // ICERC20 cToken = _getCTokenFor(assetsMapped[0]);
         /* IComptroller comptroller = IpComptroller(cToken.comptroller()); */
         /* // Only collect from active cTokens, saves gas */
         /* address[] memory ctokensToCollect = new address[](assetsMapped.length); */
@@ -80,7 +85,7 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
         require(_amount > 0, "Must deposit something");
         ISafeBox safeBox = _getSafeBoxFor(_asset);
         emit Deposit(_asset, address(safeBox), _amount);
-        safeBox.despoit(_amount);
+        safeBox.deposit(_amount);
     }
 
     /**
@@ -96,7 +101,7 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     }
 
     /**
-     * @dev Withdraw asset from Compound
+     * @dev Withdraw asset from AlphaHomora
      * @param _recipient Address to receive withdrawn asset
      * @param _asset Address of asset to withdraw
      * @param _amount Amount of asset to withdraw
@@ -110,9 +115,21 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
         require(_recipient != address(0), "Must specify recipient");
 
         ISafeBox safeBox = _getSafeBoxFor(_asset);
-        emit Withdrawal(_asset, safeBox, _amount);
-        safeBox.withdraw(_amount);
-        // FIXME check withdrawal is correct?
+        ICERC20 cToken = _getCTokenFor(_asset);
+        uint256 cTokensToRedeem = _convertUnderlyingToCToken(cToken, _amount);
+        emit Withdrawal(_asset, address(safeBox), cTokensToRedeem);
+        if (cTokensToRedeem == 0) {
+            emit SkippedWithdrawal(_asset, _amount);
+            return;
+        }
+        emit Withdrawal(_asset, address(cToken.underlying()), _amount);
+        uint256 balanceBefore = IERC20(_asset).balanceOf(address(this));
+        safeBox.withdraw(cTokensToRedeem);
+        uint256 balanceAfter = IERC20(_asset).balanceOf(address(this));
+        require(
+            balanceAfter - balanceBefore == _amount,
+            "Did not withdraw enough"
+        );
         IERC20(_asset).safeTransfer(_recipient, _amount);
     }
 
@@ -121,15 +138,14 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
      */
     function withdrawAll() external override onlyVaultOrGovernor nonReentrant {
         for (uint256 i = 0; i < assetsMapped.length; i++) {
-            // Redeem entire balance of cToken
-            ISafeBox safeBox = _getSafeBoxTokenFor(_asset);
-            if (cToken.balanceOf(address(this)) > 0) {
-                require(
-                    cToken.redeem(cToken.balanceOf(address(this))) == 0,
-                    "Redeem failed"
-                );
+            IERC20 asset = IERC20(assetsMapped[i]);
+            ISafeBox safeBox = _getSafeBoxFor(assetsMapped[i]);
+            ICERC20 cToken = _getCTokenFor(assetsMapped[i]);
+            uint256 balance = cToken.balanceOf(address(this));
+            // Redeem entire balance of safeBox
+            if (balance > 0) {
+                safeBox.withdraw(balance);
                 // Transfer entire balance to Vault
-                IERC20 asset = IERC20(assetsMapped[i]);
                 asset.safeTransfer(
                     vaultAddress,
                     asset.balanceOf(address(this))
@@ -219,14 +235,19 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
 
     /**
      * @dev Get the cToken wrapped in the ICERC20 interface for this asset.
-     *      Fails if the pToken doesn't exist in our mappings.
+     *      Fails if the cToken doesn't exist in our mappings.
      * @param _asset Address of the asset
      * @return Corresponding cToken to this asset
      */
+    function _getSafeBoxFor(address _asset) internal view returns (ISafeBox) {
+        address safeBox = assetToPToken[_asset];
+        require(safeBox != address(0), "safeBox does not exist");
+        return ISafeBox(safeBox);
+    }
+
     function _getCTokenFor(address _asset) internal view returns (ICERC20) {
-        address cToken = assetToPToken[_asset];
-        require(cToken != address(0), "cToken does not exist");
-        return ICERC20(cToken);
+        ISafeBox safeBox = _getSafeBoxFor(_asset);
+        return ICERC20(safeBox.cToken());
     }
 
     /**

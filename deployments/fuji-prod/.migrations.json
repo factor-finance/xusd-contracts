@@ -7,5 +7,7 @@
   "006_default_strategies.js": 1641766553,
   "007_vault_settings.js": 1641766597,
   "008_governor.js": 1642384971,
-  "009_twoDayGovernor.js": 1642386423
+  "009_twoDayGovernor.js": 1642386423,
+  "010_precisionUpgrade": 1642873985,
+  "011_vaultAdminUpgrade": 1643084850
 }

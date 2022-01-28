@@ -7,7 +7,13 @@ const {
   sendProposal,
   deployWithConfirmation,
 } = require("../utils/deploy");
-const { isTest, isFork, isMainnet, isFuji } = require("../test/helpers");
+const {
+  isTest,
+  isFork,
+  isMainnet,
+  isMainnetFork,
+  isFuji,
+} = require("../test/helpers");
 const { proposeArgs } = require("../utils/governor");
 
 const claimGovernance = async () => {
@@ -98,6 +104,7 @@ const main = async () => {
 main.id = baseName;
 main.dependencies = [];
 main.tags = ["twoDayGovernor"];
-main.skip = () => isTest;
+// TODO deploy 2-day governor to mainnet and remove isMainnet and isMainnetFork
+main.skip = () => isTest || isMainnet || isMainnetFork;
 
 module.exports = main;

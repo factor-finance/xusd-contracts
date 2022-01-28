@@ -146,7 +146,7 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
   });
 
   // Deploy mock Uniswap router
-  await deploy("MockUniswapRouter", {
+  await deploy("MockPangolinRouter", {
     from: deployerAddr,
   });
 

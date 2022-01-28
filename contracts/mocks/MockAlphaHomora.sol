@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import { IERC20, ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-import { ICErc20 } from "../interfaces/alphaHomora/ICERC20.sol";
+import { ICERC20 } from "../interfaces/alphaHomora/ICERC20.sol";
 import { ISafeBox } from "../interfaces/alphaHomora/ISafeBox.sol";
 import { StableMath } from "../utils/StableMath.sol";
 
@@ -21,7 +21,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 //  - Retrieve their cToken
 //  - Return underlying + interest
 
-contract MockCErc20 is ICErc20 {
+abstract contract MockCErc20 is ICERC20 {
     using SafeMath for uint256;
 
     IERC20 public token;
@@ -30,7 +30,7 @@ contract MockCErc20 is ICErc20 {
     mapping(address => uint256) public borrows;
     mapping(address => uint256) public lastBlock;
 
-    constructor(IERC20 _token) public {
+    constructor(IERC20 _token) {
         token = _token;
     }
 
@@ -107,14 +107,14 @@ contract MockSafeBox is ISafeBox, ReentrancyGuard, ERC20 {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
-    ICErc20 public immutable cToken;
-    IERC20 public immutable uToken;
+    ICERC20 override public immutable cToken;
+    IERC20 override public immutable uToken;
 
     bytes32 public root;
     mapping(address => uint256) public claimed;
 
     constructor(
-        ICErc20 _cToken,
+        ICERC20 _cToken,
         string memory _name,
         string memory _symbol
     ) public ERC20(_name, _symbol) {

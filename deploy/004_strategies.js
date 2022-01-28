@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 
 const path = require("path");
-const { getAssetAddresses, isMainnet } = require("../test/helpers.js");
+const { getAssetAddresses } = require("../test/helpers.js");
 const {
   log,
   deployWithConfirmation,
@@ -15,9 +15,8 @@ const {
  */
 const deployAaveStrategy = async () => {
   const assetAddresses = await getAssetAddresses(hre.deployments);
-  const { governorAddr, deployerAddr } = await getNamedAccounts();
+  const { governorAddr } = await getNamedAccounts();
   // Signers
-  const sDeployer = await ethers.provider.getSigner(deployerAddr);
   const sGovernor = await ethers.provider.getSigner(governorAddr);
 
   const cVaultProxy = await ethers.getContract("VaultProxy");

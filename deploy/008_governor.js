@@ -46,7 +46,7 @@ const updateToNewGovernor = async (dNewGovernor) => {
   // Governor is a signer. We can connect and transfer to a contract Governor+Admin
   const newGovernorAddr = isTest == true ? governorAddr : newGovernor.address;
   if (!newGovernorAddr) {
-    throw new Error("newGovernoAddr not defined");
+    throw new Error("newGovernorAddr not defined");
   }
   await withConfirmation(
     cXUSDProxy.connect(sGovernor).transferGovernance(newGovernorAddr)

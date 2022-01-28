@@ -4,6 +4,8 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
 interface ISafeBox {
+    function cToken() external returns (address);
+
     function deposit(uint256 amount) external;
 
     function withdraw(uint256 amount) external;

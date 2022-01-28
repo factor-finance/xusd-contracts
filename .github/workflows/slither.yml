@@ -2,10 +2,6 @@ name: Slither
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
   workflow_dispatch:
 
 jobs:
@@ -22,10 +18,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          wget https://github.com/ethereum/solidity/releases/download/v0.5.11/solc-static-linux
+          wget https://github.com/ethereum/solidity/releases/download/v0.8.11/solc-static-linux
           chmod +x solc-static-linux
           sudo mv solc-static-linux /usr/local/bin/solc
-          pip3 install slither-analyzer
+          pip3 install slither-analyzer==0.8.2
 
       - name: Test with Slither
         run: |

@@ -8,7 +8,7 @@ pragma solidity ^0.8.0;
            assets will be sent to the withdrawer. The Vault accepts deposits of
            interest from yield bearing strategies which will modify the supply
            of XUSD.
- * @author XUSD.fi Inc
+ * @author Factor Finance
  */
 
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";

@@ -1,4 +1,4 @@
-# XUSD.fi
+# Factor XUSD
 
 XUSD is a new kind of stablecoin that passively accrues yield while you are holding it. If you want to learn about XUSD, visit the [docs](https://docs.xusd.fi)
 

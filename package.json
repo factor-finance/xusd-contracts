@@ -1,7 +1,7 @@
 {
   "name": "xusd-contracts",
   "version": "0.1.0",
-  "description": "XUSD.fi Contracts",
+  "description": "Factor XUSD Smart contracts",
   "main": "index.js",
   "scripts": {
     "deploy": "npx hardhat deploy --export 'deployments/network.json'",
@@ -25,7 +25,7 @@
     "slither:triage": "./scripts/slitherTriage.sh",
     "clean": "rm -rf build crytic-export artifacts cache deployments/local* deployments/network*.json"
   },
-  "author": "XUSD.fi",
+  "author": "Factor Finance",
   "license": "MIT",
   "devDependencies": {
     "@aave/protocol-v2": "^1.0.0",

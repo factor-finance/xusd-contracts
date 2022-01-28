@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 /**
  * @title XUSD InitializableGovernable Contract
- * @author XUSD.fi Inc
+ * @author Factor Finance
  */
 import { Initializable } from "../utils/Initializable.sol";
 

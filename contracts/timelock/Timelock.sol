@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 /**
  * @title XUSD Timelock Contract
- * @author XUSD.fi Inc
+ * @author Factor Finance
  */
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 

@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
  * @title XUSD Token Contract
  * @dev ERC20 compatible contract for XUSD
  * @dev Implements an elastic supply
- * @author XUSD.fi Inc
+ * @author Factor Finance
  */
 import { SafeMath } from "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import { Address } from "@openzeppelin/contracts/utils/Address.sol";

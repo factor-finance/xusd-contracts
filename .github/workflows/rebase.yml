@@ -24,4 +24,4 @@ jobs:
           yarn hardhat allocate --network mainnet-prod
           yarn hardhat rebase --network mainnet-prod
         env:
-          DEPLOYER_PK: ${github.secrets.DEPLOYER_PK}
+          DEPLOYER_PK: ${{ secrets.DEPLOYER_PK }}

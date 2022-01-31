@@ -17,7 +17,7 @@ jobs:
           echo "PROCEED=$((RANDOM%2))" >> $GITHUB_ENV
           echo "PROCEED_ALLOCATE=$((RANDOM%10))" >> $GITHUB_ENV
 
-      - if: env.PROCEED == '0'
+      - if: env.PROCEED == '0' || env.PROCEED_ALLOCATE == '0'
         run: |
           yarn install
           yarn hardhat compile
@@ -26,19 +26,18 @@ jobs:
         run: |
           sleep $((RANDOM%60))
           yarn hardhat rebase --network mainnet-prod
-        env:
-          DEPLOYER_PK: ${{ secrets.DEPLOYER_PK }}
-
-      - if: env.PROCEED == '0' && env.PROCEED_ALLOCATE == '0'
-        run: |
-          sleep $((RANDOM%60))
-          yarn hardhat allocate --network mainnet-prod
-        env:
-          DEPLOYER_PK: ${{ secrets.DEPLOYER_PK }}
-
-      - if: env.PROCEED == '0'
-        run: |
           curl -X POST -H "Content-Type: application/json" "$DISCORD_WEBHOOK_URL" \
             -d '{"content": "XUSD rebase completed"}'
         env:
+          DEPLOYER_PK: ${{ secrets.DEPLOYER_PK }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - if: env.PROCEED_ALLOCATE == '0'
+        run: |
+          sleep $((RANDOM%60))
+          yarn hardhat allocate --network mainnet-prod
+          curl -X POST -H "Content-Type: application/json" "$DISCORD_WEBHOOK_URL" \
+            -d '{"content": "XUSD allocate completed"}'
+        env:
+          DEPLOYER_PK: ${{ secrets.DEPLOYER_PK }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}

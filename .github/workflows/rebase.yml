@@ -13,7 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run: echo "PROCEED=$((RANDOM%2))" >> $GITHUB_ENV
+      - run: |
+          echo "PROCEED=$((RANDOM%2))" >> $GITHUB_ENV
+          echo "PROCEED_ALLOCATE=$((RANDOM%10))" >> $GITHUB_ENV
 
       - if: env.PROCEED == '0'
         run: |
@@ -23,8 +25,14 @@ jobs:
       - if: env.PROCEED == '0'
         run: |
           sleep $((RANDOM%60))
-          yarn hardhat allocate --network mainnet-prod
           yarn hardhat rebase --network mainnet-prod
+        env:
+          DEPLOYER_PK: ${{ secrets.DEPLOYER_PK }}
+
+      - if: env.PROCEED == '0' && env.PROCEED_ALLOCATE == '0'
+        run: |
+          sleep $((RANDOM%60))
+          yarn hardhat allocate --network mainnet-prod
         env:
           DEPLOYER_PK: ${{ secrets.DEPLOYER_PK }}
 

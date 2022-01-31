@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 /**
  * @title XUSD AlphaHomora Strategy
- * @notice Investment strategy for investing stablecoins via AlphaHomora
+ * @notice Investment strategy for investing stablecoins via AlphaHomora/CREAM
  * @author XUSD.fi Inc
  */
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
@@ -23,8 +23,10 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
         address[] calldata _pTokens,
         address _incentivesAddress
     ) external onlyGovernor initializer {
-        // TODO implement incentives
+        // TODO implement incentivecontroller for ALPHA
+        // they use merkledistributor: https://etherscan.io/address/0x94207cb2a02f0dbc16040b6692ee1cb999e85d9b#code
         // incentivesController = IAlphaIncentivesController(_incentivesAddress);
+        _incentivesAddress;
         InitializableAbstractStrategy._initialize(
             _platformAddress,
             _vaultAddress,
@@ -40,7 +42,7 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
      * @dev Collect accumulated ALPHA and send to Vault.
      */
     function collectRewardToken() external override onlyVault nonReentrant {
-        // TODO: implement!
+        // TODO: implement WAVAX rewards on safebox
         ISafeBox safeBox = _getSafeBoxFor(assetsMapped[0]);
         // ICERC20 cToken = _getCTokenFor(assetsMapped[0]);
         /* IComptroller comptroller = IpComptroller(cToken.comptroller()); */
@@ -134,7 +136,7 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     }
 
     /**
-     * @dev Remove all assets from platform and send them to Vault contract.
+     * @dev Remove all assets from platform and send all of that asset to Vault contract.
      */
     function withdrawAll() external override onlyVaultOrGovernor nonReentrant {
         for (uint256 i = 0; i < assetsMapped.length; i++) {
@@ -145,7 +147,7 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
             // Redeem entire balance of safeBox
             if (balance > 0) {
                 safeBox.withdraw(balance);
-                // Transfer entire balance to Vault
+                // Transfer entire balance to Vault, including any already held
                 asset.safeTransfer(
                     vaultAddress,
                     asset.balanceOf(address(this))

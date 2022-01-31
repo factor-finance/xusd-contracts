@@ -33,13 +33,13 @@ async function defaultFixture() {
     "MockAaveIncentivesController"
   );
 
-  // const alphaHomoraStrategyProxy = await ethers.getContract(
-  //   "AlphaHomoraStrategyProxy"
-  // );
-  // const alphaHomoraStrategy = await ethers.getContractAt(
-  //   "AlphaHomoraStrategy",
-  //   alphaHomoraStrategyProxy.address
-  // );
+  const alphaHomoraStrategyProxy = await ethers.getContract(
+    "AlphaHomoraStrategyProxy"
+  );
+  const alphaHomoraStrategy = await ethers.getContractAt(
+    "AlphaHomoraStrategy",
+    alphaHomoraStrategyProxy.address
+  );
   // const alphaHomoraIncentivesController = await ethers.getContract(
   //   "MockAlphaHomoraIncentivesController"
   // );

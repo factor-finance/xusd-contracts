@@ -21,7 +21,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 //  - Retrieve their cToken
 //  - Return underlying + interest
 
-abstract contract MockCErc20 is ICERC20 {
+contract MockCERC20 is ICERC20 {
     using SafeMath for uint256;
 
     IERC20 public token;
@@ -101,14 +101,25 @@ abstract contract MockCErc20 is ICERC20 {
         borrows[msg.sender] = borrows[msg.sender].sub(repayAmount);
         return 0;
     }
+
+    function exchangeRateCurrent() external override returns (uint256) {
+        // FIXME! This should be something...
+        // https://github.com/CreamFi/cream-deployment/blob/avax/contracts/CToken.sol#L268-L283
+        return 1e18 - 1e16;
+    }
+
+    function exchangeRateStored() external view override returns (uint256) {
+        // FIXME! This should be something...
+        return 1e18 - 1e16;
+    }
 }
 
 contract MockSafeBox is ISafeBox, ReentrancyGuard, ERC20 {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
-    ICERC20 override public immutable cToken;
-    IERC20 override public immutable uToken;
+    ICERC20 public immutable override cToken;
+    IERC20 public immutable override uToken;
 
     bytes32 public root;
     mapping(address => uint256) public claimed;

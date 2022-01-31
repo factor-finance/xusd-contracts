@@ -1,8 +1,6 @@
-name: Mainnet periodic rebase
+name: Mainnet manual allocate
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 */8 * * *"
 
 jobs:
   rebase:
@@ -13,23 +11,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run: echo "PROCEED=$((RANDOM%2))" >> $GITHUB_ENV
-
-      - if: env.PROCEED == '0'
-        run: |
+      - run: |
           yarn install
           yarn hardhat compile
 
-      - if: env.PROCEED == '0'
-        run: |
+      - run: |
           sleep $((RANDOM%60))
-          yarn hardhat rebase --network mainnet-prod
+          yarn hardhat allocate --network mainnet-prod
         env:
           DEPLOYER_PK: ${{ secrets.DEPLOYER_PK }}
 
-      - if: env.PROCEED == '0'
-        run: |
+      - run: |
           curl -X POST -H "Content-Type: application/json" "$DISCORD_WEBHOOK_URL" \
-            -d '{"content": "XUSD rebase completed"}'
+            -d '{"content": "XUSD allocate completed"}'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}

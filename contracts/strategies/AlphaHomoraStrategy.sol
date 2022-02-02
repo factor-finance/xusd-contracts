@@ -12,11 +12,13 @@ import { IERC20, InitializableAbstractStrategy } from "../utils/InitializableAbs
 import { ICERC20 } from "../interfaces/alphaHomora/ICERC20.sol";
 import { ISafeBox } from "../interfaces/alphaHomora/ISafeBox.sol";
 
+import "hardhat/console.sol";
+
 contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     using SafeERC20 for IERC20;
 
     function initialize(
-        address _platformAddress, // SafeBox
+        address _platformAddress, // dead
         address _vaultAddress,
         address _rewardTokenAddress, // ALPHA.e
         address[] calldata _assets,
@@ -188,8 +190,11 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     {
         uint256 cTokenBalance = _cToken.balanceOf(address(this));
         uint256 exchangeRate = _cToken.exchangeRateStored();
+        console.log("ctokenbalance", cTokenBalance);
+        console.log("rate", exchangeRate);
         // e.g. 50e8*205316390724364402565641705 / 1e18 = 1.0265..e18
         balance = (cTokenBalance * exchangeRate) / 1e18;
+        console.log("balance", balance);
     }
 
     /**

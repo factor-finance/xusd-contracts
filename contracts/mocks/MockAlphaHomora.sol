@@ -43,18 +43,13 @@ contract MockCERC20 is ICERC20 {
     }
 
     function mint(uint256 mintAmount) external override returns (uint256) {
-        // Not implemented
-        return 0;
     }
 
     function redeem(uint256 redeemTokens) external override returns (uint256) {
-        // Not implemented
-        return 0;
     }
 
     function balanceOf(address user) external view override returns (uint256) {
-        // Not implemented
-        return 0;
+        return token.balanceOf(user);
     }
 
     function borrowBalanceCurrent(address account)
@@ -105,12 +100,12 @@ contract MockCERC20 is ICERC20 {
     function exchangeRateCurrent() external override returns (uint256) {
         // FIXME! This should be something...
         // https://github.com/CreamFi/cream-deployment/blob/avax/contracts/CToken.sol#L268-L283
-        return 1e18 - 1e16;
+        return 1e18;
     }
 
     function exchangeRateStored() external view override returns (uint256) {
         // FIXME! This should be something...
-        return 1e18 - 1e16;
+        return 1e18;
     }
 }
 

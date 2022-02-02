@@ -73,17 +73,17 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
   // Deploy CTokens aka ibTokens (AlphaHomora)
   const dCUSDT = await deploy("MockCUSDT.e", {
     args: [usdt.address],
-    contract: "MockCErc20",
+    contract: "MockCERC20",
     from: deployerAddr,
   });
   const dCDAI = await deploy("MockCDAI.e", {
     args: [dai.address],
-    contract: "MockCErc20",
+    contract: "MockCERC20",
     from: deployerAddr,
   });
   const dCUSDC = await deploy("MockCUSDC.e", {
     args: [usdc.address],
-    contract: "MockCErc20",
+    contract: "MockCERC20",
     from: deployerAddr,
   });
   // Deploy SafeBoxes. Perhaps only USDT is useable due to minting
@@ -104,8 +104,7 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
     contract: "MockSafeBox",
     from: deployerAddr,
   });
-  // TODO Deploy mock MerkleProof?
-  // Deploy AlphaHomora proxy, strategy, incentivescontroller
+  // TODO Deploy mock IncentivesController
 
   // Deploy mock chainlink oracle price feeds.
   await deploy("MockChainlinkOracleFeedDAI", {
@@ -163,6 +162,11 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
   await deploy("MockAaveIncentivesController", {
     from: deployerAddr,
     args: [wavax.address],
+  });
+  const alpha = await ethers.getContract("MockALPHAToken");
+  await deploy("MockAlphaIncentivesController", {
+    from: deployerAddr,
+    args: [alpha.address],
   });
 
   await deploy("MockNonRebasing", {

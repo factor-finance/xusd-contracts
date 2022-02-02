@@ -23,3 +23,10 @@ contract VaultProxy is InitializeGovernedUpgradeabilityProxy {
 contract AaveStrategyProxy is InitializeGovernedUpgradeabilityProxy {
 
 }
+
+/**
+ * @notice AlphaHomoraStrategyProxy delegates calls to a AlphaHomoraStrategy implementation
+ */
+contract AlphaHomoraStrategyProxy is InitializeGovernedUpgradeabilityProxy {
+
+}

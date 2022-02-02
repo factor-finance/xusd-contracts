@@ -40,9 +40,9 @@ async function defaultFixture() {
     "AlphaHomoraStrategy",
     alphaHomoraStrategyProxy.address
   );
-  // const alphaHomoraIncentivesController = await ethers.getContract(
-  //   "MockAlphaHomoraIncentivesController"
-  // );
+  const alphaHomoraIncentivesController = await ethers.getContract(
+    "MockAlphaIncentivesController"
+  );
 
   const oracleRouter = await ethers.getContract("OracleRouter");
 
@@ -54,6 +54,13 @@ async function defaultFixture() {
     adai,
     aave,
     aaveToken,
+    alphaToken,
+    creamUSDTe,
+    creamUSDCe,
+    creamDAIe,
+    usdtSafeBox,
+    usdcSafeBox,
+    daiSafeBox,
     wavax,
     mockNonRebasing,
     mockNonRebasingTwo;
@@ -92,6 +99,13 @@ async function defaultFixture() {
       "ILendingPoolAddressesProvider",
       aave.address
     );
+
+    creamUSDTe = await ethers.getContract("MockCUSDT.e");
+    creamUSDCe = await ethers.getContract("MockCUSDC.e");
+    creamDAIe = await ethers.getContract("MockCDAI.e");
+    usdtSafeBox = await ethers.getContract("MockSafeBoxUSDT.e");
+    usdcSafeBox = await ethers.getContract("MockSafeBoxUSDC.e");
+    daiSafeBox = await ethers.getContract("MockSafeBoxDAI.e");
 
     chainlinkOracleFeedDAI = await ethers.getContract(
       "MockChainlinkOracleFeedDAI"
@@ -155,6 +169,7 @@ async function defaultFixture() {
     vault,
     mockNonRebasing,
     mockNonRebasingTwo,
+    flipper,
     // Oracle
     chainlinkOracleFeedDAI,
     chainlinkOracleFeedUSDT,
@@ -170,15 +185,23 @@ async function defaultFixture() {
     tusd,
     nonStandardToken,
     wavax,
-    // aTokens,
-    adai,
-
+    // aave strategy + ecosystem
     aaveStrategy,
+    adai, // aToken
     aaveToken,
     aaveAddressProvider,
     aaveIncentivesController,
     aave,
-    flipper,
+    // alphaHomora + ecosystem
+    alphaHomoraStrategy,
+    alphaToken,
+    creamUSDTe,
+    creamUSDCe,
+    creamDAIe,
+    usdtSafeBox,
+    usdcSafeBox,
+    daiSafeBox,
+    alphaHomoraIncentivesController,
   };
 }
 
@@ -249,25 +272,28 @@ async function alphaHomoraVaultFixture() {
 
   const { governorAddr } = await getNamedAccounts();
   const sGovernor = await ethers.provider.getSigner(governorAddr);
-  // Add Aave which only supports DAI
+  // Add Alpha which only supports DAI, USDC, USDT
   await fixture.vault
     .connect(sGovernor)
     .approveStrategy(fixture.alphaHomoraStrategy.address);
-  // Add direct allocation of DAI, USDC, USDT to Aave
+  // Add direct allocation of DAI, USDC, USDT to alphaHomora
   await fixture.vault
     .connect(sGovernor)
-    .setAssetDefaultStrategy(fixture.dai.address, fixture.aaveStrategy.address);
+    .setAssetDefaultStrategy(
+      fixture.dai.address,
+      fixture.alphaHomoraStrategy.address
+    );
   await fixture.vault
     .connect(sGovernor)
     .setAssetDefaultStrategy(
       fixture.usdc.address,
-      fixture.aaveStrategy.address
+      fixture.alphaHomoraStrategy.address
     );
   await fixture.vault
     .connect(sGovernor)
     .setAssetDefaultStrategy(
       fixture.usdt.address,
-      fixture.aaveStrategy.address
+      fixture.alphaHomoraStrategy.address
     );
   return fixture;
 }
@@ -404,6 +430,7 @@ module.exports = {
   defaultFixture,
   mockVaultFixture,
   aaveVaultFixture,
+  alphaHomoraVaultFixture,
   multiStrategyVaultFixture,
   hackedVaultFixture,
   rebornFixture,

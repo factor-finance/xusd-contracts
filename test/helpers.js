@@ -241,6 +241,11 @@ const getAssetAddresses = async (deployments) => {
       AAVE: addresses.mainnet.Aave,
       AAVE_ADDRESS_PROVIDER: addresses.mainnet.AAVE_ADDRESS_PROVIDER,
       AAVE_INCENTIVES_CONTROLLER: addresses.mainnet.AAVE_INCENTIVES_CONTROLLER,
+      SafeBoxDAIe: addresses.mainnet.SafeBoxDAIe,
+      SafeBoxUSDTe: addresses.mainnet.SafeBoxUSDTe,
+      SafeBoxUSDCe: addresses.mainnet.SafeBoxUSDCe,
+      ALPHA_INCENTIVES_CONTROLLER:
+        addresses.mainnet.ALPHA_INCENTIVES_CONTROLLER,
     };
   } else if (isFuji || isFujiFork) {
     console.log("Using fuji addresses.");
@@ -272,6 +277,12 @@ const getAssetAddresses = async (deployments) => {
       AAVE_ADDRESS_PROVIDER: (await deployments.get("MockAave")).address,
       AAVE_INCENTIVES_CONTROLLER: (
         await deployments.get("MockAaveIncentivesController")
+      ).address,
+      SafeBoxDAIe: (await deployments.get("MockSafeBoxDAI.e")).address,
+      SafeBoxUSDTe: (await deployments.get("MockSafeBoxUSDT.e")).address,
+      SafeBoxUSDCe: (await deployments.get("MockSafeBoxUSDC.e")).address,
+      ALPHA_INCENTIVES_CONTROLLER: (
+        await deployments.get("MockAlphaIncentivesController")
       ).address,
     };
   }

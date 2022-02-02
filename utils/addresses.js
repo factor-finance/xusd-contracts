@@ -50,6 +50,8 @@ addresses.mainnet.SafeBoxUSDTe = "0x858D6353A52c25C53Df1869230282d22b41f5790";
 addresses.mainnet.SafeBoxUSDCe = "0xD3843b60e69f958eF93BeC299467e6Ed301CbEeB";
 addresses.mainnet.SafeBoxDAIe = "0x69491FD9a6D9e32f32113cC076B1B69D8B9EBD3F";
 addresses.mainnet.ALPHA = "0x2147efff675e4a4ee1c2f918d181cdbd7a8e208f";
+// this value changes every reward period?
+addresses.mainnet.ALPHA_INCENTIVES_CONTROLLER = "";
 
 // Pangolin router
 addresses.mainnet.UNISWAP_ROUTER = "0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106";

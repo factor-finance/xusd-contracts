@@ -23,3 +23,10 @@ contract VaultProxy is InitializeGovernedUpgradeabilityProxy {
 contract AaveStrategyProxy is InitializeGovernedUpgradeabilityProxy {
 
 }
+
+/**
+ * @notice AaveStrategyProxy delegates calls to a AaveStrategy implementation
+ */
+contract CurveUsdcStrategyProxy is InitializeGovernedUpgradeabilityProxy {
+
+}

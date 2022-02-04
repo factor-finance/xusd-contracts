@@ -2,9 +2,10 @@
 pragma solidity ^0.8.0;
 
 /**
- * @title Curve 3Pool Strategy
- * @notice Investment strategy for investing stablecoins via Curve 3Pool
+ * @title Curve Pool Strategy
+ * @notice Investment strategy for investing in Curve Pools
  * @author Origin Protocol Inc
+ * @author Factor Finance 2022
  */
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
@@ -22,7 +23,7 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
     address internal pTokenAddress;
 
     /**
-     * @dev Deposit asset into the Curve 3Pool
+     * @dev Deposit asset into the Curve Pool
      * @param _asset Address of asset to deposit
      * @param _amount Amount of asset to deposit
      */
@@ -34,9 +35,9 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
     {
         require(_amount > 0, "Must deposit something");
         emit Deposit(_asset, address(platformAddress), _amount);
-        // 3Pool requires passing deposit amounts for all 3 assets, set to 0 for
+        // Pools requires passing deposit amounts for all assets, set to 0 for
         // all
-        uint256[3] memory _amounts;
+        uint256[2] memory _amounts;
         uint256 poolCoinIndex = _getCoinIndex(_asset);
         // Set the amount on the asset we want to deposit
         _amounts[poolCoinIndex] = _amount;
@@ -48,7 +49,7 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
         uint256 minMintAmount = depositValue.mulTruncate(
             uint256(1e18) - maxSlippage
         );
-        // Do the deposit to 3pool
+        // Do the deposit to pool
         curvePool.add_liquidity(_amounts, minMintAmount);
         _lpDepositAll();
     }
@@ -56,10 +57,10 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
     function _lpDepositAll() internal virtual;
 
     /**
-     * @dev Deposit the entire balance of any supported asset into the Curve 3pool
+     * @dev Deposit the entire balance of any supported asset into the Curve pool
      */
     function depositAll() external override onlyVault nonReentrant {
-        uint256[3] memory _amounts = [uint256(0), uint256(0), uint256(0)];
+        uint256[2] memory _amounts = [uint256(0), uint256(0)];
         uint256 depositValue = 0;
         ICurvePool curvePool = ICurvePool(platformAddress);
         uint256 curveVirtualPrice = curvePool.get_virtual_price();
@@ -86,9 +87,9 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
         uint256 minMintAmount = depositValue.mulTruncate(
             uint256(1e18) - maxSlippage
         );
-        // Do the deposit to 3pool
+        // Do the deposit to pool
         curvePool.add_liquidity(_amounts, minMintAmount);
-        // Deposit into Gauge, the PToken is the same (3Crv) for all mapped
+        // Deposit into Gauge, the PToken is the same (USDC/USDCe) for all mapped
         // assets, so just get the address from the first one
         _lpDepositAll();
     }
@@ -96,7 +97,7 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
     function _lpWithdraw(uint256 numPTokens) internal virtual;
 
     /**
-     * @dev Withdraw asset from Curve 3Pool
+     * @dev Withdraw asset from Curve Pool
      * @param _recipient Address to receive withdrawn asset
      * @param _asset Address of asset to withdraw
      * @param _amount Amount of asset to withdraw
@@ -126,13 +127,13 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
         uint256 maxBurnedPTokens = (totalPTokens * _amount) / maxAmount;
 
         // Not enough in this contract or in the Gauge, can't proceed
-        require(totalPTokens > maxBurnedPTokens, "Insufficient 3CRV balance");
+        require(totalPTokens > maxBurnedPTokens, "Insufficient USDC-USDCe balance");
         // We have enough LP tokens, make sure they are all on this contract
         if (contractPTokens < maxBurnedPTokens) {
             _lpWithdraw(maxBurnedPTokens - contractPTokens);
         }
 
-        uint256[3] memory _amounts = [uint256(0), uint256(0), uint256(0)];
+        uint256[2] memory _amounts = [uint256(0), uint256(0)];
         _amounts[coinIndex] = _amount;
         curvePool.remove_liquidity_imbalance(_amounts, maxBurnedPTokens);
 
@@ -146,20 +147,19 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
         // Withdraw all from Gauge
         (, uint256 gaugePTokens, uint256 totalPTokens) = _getTotalPTokens();
         _lpWithdraw(gaugePTokens);
-        // Withdraws are proportional to assets held by 3Pool
-        uint256[3] memory minWithdrawAmounts = [
-            uint256(0),
+        // Withdraws are proportional to assets held by Pool
+        uint256[2] memory minWithdrawAmounts = [
             uint256(0),
             uint256(0)
         ];
         // Remove liquidity
-        ICurvePool threePool = ICurvePool(platformAddress);
-        threePool.remove_liquidity(totalPTokens, minWithdrawAmounts);
+        ICurvePool curvePool = ICurvePool(platformAddress);
+        curvePool.remove_liquidity(totalPTokens, minWithdrawAmounts);
         // Transfer assets out of Vault
-        // Note that Curve will provide all 3 of the assets in 3pool even if
+        // Note that Curve will provide all of the assets in pool even if
         // we have not set PToken addresses for all of them in this strategy
         for (uint256 i = 0; i < assetsMapped.length; i++) {
-            IERC20 asset = IERC20(threePool.coins(i));
+            IERC20 asset = IERC20(curvePool.coins(i));
             asset.safeTransfer(vaultAddress, asset.balanceOf(address(this)));
         }
     }
@@ -185,7 +185,7 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
             uint256 virtual_price = curvePool.get_virtual_price();
             uint256 value = (totalPTokens * virtual_price) / 1e18;
             uint256 assetDecimals = Helpers.getDecimals(_asset);
-            balance = value.scaleBy(assetDecimals, 18) / 3;
+            balance = value.scaleBy(assetDecimals, 18) / 2;
         }
     }
 
@@ -220,7 +220,7 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
     }
 
     /**
-     * @dev Calculate the total platform token balance (i.e. 3CRV) that exist in
+     * @dev Calculate the total platform token balance (i.e. USDC-USDCe) that exist in
      * this contract or is staked in the Gauge (or in other words, the total
      * amount platform tokens we own).
      * @return contractPTokens Amount of platform tokens in this contract
@@ -250,7 +250,7 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
 
     function _approveAsset(address _asset) internal {
         IERC20 asset = IERC20(_asset);
-        // 3Pool for asset (required for adding liquidity)
+        // Pool for asset (required for adding liquidity)
         asset.safeApprove(platformAddress, 0);
         asset.safeApprove(platformAddress, type(uint256).max);
     }
@@ -261,9 +261,9 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
      * @dev Get the index of the coin
      */
     function _getCoinIndex(address _asset) internal view returns (uint256) {
-        for (uint256 i = 0; i < 3; i++) {
+        for (uint256 i = 0; i < 2; i++) {
             if (assetsMapped[i] == _asset) return i;
         }
-        revert("Invalid 3pool asset");
+        revert("Invalid pool asset");
     }
 }

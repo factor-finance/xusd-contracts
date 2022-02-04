@@ -12,16 +12,16 @@ contract MockCurvePool {
     using StableMath for uint256;
 
     address[] public coins;
-    uint256[3] public balances;
+    uint256[2] public balances;
     address lpToken;
 
-    constructor(address[3] memory _coins, address _lpToken) {
+    constructor(address[2] memory _coins, address _lpToken) {
         coins = _coins;
         lpToken = _lpToken;
     }
 
     // Returns the same amount of LP tokens in 1e18 decimals
-    function add_liquidity(uint256[3] calldata _amounts, uint256 _minAmount)
+    function add_liquidity(uint256[2] calldata _amounts, uint256 _minAmount)
         external
     {
         uint256 sum = 0;
@@ -73,12 +73,12 @@ contract MockCurvePool {
         return 1 * 10**18;
     }
 
-    function remove_liquidity(uint256 _amount, uint256[3] memory _min_amounts)
+    function remove_liquidity(uint256 _amount, uint256[2] memory _min_amounts)
         public
     {
         IERC20(lpToken).transferFrom(msg.sender, address(this), _amount);
         uint256 totalSupply = IERC20(lpToken).totalSupply();
-        for (uint256 i = 0; i < 3; i++) {
+        for (uint256 i = 0; i < 2; i++) {
             uint256 amount = (_amount / totalSupply) *
                 IERC20(coins[i]).balanceOf(address(this));
             IERC20(coins[i]).transfer(msg.sender, amount);
@@ -87,7 +87,7 @@ contract MockCurvePool {
     }
 
     function remove_liquidity_imbalance(
-        uint256[3] memory _amounts,
+        uint256[2] memory _amounts,
         uint256 _max_burned_tokens
     ) public {
         IERC20(lpToken).transferFrom(

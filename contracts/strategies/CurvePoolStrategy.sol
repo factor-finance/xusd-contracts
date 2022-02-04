@@ -2,9 +2,10 @@
 pragma solidity ^0.8.0;
 
 /**
- * @title Curve 3Pool Strategy
- * @notice Investment strategy for investing stablecoins via Curve 3Pool
+ * @title Curve Pool Strategy
+ * @notice Investment strategy for investing in Curve Pools
  * @author Origin Protocol Inc
+ * @author Factor Finance 2022
  */
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
@@ -14,7 +15,7 @@ import { IERC20, BaseCurveStrategy } from "./BaseCurveStrategy.sol";
 import { StableMath } from "../utils/StableMath.sol";
 import { Helpers } from "../utils/Helpers.sol";
 
-contract ThreePoolStrategy is BaseCurveStrategy {
+contract CurveUsdcStrategy is BaseCurveStrategy {
     using StableMath for uint256;
     using SafeERC20 for IERC20;
 
@@ -25,7 +26,7 @@ contract ThreePoolStrategy is BaseCurveStrategy {
      * Initializer for setting up strategy internal state. This overrides the
      * InitializableAbstractStrategy initializer as Curve strategies don't fit
      * well within that abstraction.
-     * @param _platformAddress Address of the Curve 3pool
+     * @param _platformAddress Address of the Curve pool
      * @param _vaultAddress Address of the vault
      * @param _rewardTokenAddress Address of CRV
      * @param _assets Addresses of supported assets. MUST be passed in the same
@@ -36,7 +37,7 @@ contract ThreePoolStrategy is BaseCurveStrategy {
      * @param _crvMinterAddress Address of the CRV minter for rewards
      */
     function initialize(
-        address _platformAddress, // 3Pool address
+        address _platformAddress, // Pool address
         address _vaultAddress,
         address _rewardTokenAddress, // CRV
         address[] calldata _assets,
@@ -44,7 +45,7 @@ contract ThreePoolStrategy is BaseCurveStrategy {
         address _crvGaugeAddress,
         address _crvMinterAddress
     ) external onlyGovernor initializer {
-        require(_assets.length == 3, "Must have exactly three assets");
+        require(_assets.length == 2, "Must have exactly two assets");
         // Should be set prior to abstract initialize call otherwise
         // abstractSetPToken calls will fail
         crvGaugeAddress = _crvGaugeAddress;
@@ -101,7 +102,7 @@ contract ThreePoolStrategy is BaseCurveStrategy {
 
     function _approveBase() internal override {
         IERC20 pToken = IERC20(pTokenAddress);
-        // 3Pool for LP token (required for removing liquidity)
+        // Pool for LP token (required for removing liquidity)
         pToken.safeApprove(platformAddress, 0);
         pToken.safeApprove(platformAddress, type(uint256).max);
         // Gauge for LP token

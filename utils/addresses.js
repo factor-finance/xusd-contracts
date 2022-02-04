@@ -45,11 +45,15 @@ addresses.mainnet.AAVE_ADDRESS_PROVIDER =
 addresses.mainnet.AAVE_DATA_PROVIDER =
   "0x65285E9dfab318f57051ab2b139ccCf232945451";
 
+addresses.mainnet.CurveUsdcPool = "0x3a43A5851A3e3E0e25A3c1089670269786be1577";
+addresses.mainnet.CurveUsdcPoolGauge =
+  "0xa4106e1206d313a86051c6b5bc475181a81dbc0f";
+
 // Pangolin router
 addresses.mainnet.UNISWAP_ROUTER = "0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106";
 
 // Chainlink feeds
-// Source https://data.chain.link/avalanche/mainnet
+// Source https://docs.chain.link/docs/avalanche-price-feeds/
 addresses.mainnet.chainlinkAVAX_USD =
   "0x0a77230d17318075983913bc2145db16c7366156";
 addresses.mainnet.chainlinkDAI_USD =
@@ -60,6 +64,8 @@ addresses.mainnet.chainlinkUSDT_USD =
   "0xebe676ee90fe1112671f19b6b7459bc678b67e8a";
 addresses.mainnet.chainlinkTUSD_USD =
   "0x827f8a0dc5c943f7524dda178e2e7f275aad743f"; // actually BUSD
+addresses.mainnet.chainlinkCRV_USD =
+  "0x7CF8A6090A9053B01F3DF4D4e6CfEdd8c90d9027";
 
 // WAVAX Token
 addresses.mainnet.WAVAX = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";

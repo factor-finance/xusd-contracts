@@ -38,7 +38,7 @@ contract MockCurveGauge is ICurveGauge {
     function claim_rewards(address _sender, address _receiver) external override {
         uint256 amount = 2e18;
         address reward = reward_tokens[0];
-        // TODO: loop over multiple rewards...
+        // TODO: loop over multiple rewards
         IMintableERC20(reward).mint(amount);
         IERC20(reward).transfer(_receiver, amount);
     }

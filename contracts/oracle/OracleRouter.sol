@@ -57,13 +57,17 @@ contract OracleRouter is OracleRouterBase {
             return address(0x51D7180edA2260cc4F6e4EebB82FEF5c3c2B8300);
         } else if (
             // USDCe
-            asset == address(0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664)
+            asset == address(0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664) ||
+            // USDC
+            asset == address(0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E)
         ) {
             // Chainlink: USDC/USD
             return address(0xF096872672F44d6EBA71458D74fe67F9a77a23B9);
         } else if (
             // USDTe
-            asset == address(0xc7198437980c041c805A1EDcbA50c1Ce5db95118)
+            asset == address(0xc7198437980c041c805A1EDcbA50c1Ce5db95118) ||
+            // USDT
+            asset == address(0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7)
         ) {
             // Chainlink: USDT/USD
             return address(0xEBE676ee90Fe1112671f19b6B7459bC678B67e8a);

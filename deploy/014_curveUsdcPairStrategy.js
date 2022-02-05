@@ -3,14 +3,18 @@ const {
   log,
   withConfirmation,
 } = require("../utils/deploy");
-const { getAssetAddresses, isFuji, isFujiFork } = require("../test/helpers.js");
+const {
+  getAssetAddresses,
+  isMainnet,
+  isMainnetFork,
+} = require("../test/helpers.js");
 const addresses = require("../utils/addresses.js");
 const { getTxOpts } = require("../utils/tx");
 
 module.exports = deploymentWithProposal(
   {
-    deployName: "013_curveUsdcPairStrategy",
-    skip: () => isFuji || isFujiFork,
+    deployName: "014_curveUsdcPairStrategy",
+    skip: () => !(isMainnet || isMainnetFork),
   },
   async ({ deployWithConfirmation, ethers }) => {
     const { deployerAddr, governorAddr } = await hre.getNamedAccounts();
@@ -19,6 +23,7 @@ module.exports = deploymentWithProposal(
 
     // Current contract
     const cVaultProxy = await ethers.getContract("VaultProxy");
+    const cVault = await ethers.getContractAt("Vault", cVaultProxy.address);
 
     // Deploy proxy and strategy
     await deployWithConfirmation("CurveUsdcStrategyProxy");
@@ -46,9 +51,7 @@ module.exports = deploymentWithProposal(
     await withConfirmation(
       cCurveUsdcStrategy
         .connect(sDeployer)
-        [
-          "initialize(address,address,address,address[],address[],address,address)"
-        ](
+        ["initialize(address,address,address,address[],address[],address)"](
           assetAddresses.CurveUsdcPool,
           cVaultProxy.address,
           assetAddresses.WAVAX,
@@ -70,13 +73,31 @@ module.exports = deploymentWithProposal(
     // Governance Actions
     // ----------------
     return {
-      name: "Claim Governance of CurveUsdcStrategy",
+      name: "Claim Governance of CurveUsdcStrategy and set Native USDC",
       actions: [
         // claimGovernance using pending set above.
         {
           contract: cCurveUsdcStrategy,
           signature: "claimGovernance()",
           args: [],
+        },
+        // approve strategy
+        {
+          contract: cVault,
+          signature: "approveStrategy(address)",
+          args: [cCurveUsdcStrategyProxy.address],
+        },
+        // initial set USDC_native default to curve USDC/USDCe pool
+        {
+          contract: cVault,
+          signature: "setAssetDefaultStrategy(address,address)",
+          args: [assetAddresses.USDC_native, cCurveUsdcStrategyProxy.address],
+        },
+        // change USDC default to curve USDC/USDCe pool
+        {
+          contract: cVault,
+          signature: "setAssetDefaultStrategy(address,address)",
+          args: [assetAddresses.USDC, cCurveUsdcStrategyProxy.address],
         },
       ],
     };

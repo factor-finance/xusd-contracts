@@ -82,12 +82,6 @@ describe("CurveUsdc Strategy", function () {
       );
     });
 
-    it("Should use a minimum LP token amount when depositing USDCnative into UsdcPool", async function () {
-      await expect(mint("29000", usdcNative)).to.be.revertedWith(
-        "Slippage ruined your day"
-      );
-    });
-
     it("Should use a minimum LP token amount when depositing USDC into UsdcPool", async function () {
       await expect(mint("29000", usdc)).to.be.revertedWith(
         "Slippage ruined your day"
@@ -96,9 +90,8 @@ describe("CurveUsdc Strategy", function () {
   });
 
   describe("Redeem", function () {
-    it("Should be able to unstake from gauge and return USDC (native)", async function () {
+    it("Should be able to unstake from gauge and return USDC", async function () {
       await expectApproxSupply(xusd, xusdUnits("200"));
-      await mint("10000.00", dai);
       await mint("10000.00", usdc);
       await mint("10000.00", usdcNative);
       await vault.connect(anna).redeem(xusdUnits("20000"), 0);

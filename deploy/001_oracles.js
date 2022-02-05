@@ -48,6 +48,11 @@ const deployOracles = async () => {
     withConfirmation(
       oracleRouter
         .connect(sDeployer)
+        .setFeed(assetAddresses.USDC_native, oracleAddresses.chainlink.USDC_USD)
+    );
+    withConfirmation(
+      oracleRouter
+        .connect(sDeployer)
         .setFeed(assetAddresses.USDT, oracleAddresses.chainlink.USDT_USD)
     );
     withConfirmation(

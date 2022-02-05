@@ -74,13 +74,6 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
     usdt.address
   );
 
-  // Mock Curve minter for minting CRV
-  const mockCRV = await ethers.getContract("MockCRV");
-  await deploy("MockCRVMinter", {
-    from: deployerAddr,
-    args: [mockCRV.address],
-  });
-
   const curveUsdcToken = await ethers.getContract("MockUsdcPair");
 
   // Mock Curve gauge for depositing LP tokens from pool

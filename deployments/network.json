@@ -4589,7 +4589,7 @@
         }
       ]
     },
-    "MockCRVMinter": {
+    "MockCRVRewarder": {
       "address": "0x8Ae72779A026E65D7FaC4eC44968058fF049833a",
       "abi": [
         {

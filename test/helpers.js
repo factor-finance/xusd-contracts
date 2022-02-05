@@ -250,7 +250,6 @@ const getAssetAddresses = async (deployments) => {
       USDC_native: addresses.mainnet.USDC_native,
       CurveUsdcPool: addresses.mainnet.CurveUsdcPool,
       CurveUsdcPoolGauge: addresses.mainnet.CurveUsdcPoolGauge,
-      CRVMinter: addresses.mainnet.CRVMinter,
     };
   } else if (isFuji || isFujiFork) {
     console.log("Using fuji addresses.");
@@ -289,7 +288,6 @@ const getAssetAddresses = async (deployments) => {
       CurveUsdcPool: (await deployments.get("MockCurvePool")).address,
       CurveUsdcToken: (await deployments.get("MockUsdcPair")).address,
       CurveUsdcPoolGauge: (await deployments.get("MockCurveGauge")).address,
-      CRVMinter: (await deployments.get("MockCRVMinter")).address,
     };
   }
 };

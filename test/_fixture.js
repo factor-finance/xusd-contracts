@@ -12,7 +12,6 @@ const usdtAbi = require("./abi/usdt.json").abi;
 const usdcAbi = require("./abi/erc20.json");
 const tusdAbi = require("../test/abi/erc20.json");
 const crvAbi = require("./abi/erc20.json");
-const crvMinterAbi = require("./abi/crvMinter.json");
 
 async function defaultFixture() {
   await deployments.fixture();
@@ -54,7 +53,6 @@ async function defaultFixture() {
     aave,
     aaveToken,
     crv,
-    crvMinter,
     curveUsdcPool,
     curveUsdcToken,
     curveUsdcGauge,
@@ -85,10 +83,6 @@ async function defaultFixture() {
       addresses.mainnet.AAVE_ADDRESS_PROVIDER
     );
     crv = await ethers.getContractAt(crvAbi, addresses.mainnet.CRV);
-    crvMinter = await ethers.getContractAt(
-      crvMinterAbi,
-      addresses.mainnet.CRVMinter
-    );
   } else {
     usdt = await ethers.getContract("MockUSDT");
     dai = await ethers.getContract("MockDAI");
@@ -108,7 +102,6 @@ async function defaultFixture() {
     );
 
     crv = await ethers.getContract("MockCRV");
-    crvMinter = await ethers.getContract("MockCRVMinter");
     curveUsdcPool = await ethers.getContract("MockCurvePool");
     curveUsdcToken = await ethers.getContract("MockUsdcPair");
     curveUsdcGauge = await ethers.getContract("MockCurveGauge");
@@ -200,7 +193,6 @@ async function defaultFixture() {
     aave,
 
     crv,
-    crvMinter,
     curveUsdcPool,
     curveUsdcToken,
     curveUsdcGauge,
@@ -318,8 +310,7 @@ async function curveUsdcPoolFixture() {
     assetAddresses.CRV,
     [assetAddresses.USDC, assetAddresses.USDC_native], // FIXME: sorting?
     [assetAddresses.CurveUsdcToken, assetAddresses.CurveUsdcToken],
-    assetAddresses.CurveUsdcGauge,
-    assetAddresses.CRVMinter
+    assetAddresses.CurveUsdcGauge
   );
 
   return fixture;

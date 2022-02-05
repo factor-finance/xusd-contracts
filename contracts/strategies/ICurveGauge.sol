@@ -7,4 +7,6 @@ interface ICurveGauge {
     function deposit(uint256 value, address account) external;
 
     function withdraw(uint256 value) external;
+
+    function claim_rewards(address _sender, address _receiver) external;
 }

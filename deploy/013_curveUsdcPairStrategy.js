@@ -51,12 +51,10 @@ module.exports = deploymentWithProposal(
         ](
           assetAddresses.CurveUsdcPool,
           cVaultProxy.address,
-          assetAddresses.CRV,
+          assetAddresses.WAVAX,
           [assetAddresses.USDC, assetAddresses.USDC_native],
           [assetAddresses.CurveUsdcToken, assetAddresses.CurveUsdcToken],
-          assetAddresses.CurveUsdcPoolGauge,
-          // FIXME: do we use minter with this interface on avax?
-          assetAddresses.CRVMinter
+          assetAddresses.CurveUsdcPoolGauge
         )
     );
     log("Initialized CurveUsdcStrategy");

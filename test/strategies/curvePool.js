@@ -4,7 +4,7 @@ const { utils } = require("ethers");
 const { curveUsdcVaultFixture } = require("../_fixture");
 const {
   daiUnits,
-  usdcNativeUnits,
+  usdtUnits,
   xusdUnits,
   units,
   loadFixture,
@@ -21,13 +21,13 @@ describe("CurveUsdc Strategy", function () {
     xusd,
     vault,
     governor,
-    crv,
-    crvMinter,
+    wavax,
     curveUsdcToken,
     curveUsdcGauge,
     curveUsdcStrategy,
     usdc,
     usdcNative,
+    usdt,
     dai;
 
   const mint = async (amount, asset) => {
@@ -44,8 +44,7 @@ describe("CurveUsdc Strategy", function () {
     vault = fixture.vault;
     xusd = fixture.xusd;
     governor = fixture.governor;
-    crv = fixture.crv;
-    crvMinter = fixture.crvMinter;
+    wavax = fixture.wavax;
     curveUsdcToken = fixture.curveUsdcToken;
     curveUsdcGauge = fixture.curveUsdcGauge;
     curveUsdcStrategy = fixture.curveUsdcStrategy;
@@ -55,6 +54,9 @@ describe("CurveUsdc Strategy", function () {
     await vault
       .connect(governor)
       .setAssetDefaultStrategy(usdc.address, curveUsdcStrategy.address);
+    await curveUsdcGauge
+      .connect(governor) // anyone
+      .addRewardToken(wavax.address);
   });
 
   describe("Mint", function () {
@@ -69,7 +71,7 @@ describe("CurveUsdc Strategy", function () {
       );
     });
 
-    it("Should stake USDC in Curve gauge via 3pool", async function () {
+    it("Should stake USDC in Curve gauge via UsdcPool", async function () {
       await expectApproxSupply(xusd, xusdUnits("200"));
       await mint("50000.00", usdc);
       await expectApproxSupply(xusd, xusdUnits("50200"));
@@ -80,13 +82,13 @@ describe("CurveUsdc Strategy", function () {
       );
     });
 
-    it("Should use a minimum LP token amount when depositing USDCNATIVE into 3pool", async function () {
+    it("Should use a minimum LP token amount when depositing USDCnative into UsdcPool", async function () {
       await expect(mint("29000", usdcNative)).to.be.revertedWith(
         "Slippage ruined your day"
       );
     });
 
-    it("Should use a minimum LP token amount when depositing USDC into 3pool", async function () {
+    it("Should use a minimum LP token amount when depositing USDC into UsdcPool", async function () {
       await expect(mint("29000", usdc)).to.be.revertedWith(
         "Slippage ruined your day"
       );
@@ -94,7 +96,7 @@ describe("CurveUsdc Strategy", function () {
   });
 
   describe("Redeem", function () {
-    it("Should be able to unstake from gauge and return USDCNATIVE", async function () {
+    it("Should be able to unstake from gauge and return USDC (native)", async function () {
       await expectApproxSupply(xusd, xusdUnits("200"));
       await mint("10000.00", dai);
       await mint("10000.00", usdc);
@@ -134,74 +136,82 @@ describe("CurveUsdc Strategy", function () {
     });
 
     it("Should allow the strategist to call harvest for a specific strategy", async () => {
-      // Mint of MockCRVMinter mints a fixed 2e18
+      // gaugerewarder mints a fixed 2e18
       await vault.connect(governor).setStrategistAddr(anna.address);
       await vault.connect(anna)["harvest(address)"](curveUsdcStrategy.address);
     });
 
     it("Should collect reward tokens using collect rewards on all strategies", async () => {
-      // Mint of MockCRVMinter mints a fixed 2e18
-      await crvMinter.connect(governor).mint(curveUsdcStrategy.address);
+      // Mint of MockGause rewards mints a fixed 2e18
+      await curveUsdcGauge
+        .connect(governor)
+        .claim_rewards(curveUsdcStrategy.address, vault.address);
       await vault.connect(governor)["harvest()"]();
-      await expect(await crv.balanceOf(vault.address)).to.be.equal(
+      await expect(await wavax.balanceOf(vault.address)).to.be.equal(
         utils.parseUnits("2", 18)
       );
     });
 
     it("Should collect reward tokens using collect rewards on a specific strategy", async () => {
-      // Mint of MockCRVMinter mints a fixed 2e18
-      await crvMinter.connect(governor).mint(curveUsdcStrategy.address);
+      // Gauge rewards mints a fixed 2e18
+      await curveUsdcGauge
+        .connect(governor)
+        .claim_rewards(curveUsdcStrategy.address, vault.address);
       await vault.connect(governor)[
         // eslint-disable-next-line
         "harvest(address)"
       ](curveUsdcStrategy.address);
-      await expect(await crv.balanceOf(vault.address)).to.be.equal(
+      await expect(await wavax.balanceOf(vault.address)).to.be.equal(
         utils.parseUnits("2", 18)
       );
-      await crvMinter.connect(governor).mint(curveUsdcStrategy.address);
-      await expect(await crv.balanceOf(vault.address)).to.be.equal(
+      await curveUsdcGauge
+        .connect(governor)
+        .claim_rewards(curveUsdcStrategy.address, vault.address);
+      await expect(await wavax.balanceOf(vault.address)).to.be.equal(
         utils.parseUnits("2", 18)
       );
     });
 
-    it("Should collect reward tokens and swap via Uniswap", async () => {
-      const mockUniswapRouter = await ethers.getContract("MockUniswapRouter");
+    it("Should collect reward tokens and swap via Pangolin", async () => {
+      const mockSwapRouter = await ethers.getContract("MockPangolinRouter");
 
-      mockUniswapRouter.initialize(crv.address, usdcNative.address);
-      await vault.connect(governor).setUniswapAddr(mockUniswapRouter.address);
+      mockSwapRouter.initialize(wavax.address, usdt.address);
+      await vault.connect(governor).setUniswapAddr(mockSwapRouter.address);
 
       // Add CRV to the Vault as a token that should be swapped
-      await vault.connect(governor).addSwapToken(crv.address);
+      await vault.connect(governor).addSwapToken(wavax.address);
 
-      // Make sure Vault has 0 USDCNATIVE balance
-      await expect(vault).has.a.balanceOf("0", usdcNative);
+      // Make sure Vault has 0 USDC balance
+      await expect(vault).has.a.balanceOf("0", usdt);
 
       // Make sure the Strategy has CRV balance
-      await crvMinter.connect(governor).mint(curveUsdcStrategy.address);
+      await curveUsdcGauge
+        .connect(governor)
+        .claim_rewards(curveUsdcStrategy.address, vault.address);
       await expect(
-        await crv.balanceOf(await governor.getAddress())
+        await wavax.balanceOf(await governor.getAddress())
       ).to.be.equal("0");
-      await expect(await crv.balanceOf(curveUsdcStrategy.address)).to.be.equal(
-        utils.parseUnits("2", 18)
-      );
+      await expect(
+        await wavax.balanceOf(curveUsdcStrategy.address)
+      ).to.be.equal(utils.parseUnits("2", 18));
 
-      // Give Uniswap mock some USDCNATIVE so it can give it back in CRV liquidation
-      await usdcNative
+      // Give Uniswap mock some USDT so it can give it back in WAVAX liquidation
+      await usdt
         .connect(anna)
-        .transfer(mockUniswapRouter.address, usdcNativeUnits("100"));
+        .transfer(mockSwapRouter.address, usdtUnits("100"));
 
       // prettier-ignore
       await vault
         .connect(governor)["harvestAndSwap()"]();
 
-      // Make sure Vault has 100 USDCNATIVE balance (the Uniswap mock converts at 1:1)
-      await expect(vault).has.a.balanceOf("2", usdcNative);
+      // Make sure Vault has 100 USDT balance (the Uniswap mock converts at 1:1)
+      await expect(vault).has.a.balanceOf("2", usdt);
 
       // No CRV in Vault or Compound strategy
-      await expect(vault).has.a.balanceOf("0", crv);
-      await expect(await crv.balanceOf(curveUsdcStrategy.address)).to.be.equal(
-        "0"
-      );
+      await expect(vault).has.a.balanceOf("0", wavax);
+      await expect(
+        await wavax.balanceOf(curveUsdcStrategy.address)
+      ).to.be.equal("0");
     });
   });
 });

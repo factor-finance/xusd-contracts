@@ -23,7 +23,7 @@
     "echidna": "yarn run clean && echidna-test . --contract PropertiesXUSDTransferable --config contracts/crytic/TestXUSDTransferable.yaml",
     "slither": "yarn run clean && slither . --filter-paths \"crytic|mocks|@openzeppelin\" --exclude-low --exclude-informational --exclude conformance-to-solidity-naming-conventions,different-pragma-directives-are-used,external-function,assembly,incorrect-equality",
     "slither:triage": "./scripts/slitherTriage.sh",
-    "clean": "rm -rf build crytic-export artifacts cache deployments/local* deployments/network*.json"
+    "clean": "rm -rf build crytic-export artifacts cache deployments/local* deployments/network.jsonstorageLayout/localhost"
   },
   "author": "Factor Finance",
   "license": "MIT",

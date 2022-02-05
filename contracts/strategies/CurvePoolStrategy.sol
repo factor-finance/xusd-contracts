@@ -10,7 +10,6 @@ pragma solidity ^0.8.0;
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 import { ICurveGauge } from "./ICurveGauge.sol";
-import { ICRVMinter } from "./ICRVMinter.sol";
 import { IERC20, BaseCurveStrategy } from "./BaseCurveStrategy.sol";
 import { StableMath } from "../utils/StableMath.sol";
 import { Helpers } from "../utils/Helpers.sol";
@@ -20,7 +19,6 @@ contract CurveUsdcStrategy is BaseCurveStrategy {
     using SafeERC20 for IERC20;
 
     address internal crvGaugeAddress;
-    address internal crvMinterAddress;
 
     /**
      * Initializer for setting up strategy internal state. This overrides the
@@ -28,28 +26,25 @@ contract CurveUsdcStrategy is BaseCurveStrategy {
      * well within that abstraction.
      * @param _platformAddress Address of the Curve pool
      * @param _vaultAddress Address of the vault
-     * @param _rewardTokenAddress Address of CRV
+     * @param _rewardTokenAddress Address of reward
      * @param _assets Addresses of supported assets. MUST be passed in the same
      *                order as returned by coins on the pool contract, i.e.
      *                DAI, USDC, USDT
      * @param _pTokens Platform Token corresponding addresses
      * @param _crvGaugeAddress Address of the Curve DAO gauge for this pool
-     * @param _crvMinterAddress Address of the CRV minter for rewards
      */
     function initialize(
         address _platformAddress, // Pool address
         address _vaultAddress,
-        address _rewardTokenAddress, // CRV
+        address _rewardTokenAddress, // WAVAX, multiple not implemented.
         address[] calldata _assets,
         address[] calldata _pTokens,
-        address _crvGaugeAddress,
-        address _crvMinterAddress
+        address _crvGaugeAddress
     ) external onlyGovernor initializer {
         require(_assets.length == 2, "Must have exactly two assets");
         // Should be set prior to abstract initialize call otherwise
         // abstractSetPToken calls will fail
         crvGaugeAddress = _crvGaugeAddress;
-        crvMinterAddress = _crvMinterAddress;
         pTokenAddress = _pTokens[0];
         super._initialize(
             _platformAddress,
@@ -111,15 +106,14 @@ contract CurveUsdcStrategy is BaseCurveStrategy {
     }
 
     /**
-     * @dev Collect accumulated CRV and send to Vault.
+     * @dev Collect accumulated rewards and send to Vault.
      */
     function collectRewardToken() external override onlyVault nonReentrant {
-        // Collect
-        ICRVMinter(crvMinterAddress).mint(crvGaugeAddress);
-        // Send
-        IERC20 crvToken = IERC20(rewardTokenAddress);
-        uint256 balance = crvToken.balanceOf(address(this));
-        emit RewardTokenCollected(vaultAddress, balance);
-        crvToken.safeTransfer(vaultAddress, balance);
+        // Collect rewards directly to the vault.
+        // N.B. if there are new rewards, we do not need to transfer them.
+        ICurveGauge(crvGaugeAddress).claim_rewards(address(this), vaultAddress);
+        // FIXME: emit an event that uses diff for each reward token
+        // emit RewardTokenCollected(vaultAddress, balance);
+        // rewardToken.safeTransfer(vaultAddress, balance);
     }
 }

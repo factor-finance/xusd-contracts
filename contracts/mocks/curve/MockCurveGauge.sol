@@ -4,10 +4,13 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 import { ICurveGauge } from "../../strategies/ICurveGauge.sol";
+import { MockWAVAX } from "../MockWAVAX.sol";
+import { IMintableERC20 } from "../MintableERC20.sol";
 
 contract MockCurveGauge is ICurveGauge {
     mapping(address => uint256) private _balances;
     address lpToken;
+    address[] reward_tokens;
 
     constructor(address _lpToken) {
         lpToken = _lpToken;
@@ -26,4 +29,18 @@ contract MockCurveGauge is ICurveGauge {
         IERC20(lpToken).transfer(msg.sender, _value);
         _balances[msg.sender] -= _value;
     }
+
+    function addRewardToken(address rewardAddress) external {
+        // mock only method for testing
+        reward_tokens.push(rewardAddress);
+    }
+
+    function claim_rewards(address _sender, address _receiver) external override {
+        uint256 amount = 2e18;
+        address reward = reward_tokens[0];
+        // TODO: loop over multiple rewards...
+        IMintableERC20(reward).mint(amount);
+        IERC20(reward).transfer(_receiver, amount);
+    }
+
 }

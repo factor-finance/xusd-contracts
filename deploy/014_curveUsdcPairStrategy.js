@@ -5,8 +5,9 @@ const {
 } = require("../utils/deploy");
 const {
   getAssetAddresses,
-  isMainnet,
-  isMainnetFork,
+  isFuji,
+  isFujiFork,
+  isTest,
 } = require("../test/helpers.js");
 const addresses = require("../utils/addresses.js");
 const { getTxOpts } = require("../utils/tx");
@@ -14,7 +15,7 @@ const { getTxOpts } = require("../utils/tx");
 module.exports = deploymentWithProposal(
   {
     deployName: "014_curveUsdcPairStrategy",
-    skip: () => !(isMainnet || isMainnetFork),
+    skip: () => isFuji || isFujiFork,
   },
   async ({ deployWithConfirmation, ethers }) => {
     const { deployerAddr, governorAddr } = await hre.getNamedAccounts();
@@ -72,21 +73,25 @@ module.exports = deploymentWithProposal(
 
     // Governance Actions
     // ----------------
-    return {
-      name: "Claim Governance of CurveUsdcStrategy and set Native USDC",
-      actions: [
-        // claimGovernance using pending set above.
-        {
-          contract: cCurveUsdcStrategy,
-          signature: "claimGovernance()",
-          args: [],
-        },
-        // approve strategy
+
+    let actions;
+    actions = [
+      // claimGovernance using pending set above.
+      {
+        contract: cCurveUsdcStrategy,
+        signature: "claimGovernance()",
+        args: [],
+      },
+    ];
+    if (!isTest) {
+      actions = [
+        ...actions,
         {
           contract: cVault,
           signature: "approveStrategy(address)",
           args: [cCurveUsdcStrategyProxy.address],
         },
+        // approve strategy
         // initial set USDC_native default to curve USDC/USDCe pool
         {
           contract: cVault,
@@ -99,7 +104,12 @@ module.exports = deploymentWithProposal(
           signature: "setAssetDefaultStrategy(address,address)",
           args: [assetAddresses.USDC, cCurveUsdcStrategyProxy.address],
         },
-      ],
+      ];
+    }
+
+    return {
+      name: "Claim Governance of CurveUsdcStrategy and set Native USDC",
+      actions,
     };
   }
 );

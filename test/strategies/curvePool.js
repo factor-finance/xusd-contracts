@@ -48,15 +48,14 @@ describe("CurveUsdc Strategy", function () {
     curveUsdcToken = fixture.curveUsdcToken;
     curveUsdcGauge = fixture.curveUsdcGauge;
     curveUsdcStrategy = fixture.curveUsdcStrategy;
+    dai = fixture.dai;
+    usdt = fixture.usdt;
     usdc = fixture.usdc;
     usdcNative = fixture.usdcNative;
 
     await vault
       .connect(governor)
       .setAssetDefaultStrategy(usdc.address, curveUsdcStrategy.address);
-    await curveUsdcGauge
-      .connect(governor) // anyone
-      .addRewardToken(wavax.address);
   });
 
   describe("Mint", function () {
@@ -92,6 +91,7 @@ describe("CurveUsdc Strategy", function () {
   describe("Redeem", function () {
     it("Should be able to unstake from gauge and return USDC", async function () {
       await expectApproxSupply(xusd, xusdUnits("200"));
+      await mint("10000.00", dai);
       await mint("10000.00", usdc);
       await mint("10000.00", usdcNative);
       await vault.connect(anna).redeem(xusdUnits("20000"), 0);
@@ -129,16 +129,14 @@ describe("CurveUsdc Strategy", function () {
     });
 
     it("Should allow the strategist to call harvest for a specific strategy", async () => {
-      // gaugerewarder mints a fixed 2e18
+      await curveUsdcGauge.setRewardAmount(utils.parseUnits("2", 18));
       await vault.connect(governor).setStrategistAddr(anna.address);
       await vault.connect(anna)["harvest(address)"](curveUsdcStrategy.address);
     });
 
     it("Should collect reward tokens using collect rewards on all strategies", async () => {
-      // Mint of MockGause rewards mints a fixed 2e18
-      await curveUsdcGauge
-        .connect(governor)
-        .claim_rewards(curveUsdcStrategy.address, vault.address);
+      // claim on MockGauge rewards mints a fixed 2e18, once for
+      await curveUsdcGauge.setRewardAmount(utils.parseUnits("2", 18));
       await vault.connect(governor)["harvest()"]();
       await expect(await wavax.balanceOf(vault.address)).to.be.equal(
         utils.parseUnits("2", 18)
@@ -146,10 +144,7 @@ describe("CurveUsdc Strategy", function () {
     });
 
     it("Should collect reward tokens using collect rewards on a specific strategy", async () => {
-      // Gauge rewards mints a fixed 2e18
-      await curveUsdcGauge
-        .connect(governor)
-        .claim_rewards(curveUsdcStrategy.address, vault.address);
+      await curveUsdcGauge.setRewardAmount(utils.parseUnits("2", 18));
       await vault.connect(governor)[
         // eslint-disable-next-line
         "harvest(address)"
@@ -157,11 +152,12 @@ describe("CurveUsdc Strategy", function () {
       await expect(await wavax.balanceOf(vault.address)).to.be.equal(
         utils.parseUnits("2", 18)
       );
+      await curveUsdcGauge.setRewardAmount(utils.parseUnits("2", 18));
       await curveUsdcGauge
         .connect(governor)
         .claim_rewards(curveUsdcStrategy.address, vault.address);
       await expect(await wavax.balanceOf(vault.address)).to.be.equal(
-        utils.parseUnits("2", 18)
+        utils.parseUnits("4", 18) // 2nd time
       );
     });
 
@@ -171,36 +167,34 @@ describe("CurveUsdc Strategy", function () {
       mockSwapRouter.initialize(wavax.address, usdt.address);
       await vault.connect(governor).setUniswapAddr(mockSwapRouter.address);
 
-      // Add CRV to the Vault as a token that should be swapped
+      // Add WAVAX to the Vault as a token that should be swapped
       await vault.connect(governor).addSwapToken(wavax.address);
 
       // Make sure Vault has 0 USDC balance
       await expect(vault).has.a.balanceOf("0", usdt);
 
-      // Make sure the Strategy has CRV balance
-      await curveUsdcGauge
-        .connect(governor)
-        .claim_rewards(curveUsdcStrategy.address, vault.address);
-      await expect(
-        await wavax.balanceOf(await governor.getAddress())
-      ).to.be.equal("0");
+      // Make sure the Strategy and Vault has no WAVAX balance
+      await expect(await wavax.balanceOf(vault.address)).to.be.equal(0);
+      //
       await expect(
         await wavax.balanceOf(curveUsdcStrategy.address)
-      ).to.be.equal(utils.parseUnits("2", 18));
+      ).to.be.equal(0);
+      // Make sure Vault has 0 USDT balance
+      await expect(vault).has.a.balanceOf("0", usdt);
 
       // Give Uniswap mock some USDT so it can give it back in WAVAX liquidation
       await usdt
         .connect(anna)
         .transfer(mockSwapRouter.address, usdtUnits("100"));
 
+      await curveUsdcGauge.setRewardAmount(utils.parseUnits("2", 18));
       // prettier-ignore
-      await vault
-        .connect(governor)["harvestAndSwap()"]();
+      await vault.connect(governor)["harvestAndSwap()"]();
 
-      // Make sure Vault has 100 USDT balance (the Uniswap mock converts at 1:1)
+      // Make sure Vault has 2 USDT balance (the Uniswap mock converts at 1:1)
       await expect(vault).has.a.balanceOf("2", usdt);
 
-      // No CRV in Vault or Compound strategy
+      // No WAVAX in Vault or strategy
       await expect(vault).has.a.balanceOf("0", wavax);
       await expect(
         await wavax.balanceOf(curveUsdcStrategy.address)

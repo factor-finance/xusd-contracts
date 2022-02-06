@@ -11,6 +11,7 @@ contract MockCurveGauge is ICurveGauge {
     mapping(address => uint256) private _balances;
     address lpToken;
     address[] reward_tokens;
+    uint256 amount;
 
     constructor(address _lpToken) {
         lpToken = _lpToken;
@@ -35,12 +36,18 @@ contract MockCurveGauge is ICurveGauge {
         reward_tokens.push(rewardAddress);
     }
 
+    function setRewardAmount(uint256 _amount) external {
+        amount = _amount;
+    }
+
     function claim_rewards(address _sender, address _receiver) external override {
-        uint256 amount = 2e18;
         address reward = reward_tokens[0];
-        // TODO: loop over multiple rewards
-        IMintableERC20(reward).mint(amount);
-        IERC20(reward).transfer(_receiver, amount);
+        if (amount > 0) {
+            // TODO: loop over multiple rewards
+            IMintableERC20(reward).mint(amount);
+            IERC20(reward).transfer(_receiver, amount);
+            amount = 0;
+        }
     }
 
 }

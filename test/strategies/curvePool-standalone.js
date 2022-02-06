@@ -2,94 +2,88 @@ const { expect } = require("chai");
 const { utils } = require("ethers");
 
 const { BigNumber } = require("ethers");
-const { threepoolFixture } = require("../_fixture");
+const { curveUsdcPoolFixture } = require("../_fixture");
 const { loadFixture, units } = require("../helpers");
 
 describe("3Pool Strategy Standalone", function () {
   let governor,
-    threePool,
-    threePoolToken,
-    threePoolStrategy,
-    threePoolGauge,
+    curveUsdcPool,
+    curveUsdcToken,
+    curvePoolStrategy,
+    curveUsdcGauge,
     tpStandalone,
-    usdt,
     usdc,
+    usdcNative,
     dai,
     anna;
 
   beforeEach(async function () {
     ({
       governor,
-      threePool,
-      threePoolToken,
-      threePoolGauge,
+      curveUsdcPool,
+      curveUsdcToken,
+      curveUsdcGauge,
       tpStandalone,
-      usdt,
       usdc,
+      usdcNative,
       dai,
       anna,
-    } = await loadFixture(threepoolFixture));
-    threePoolStrategy = tpStandalone.connect(governor);
+    } = await loadFixture(curveUsdcPoolFixture));
+    curvePoolStrategy = tpStandalone.connect(governor);
   });
 
   const deposit = async (amount, asset) => {
     await asset
       .connect(governor)
-      .transfer(threePoolStrategy.address, units(amount, asset));
-    await threePoolStrategy.deposit(asset.address, units(amount, asset));
+      .transfer(curvePoolStrategy.address, units(amount, asset));
+    await curvePoolStrategy.deposit(asset.address, units(amount, asset));
   };
 
   it("Should deposit all", async function () {
-    await dai
+    await usdcNative
       .connect(governor)
-      .transfer(threePoolStrategy.address, units("100", dai));
-    await usdt
-      .connect(governor)
-      .transfer(threePoolStrategy.address, units("200", usdt));
+      .transfer(curvePoolStrategy.address, units("100", usdcNative));
     await usdc
       .connect(governor)
-      .transfer(threePoolStrategy.address, units("300", usdc));
-    await threePoolStrategy.depositAll();
-    await expect(await threePoolGauge.balanceOf(threePoolStrategy.address)).eq(
-      utils.parseUnits("600", 18)
+      .transfer(curvePoolStrategy.address, units("300", usdc));
+    await curvePoolStrategy.depositAll();
+    await expect(await curveUsdcGauge.balanceOf(curvePoolStrategy.address)).eq(
+      utils.parseUnits("400", 18)
     );
   });
 
   it("Should withdraw all", async function () {
     const governorAddress = await governor.getAddress();
-    const governorDai = await dai.balanceOf(governorAddress);
-    const governorUsdt = await usdt.balanceOf(governorAddress);
+    const governorUsdcNative = await usdcNative.balanceOf(governorAddress);
     const governorUsdc = await usdc.balanceOf(governorAddress);
 
     await dai
       .connect(governor)
-      .transfer(threePoolStrategy.address, units("100", dai));
-    await usdt
+      .transfer(curvePoolStrategy.address, units("100", dai));
+    await usdcNative
       .connect(governor)
-      .transfer(threePoolStrategy.address, units("200", usdt));
+      .transfer(curvePoolStrategy.address, units("200", usdcNative));
     await usdc
       .connect(governor)
-      .transfer(threePoolStrategy.address, units("300", usdc));
-    await threePoolStrategy.depositAll();
+      .transfer(curvePoolStrategy.address, units("300", usdc));
+    await curvePoolStrategy.depositAll();
 
-    await expect(await dai.balanceOf(governorAddress)).eq(
-      governorDai.sub(await units("100", dai))
-    );
-    await expect(await usdt.balanceOf(governorAddress)).eq(
-      governorUsdt.sub(await units("200", usdt))
+    await expect(await usdcNative.balanceOf(governorAddress)).eq(
+      governorUsdcNative.sub(await units("200", usdcNative))
     );
     await expect(await usdc.balanceOf(governorAddress)).eq(
       governorUsdc.sub(await units("300", usdc))
     );
 
     // NOTE tpStandlone configures Governor as the Vault
-    // Withdraw everything from 3pool. which will unstake from Gauge and return
+    // Withdraw everything from curve pool. which will unstake from Gauge and return
     // assets to Governor
-    await threePoolStrategy.withdrawAll();
+    await curvePoolStrategy.withdrawAll();
 
     // Check balances of Governor, withdrawn assets reside here
-    await expect(await dai.balanceOf(governorAddress)).eq(governorDai);
-    await expect(await usdt.balanceOf(governorAddress)).eq(governorUsdt);
+    await expect(await usdcNative.balanceOf(governorAddress)).eq(
+      governorUsdcNative
+    );
     await expect(await usdc.balanceOf(governorAddress)).eq(governorUsdc);
   });
 
@@ -102,31 +96,41 @@ describe("3Pool Strategy Standalone", function () {
       await expect(allowance).to.eq(expected);
     };
 
-    await expectAllowanceRaw(MAX, usdt, threePoolStrategy, threePool);
-    await expectAllowanceRaw(MAX, threePoolToken, threePoolStrategy, threePool);
+    await expectAllowanceRaw(MAX, usdc, curvePoolStrategy, curveUsdcPool);
     await expectAllowanceRaw(
       MAX,
-      threePoolToken,
-      threePoolStrategy,
-      threePoolGauge
+      curveUsdcToken,
+      curvePoolStrategy,
+      curveUsdcPool
     );
-
-    await deposit("150", usdt);
-    await expectAllowanceRaw(
-      MAX.sub((await units("150.0", usdt)).toString()),
-      usdt,
-      threePoolStrategy,
-      threePool
-    );
-
-    await threePoolStrategy.safeApproveAllTokens();
-    await expectAllowanceRaw(MAX, usdt, threePoolStrategy, threePool);
-    await expectAllowanceRaw(MAX, threePoolToken, threePoolStrategy, threePool);
     await expectAllowanceRaw(
       MAX,
-      threePoolToken,
-      threePoolStrategy,
-      threePoolGauge
+      curveUsdcToken,
+      curvePoolStrategy,
+      curveUsdcGauge
+    );
+
+    await deposit("150", usdc);
+    await expectAllowanceRaw(
+      MAX.sub((await units("150.0", usdc)).toString()),
+      usdc,
+      curvePoolStrategy,
+      curveUsdcPool
+    );
+
+    await curvePoolStrategy.safeApproveAllTokens();
+    await expectAllowanceRaw(MAX, usdc, curvePoolStrategy, curveUsdcPool);
+    await expectAllowanceRaw(
+      MAX,
+      curveUsdcToken,
+      curvePoolStrategy,
+      curveUsdcPool
+    );
+    await expectAllowanceRaw(
+      MAX,
+      curveUsdcToken,
+      curvePoolStrategy,
+      curveUsdcGauge
     );
   });
 

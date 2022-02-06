@@ -105,6 +105,7 @@ async function defaultFixture() {
     curveUsdcPool = await ethers.getContract("MockCurvePool");
     curveUsdcToken = await ethers.getContract("MockUsdcPair");
     curveUsdcGauge = await ethers.getContract("MockCurveGauge");
+    await curveUsdcGauge.addRewardToken(wavax.address);
 
     chainlinkOracleFeedDAI = await ethers.getContract(
       "MockChainlinkOracleFeedDAI"
@@ -235,7 +236,6 @@ async function mockVaultFixture() {
  */
 async function aaveVaultFixture() {
   const fixture = await loadFixture(defaultFixture);
-
   const { governorAddr } = await getNamedAccounts();
   const sGovernor = await ethers.provider.getSigner(governorAddr);
   // Add Aave which only supports DAI
@@ -269,15 +269,19 @@ async function curveUsdcVaultFixture() {
 
   const { governorAddr } = await getNamedAccounts();
   const sGovernor = await ethers.provider.getSigner(governorAddr);
-  // Add Pool
   await fixture.vault
     .connect(sGovernor)
     .approveStrategy(fixture.curveUsdcStrategy.address);
-
   await fixture.vault
     .connect(sGovernor)
     .setAssetDefaultStrategy(
       fixture.usdc.address,
+      fixture.curveUsdcStrategy.address
+    );
+  await fixture.vault
+    .connect(sGovernor)
+    .setAssetDefaultStrategy(
+      fixture.usdcNative.address,
       fixture.curveUsdcStrategy.address
     );
   return fixture;
@@ -299,20 +303,18 @@ async function curveUsdcPoolFixture() {
   });
 
   fixture.tpStandalone = await ethers.getContract("StandaloneCurveUsdcPool");
-
   // Set governor as vault
   await fixture.tpStandalone.connect(sGovernor)[
     // eslint-disable-next-line
-    "initialize(address,address,address,address[],address[],address,address)"
+    "initialize(address,address,address,address[],address[],address)"
   ](
     assetAddresses.CurveUsdcPool,
     governorAddr, // Using Governor in place of Vault here
-    assetAddresses.CRV,
-    [assetAddresses.USDC, assetAddresses.USDC_native], // FIXME: sorting?
+    assetAddresses.WAVAX,
+    [assetAddresses.USDC, assetAddresses.USDC_native],
     [assetAddresses.CurveUsdcToken, assetAddresses.CurveUsdcToken],
-    assetAddresses.CurveUsdcGauge
+    assetAddresses.CurveUsdcPoolGauge
   );
-
   return fixture;
 }
 

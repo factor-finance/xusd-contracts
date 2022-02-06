@@ -1,1 +1,3 @@
-module.exports = {};
+const numberOfStrategies = 2;
+
+module.exports = { numberOfStrategies };

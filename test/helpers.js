@@ -248,6 +248,7 @@ const getAssetAddresses = async (deployments) => {
       AAVE_ADDRESS_PROVIDER: addresses.mainnet.AAVE_ADDRESS_PROVIDER,
       AAVE_INCENTIVES_CONTROLLER: addresses.mainnet.AAVE_INCENTIVES_CONTROLLER,
       USDC_native: addresses.mainnet.USDC_native,
+      CurveUsdcToken: addresses.mainnet.CurveUsdcToken,
       CurveUsdcPool: addresses.mainnet.CurveUsdcPool,
       CurveUsdcPoolGauge: addresses.mainnet.CurveUsdcPoolGauge,
     };
@@ -284,7 +285,6 @@ const getAssetAddresses = async (deployments) => {
         await deployments.get("MockAaveIncentivesController")
       ).address,
       USDC_native: (await deployments.get("MockUSDCNative")).address,
-      // TODO are you missing the token?
       CurveUsdcPool: (await deployments.get("MockCurvePool")).address,
       CurveUsdcToken: (await deployments.get("MockUsdcPair")).address,
       CurveUsdcPoolGauge: (await deployments.get("MockCurveGauge")).address,

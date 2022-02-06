@@ -202,7 +202,7 @@ describe("Vault Redeem", function () {
     await vault.connect(anna).mint(dai.address, daiUnits("150.0"), 0);
     await expect(anna).has.a.balanceOf("250.00", xusd);
 
-    await setOracleTokenPriceUsd("USDC", "1.30");
+    await setOracleTokenPriceUsd("USDCe", "1.30");
     await setOracleTokenPriceUsd("DAI", "1.20");
     await vault.connect(governor).rebase();
 

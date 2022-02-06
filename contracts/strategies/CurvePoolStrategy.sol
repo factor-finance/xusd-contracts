@@ -29,7 +29,7 @@ contract CurveUsdcStrategy is BaseCurveStrategy {
      * @param _rewardTokenAddress Address of reward
      * @param _assets Addresses of supported assets. MUST be passed in the same
      *                order as returned by coins on the pool contract, i.e.
-     *                DAI, USDC, USDT
+     *                USDC, USDCe
      * @param _pTokens Platform Token corresponding addresses
      * @param _crvGaugeAddress Address of the Curve DAO gauge for this pool
      */
@@ -112,8 +112,7 @@ contract CurveUsdcStrategy is BaseCurveStrategy {
         // Collect rewards directly to the vault.
         // N.B. if there are new rewards, we do not need to transfer them.
         ICurveGauge(crvGaugeAddress).claim_rewards(address(this), vaultAddress);
-        // FIXME: emit an event that uses diff for each reward token
-        // emit RewardTokenCollected(vaultAddress, balance);
-        // rewardToken.safeTransfer(vaultAddress, balance);
+        // FIXME: compute amounts transfered
+        // emit RewardTokenCollected(vaultAddress, amount);
     }
 }

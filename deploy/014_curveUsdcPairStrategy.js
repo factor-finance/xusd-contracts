@@ -9,15 +9,13 @@ const {
   isFujiFork,
   isTest,
 } = require("../test/helpers.js");
-const addresses = require("../utils/addresses.js");
-const { getTxOpts } = require("../utils/tx");
 
 module.exports = deploymentWithProposal(
   {
     deployName: "014_curveUsdcPairStrategy",
     skip: () => isFuji || isFujiFork,
   },
-  async ({ deployWithConfirmation, ethers }) => {
+  async ({ deployWithConfirmation, ethers, getTxOpts }) => {
     const { deployerAddr, governorAddr } = await hre.getNamedAccounts();
     const sDeployer = await ethers.provider.getSigner(deployerAddr);
     const assetAddresses = await getAssetAddresses(hre.deployments);
@@ -56,6 +54,7 @@ module.exports = deploymentWithProposal(
           assetAddresses.CurveUsdcPool,
           cVaultProxy.address,
           assetAddresses.WAVAX,
+          // Ordered!
           [assetAddresses.USDC, assetAddresses.USDC_native],
           [assetAddresses.CurveUsdcToken, assetAddresses.CurveUsdcToken],
           assetAddresses.CurveUsdcPoolGauge
@@ -63,11 +62,15 @@ module.exports = deploymentWithProposal(
     );
     log("Initialized CurveUsdcStrategy");
 
+    const dGovernor = await hre.ethers.getContract("Governor");
     // Initiate transfer of ownership to the governor.
     await withConfirmation(
       cCurveUsdcStrategy
         .connect(sDeployer)
-        .transferGovernance(governorAddr, await getTxOpts())
+        .transferGovernance(
+          isTest ? governorAddr : dGovernor.address,
+          await getTxOpts()
+        )
     );
     log(`CurveUsdcStrategy transferGovernance(${governorAddr} called`);
 

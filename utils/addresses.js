@@ -45,7 +45,9 @@ addresses.mainnet.AAVE_ADDRESS_PROVIDER =
 addresses.mainnet.AAVE_DATA_PROVIDER =
   "0x65285E9dfab318f57051ab2b139ccCf232945451";
 
-addresses.mainnet.CurveUsdcPool = "0x3a43A5851A3e3E0e25A3c1089670269786be1577";
+addresses.mainnet.CRV = "0x249848BeCA43aC405b8102Ec90Dd5F22CA513c06";
+addresses.mainnet.CurveUsdcToken = "0x3a43A5851A3e3E0e25A3c1089670269786be1577";
+addresses.mainnet.CurveUsdcPool = "0x3a43A5851A3e3E0e25A3c1089670269786be1577"; // addresses.mainnet.CurveUsdcToken;
 addresses.mainnet.CurveUsdcPoolGauge =
   "0xa4106e1206d313a86051c6b5bc475181a81dbc0f";
 
@@ -60,6 +62,8 @@ addresses.mainnet.chainlinkDAI_USD =
   "0x51D7180edA2260cc4F6e4EebB82FEF5c3c2B8300";
 addresses.mainnet.chainlinkUSDC_USD =
   "0xf096872672f44d6eba71458d74fe67f9a77a23b9";
+addresses.mainnet.chainlinkUSDCe_USD =
+  "0xf096872672f44d6eba71458d74fe67f9a77a23b9";
 addresses.mainnet.chainlinkUSDT_USD =
   "0xebe676ee90fe1112671f19b6b7459bc678b67e8a";
 addresses.mainnet.chainlinkTUSD_USD =
@@ -73,7 +77,6 @@ addresses.mainnet.WAVAX = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
 // XUSD contracts and tools
 addresses.mainnet.Deployer = "0xFF1AE57723A4d6d5301e4C7145eF5E9e51901fdc";
 // Mainnet contracts are governed by the Governor contract (which derives off Timelock).
-// FIXME: replace with deployed contract
 addresses.mainnet.Governor = "0xC47E590EACdb0D7DCd9E55cF05AE2C213AE7A213";
 addresses.mainnet.Guardian = "0xA141613fFC33B61330bea3957ce4CA2cDDf8dd74"; // ERC 20 owner multisig.
 addresses.mainnet.Strategist = "0xFF20C3d343B77EfB365565e9991A2F28Fba6C5FA";

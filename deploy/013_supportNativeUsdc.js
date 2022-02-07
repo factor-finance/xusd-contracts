@@ -10,8 +10,6 @@ const {
   isFujiFork,
   isTest,
 } = require("../test/helpers.js");
-const addresses = require("../utils/addresses.js");
-const { getTxOpts } = require("../utils/tx");
 
 module.exports = deploymentWithProposal(
   {
@@ -19,8 +17,6 @@ module.exports = deploymentWithProposal(
     skip: () => isFuji || isFujiFork,
   },
   async ({ deployWithConfirmation, ethers }) => {
-    const { deployerAddr } = await hre.getNamedAccounts();
-    const sDeployer = await ethers.provider.getSigner(deployerAddr);
     const assetAddresses = await getAssetAddresses(hre.deployments);
 
     // Current contract
@@ -29,19 +25,10 @@ module.exports = deploymentWithProposal(
 
     let oracleRouter;
     if (isTest) {
-      const oracleAddresses = await getOracleAddresses(deployments);
       oracleRouter = await ethers.getContract("OracleRouter");
-      withConfirmation(
-        oracleRouter
-          .connect(sDeployer)
-          .setFeed(
-            assetAddresses.USDC_native,
-            oracleAddresses.chainlink.USDC_USD
-          )
-      );
     } else {
       oracleRouter = await deployWithConfirmation("OracleRouter");
-      console.log("Deploying oracleRouter with native stablecoins");
+      log("Deploying oracleRouter with native stablecoins");
     }
 
     // Governance Actions

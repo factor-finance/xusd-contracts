@@ -39,8 +39,10 @@ abstract contract OracleRouterBase is IOracle {
         string memory symbol = Helpers.getSymbol(_asset);
         bytes32 symbolHash = keccak256(abi.encodePacked(symbol));
         return
-            symbolHash == keccak256(abi.encodePacked("DAI")) ||
+            symbolHash == keccak256(abi.encodePacked("DAI.e")) ||
+            symbolHash == keccak256(abi.encodePacked("USDC.e")) ||
             symbolHash == keccak256(abi.encodePacked("USDC")) ||
+            symbolHash == keccak256(abi.encodePacked("USDT.e")) ||
             symbolHash == keccak256(abi.encodePacked("USDT"));
     }
 }

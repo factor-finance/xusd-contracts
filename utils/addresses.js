@@ -16,7 +16,7 @@ addresses.mainnet.Binance = "0xf851cbb9940f8baebd1d0eaf259335c108e9e893";
  * https://snowtrace.io/accounts/label/binance?subcatid=3-0&size=100&start=0&col=2&order=desc
  */
 addresses.mainnet.BinanceAll =
-  "0xf851cbb9940f8baebd1d0eaf259335c108e9e893,0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9,0x0455ea966197a69eccf5fc354b6a7896e0fe38f0,0x2d6b7235db3659c1751f342f6c80a49727bb1a1d,0xF39FeE2FDfe7DB022591F4a82e3537fA0B55fb9c";
+  "0xf851cbb9940f8baebd1d0eaf259335c108e9e893,0x0455ea966197a69eccf5fc354b6a7896e0fe38f0,0xc5ed2333f8a2C351fCA35E5EBAdb2A82F5d254C3";
 
 // Native stablecoins
 addresses.mainnet.DAIe = "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70";

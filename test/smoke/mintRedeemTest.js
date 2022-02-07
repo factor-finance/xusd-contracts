@@ -8,7 +8,7 @@ const {
 const addresses = require("../../utils/addresses");
 const erc20Abi = require("../abi/erc20.json");
 
-let utils, BigNumber, usdt, dai, usdc, usdcNative, xusd, vault, signer, signer2;
+let utils, BigNumber, usdt, dai, usdc, xusd, vault, signer, signer2;
 
 async function fundAccount4(hre) {
   await fund(
@@ -32,10 +32,6 @@ const getUsdcBalance = async () => {
   return await usdc.connect(signer).balanceOf(signer.address);
 };
 
-const getUsdcNativeBalance = async () => {
-  return await usdcNative.connect(signer).balanceOf(signer.address);
-};
-
 const getXusdBalance = async (signer) => {
   return await xusd.connect(signer).balanceOf(signer.address);
 };
@@ -56,18 +52,13 @@ const assertExpectedStablecoins = (
   usdtBn,
   daiBn,
   usdcBn,
-  usdcNativeBn,
   unitsExpected,
   tolerance = 0.03
 ) => {
   // adjust decimals of all stablecoins to 18 so they are easier to compare
   const adjustedUsdt = usdtBn.mul(BigNumber.from("1000000000000"));
   const adjustedUsdc = usdcBn.mul(BigNumber.from("1000000000000"));
-  const adjustedUsdcNative = usdcNativeBn.mul(BigNumber.from("1000000000000"));
-  const allStablecoins = adjustedUsdt
-    .add(adjustedUsdc)
-    .add(daiBn)
-    .add(adjustedUsdcNative);
+  const allStablecoins = adjustedUsdt.add(adjustedUsdc).add(daiBn);
   const stableCoinsExpected = utils.parseUnits(unitsExpected, 18);
 
   if (!isWithinTolerance(allStablecoins, stableCoinsExpected, 0.03)) {
@@ -89,10 +80,6 @@ async function setup(hre) {
   usdt = await hre.ethers.getContractAt(erc20Abi, addresses.mainnet.USDT);
   dai = await hre.ethers.getContractAt(erc20Abi, addresses.mainnet.DAI);
   usdc = await hre.ethers.getContractAt(erc20Abi, addresses.mainnet.USDC);
-  usdcNative = await hre.ethers.getContractAt(
-    erc20Abi,
-    addresses.mainnet.USDC_native
-  );
   const vaultProxy = await hre.ethers.getContract("VaultProxy");
   vault = await ethers.getContractAt("IVault", vaultProxy.address);
   signer = (await hre.ethers.getSigners())[4];
@@ -161,7 +148,6 @@ const testRedeem = async (xusdAfterMint) => {
   const usdtBeforeRedeem = await getUsdtBalance();
   const daiBeforeRedeem = await getDaiBalance();
   const usdcBeforeRedeem = await getUsdcBalance();
-  const usdcNativeBeforeRedeem = await getUsdcNativeBalance();
 
   const unitsToRedeem = "800";
   const xusdToRedeem = xusdUnits(unitsToRedeem);
@@ -171,7 +157,6 @@ const testRedeem = async (xusdAfterMint) => {
   const usdtAfterRedeem = await getUsdtBalance();
   const daiAfterRedeem = await getDaiBalance();
   const usdcAfterRedeem = await getUsdcBalance();
-  const usdcNativeAfterRedeem = await getUsdcNativeBalance();
 
   const expectedXusd = xusdAfterMint.sub(xusdToRedeem);
   assertExpectedXusd(xusdAfterRedeem, expectedXusd, 0.0);
@@ -180,7 +165,6 @@ const testRedeem = async (xusdAfterMint) => {
     usdtAfterRedeem.sub(usdtBeforeRedeem),
     daiAfterRedeem.sub(daiBeforeRedeem),
     usdcAfterRedeem.sub(usdcBeforeRedeem),
-    usdcNativeAfterRedeem.sub(usdcNativeBeforeRedeem),
     "800"
   );
 };

@@ -21,6 +21,9 @@ async function debug(taskArguments, hre) {
   const vaultProxy = await hre.ethers.getContract("VaultProxy");
   const xusdProxy = await hre.ethers.getContract("XUSDProxy");
   const aaveProxy = await hre.ethers.getContract("AaveStrategyProxy");
+  const curveUsdcStrategyProxy = await hre.ethers.getContract(
+    "CurveUsdcStrategyProxy"
+  );
   const vault = await hre.ethers.getContractAt("IVault", vaultProxy.address);
   const cVault = await hre.ethers.getContract("Vault");
   const vaultAdmin = await hre.ethers.getContract("VaultAdmin");
@@ -32,6 +35,10 @@ async function debug(taskArguments, hre) {
     aaveProxy.address
   );
   const cAaveStrategy = await hre.ethers.getContract("AaveStrategy");
+  const curveUsdcStrategy = await hre.ethers.getContractAt(
+    "CurveUsdcStrategy",
+    curveUsdcStrategyProxy.address
+  );
   const oracleRouter = await hre.ethers.getContract("OracleRouter");
 
   const governor = await hre.ethers.getContract("Governor");
@@ -77,13 +84,14 @@ async function debug(taskArguments, hre) {
   const xusdGovernorAddr = await xusd.governor();
   const vaultGovernorAddr = await vault.governor();
   const aaveStrategyGovernorAddr = await aaveStrategy.governor();
+  const curveUsdcStrategyGovernorAddr = await curveUsdcStrategy.governor();
 
   console.log("\nGovernor addresses");
   console.log("====================");
   console.log("XUSD:              ", xusdGovernorAddr);
   console.log("Vault:             ", vaultGovernorAddr);
   console.log("AaveStrategy:      ", aaveStrategyGovernorAddr);
-
+  console.log("CurveUsdcStrategy: ", curveUsdcStrategyGovernorAddr);
   //
   // XUSD
   //
@@ -116,10 +124,14 @@ async function debug(taskArguments, hre) {
   console.log("========");
   const priceDAI = await oracleRouter.price(addresses[networkName].DAI);
   const priceUSDC = await oracleRouter.price(addresses[networkName].USDC);
+  const priceUSDCnative = await oracleRouter.price(
+    addresses[networkName].USDC_native
+  );
   const priceUSDT = await oracleRouter.price(addresses[networkName].USDT);
-  console.log(`DAI price :  ${formatUnits(priceDAI, 8)} USD`);
-  console.log(`USDC price:  ${formatUnits(priceUSDC, 8)} USD`);
-  console.log(`USDT price:  ${formatUnits(priceUSDT, 8)} USD`);
+  console.log(`DAI price :   ${formatUnits(priceDAI, 8)} USD`);
+  console.log(`USDCe price:  ${formatUnits(priceUSDC, 8)} USD`);
+  console.log(`USDC price:   ${formatUnits(priceUSDCnative, 8)} USD`);
+  console.log(`USDT price:   ${formatUnits(priceUSDT, 8)} USD`);
 
   //
   // Vault
@@ -177,13 +189,18 @@ async function debug(taskArguments, hre) {
       decimals: 18,
     },
     {
-      symbol: "USDC",
+      symbol: "USDC.e",
       address: addresses[networkName].USDC,
       decimals: 6,
     },
     {
       symbol: "USDT",
       address: addresses[networkName].USDT,
+      decimals: 6,
+    },
+    {
+      symbol: "USDC",
+      address: addresses[networkName].USDC_native,
       decimals: 6,
     },
   ];
@@ -223,16 +240,28 @@ async function debug(taskArguments, hre) {
 
   console.log("\nStrategies balances");
   console.log("=====================");
+  let balance, balanceRaw, asset;
   //
   // Aave Strategy
   //
   await Promise.all(
-    assets.map(async (asset) => {
-      let balanceRaw = await aaveStrategy.checkBalance(asset.address);
-      let balance = formatUnits(balanceRaw.toString(), asset.decimals);
-      console.log(`Aave ${asset.symbol}:\t balance=${balance}`);
+    assets.slice(0, 3).map(async (asset) => {
+      balanceRaw = await aaveStrategy.checkBalance(asset.address);
+      balance = formatUnits(balanceRaw.toString(), asset.decimals);
+      console.log(`Aave ${asset.symbol}:\t\t\t balance=${balance}`);
     })
   );
+
+  //
+  // Curve USDC/USDC.e Strategy
+  // Supports all USDC.e and USDC
+  //
+  let usdcAssets = [assets[1], assets[3]];
+  for (asset of usdcAssets) {
+    balanceRaw = await curveUsdcStrategy.checkBalance(asset.address);
+    balance = formatUnits(balanceRaw.toString(), asset.decimals);
+    console.log(`Curve ${asset.symbol}:\t\t\t balance=${balance}`);
+  }
 
   //
   // Strategies settings
@@ -263,6 +292,29 @@ async function debug(taskArguments, hre) {
     console.log(
       `supportsAsset(${asset.symbol}):\t\t`,
       await aaveStrategy.supportsAsset(asset.address)
+    );
+  }
+
+  console.log("\nCurve USDC strategy settings");
+  console.log("==============================");
+  console.log("vaultAddress:\t\t\t", await curveUsdcStrategy.vaultAddress());
+  console.log(
+    "platformAddress:\t\t",
+    await curveUsdcStrategy.platformAddress()
+  );
+  console.log(
+    "rewardTokenAddress:\t\t",
+    await curveUsdcStrategy.rewardTokenAddress()
+  );
+  console.log(
+    "rewardLiquidationThreshold:\t",
+    (await curveUsdcStrategy.rewardLiquidationThreshold()).toString()
+  );
+
+  for (const asset of assets) {
+    console.log(
+      `supportsAsset(${asset.symbol}):\t\t`,
+      await curveUsdcStrategy.supportsAsset(asset.address)
     );
   }
 }

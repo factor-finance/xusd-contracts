@@ -40,7 +40,10 @@ contract MockCurveGauge is ICurveGauge {
         amount = _amount;
     }
 
-    function claim_rewards(address _sender, address _receiver) external override {
+    function claim_rewards(address _sender, address _receiver)
+        external
+        override
+    {
         address reward = reward_tokens[0];
         if (amount > 0) {
             // TODO: loop over multiple rewards
@@ -49,5 +52,4 @@ contract MockCurveGauge is ICurveGauge {
             amount = 0;
         }
     }
-
 }

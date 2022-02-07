@@ -163,10 +163,10 @@ async function fund(taskArguments, hre) {
 
   const fundAmount = taskArguments.amount || defaultFundAmount;
 
-  console.log(`DAI: ${dai.address}`);
+  console.log(`DAI.e: ${dai.address}`);
   console.log(`USDC.e: ${usdc.address}`);
   console.log(`USDC: ${usdcNative.address}`);
-  console.log(`USDT: ${usdt.address}`);
+  console.log(`USDT.e: ${usdt.address}`);
   console.log(`TUSD: ${tusd.address}`);
   console.log(`WAVAX: ${wavax.address}`);
 

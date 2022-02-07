@@ -1,4 +1,5 @@
 const { mintToken } = require("./contracts.js");
+const { parseUnits } = require("ethers").utils;
 
 // USDT has its own ABI because of non standard returns
 const usdtAbi = require("../test/abi/usdt.json").abi;
@@ -164,7 +165,7 @@ async function fund(taskArguments, hre) {
 
   console.log(`DAI: ${dai.address}`);
   console.log(`USDC.e: ${usdc.address}`);
-  console.log(`USDC (native): ${usdcNative.address}`);
+  console.log(`USDC: ${usdcNative.address}`);
   console.log(`USDT: ${usdt.address}`);
   console.log(`TUSD: ${tusd.address}`);
   console.log(`WAVAX: ${wavax.address}`);
@@ -271,13 +272,13 @@ async function mint(taskArguments, hre) {
   const vaultProxy = await ethers.getContract("VaultProxy");
   const vault = await ethers.getContractAt("IVault", vaultProxy.address);
 
-  let usdt;
+  let coin;
   if (isMainnet || isMainnetFork) {
-    usdt = await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
+    coin = await hre.ethers.getContractAt(usdcAbi, addresses.mainnet.USDC);
   } else if (isFuji || isFujiFork) {
-    usdt = await hre.ethers.getContractAt(usdtAbi, addresses.fuji.USDT);
+    coin = await hre.ethers.getContractAt(usdtAbi, addresses.fuji.USDT);
   } else {
-    usdt = await hre.ethers.getContract("MockUSDT");
+    coin = await hre.ethers.getContract("MockUSDC");
   }
 
   const numAccounts = Number(taskArguments.num) || defaultNumAccounts;
@@ -296,10 +297,10 @@ async function mint(taskArguments, hre) {
     );
 
     // Ensure the account has sufficient USDT balance to cover the mint.
-    const usdtBalance = await usdt.balanceOf(address);
-    if (usdtBalance.lt(usdtUnits(mintAmount))) {
+    const coinBalance = await coin.balanceOf(address);
+    if (coinBalance.lt(parseUnits(mintAmount, await coin.decimals()))) {
       throw new Error(
-        `Account USDT balance insufficient to mint the requested amount`
+        `Account balance insufficient to mint the requested amount`
       );
     }
 
@@ -312,17 +313,17 @@ async function mint(taskArguments, hre) {
     }
 
     // Reset approval before requesting a fresh one, or non first approve calls will fail
-    await usdt
+    await coin
       .connect(signer)
       .approve(vault.address, "0x0", { gasLimit: 270000 });
-    await usdt
+    await coin
       .connect(signer)
       .approve(vault.address, usdtUnits(mintAmount), { gasLimit: 470000 });
 
     // Mint.
     await vault
       .connect(signer)
-      .mint(usdt.address, usdtUnits(mintAmount), 0, { gasLimit: 8000000 });
+      .mint(coin.address, usdtUnits(mintAmount), 0, { gasLimit: 8000000 });
 
     // Show new account's balance.
     const xusdBalance = await xusd.balanceOf(address);

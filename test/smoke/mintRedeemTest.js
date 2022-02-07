@@ -1,6 +1,6 @@
 const { fund, mint } = require("../../tasks/account");
 const {
-  usdtUnits,
+  usdcUnits,
   xusdUnits,
   xusdUnitsFormat,
   isWithinTolerance,
@@ -104,28 +104,28 @@ async function beforeDeploy(hre) {
   // fund stablecoins to the 4th account in signers
   await setup(hre);
 
-  const usdtBeforeMint = await getUsdtBalance();
+  const usdcBeforeMint = await getUsdcBalance();
   const xusdBeforeMint = await getXusdBalance(signer);
-  const usdtToMint = "1100";
+  const usdcToMint = "1100";
   await mint(
     {
       num: 1,
-      amount: usdtToMint,
+      amount: usdcToMint,
     },
     hre
   );
 
-  const usdtAfterMint = await getUsdtBalance();
+  const usdcAfterMint = await getUsdcBalance();
   const xusdAfterMint = await getXusdBalance(signer);
 
-  const expectedUsdt = usdtBeforeMint.sub(usdtUnits(usdtToMint));
-  if (!usdtAfterMint.eq(expectedUsdt)) {
+  const expectedUsdc = usdcBeforeMint.sub(usdcUnits(usdcToMint));
+  if (!usdcAfterMint.eq(expectedUsdc)) {
     throw new Error(
-      `Incorrect usdt value. Got ${usdtAfterMint.toString()} expected: ${expectedUsdt.toString()}`
+      `Incorrect usdc value. Got ${usdcAfterMint.toString()} expected: ${expectedUsdc.toString()}`
     );
   }
 
-  const expectedXusd = xusdBeforeMint.add(xusdUnits(usdtToMint));
+  const expectedXusd = xusdBeforeMint.add(xusdUnits(usdcToMint));
   assertExpectedXusd(xusdAfterMint, expectedXusd);
 
   return {

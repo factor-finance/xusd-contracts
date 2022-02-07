@@ -62,7 +62,9 @@ async function debug(taskArguments, hre) {
   console.log(`AaveStrategy impl:       ${await aaveProxy.implementation()}`);
   console.log(`AaveStrategy:            ${cAaveStrategy.address}`);
   console.log(`CurveUsdcStrategy proxy: ${curveUsdcStrategyProxy.address}`);
-  console.log(`CurveUsdcStrategy impl:  ${await curveUsdcStrategyProxy.implementation()}`);
+  console.log(
+    `CurveUsdcStrategy impl:  ${await curveUsdcStrategyProxy.implementation()}`
+  );
   console.log(`CurveUsdcStrategy:       ${cCurveUsdcStrategy.address}`);
   console.log(`Governor:                ${governor.address}`);
 

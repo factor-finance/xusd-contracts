@@ -126,7 +126,10 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
         uint256 maxBurnedPTokens = (totalPTokens * _amount) / maxAmount;
 
         // Not enough in this contract or in the Gauge, can't proceed
-        require(totalPTokens > maxBurnedPTokens, "Insufficient USDC-USDCe balance");
+        require(
+            totalPTokens > maxBurnedPTokens,
+            "Insufficient USDC-USDCe balance"
+        );
         // We have enough LP tokens, make sure they are all on this contract
         if (contractPTokens < maxBurnedPTokens) {
             _lpWithdraw(maxBurnedPTokens - contractPTokens);
@@ -147,10 +150,7 @@ abstract contract BaseCurveStrategy is InitializableAbstractStrategy {
         (, uint256 gaugePTokens, uint256 totalPTokens) = _getTotalPTokens();
         _lpWithdraw(gaugePTokens);
         // Withdraws are proportional to assets held by Pool
-        uint256[2] memory minWithdrawAmounts = [
-            uint256(0),
-            uint256(0)
-        ];
+        uint256[2] memory minWithdrawAmounts = [uint256(0), uint256(0)];
         // Remove liquidity
         ICurvePool curvePool = ICurvePool(platformAddress);
         curvePool.remove_liquidity(totalPTokens, minWithdrawAmounts);

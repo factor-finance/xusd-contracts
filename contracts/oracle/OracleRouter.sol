@@ -113,6 +113,12 @@ contract OracleRouterTestnet is OracleRouterBase {
         ) {
             // Chainlink: WAVAX/USD
             return address(0x5498BB86BC934c8D34FDA08E81D444153d0D06aD);
+        } else if (
+            // CRVe
+            asset == address(0x249848BeCA43aC405b8102Ec90Dd5F22CA513c06)
+        ) {
+            // Chainlink: CRV/USD
+            return address(0x7CF8A6090A9053B01F3DF4D4e6CfEdd8c90d9027);
         } else {
             revert("Asset not available");
         }

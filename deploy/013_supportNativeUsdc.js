@@ -15,6 +15,7 @@ module.exports = deploymentWithProposal(
   {
     deployName: "013_supportNativeUSDC",
     skip: () => isFuji || isFujiFork,
+    tags: ["013"],
   },
   async ({ deployWithConfirmation, ethers }) => {
     const assetAddresses = await getAssetAddresses(hre.deployments);

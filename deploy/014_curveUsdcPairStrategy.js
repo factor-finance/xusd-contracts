@@ -14,7 +14,6 @@ module.exports = deploymentWithProposal(
   {
     deployName: "014_curveUsdcPairStrategy",
     skip: () => isFuji || isFujiFork,
-    tags: ["014"],
   },
   async ({ deployWithConfirmation, ethers, getTxOpts }) => {
     const { deployerAddr, governorAddr } = await hre.getNamedAccounts();

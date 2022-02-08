@@ -1,4 +1,5 @@
 const { mintToken } = require("./contracts.js");
+const { parseUnits } = require("ethers").utils;
 
 // USDT has its own ABI because of non standard returns
 const usdtAbi = require("../test/abi/usdt.json").abi;
@@ -50,7 +51,9 @@ async function fund(taskArguments, hre) {
     usdtUnits,
     daiUnits,
     usdcUnits,
+    usdcNativeUnits,
     isFork,
+    isFujiFork,
     isLocalhost,
     isMainnetFork,
   } = require("../test/helpers");
@@ -78,14 +81,18 @@ async function fund(taskArguments, hre) {
     signersToFund = signers.splice(accountIndex, numAccounts);
     accountsToFund = signersToFund.map((signer) => signer.address);
   }
-  let usdt, dai, usdc, tusd, wavax;
+  let usdt, dai, usdc, usdcNative, tusd, wavax;
   if (isMainnetFork) {
     usdt = await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
     dai = await hre.ethers.getContractAt(daiAbi, addresses.mainnet.DAI);
     usdc = await hre.ethers.getContractAt(usdcAbi, addresses.mainnet.USDC);
+    usdcNative = await hre.ethers.getContractAt(
+      usdcAbi,
+      addresses.mainnet.USDC_native
+    );
     tusd = await hre.ethers.getContractAt(tusdAbi, addresses.mainnet.TUSD);
     wavax = await hre.ethers.getContractAt(wavaxAbi, addresses.mainnet.WAVAX);
-  } else if (isFork) {
+  } else if (isFujiFork) {
     // because we cannot transfer funds, just mind USDT and return
     const mintAmount = defaultMintAmount;
     usdt = await hre.ethers.getContractAt(usdtAbi, addresses.fuji.USDT);
@@ -106,6 +113,7 @@ async function fund(taskArguments, hre) {
     usdt = await hre.ethers.getContract("MockUSDT");
     dai = await hre.ethers.getContract("MockDAI");
     usdc = await hre.ethers.getContract("MockUSDC");
+    usdcNative = await hre.ethers.getContract("MockUSDCNative");
     tusd = await hre.ethers.getContract("MockTUSD");
     wavax = await hre.ethers.getContract("MockWAVAX");
   }
@@ -155,9 +163,10 @@ async function fund(taskArguments, hre) {
 
   const fundAmount = taskArguments.amount || defaultFundAmount;
 
-  console.log(`DAI: ${dai.address}`);
-  console.log(`USDC: ${usdc.address}`);
-  console.log(`USDT: ${usdt.address}`);
+  console.log(`DAI.e: ${dai.address}`);
+  console.log(`USDC.e: ${usdc.address}`);
+  console.log(`USDC: ${usdcNative.address}`);
+  console.log(`USDT.e: ${usdt.address}`);
   console.log(`TUSD: ${tusd.address}`);
   console.log(`WAVAX: ${wavax.address}`);
 
@@ -181,6 +190,12 @@ async function fund(taskArguments, hre) {
       forkSigner: isFork ? await findBestSigner(usdc) : null,
     },
     {
+      name: "usdcNative",
+      contract: usdcNative,
+      unitsFn: usdcNativeUnits,
+      forkSigner: isFork ? await findBestSigner(usdcNative) : null,
+    },
+    {
       name: "usdt",
       contract: usdt,
       unitsFn: usdtUnits,
@@ -193,7 +208,6 @@ async function fund(taskArguments, hre) {
       forkSigner: isFork ? await findBestSigner(wavax) : null,
     },
   ];
-
   for (let i = 0; i < accountsToFund.length; i++) {
     const currentAccount = accountsToFund[i];
     await Promise.all(
@@ -258,13 +272,13 @@ async function mint(taskArguments, hre) {
   const vaultProxy = await ethers.getContract("VaultProxy");
   const vault = await ethers.getContractAt("IVault", vaultProxy.address);
 
-  let usdt;
+  let coin;
   if (isMainnet || isMainnetFork) {
-    usdt = await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
+    coin = await hre.ethers.getContractAt(usdcAbi, addresses.mainnet.USDC);
   } else if (isFuji || isFujiFork) {
-    usdt = await hre.ethers.getContractAt(usdtAbi, addresses.fuji.USDT);
+    coin = await hre.ethers.getContractAt(usdtAbi, addresses.fuji.USDT);
   } else {
-    usdt = await hre.ethers.getContract("MockUSDT");
+    coin = await hre.ethers.getContract("MockUSDC");
   }
 
   const numAccounts = Number(taskArguments.num) || defaultNumAccounts;
@@ -283,10 +297,10 @@ async function mint(taskArguments, hre) {
     );
 
     // Ensure the account has sufficient USDT balance to cover the mint.
-    const usdtBalance = await usdt.balanceOf(address);
-    if (usdtBalance.lt(usdtUnits(mintAmount))) {
+    const coinBalance = await coin.balanceOf(address);
+    if (coinBalance.lt(parseUnits(mintAmount, await coin.decimals()))) {
       throw new Error(
-        `Account USDT balance insufficient to mint the requested amount`
+        `Account balance insufficient to mint the requested amount`
       );
     }
 
@@ -299,17 +313,17 @@ async function mint(taskArguments, hre) {
     }
 
     // Reset approval before requesting a fresh one, or non first approve calls will fail
-    await usdt
+    await coin
       .connect(signer)
       .approve(vault.address, "0x0", { gasLimit: 270000 });
-    await usdt
+    await coin
       .connect(signer)
       .approve(vault.address, usdtUnits(mintAmount), { gasLimit: 470000 });
 
     // Mint.
     await vault
       .connect(signer)
-      .mint(usdt.address, usdtUnits(mintAmount), 0, { gasLimit: 8000000 });
+      .mint(coin.address, usdtUnits(mintAmount), 0, { gasLimit: 8000000 });
 
     // Show new account's balance.
     const xusdBalance = await xusd.balanceOf(address);

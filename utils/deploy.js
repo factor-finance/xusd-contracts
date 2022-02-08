@@ -292,8 +292,10 @@ function deploymentWithProposal(opts, fn) {
       const sGovernor = await ethers.provider.getSigner(governorAddr);
 
       for (const action of proposal.actions) {
-        const { contract, signature, args } = action;
-
+        let { contract, signature, args } = action;
+        if (!args) {
+          throw new Error("args cannot be undefined");
+        }
         log(`Sending governance action ${signature} to ${contract.address}`);
         await withConfirmation(
           contract

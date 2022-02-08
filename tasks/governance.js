@@ -107,6 +107,9 @@ async function governors() {
   const cXUSDProxy = await ethers.getContract("XUSDProxy");
   const cVaultProxy = await ethers.getContract("VaultProxy");
   const cAaveStrategyProxy = await ethers.getContract("AaveStrategyProxy");
+  const cCurveUsdcStrategyProxy = await ethers.getContract(
+    "CurveUsdcStrategyProxy"
+  );
   const cFlipper = await ethers.getContract("Flipper");
 
   console.log("Governor addresses:");
@@ -114,6 +117,10 @@ async function governors() {
   console.log("XUSDProxy:              ", await cXUSDProxy.governor());
   console.log("VaultProxy:             ", await cVaultProxy.governor());
   console.log("AaveStrategyProxy:      ", await cAaveStrategyProxy.governor());
+  console.log(
+    "CurveUsdcStrategyProxy:      ",
+    await cCurveUsdcStrategyProxy.governor()
+  );
   console.log("Flipper:                ", await cFlipper.governor());
 }
 

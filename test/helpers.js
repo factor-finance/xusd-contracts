@@ -75,6 +75,8 @@ function usdcUnitsFormat(amount) {
   return formatUnits(amount, 6);
 }
 
+const usdcNativeUnits = usdcUnits;
+
 function tusdUnits(amount) {
   return parseUnits(amount, 18);
 }
@@ -192,6 +194,7 @@ const getOracleAddresses = async (deployments) => {
         AVAX_USD: addresses.mainnet.chainlinkAVAX_USD,
         DAI_USD: addresses.mainnet.chainlinkDAI_USD,
         USDC_USD: addresses.mainnet.chainlinkUSDC_USD,
+        USDCe_USD: addresses.mainnet.chainlinkUSDCe_USD,
         USDT_USD: addresses.mainnet.chainlinkUSDT_USD,
       },
     };
@@ -214,6 +217,8 @@ const getOracleAddresses = async (deployments) => {
         DAI_USD: (await deployments.get("MockChainlinkOracleFeedDAI")).address,
         USDC_USD: (await deployments.get("MockChainlinkOracleFeedUSDC"))
           .address,
+        USDCe_USD: (await deployments.get("MockChainlinkOracleFeedUSDCe"))
+          .address,
         USDT_USD: (await deployments.get("MockChainlinkOracleFeedUSDT"))
           .address,
         TUSD_USD: (await deployments.get("MockChainlinkOracleFeedTUSD"))
@@ -235,12 +240,17 @@ const getAssetAddresses = async (deployments) => {
       DAI: addresses.mainnet.DAI,
       TUSD: addresses.mainnet.TUSD,
       WAVAX: addresses.mainnet.WAVAX,
+      CRV: addresses.mainnet.CRV,
       avDAI: addresses.mainnet.avDAI,
       avUSDC: addresses.mainnet.avUSDC,
       avUSDT: addresses.mainnet.avUSDT,
       AAVE: addresses.mainnet.Aave,
       AAVE_ADDRESS_PROVIDER: addresses.mainnet.AAVE_ADDRESS_PROVIDER,
       AAVE_INCENTIVES_CONTROLLER: addresses.mainnet.AAVE_INCENTIVES_CONTROLLER,
+      USDC_native: addresses.mainnet.USDC_native,
+      CurveUsdcToken: addresses.mainnet.CurveUsdcToken,
+      CurveUsdcPool: addresses.mainnet.CurveUsdcPool,
+      CurveUsdcPoolGauge: addresses.mainnet.CurveUsdcPoolGauge,
     };
   } else if (isFuji || isFujiFork) {
     console.log("Using fuji addresses.");
@@ -265,6 +275,7 @@ const getAssetAddresses = async (deployments) => {
       TUSD: (await deployments.get("MockTUSD")).address,
       NonStandardToken: (await deployments.get("MockNonStandardToken")).address,
       WAVAX: (await deployments.get("MockWAVAX")).address,
+      CRV: (await deployments.get("MockCRV")).address,
       avDAI: (await deployments.get("MockADAI")).address,
       avUSDC: (await deployments.get("MockAUSDC")).address,
       avUSDT: (await deployments.get("MockAUSDT")).address,
@@ -273,6 +284,10 @@ const getAssetAddresses = async (deployments) => {
       AAVE_INCENTIVES_CONTROLLER: (
         await deployments.get("MockAaveIncentivesController")
       ).address,
+      USDC_native: (await deployments.get("MockUSDCNative")).address,
+      CurveUsdcPool: (await deployments.get("MockCurvePool")).address,
+      CurveUsdcToken: (await deployments.get("MockUsdcPair")).address,
+      CurveUsdcPoolGauge: (await deployments.get("MockCurveGauge")).address,
     };
   }
 };
@@ -341,6 +356,7 @@ module.exports = {
   usdcUnits,
   tusdUnits,
   daiUnits,
+  usdcNativeUnits,
   avaxUnits,
   oracleUnits,
   units,

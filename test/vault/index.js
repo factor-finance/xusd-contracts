@@ -104,7 +104,7 @@ describe("Vault", function () {
   it("Should correctly handle a deposit of USDC (6 decimals)", async function () {
     const { xusd, vault, usdc, anna } = await loadFixture(defaultFixture);
     await expect(anna).has.a.balanceOf("0.00", xusd);
-    await setOracleTokenPriceUsd("USDC", "0.96");
+    await setOracleTokenPriceUsd("USDCe", "0.96");
     await usdc.connect(anna).approve(vault.address, usdcUnits("50.0"));
     await vault.connect(anna).mint(usdc.address, usdcUnits("50.0"), 0);
     await expect(anna).has.a.balanceOf("48.00", xusd);

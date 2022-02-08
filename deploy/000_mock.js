@@ -13,11 +13,14 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
   const assetContracts = [
     "MockUSDT",
     "MockUSDC",
+    "MockUSDCNative",
     "MockTUSD",
     "MockDAI",
     "MockNonStandardToken",
     "MockAave",
     "MockWAVAX",
+    "MockCRV",
+    "MockUsdcPair",
   ];
   for (const contract of assetContracts) {
     await deploy(contract, { from: deployerAddr });
@@ -35,6 +38,7 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
 
   const dai = await ethers.getContract("MockDAI");
   const usdc = await ethers.getContract("MockUSDC");
+  const usdcNative = await ethers.getContract("MockUSDCNative");
   const usdt = await ethers.getContract("MockUSDT");
 
   // Deploy mock aTokens (Aave)
@@ -70,6 +74,19 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
     usdt.address
   );
 
+  const curveUsdcToken = await ethers.getContract("MockUsdcPair");
+
+  // Mock Curve gauge for depositing LP tokens from pool
+  await deploy("MockCurveGauge", {
+    from: deployerAddr,
+    args: [curveUsdcToken.address],
+  });
+
+  await deploy("MockCurvePool", {
+    from: deployerAddr,
+    args: [[usdc.address, usdcNative.address], curveUsdcToken.address],
+  });
+
   // Deploy mock chainlink oracle price feeds.
   await deploy("MockChainlinkOracleFeedDAI", {
     from: deployerAddr,
@@ -91,6 +108,11 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
     contract: "MockChainlinkOracleFeed",
     args: [parseUnits("1", 8).toString(), 18], // 1 USDC = 1 USD, 8 digits decimal.
   });
+  await deploy("MockChainlinkOracleFeedUSDCe", {
+    from: deployerAddr,
+    contract: "MockChainlinkOracleFeed",
+    args: [parseUnits("1", 8).toString(), 18], // 1 USDC = 1 USD, 8 digits decimal.
+  });
   await deploy("MockChainlinkOracleFeedNonStandardToken", {
     from: deployerAddr,
     contract: "MockChainlinkOracleFeed",
@@ -106,6 +128,11 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
     contract: "MockChainlinkOracleFeed",
     // if you set this to something other than 1, uniswap v2 mock breaks
     args: [parseUnits("1", 8).toString(), 18], // 1 WAVAX = 1 USD, 18 digits decimal.
+  });
+  await deploy("MockChainlinkOracleFeedCRV", {
+    from: deployerAddr,
+    contract: "MockChainlinkOracleFeed",
+    args: [parseUnits("1", 8).toString(), 18], // 1 CRV = 1 USD, 8 digits decimal.
   });
 
   // Deploy mock Uniswap router

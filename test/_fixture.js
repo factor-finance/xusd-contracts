@@ -296,32 +296,29 @@ async function aaveVaultFixture() {
 }
 
 /**
- * Configure a Vault with only the Aave strategy.
+ * Configure a Vault with only the AlphaHomora strategy.
  */
 async function alphaHomoraVaultFixture() {
   const fixture = await loadFixture(defaultFixture);
 
   const { governorAddr } = await getNamedAccounts();
   const sGovernor = await ethers.provider.getSigner(governorAddr);
-  // Add Aave which only supports DAI
+  // Add AlphaHomora which supports DAIe + USDTe
   await fixture.vault
     .connect(sGovernor)
     .approveStrategy(fixture.alphaHomoraStrategy.address);
-  // Add direct allocation of DAI, USDC, USDT to Aave
-  await fixture.vault
-    .connect(sGovernor)
-    .setAssetDefaultStrategy(fixture.dai.address, fixture.aaveStrategy.address);
+  // Add direct allocation of DAIe, USDTe
   await fixture.vault
     .connect(sGovernor)
     .setAssetDefaultStrategy(
-      fixture.usdc.address,
-      fixture.aaveStrategy.address
+      fixture.dai.address,
+      fixture.alphaHomoraStrategy.address
     );
   await fixture.vault
     .connect(sGovernor)
     .setAssetDefaultStrategy(
       fixture.usdt.address,
-      fixture.aaveStrategy.address
+      fixture.alphaHomoraStrategy.address
     );
   return fixture;
 }

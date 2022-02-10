@@ -15,17 +15,18 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 // https://alphafinancelab.gitbook.io/alpha-homora-developer-doc/become-the-leader-of-alpha-homora-v2
 // 1. User calls 'deposit' (AlphaHomora)
-//  - Deposit their underlying
+//  - Deposit their underlying stablecoin
 //  - Mint cToken to them
 // 2. User calls withdraw (cToken)
 //  - Retrieve their cToken
-//  - Return underlying + interest
+//  - Return underlying + interest (using exchangeRate)
 
 contract MockCERC20 is ICERC20 {
     using SafeMath for uint256;
 
     IERC20 public token;
     uint256 public interestPerYear = 10e16; // 10% per year
+    uint256 exchangeRate = 1e18;
 
     mapping(address => uint256) public borrows;
     mapping(address => uint256) public lastBlock;
@@ -42,9 +43,13 @@ contract MockCERC20 is ICERC20 {
         return address(token);
     }
 
-    function mint(uint256 mintAmount) external override returns (uint256) {}
+    function mint(uint256 mintAmount) external override returns (uint256) {
+        // FIXME: mint token (change interface of mock?) and send
+    }
 
-    function redeem(uint256 redeemTokens) external override returns (uint256) {}
+    function redeem(uint256 redeemTokens) external override returns (uint256) {
+        // FIXME: burn and return proper amount w/ exchange rate
+    }
 
     function balanceOf(address user) external view override returns (uint256) {
         return token.balanceOf(user);
@@ -95,14 +100,17 @@ contract MockCERC20 is ICERC20 {
         return 0;
     }
 
+    function setMockExchangeRate() external {
+        // 1% more
+        exchangeRate = 1e18 + 1e16;
+    }
+
     function exchangeRateCurrent() external override returns (uint256) {
-        // FIXME! This should be something...
         // https://github.com/CreamFi/cream-deployment/blob/avax/contracts/CToken.sol#L268-L283
-        return 1e18;
+        return exchangeRate;
     }
 
     function exchangeRateStored() external view override returns (uint256) {
-        // FIXME! This should be something...
         return 1e18;
     }
 }
@@ -152,6 +160,7 @@ contract MockSafeBox is ISafeBox, ReentrancyGuard, ERC20 {
         override
         nonReentrant
     {
+        // FIXME use a setMockRewards and ignore proof
         bytes32 leaf = keccak256(abi.encodePacked(msg.sender, totalAmount));
         require(MerkleProof.verify(proof, root, leaf), "!proof");
         uint256 send = totalAmount.sub(claimed[msg.sender]);

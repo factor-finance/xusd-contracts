@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 /**
  * @title XUSD VaultStorage Contract
  * @notice The VaultStorage contract defines the storage for the Vault contracts
- * @author XUSD.fi Inc
+ * @author Factor Finance
  */
 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";

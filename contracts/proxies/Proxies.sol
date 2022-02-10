@@ -30,3 +30,10 @@ contract AaveStrategyProxy is InitializeGovernedUpgradeabilityProxy {
 contract AlphaHomoraStrategyProxy is InitializeGovernedUpgradeabilityProxy {
 
 }
+
+/**
+ * @notice AaveStrategyProxy delegates calls to a AaveStrategy implementation
+ */
+contract CurveUsdcStrategyProxy is InitializeGovernedUpgradeabilityProxy {
+
+}

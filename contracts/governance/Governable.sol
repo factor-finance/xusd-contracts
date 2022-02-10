@@ -6,7 +6,7 @@ pragma solidity ^0.8.0;
  * @dev Copy of the openzeppelin Ownable.sol contract with nomenclature change
  *      from owner to governor and renounce methods removed. Does not use
  *      Context.sol like Ownable.sol does for simplification.
- * @author XUSD.fi Inc
+ * @author Factor Finance
  */
 contract Governable {
     // Storage position of the owner and pendingOwner of the contract

@@ -5,10 +5,7 @@ import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import { ICERC20 } from "./ICERC20.sol";
 
-
-
 interface ISafeBox {
-
     function cToken() external view returns (ICERC20);
 
     function uToken() external view returns (IERC20);

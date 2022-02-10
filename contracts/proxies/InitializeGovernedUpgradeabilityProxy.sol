@@ -10,7 +10,7 @@ import { Governable } from "../governance/Governable.sol";
  * @dev This contract combines an upgradeability proxy with our governor system.
  * It is based on an older version of OpenZeppelins BaseUpgradeabilityProxy
  * with Solidity ^0.8.0.
- * @author XUSD.fi Inc
+ * @author Factor Finance
  */
 contract InitializeGovernedUpgradeabilityProxy is Governable {
     /**

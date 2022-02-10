@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 /**
  * @title XUSD VaultInitializer Contract
  * @notice The Vault contract initializes the vault.
- * @author XUSD.fi Inc
+ * @author Factor Finance
  */
 
 import "./VaultStorage.sol";

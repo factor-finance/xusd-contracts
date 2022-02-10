@@ -16,7 +16,7 @@ addresses.mainnet.Binance = "0xf851cbb9940f8baebd1d0eaf259335c108e9e893";
  * https://snowtrace.io/accounts/label/binance?subcatid=3-0&size=100&start=0&col=2&order=desc
  */
 addresses.mainnet.BinanceAll =
-  "0xf851cbb9940f8baebd1d0eaf259335c108e9e893,0x9f8c163cBA728e99993ABe7495F06c0A3c8Ac8b9,0x0455ea966197a69eccf5fc354b6a7896e0fe38f0,0x2d6b7235db3659c1751f342f6c80a49727bb1a1d,0xF39FeE2FDfe7DB022591F4a82e3537fA0B55fb9c";
+  "0xf851cbb9940f8baebd1d0eaf259335c108e9e893,0x0455ea966197a69eccf5fc354b6a7896e0fe38f0,0xc5ed2333f8a2C351fCA35E5EBAdb2A82F5d254C3";
 
 // Native stablecoins
 addresses.mainnet.DAIe = "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70";
@@ -53,21 +53,31 @@ addresses.mainnet.ALPHA = "0x2147efff675e4a4ee1c2f918d181cdbd7a8e208f";
 // this value changes every reward period?
 addresses.mainnet.ALPHA_INCENTIVES_CONTROLLER = "";
 
+addresses.mainnet.CRV = "0x249848BeCA43aC405b8102Ec90Dd5F22CA513c06";
+addresses.mainnet.CurveUsdcToken = "0x3a43A5851A3e3E0e25A3c1089670269786be1577";
+addresses.mainnet.CurveUsdcPool = "0x3a43A5851A3e3E0e25A3c1089670269786be1577"; // addresses.mainnet.CurveUsdcToken;
+addresses.mainnet.CurveUsdcPoolGauge =
+  "0xa4106e1206d313a86051c6b5bc475181a81dbc0f";
+
 // Pangolin router
 addresses.mainnet.UNISWAP_ROUTER = "0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106";
 
 // Chainlink feeds
-// Source https://data.chain.link/avalanche/mainnet
+// Source https://docs.chain.link/docs/avalanche-price-feeds/
 addresses.mainnet.chainlinkAVAX_USD =
   "0x0a77230d17318075983913bc2145db16c7366156";
 addresses.mainnet.chainlinkDAI_USD =
   "0x51D7180edA2260cc4F6e4EebB82FEF5c3c2B8300";
 addresses.mainnet.chainlinkUSDC_USD =
   "0xf096872672f44d6eba71458d74fe67f9a77a23b9";
+addresses.mainnet.chainlinkUSDCe_USD =
+  "0xf096872672f44d6eba71458d74fe67f9a77a23b9";
 addresses.mainnet.chainlinkUSDT_USD =
   "0xebe676ee90fe1112671f19b6b7459bc678b67e8a";
 addresses.mainnet.chainlinkTUSD_USD =
   "0x827f8a0dc5c943f7524dda178e2e7f275aad743f"; // actually BUSD
+addresses.mainnet.chainlinkCRV_USD =
+  "0x7CF8A6090A9053B01F3DF4D4e6CfEdd8c90d9027";
 
 // WAVAX Token
 addresses.mainnet.WAVAX = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
@@ -75,7 +85,6 @@ addresses.mainnet.WAVAX = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
 // XUSD contracts and tools
 addresses.mainnet.Deployer = "0xFF1AE57723A4d6d5301e4C7145eF5E9e51901fdc";
 // Mainnet contracts are governed by the Governor contract (which derives off Timelock).
-// FIXME: replace with deployed contract
 addresses.mainnet.Governor = "0xC47E590EACdb0D7DCd9E55cF05AE2C213AE7A213";
 addresses.mainnet.Guardian = "0xA141613fFC33B61330bea3957ce4CA2cDDf8dd74"; // ERC 20 owner multisig.
 addresses.mainnet.Strategist = "0xFF20C3d343B77EfB365565e9991A2F28Fba6C5FA";

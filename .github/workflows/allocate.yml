@@ -1,0 +1,28 @@
+name: Mainnet manual allocate
+on:
+  workflow_dispatch:
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: |
+          yarn install
+          yarn hardhat compile
+
+      - run: |
+          sleep $((RANDOM%60))
+          yarn hardhat allocate --network mainnet-prod
+        env:
+          DEPLOYER_PK: ${{ secrets.DEPLOYER_PK }}
+
+      - run: |
+          curl -X POST -H "Content-Type: application/json" "$DISCORD_WEBHOOK_URL" \
+            -d '{"content": "XUSD allocate completed"}'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}

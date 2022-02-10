@@ -42,11 +42,9 @@ contract MockCERC20 is ICERC20 {
         return address(token);
     }
 
-    function mint(uint256 mintAmount) external override returns (uint256) {
-    }
+    function mint(uint256 mintAmount) external override returns (uint256) {}
 
-    function redeem(uint256 redeemTokens) external override returns (uint256) {
-    }
+    function redeem(uint256 redeemTokens) external override returns (uint256) {}
 
     function balanceOf(address user) external view override returns (uint256) {
         return token.balanceOf(user);

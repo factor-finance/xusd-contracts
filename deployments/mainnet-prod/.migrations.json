@@ -7,5 +7,7 @@
   "006_default_strategies.js": 1642971085,
   "007_vault_settings.js": 1642972014,
   "008_governor.js": 1642973108,
-  "011_vaultAdminUpgrade": 1643088424
+  "011_vaultAdminUpgrade": 1643088424,
+  "013_supportNativeUSDC": 1644292422,
+  "014_curveUsdcPairStrategy": 1644293953
 }

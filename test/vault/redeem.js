@@ -202,7 +202,7 @@ describe("Vault Redeem", function () {
     await vault.connect(anna).mint(dai.address, daiUnits("150.0"), 0);
     await expect(anna).has.a.balanceOf("250.00", xusd);
 
-    await setOracleTokenPriceUsd("USDC", "1.30");
+    await setOracleTokenPriceUsd("USDCe", "1.30");
     await setOracleTokenPriceUsd("DAI", "1.20");
     await vault.connect(governor).rebase();
 
@@ -471,7 +471,8 @@ describe("Vault Redeem", function () {
     ).to.deep.equal([
       daiUnits("50"), // DAI
       BigNumber.from(0), // USDT
-      BigNumber.from(0), // USDC
+      BigNumber.from(0), // USDCe
+      BigNumber.from(0), // USDCnative
       BigNumber.from(0), // TUSD
     ]);
 
@@ -485,7 +486,8 @@ describe("Vault Redeem", function () {
     ).to.deep.equal([
       daiUnits("25"), // DAI
       BigNumber.from(0), // USDT
-      usdcUnits("75"), // USDC
+      usdcUnits("75"), // USDCe
+      BigNumber.from(0), // USDC native
       BigNumber.from(0), // TUSD
     ]);
   });

@@ -5,7 +5,6 @@
 pragma solidity ^0.8.0;
 
 interface ICERC20 {
-
     function decimals() external returns (uint8);
 
     function underlying() external returns (address);

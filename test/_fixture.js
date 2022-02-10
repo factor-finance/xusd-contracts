@@ -11,6 +11,7 @@ const daiAbi = require("./abi/dai.json").abi;
 const usdtAbi = require("./abi/usdt.json").abi;
 const usdcAbi = require("./abi/erc20.json");
 const tusdAbi = require("../test/abi/erc20.json");
+const crvAbi = require("./abi/erc20.json");
 
 async function defaultFixture() {
   await deployments.fixture();
@@ -32,6 +33,13 @@ async function defaultFixture() {
   const aaveIncentivesController = await ethers.getContract(
     "MockAaveIncentivesController"
   );
+  const curveUsdcStrategyProxy = await ethers.getContract(
+    "CurveUsdcStrategyProxy"
+  );
+  const curveUsdcStrategy = await ethers.getContractAt(
+    "CurveUsdcStrategy",
+    curveUsdcStrategyProxy.address
+  );
 
   const alphaHomoraStrategyProxy = await ethers.getContract(
     "AlphaHomoraStrategyProxy"
@@ -50,6 +58,7 @@ async function defaultFixture() {
     dai,
     tusd,
     usdc,
+    usdcNative,
     nonStandardToken,
     adai,
     aave,
@@ -61,6 +70,10 @@ async function defaultFixture() {
     usdtSafeBox,
     usdcSafeBox,
     daiSafeBox,
+    crv,
+    curveUsdcPool,
+    curveUsdcToken,
+    curveUsdcGauge,
     wavax,
     mockNonRebasing,
     mockNonRebasingTwo;
@@ -77,16 +90,22 @@ async function defaultFixture() {
     usdt = await ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
     dai = await ethers.getContractAt(daiAbi, addresses.mainnet.DAI);
     usdc = await ethers.getContractAt(usdcAbi, addresses.mainnet.USDC);
+    usdcNative = await ethers.getContractAt(
+      usdcAbi,
+      addresses.mainnet.USDC_native
+    );
     tusd = await ethers.getContractAt(tusdAbi, addresses.mainnet.TUSD);
     wavax = await ethers.getContractAt(tusdAbi, addresses.mainnet.WAVAX);
     aaveAddressProvider = await ethers.getContractAt(
       "ILendingPoolAddressesProvider",
       addresses.mainnet.AAVE_ADDRESS_PROVIDER
     );
+    crv = await ethers.getContractAt(crvAbi, addresses.mainnet.CRV);
   } else {
     usdt = await ethers.getContract("MockUSDT");
     dai = await ethers.getContract("MockDAI");
     usdc = await ethers.getContract("MockUSDC");
+    usdcNative = await ethers.getContract("MockUSDCNative");
     tusd = await ethers.getContract("MockTUSD");
     wavax = await ethers.getContract("MockWAVAX");
     nonStandardToken = await ethers.getContract("MockNonStandardToken");
@@ -106,6 +125,11 @@ async function defaultFixture() {
     usdtSafeBox = await ethers.getContract("MockSafeBoxUSDT.e");
     usdcSafeBox = await ethers.getContract("MockSafeBoxUSDC.e");
     daiSafeBox = await ethers.getContract("MockSafeBoxDAI.e");
+    crv = await ethers.getContract("MockCRV");
+    curveUsdcPool = await ethers.getContract("MockCurvePool");
+    curveUsdcToken = await ethers.getContract("MockUsdcPair");
+    curveUsdcGauge = await ethers.getContract("MockCurveGauge");
+    await curveUsdcGauge.addRewardToken(wavax.address);
 
     chainlinkOracleFeedDAI = await ethers.getContract(
       "MockChainlinkOracleFeedDAI"
@@ -182,10 +206,12 @@ async function defaultFixture() {
     usdt,
     dai,
     usdc,
+    usdcNative,
     tusd,
     nonStandardToken,
     wavax,
     // aave strategy + ecosystem
+    // aTokens,
     aaveStrategy,
     adai, // aToken
     aaveToken,
@@ -202,6 +228,12 @@ async function defaultFixture() {
     usdcSafeBox,
     daiSafeBox,
     alphaHomoraIncentivesController,
+
+    crv,
+    curveUsdcPool,
+    curveUsdcToken,
+    curveUsdcGauge,
+    curveUsdcStrategy,
   };
 }
 
@@ -238,7 +270,6 @@ async function mockVaultFixture() {
  */
 async function aaveVaultFixture() {
   const fixture = await loadFixture(defaultFixture);
-
   const { governorAddr } = await getNamedAccounts();
   const sGovernor = await ethers.provider.getSigner(governorAddr);
   // Add Aave which only supports DAI
@@ -272,29 +303,83 @@ async function alphaHomoraVaultFixture() {
 
   const { governorAddr } = await getNamedAccounts();
   const sGovernor = await ethers.provider.getSigner(governorAddr);
-  // Add Alpha which only supports DAI, USDC, USDT
+  // Add Aave which only supports DAI
   await fixture.vault
     .connect(sGovernor)
     .approveStrategy(fixture.alphaHomoraStrategy.address);
-  // Add direct allocation of DAI, USDC, USDT to alphaHomora
+  // Add direct allocation of DAI, USDC, USDT to Aave
   await fixture.vault
     .connect(sGovernor)
-    .setAssetDefaultStrategy(
-      fixture.dai.address,
-      fixture.alphaHomoraStrategy.address
-    );
+    .setAssetDefaultStrategy(fixture.dai.address, fixture.aaveStrategy.address);
   await fixture.vault
     .connect(sGovernor)
     .setAssetDefaultStrategy(
       fixture.usdc.address,
-      fixture.alphaHomoraStrategy.address
+      fixture.aaveStrategy.address
     );
   await fixture.vault
     .connect(sGovernor)
     .setAssetDefaultStrategy(
       fixture.usdt.address,
-      fixture.alphaHomoraStrategy.address
+      fixture.aaveStrategy.address
     );
+  return fixture;
+}
+
+/**
+ * Configure a Vault with only the USDC/USDCe Pool strategy.
+ */
+async function curveUsdcVaultFixture() {
+  const fixture = await loadFixture(defaultFixture);
+
+  const { governorAddr } = await getNamedAccounts();
+  const sGovernor = await ethers.provider.getSigner(governorAddr);
+  await fixture.vault
+    .connect(sGovernor)
+    .approveStrategy(fixture.curveUsdcStrategy.address);
+  await fixture.vault
+    .connect(sGovernor)
+    .setAssetDefaultStrategy(
+      fixture.usdc.address,
+      fixture.curveUsdcStrategy.address
+    );
+  await fixture.vault
+    .connect(sGovernor)
+    .setAssetDefaultStrategy(
+      fixture.usdcNative.address,
+      fixture.curveUsdcStrategy.address
+    );
+  return fixture;
+}
+
+/**
+ * Configure a Curve USDC/USDCe fixture with the governer as vault for testing
+ */
+async function curveUsdcPoolFixture() {
+  const fixture = await loadFixture(defaultFixture);
+  const assetAddresses = await getAssetAddresses(deployments);
+  const { deploy } = deployments;
+  const { governorAddr } = await getNamedAccounts();
+  const sGovernor = await ethers.provider.getSigner(governorAddr);
+
+  await deploy("StandaloneCurveUsdcPool", {
+    from: governorAddr,
+    contract: "CurveUsdcStrategy",
+  });
+
+  fixture.tpStandalone = await ethers.getContract("StandaloneCurveUsdcPool");
+  // Set governor as vault
+  await fixture.tpStandalone.connect(sGovernor)[
+    // eslint-disable-next-line
+    "initialize(address,address,address,address[],address[],address)"
+  ](
+    assetAddresses.CurveUsdcPool,
+    governorAddr, // Using Governor in place of Vault here
+    assetAddresses.WAVAX,
+    [assetAddresses.USDC, assetAddresses.USDC_native],
+    [assetAddresses.CurveUsdcToken, assetAddresses.CurveUsdcToken],
+    assetAddresses.CurveUsdcPoolGauge
+  );
   return fixture;
 }
 
@@ -431,6 +516,8 @@ module.exports = {
   mockVaultFixture,
   aaveVaultFixture,
   alphaHomoraVaultFixture,
+  curveUsdcPoolFixture,
+  curveUsdcVaultFixture,
   multiStrategyVaultFixture,
   hackedVaultFixture,
   rebornFixture,

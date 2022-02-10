@@ -5,27 +5,34 @@ const addresses = require("./addresses");
 const daiAbi = require("../test/abi/dai.json").abi;
 const usdtAbi = require("../test/abi/usdt.json").abi;
 const usdcAbi = require("../test/abi/erc20.json");
+const usdcNativeAbi = require("../test/abi/erc20.json");
 const tusdAbi = require("../test/abi/erc20.json");
 
 const {
   usdtUnits,
   daiUnits,
   usdcUnits,
+  usdcNativeUnits,
   tusdUnits,
   isFork,
 } = require("../test/helpers");
 
 const fundAccounts = async () => {
-  let usdt, dai, tusd, usdc, nonStandardToken;
+  let usdt, dai, tusd, usdc, usdcNative, nonStandardToken;
   if (isFork) {
     usdt = await ethers.getContractAt(usdtAbi, addresses.mainnet.USDT);
     dai = await ethers.getContractAt(daiAbi, addresses.mainnet.DAI);
     usdc = await ethers.getContractAt(usdcAbi, addresses.mainnet.USDC);
+    usdcNative = await ethers.getContractAt(
+      usdcAbi,
+      addresses.mainnet.USDC_native
+    );
     tusd = await ethers.getContractAt(tusdAbi, addresses.mainnet.TUSD);
   } else {
     usdt = await ethers.getContract("MockUSDT");
     dai = await ethers.getContract("MockDAI");
     usdc = await ethers.getContract("MockUSDC");
+    usdcNative = await ethers.getContract("MockUSDCNative");
     tusd = await ethers.getContract("MockTUSD");
     nonStandardToken = await ethers.getContract("MockNonStandardToken");
   }
@@ -55,6 +62,9 @@ const fundAccounts = async () => {
       await usdc
         .connect(binanceSigner)
         .transfer(await signers[i].getAddress(), usdcUnits("1000"));
+      await usdcNative
+        .connect(binanceSigner)
+        .transfer(await signers[i].getAddress(), usdcNativeUnits("1000"));
       await usdt
         .connect(binanceSigner)
         .transfer(await signers[i].getAddress(), usdtUnits("1000"));
@@ -64,6 +74,7 @@ const fundAccounts = async () => {
     } else {
       await dai.connect(signers[i]).mint(daiUnits("1000"));
       await usdc.connect(signers[i]).mint(usdcUnits("1000"));
+      await usdcNative.connect(signers[i]).mint(usdcNativeUnits("1000"));
       await usdt.connect(signers[i]).mint(usdtUnits("1000"));
       await tusd.connect(signers[i]).mint(tusdUnits("1000"));
       await nonStandardToken.connect(signers[i]).mint(usdtUnits("1000"));

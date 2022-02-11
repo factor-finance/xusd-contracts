@@ -57,24 +57,26 @@ describe("AlphaHomora Strategy", function () {
   });
 
   describe("Mint", function () {
-    // it("Should be able to mint DAI and it ", async function () {
-    //   await expectApproxSupply(xusd, xusdUnits("200"));
-    //   // we already have 200 dai in vault
-    //   await expect(vault).has.an.approxBalanceOf("200", dai);
-    //   await expect(daiSafeBox).has.an.approxBalanceOf("0", dai);
-    //   await mint("30000.00", dai);
-    //   await expectApproxSupply(xusd, xusdUnits("30200"));
-    //   // should allocate all of it to strategy
-    //   await expect(daiSafeBox).has.an.approxBalanceOf("30200", dai);
-    //   await expect(anna).to.have.a.balanceOf("30000", xusd);
-    //   expect(await creamDAIe.balanceOf(daiSafeBox.address)).to.be.equal(
-    //     utils.parseUnits("30200", 18)
-    //   );
-    // });
+    it("Should be able to mint DAI and it show up in SafeBox", async function () {
+      // we already have 200 dai in vault
+      await expectApproxSupply(xusd, xusdUnits("200"));
+      await expect(vault).has.an.approxBalanceOf("200", dai);
+      await expect(creamDAIe).has.an.approxBalanceOf("0", dai);
+      await expect(daiSafeBox).has.an.approxBalanceOf("0", dai);
+      await mint("30000.00", dai);
+      await expectApproxSupply(xusd, xusdUnits("30200"));
+      // should allocate all of it to strategy
+      await expect(daiSafeBox).has.an.approxBalanceOf("30200", creamDAIe);
+      await expect(anna).to.have.a.balanceOf("30000", xusd);
+      expect(await creamDAIe.balanceOf(daiSafeBox.address)).to.be.equal(
+        utils.parseUnits("30200", 18)
+      );
+    });
 
     it("Should be able to mint and redeem DAI", async function () {
       await expectApproxSupply(xusd, xusdUnits("200"));
       await mint("30000.00", dai);
+      console.log("Minted, should have balance");
       await vault.connect(anna).redeem(xusdUnits("20000"), 0);
       await expectApproxSupply(xusd, xusdUnits("10200"));
       // Anna started with 1000 DAI

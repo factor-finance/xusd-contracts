@@ -15,7 +15,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 // https://alphafinancelab.gitbook.io/alpha-homora-developer-doc/become-the-leader-of-alpha-homora-v2
 // 1. User calls 'deposit' (AlphaHomora)
-//  - Deposit their underlying stablecoin
+//  - Deposit their underlying stablecoin[<8;60;9m]
 //  - Mint cToken to them
 // 2. User calls withdraw (cToken)
 //  - Retrieve their cToken
@@ -23,11 +23,15 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract MockCERC20 is ICERC20 {
     using SafeMath for uint256;
+    using SafeERC20 for IERC20;
 
     IERC20 public token;
     uint256 public interestPerYear = 10e16; // 10% per year
     uint256 exchangeRate = 1e18;
+    uint public mintRate = 1e18;
+    uint public totalSupply = 0;
 
+    mapping(address => uint) public override balanceOf;
     mapping(address => uint256) public borrows;
     mapping(address => uint256) public lastBlock;
 
@@ -43,17 +47,26 @@ contract MockCERC20 is ICERC20 {
         return address(token);
     }
 
+    function setMintRate(uint256 _mintRate) external {
+        mintRate = _mintRate;
+    }
+
     function mint(uint256 mintAmount) external override returns (uint256) {
-        // FIXME: mint token (change interface of mock?) and send
+        uint256 amountIn = mintAmount.mul(mintRate).div(1e18);
+        IERC20(token).safeTransferFrom(msg.sender, address(this), amountIn);
+        totalSupply = totalSupply.add(mintAmount);
+        balanceOf[msg.sender] = balanceOf[msg.sender].add(mintAmount);
+        return 0;
     }
 
-    function redeem(uint256 redeemTokens) external override returns (uint256) {
-        // FIXME: burn and return proper amount w/ exchange rate
+    function redeem(uint256 redeemAmount) external override returns (uint256) {
+        uint256 amountOut = redeemAmount.mul(1e18).div(mintRate);
+        IERC20(token).safeTransfer(msg.sender, amountOut);
+        totalSupply = totalSupply.sub(redeemAmount);
+        balanceOf[msg.sender] = balanceOf[msg.sender].sub(redeemAmount);
+        return 0;
     }
 
-    function balanceOf(address user) external view override returns (uint256) {
-        return token.balanceOf(user);
-    }
 
     function borrowBalanceCurrent(address account)
         public
@@ -103,6 +116,8 @@ contract MockCERC20 is ICERC20 {
     function setMockExchangeRate() external {
         // 1% more
         exchangeRate = 1e18 + 1e16;
+        // create enough DAI to pay back
+        // do not make it too complicated
     }
 
     function exchangeRateCurrent() external override returns (uint256) {

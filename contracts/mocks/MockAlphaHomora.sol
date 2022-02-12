@@ -3,15 +3,15 @@ pragma solidity ^0.8.0;
 
 // import { SafeERC20 } from
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import { IERC20, ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
+import { MintableERC20 } from "./MintableERC20.sol";
 import { ICERC20 } from "../interfaces/alphaHomora/ICERC20.sol";
 import { ISafeBox } from "../interfaces/alphaHomora/ISafeBox.sol";
 import { StableMath } from "../utils/StableMath.sol";
 
-import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import { MerkleProof } from "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 // https://alphafinancelab.gitbook.io/alpha-homora-developer-doc/become-the-leader-of-alpha-homora-v2
 // 1. User calls 'deposit' (AlphaHomora)
@@ -28,10 +28,10 @@ contract MockCERC20 is ICERC20 {
     IERC20 public token;
     uint256 public interestPerYear = 10e16; // 10% per year
     uint256 exchangeRate = 1e18;
-    uint public mintRate = 1e18;
-    uint public totalSupply = 0;
+    uint256 public mintRate = 1e18;
+    uint256 public totalSupply = 0;
 
-    mapping(address => uint) public override balanceOf;
+    mapping(address => uint256) public override balanceOf;
     mapping(address => uint256) public borrows;
     mapping(address => uint256) public lastBlock;
 
@@ -67,52 +67,6 @@ contract MockCERC20 is ICERC20 {
         return 0;
     }
 
-
-    function borrowBalanceCurrent(address account)
-        public
-        override
-        returns (uint256)
-    {
-        uint256 timePast = block.timestamp - lastBlock[account];
-        if (timePast > 0) {
-            uint256 interest = borrows[account]
-                .mul(interestPerYear)
-                .div(100e16)
-                .mul(timePast)
-                .div(365 days);
-            borrows[account] = borrows[account].add(interest);
-            lastBlock[account] = block.timestamp;
-        }
-        return borrows[account];
-    }
-
-    function borrowBalanceStored(address account)
-        external
-        view
-        override
-        returns (uint256)
-    {
-        return borrows[account];
-    }
-
-    function borrow(uint256 borrowAmount) external override returns (uint256) {
-        borrowBalanceCurrent(msg.sender);
-        token.transfer(msg.sender, borrowAmount);
-        borrows[msg.sender] = borrows[msg.sender].add(borrowAmount);
-        return 0;
-    }
-
-    function repayBorrow(uint256 repayAmount)
-        external
-        override
-        returns (uint256)
-    {
-        borrowBalanceCurrent(msg.sender);
-        token.transferFrom(msg.sender, address(this), repayAmount);
-        borrows[msg.sender] = borrows[msg.sender].sub(repayAmount);
-        return 0;
-    }
-
     function setMockExchangeRate() external {
         // 1% more
         exchangeRate = 1e18 + 1e16;
@@ -136,9 +90,10 @@ contract MockSafeBox is ISafeBox, ReentrancyGuard, ERC20 {
 
     ICERC20 public immutable override cToken;
     IERC20 public immutable override uToken;
+    MintableERC20 public REWARD_TOKEN;
 
     bytes32 public root;
-    mapping(address => uint256) public claimed;
+    mapping(address => uint256) public rewards;
 
     constructor(
         ICERC20 _cToken,
@@ -150,6 +105,10 @@ contract MockSafeBox is ISafeBox, ReentrancyGuard, ERC20 {
         uToken = _uToken;
         // MAX_INT
         _uToken.safeApprove(address(_cToken), uint256(2**256 - 1));
+    }
+
+    function setRewardsBalance(address user, uint256 amount) external {
+        rewards[user] = amount;
     }
 
     function deposit(uint256 amount) external override nonReentrant {
@@ -175,12 +134,11 @@ contract MockSafeBox is ISafeBox, ReentrancyGuard, ERC20 {
         override
         nonReentrant
     {
-        // FIXME use a setMockRewards and ignore proof
-        bytes32 leaf = keccak256(abi.encodePacked(msg.sender, totalAmount));
-        require(MerkleProof.verify(proof, root, leaf), "!proof");
-        uint256 send = totalAmount.sub(claimed[msg.sender]);
-        claimed[msg.sender] = totalAmount;
-        uToken.safeTransfer(msg.sender, send);
+        require(totalAmount > 0);
+        REWARD_TOKEN.mint(totalAmount);
+        require(rewards[msg.sender] == totalAmount);
+        require(REWARD_TOKEN.transfer(msg.sender, totalAmount));
+        rewards[msg.sender] = 0;
     }
 
     function claimAndWithdraw(

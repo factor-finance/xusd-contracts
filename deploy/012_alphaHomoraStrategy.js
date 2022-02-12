@@ -55,7 +55,7 @@ module.exports = deploymentWithProposal(
           addresses.dead,
           cVaultProxy.address,
           assetAddresses.WAVAX,
-          [assetAddresses.DAI, assetAddresses.USDT, assetAddresses.USDC],
+          [assetAddresses.DAIe, assetAddresses.USDTe, assetAddresses.USDCe],
           [
             assetAddresses.SafeBoxDAIe,
             assetAddresses.SafeBoxUSDTe,

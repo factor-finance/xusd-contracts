@@ -12,8 +12,6 @@ import { IERC20, InitializableAbstractStrategy } from "../utils/InitializableAbs
 import { ICERC20 } from "../interfaces/alphaHomora/ICERC20.sol";
 import { ISafeBox } from "../interfaces/alphaHomora/ISafeBox.sol";
 
-import "hardhat/console.sol";
-
 contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     using SafeERC20 for IERC20;
 
@@ -27,7 +25,7 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     ) external onlyGovernor initializer {
         // TODO implement incentivecontroller for ALPHA
         // they use merkledistributor: https://etherscan.io/address/0x94207cb2a02f0dbc16040b6692ee1cb999e85d9b#code
-        // incentivesController = IAlphaIncentivesController(_incentivesAddress);
+        //incentivesController = IAlphaIncentivesDistributor(_incentivesAddress);
         _incentivesAddress;
         InitializableAbstractStrategy._initialize(
             _platformAddress,
@@ -173,8 +171,11 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
         returns (uint256 balance)
     {
         // Balance is always with token cToken decimals
-        ICERC20 cToken = _getCTokenFor(_asset);
-        balance = _checkBalance(cToken);
+        address safeBoxAddr = assetToPToken[_asset];
+        require(safeBoxAddr != address(0));
+        ISafeBox _safeBox = _getSafeBoxFor(_asset);
+        ICERC20 _cToken = _safeBox.cToken();
+        balance = _checkBalance(safeBoxAddr, _cToken);
     }
 
     /**
@@ -183,18 +184,15 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
      * @param _cToken     cToken for which to check balance
      * @return balance    Total value of the asset in the platform
      */
-    function _checkBalance(ICERC20 _cToken)
+    function _checkBalance(address _safeBox, ICERC20 _cToken)
         internal
         view
         returns (uint256 balance)
     {
-        uint256 cTokenBalance = _cToken.balanceOf(address(this));
+        uint256 safeBoxBalance = IERC20(_safeBox).balanceOf(address(this));
         uint256 exchangeRate = _cToken.exchangeRateStored();
-        console.log("ctokenbalance", cTokenBalance);
-        console.log("rate", exchangeRate);
         // e.g. 50e8*205316390724364402565641705 / 1e18 = 1.0265..e18
-        balance = (cTokenBalance * exchangeRate) / 1e18;
-        console.log("balance", balance);
+        balance = (safeBoxBalance * exchangeRate) / 1e18;
     }
 
     /**
@@ -241,10 +239,10 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     }
 
     /**
-     * @dev Get the cToken wrapped in the ICERC20 interface for this asset.
-     *      Fails if the cToken doesn't exist in our mappings.
+     * @dev Get the SafeBox token wrap ISafeBox interface for this asset.
+     *      Fails if the SafeBbox doesn't exist in our mappings.
      * @param _asset Address of the asset
-     * @return Corresponding cToken to this asset
+     * @return Corresponding SafeBox to this asset
      */
     function _getSafeBoxFor(address _asset) internal view returns (ISafeBox) {
         address safeBox = assetToPToken[_asset];
@@ -252,6 +250,12 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
         return ISafeBox(safeBox);
     }
 
+    /**
+     * @dev Get the cToken wrapped in the ICERC20 interface for this asset.
+     *      Fails if the cToken doesn't exist in our mappings.
+     * @param _asset Address of the asset
+     * @return Corresponding cToken to this asset
+     */
     function _getCTokenFor(address _asset) internal view returns (ICERC20) {
         ISafeBox safeBox = _getSafeBoxFor(_asset);
         return ICERC20(safeBox.cToken());

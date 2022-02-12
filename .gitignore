@@ -54,6 +54,7 @@ cache/**
 .env.fuji.production
 artifacts/
 deployments/localhost*
+deployments/network.json
 storageLayout/localhost*
 db/
 coverage/

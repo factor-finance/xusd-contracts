@@ -92,19 +92,19 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
   });
   // Deploy SafeBoxes. Perhaps only USDT is useable due to minting
   await deploy("MockSafeBoxUSDT.e", {
-    args: [dCUSDT.address, "Interest Bearing USDT.e v2", "CUSDT.ev2"],
+    args: [dCUSDT.address, "Interest Bearing USDT.e v2", "ibUSDT.ev2"],
     contract: "MockSafeBox",
     from: deployerAddr,
   });
   // Deploy SafeBoxes
   await deploy("MockSafeBoxDAI.e", {
-    args: [dCDAI.address, "Interest Bearing DAI.e v2", "CDAI.ev2"],
+    args: [dCDAI.address, "Interest Bearing DAI.e v2", "ibDAI.ev2"],
     contract: "MockSafeBox",
     from: deployerAddr,
   });
   // Deploy SafeBoxes
   await deploy("MockSafeBoxUSDC.e", {
-    args: [dCUSDC.address, "Interest Bearing USDC.e v2", "CUSDC.ev2"],
+    args: [dCUSDC.address, "Interest Bearing USDC.e v2", "ibUSDC.ev2"],
     contract: "MockSafeBox",
     from: deployerAddr,
   });

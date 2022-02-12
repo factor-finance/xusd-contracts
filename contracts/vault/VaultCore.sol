@@ -20,8 +20,6 @@ import { IVault } from "../interfaces/IVault.sol";
 import { IBuyback } from "../interfaces/IBuyback.sol";
 import "./VaultStorage.sol";
 
-import "hardhat/console.sol";
-
 contract VaultCore is VaultStorage {
     using SafeERC20 for IERC20;
     using StableMath for uint256;
@@ -332,11 +330,8 @@ contract VaultCore is VaultStorage {
         uint256 vaultValue = _totalValue();
 
         // Yield fee collection
-        console.log(vaultValue, trusteeAddress, trusteeFeeBps);
         address _trusteeAddress = trusteeAddress; // gas savings
-        console.log("outside");
         if (_trusteeAddress != address(0) && (vaultValue > xusdSupply)) {
-            console.log("inside");
             uint256 yield = vaultValue.sub(xusdSupply);
             uint256 fee = yield.mul(trusteeFeeBps).div(10000);
             require(yield > fee, "Fee must not be greater than yield");
@@ -345,7 +340,7 @@ contract VaultCore is VaultStorage {
             }
             emit YieldDistribution(_trusteeAddress, yield, fee);
         }
-        console.log("thru");
+
         // Only rachet XUSD supply upwards
         xusdSupply = xUSD.totalSupply(); // Final check should use latest value
         if (vaultValue > xusdSupply) {

@@ -15,7 +15,7 @@ const defaultNumAccounts = 10;
 const defaultAccountIndex = 4;
 
 // By default, fund each test account with 10k worth of each stable coin.
-const defaultFundAmount = "10000";
+const defaultFundAmount = "1000";
 
 // By default, mint 1k worth of XUSD for each test account.
 const defaultMintAmount = "1000";
@@ -213,7 +213,8 @@ async function fund(taskArguments, hre) {
     await Promise.all(
       contractDataList.map(async (contractData) => {
         const { contract, unitsFn, forkSigner, name } = contractData;
-        const usedFundAmount = contract !== null ? fundAmount : "100";
+        const usedFundAmount =
+          contract !== null && name != "WAVAX" ? fundAmount : "100";
         if (isFork) {
           // fund avax
           if (!contract) {

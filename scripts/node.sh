@@ -66,7 +66,7 @@ main()
         printf "\n"
         echo "🟢 Node initialized"
         yarn deploy --network localhost --tags mocks
-        FORK=$FORK npx hardhat fund --amount 10000 --network localhost --accountsfromenv true
+        FORK=$FORK npx hardhat fund --amount 1000 --network localhost --accountsfromenv true
         FORK=$FORK yarn deploy --network localhost
         cat $nodeOutput
         tail -f -n0 $nodeOutput

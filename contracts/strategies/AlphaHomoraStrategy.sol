@@ -11,26 +11,33 @@ import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.s
 import { IERC20, InitializableAbstractStrategy } from "../utils/InitializableAbstractStrategy.sol";
 import { ICERC20 } from "../interfaces/alphaHomora/ICERC20.sol";
 import { ISafeBox } from "../interfaces/alphaHomora/ISafeBox.sol";
+import { IAlphaIncentiveDistributor } from "../interfaces/alphaHomora/IAlphaIncentiveDistributor.sol";
 
 contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     using SafeERC20 for IERC20;
+    address[] public incentiveControllerAddresses;
+    mapping(address => bytes32[]) internal _proofs;
+    mapping(address => uint256) internal _amounts;
 
     function initialize(
         address _platformAddress, // dead
         address _vaultAddress,
-        address _rewardTokenAddress, // ALPHA.e
+        address[] calldata _rewardTokenAddresses, // [WAVAX, ALPHA]
         address[] calldata _assets,
         address[] calldata _pTokens,
-        address _incentivesAddress
+        address[] calldata _incentiveControllersAddresses // [WAVAXcontrollerAddr, ALPHAcontrollerAddr]
     ) external onlyGovernor initializer {
-        // TODO implement incentivecontroller for ALPHA
-        // they use merkledistributor: https://etherscan.io/address/0x94207cb2a02f0dbc16040b6692ee1cb999e85d9b#code
-        //incentivesController = IAlphaIncentivesDistributor(_incentivesAddress);
-        _incentivesAddress;
+        require(
+            _rewardTokenAddresses.length ==
+                _incentiveControllerAddresses.length,
+            "not 1:1 rewards-to-incentives"
+        );
+        incentiveControllerAddresses = _incentiveControllerAddresses;
+
         InitializableAbstractStrategy._initialize(
             _platformAddress,
             _vaultAddress,
-            _rewardTokenAddress,
+            _rewardTokenAddresses,
             _assets,
             _pTokens
         );
@@ -39,29 +46,25 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     event SkippedWithdrawal(address asset, uint256 amount);
 
     /**
-     * @dev Collect accumulated ALPHA and send to Vault.
+     * @dev Collect accumulated WAVAX and send to Vault.
      */
-    function collectRewardToken() external override onlyVault nonReentrant {
-        // TODO: implement WAVAX rewards on safebox
-        ISafeBox safeBox = _getSafeBoxFor(assetsMapped[0]);
-        // ICERC20 cToken = _getCTokenFor(assetsMapped[0]);
-        /* IComptroller comptroller = IpComptroller(cToken.comptroller()); */
-        /* // Only collect from active cTokens, saves gas */
-        /* address[] memory ctokensToCollect = new address[](assetsMapped.length); */
-        /* for (uint256 i = 0; i < assetsMapped.length; i++) { */
-        /*     ICERC20 cToken = _getCTokenFor(assetsMapped[i]); */
-        /*     ctokensToCollect[i] = address(cToken); */
-        /* } */
-        /* // Claim only for this strategy */
-        /* address[] memory claimers = new address[](1); */
-        /* claimers[0] = address(this); */
-        /* // Claim COMP from Comptroller. Only collect for supply, saves gas */
-        /* comptroller.claimComp(claimers, ctokensToCollect, false, true); */
-        /* // Transfer COMP to Vault */
-        /* IERC20 rewardToken = IERC20(rewardTokenAddress); */
-        /* uint256 balance = rewardToken.balanceOf(address(this)); */
-        /* emit RewardTokenCollected(vaultAddress, balance); */
-        /* rewardToken.safeTransfer(vaultAddress, balance); */
+    function collectRewardTokens() external override onlyVault nonReentrant {
+        for (uint256 i = 0; i < _rewardTokenAddresses.length; i++) {
+            _incentivesController = IAlphaIncentivesController(
+                incentivesControllerAddresses[i]
+            );
+            require(_incentivesController.token() == rewardTokenAddresses[i]);
+            uint256 amount = _amounts[_rewardTokenAddresses[i]];
+            uint256 _claimed = _incentivesController.claimed[address(this)]; // FIXME: [] or ()?
+            if (_claimed < amount) {
+                _incentivesController.claim(address(this), _amount, proof);
+                /* // Transfer rewards to Vault */
+                IERC20 rewardToken = IERC20(rewardTokenAddress);
+                uint256 balance = rewardToken.balanceOf(address(this));
+                emit RewardTokenCollected(vaultAddress, rewardTokenAddresses[i], balance);
+                rewardToken.safeTransfer(vaultAddress, balance);
+            }
+        }
     }
 
     /**
@@ -277,5 +280,21 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
         // e.g. 1e18*1e18 / 205316390724364402565641705 = 50e8
         // e.g. 1e8*1e18 / 205316390724364402565641705 = 0.45 or 0
         amount = (_underlying * 1e18) / exchangeRate;
+    }
+
+    function setProofAndAmount(
+        address _address,
+        bytes32[] memory proof,
+        uint256 amount
+    ) onlyStrategistOrGovernor {
+        _proofs[_address] = proof;
+        _amounts[_address] = amount;
+    }
+
+    function getProofAndAmount(address _address)
+        public
+        returns (bytes32[], uint256)
+    {
+        return (_proofs[_address], _amounts[_address]);
     }
 }

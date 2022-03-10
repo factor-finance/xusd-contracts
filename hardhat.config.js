@@ -39,6 +39,7 @@ const {
   getAVTokenAddress,
   ercBalanceOf,
 } = require("./tasks/contracts.js");
+const { ahProofUpdate } = require("./tasks/strategies.js");
 const addresses = require("./utils/addresses.js");
 
 const mnemonic =
@@ -129,6 +130,9 @@ task("proposal", "Dumps the state of a proposal")
 task("governors", "Get list of governors for all contracts").setAction(
   governors
 );
+
+// Strategy tasks
+task("ahProofUpdate", "fetch and update the AH proof", ahProofUpdate);
 
 // util tasks
 task("printHashes", "print hashes needed for storage slots", printHashes);

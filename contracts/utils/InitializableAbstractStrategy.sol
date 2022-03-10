@@ -42,12 +42,11 @@ abstract contract InitializableAbstractStrategy is Initializable, Governable {
     // Full list of all assets supported here
     address[] internal assetsMapped;
 
-    // Reward token address
-    address public rewardTokenAddress;
-
     // Deprecated: Reward token address
     // slither-disable-next-line constable-states
     address public _deprecated_rewardTokenAddress;
+
+    // Liquidation threshold for any of rewardTokens
     uint256 public rewardLiquidationThreshold;
 
     // Reward token addresses

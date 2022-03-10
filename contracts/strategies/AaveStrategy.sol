@@ -231,7 +231,7 @@ contract AaveStrategy is InitializableAbstractStrategy {
      * @dev Collect AAVE, send to Vault.
      */
     function collectRewardTokens() external override onlyVault nonReentrant {
-        require(rewardTokenAddresses.length == 0, "Only supports single reward.");
+        require(rewardTokenAddresses.length == 1, "Only supports single reward.");
         IERC20 rewardToken = IERC20(rewardTokenAddresses[0]);
 
         address[] memory aTokens = new address[](assetsMapped.length);

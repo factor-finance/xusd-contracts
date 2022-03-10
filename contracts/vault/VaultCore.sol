@@ -217,24 +217,28 @@ contract VaultCore is VaultStorage {
         // date picture of total assets before allocating to strategies.
         for (uint256 i = 0; i < allStrategies.length; i++) {
             IStrategy strategy = IStrategy(allStrategies[i]);
-            address rewardTokenAddress = strategy.getRewardTokenAddresses()[0];
-            if (rewardTokenAddress != address(0)) {
-                uint256 liquidationThreshold = strategy
-                    .rewardLiquidationThreshold();
-                if (liquidationThreshold == 0) {
-                    // No threshold set, always harvest from strategy
-                    IVault(address(this)).harvestAndSwap(allStrategies[i]);
-                } else {
-                    // Check balance against liquidation threshold
-                    // Note some strategies don't hold the reward token balance
-                    // on their contract so the liquidation threshold should be
-                    // set to 0
-                    IERC20 rewardToken = IERC20(rewardTokenAddress);
-                    uint256 rewardTokenAmount = rewardToken.balanceOf(
-                        allStrategies[i]
-                    );
-                    if (rewardTokenAmount >= liquidationThreshold) {
+            address[] memory rewardTokenAddresses = strategy.getRewardTokenAddresses();
+            for (uint256 j = 0; j < rewardTokenAddresses.length; j++) {
+                if (rewardTokenAddresses[j] != address(0)) {
+                    uint256 liquidationThreshold = strategy
+                        .rewardLiquidationThreshold();
+                    if (liquidationThreshold == 0) {
+                        // No threshold set, always harvest from strategy
                         IVault(address(this)).harvestAndSwap(allStrategies[i]);
+                    } else {
+                        // Check balance against liquidation threshold
+                        // Note some strategies don't hold the reward token balance
+                        // on their contract so the liquidation threshold should be
+                        // set to 0
+                        IERC20 rewardToken = IERC20(rewardTokenAddresses[j]);
+                        uint256 rewardTokenAmount = rewardToken.balanceOf(
+                            allStrategies[i]
+                        );
+                        if (rewardTokenAmount >= liquidationThreshold) {
+                            IVault(address(this)).harvestAndSwap(
+                                allStrategies[i]
+                            );
+                        }
                     }
                 }
             }

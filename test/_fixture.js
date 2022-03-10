@@ -368,11 +368,11 @@ async function curveUsdcPoolFixture() {
   // Set governor as vault
   await fixture.tpStandalone.connect(sGovernor)[
     // eslint-disable-next-line
-    "initialize(address,address,address,address[],address[],address)"
+    "initialize(address,address,address[],address[],address[],address)"
   ](
     assetAddresses.CurveUsdcPool,
     governorAddr, // Using Governor in place of Vault here
-    assetAddresses.WAVAX,
+    [assetAddresses.WAVAX],
     [assetAddresses.USDC, assetAddresses.USDC_native],
     [assetAddresses.CurveUsdcToken, assetAddresses.CurveUsdcToken],
     assetAddresses.CurveUsdcPoolGauge
@@ -399,12 +399,12 @@ async function multiStrategyVaultFixture() {
   const cStrategyTwo = await ethers.getContract("StrategyTwo");
   // Initialize the second strategy with DAI and USDC
   const initFunctionName =
-    "initialize(address,address,address,address[],address[],address)";
+    "initialize(address,address,address[],address[],address[],address)";
   await cStrategyTwo.connect(sGovernor)[initFunctionName](
     // eslint-disable-line
     assetAddresses.AAVE_ADDRESS_PROVIDER,
     fixture.vault.address,
-    assetAddresses.WAVAX,
+    [assetAddresses.WAVAX],
     [assetAddresses.DAI, assetAddresses.USDC],
     [assetAddresses.avDAI, assetAddresses.avUSDC],
     assetAddresses.AAVE_INCENTIVES_CONTROLLER
@@ -427,7 +427,7 @@ async function multiStrategyVaultFixture() {
     // eslint-disable-line
     assetAddresses.AAVE_ADDRESS_PROVIDER,
     fixture.vault.address,
-    assetAddresses.WAVAX,
+    [assetAddresses.WAVAX],
     [assetAddresses.DAI],
     [assetAddresses.avDAI],
     assetAddresses.AAVE_INCENTIVES_CONTROLLER

@@ -450,10 +450,11 @@ contract VaultAdmin is VaultStorage {
     {
         IStrategy strategy = IStrategy(_strategyAddr);
         _harvest(address(strategy));
-        address rewardTokenAddress = strategy.getRewardTokenAddresses()[0];
-        if (rewardTokenAddress != address(0)) {
-            return _swap(strategy.getRewardTokenAddresses()[0]);
+        address[] memory rewardTokenAddresses = strategy.getRewardTokenAddresses();
+        for (uint i = 0; i < rewardTokenAddresses.length; i++) {
+            _swap(rewardTokenAddresses[i]);
         }
+
     }
 
     /**
@@ -463,8 +464,8 @@ contract VaultAdmin is VaultStorage {
      */
     function _harvest(address _strategyAddr) internal {
         IStrategy strategy = IStrategy(_strategyAddr);
-        address rewardTokenAddress = strategy.getRewardTokenAddresses()[0];
-        if (rewardTokenAddress != address(0)) {
+        address[] memory rewardTokenAddresses = strategy.getRewardTokenAddresses();
+        if (rewardTokenAddresses.length != 0) {
             strategy.collectRewardTokens();
         }
     }

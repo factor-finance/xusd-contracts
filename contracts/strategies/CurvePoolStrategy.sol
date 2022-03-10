@@ -26,7 +26,7 @@ contract CurveUsdcStrategy is BaseCurveStrategy {
      * well within that abstraction.
      * @param _platformAddress Address of the Curve pool
      * @param _vaultAddress Address of the vault
-     * @param _rewardTokenAddresses Addresses of reward tokens
+     * @param _rewardTokenAddresses Address of reward
      * @param _assets Addresses of supported assets. MUST be passed in the same
      *                order as returned by coins on the pool contract, i.e.
      *                USDC, USDCe

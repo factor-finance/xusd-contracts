@@ -73,9 +73,9 @@ describe("Vault with Aave strategy", function () {
     ).to.be.revertedWith("Caller is not the Governor");
   });
 
-  it("Only Vault can call collectRewardToken", async () => {
+  it("Only Vault can call collectRewardTokens", async () => {
     await expect(
-      aaveStrategy.connect(matt).collectRewardToken()
+      aaveStrategy.connect(matt).collectRewardTokens()
     ).to.be.revertedWith("Caller is not the Vault");
   });
 

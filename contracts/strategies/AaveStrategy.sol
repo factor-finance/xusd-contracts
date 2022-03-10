@@ -27,7 +27,7 @@ contract AaveStrategy is InitializableAbstractStrategy {
      * addresses for the rewards program.
      * @param _platformAddress Address of the AAVE pool
      * @param _vaultAddress Address of the vault
-     * @param _rewardTokenAddress Address of the AAVE token
+     * @param _rewardTokenAddresses Addresses of the reward token(s)
      * @param _assets Addresses of supported assets
      * @param _pTokens Platform Token corresponding addresses
      * @param _incentivesAddress Address of the AAVE incentives controller
@@ -35,7 +35,7 @@ contract AaveStrategy is InitializableAbstractStrategy {
     function initialize(
         address _platformAddress, // AAVE pool
         address _vaultAddress,
-        address _rewardTokenAddress, // AAVE
+        address[] calldata _rewardTokenAddresses, // [AAVE]
         address[] calldata _assets,
         address[] calldata _pTokens,
         address _incentivesAddress
@@ -44,7 +44,7 @@ contract AaveStrategy is InitializableAbstractStrategy {
         InitializableAbstractStrategy._initialize(
             _platformAddress,
             _vaultAddress,
-            _rewardTokenAddress,
+            _rewardTokenAddresses,
             _assets,
             _pTokens
         );
@@ -230,8 +230,9 @@ contract AaveStrategy is InitializableAbstractStrategy {
     /**
      * @dev Collect AAVE, send to Vault.
      */
-    function collectRewardToken() external override onlyVault nonReentrant {
-        IERC20 rewardToken = IERC20(rewardTokenAddress);
+    function collectRewardTokens() external override onlyVault nonReentrant {
+        require(rewardTokenAddresses.length == 1, "Only supports single reward.");
+        IERC20 rewardToken = IERC20(rewardTokenAddresses[0]);
 
         address[] memory aTokens = new address[](assetsMapped.length);
         for (uint256 i = 0; i < assetsMapped.length; i++) {

@@ -50,10 +50,10 @@ module.exports = deploymentWithProposal(
     await withConfirmation(
       cCurveUsdcStrategy
         .connect(sDeployer)
-        ["initialize(address,address,address,address[],address[],address)"](
+        ["initialize(address,address,address[],address[],address[],address)"](
           assetAddresses.CurveUsdcPool,
           cVaultProxy.address,
-          assetAddresses.WAVAX,
+          [assetAddresses.CRV, assetAddresses.WAVAX],
           // Ordered!
           [assetAddresses.USDC, assetAddresses.USDC_native],
           [assetAddresses.CurveUsdcToken, assetAddresses.CurveUsdcToken],

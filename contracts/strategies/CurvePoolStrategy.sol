@@ -26,7 +26,7 @@ contract CurveUsdcStrategy is BaseCurveStrategy {
      * well within that abstraction.
      * @param _platformAddress Address of the Curve pool
      * @param _vaultAddress Address of the vault
-     * @param _rewardTokenAddress Address of reward
+     * @param _rewardTokenAddresses Address of reward
      * @param _assets Addresses of supported assets. MUST be passed in the same
      *                order as returned by coins on the pool contract, i.e.
      *                USDC, USDCe
@@ -36,7 +36,7 @@ contract CurveUsdcStrategy is BaseCurveStrategy {
     function initialize(
         address _platformAddress, // Pool address
         address _vaultAddress,
-        address _rewardTokenAddress, // WAVAX, multiple not implemented.
+        address[] calldata _rewardTokenAddresses, // [WAVAX, CRV]
         address[] calldata _assets,
         address[] calldata _pTokens,
         address _crvGaugeAddress
@@ -49,7 +49,7 @@ contract CurveUsdcStrategy is BaseCurveStrategy {
         super._initialize(
             _platformAddress,
             _vaultAddress,
-            _rewardTokenAddress,
+            _rewardTokenAddresses,
             _assets,
             _pTokens
         );
@@ -108,11 +108,11 @@ contract CurveUsdcStrategy is BaseCurveStrategy {
     /**
      * @dev Collect accumulated rewards and send to Vault.
      */
-    function collectRewardToken() external override onlyVault nonReentrant {
+    function collectRewardTokens() external override onlyVault nonReentrant {
         // Collect rewards directly to the vault.
         // N.B. if there are new rewards, we do not need to transfer them.
         ICurveGauge(crvGaugeAddress).claim_rewards(address(this), vaultAddress);
-        // FIXME: compute amounts transfered
+        // FIXME: for each reward token: compute diff on vault and emit amounts claimed
         // emit RewardTokenCollected(vaultAddress, amount);
     }
 }

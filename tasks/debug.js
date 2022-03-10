@@ -287,8 +287,8 @@ async function debug(taskArguments, hre) {
   console.log("vaultAddress:\t\t\t", await aaveStrategy.vaultAddress());
   console.log("platformAddress:\t\t", await aaveStrategy.platformAddress());
   console.log(
-    "rewardTokenAddress:\t\t",
-    await aaveStrategy.rewardTokenAddress()
+    "rewardTokenAddresses:\t\t",
+    await aaveStrategy.getRewardTokenAddresses()
   );
   console.log(
     "rewardLiquidationThreshold:\t",
@@ -309,8 +309,8 @@ async function debug(taskArguments, hre) {
     await curveUsdcStrategy.platformAddress()
   );
   console.log(
-    "rewardTokenAddress:\t\t",
-    await curveUsdcStrategy.rewardTokenAddress()
+    "rewardTokenAddresses:\t\t",
+    await curveUsdcStrategy.getRewardTokenAddresses()
   );
   console.log(
     "rewardLiquidationThreshold:\t",

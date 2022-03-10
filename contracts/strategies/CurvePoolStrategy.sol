@@ -36,7 +36,7 @@ contract CurveUsdcStrategy is BaseCurveStrategy {
     function initialize(
         address _platformAddress, // Pool address
         address _vaultAddress,
-        address[] calldata _rewardTokenAddresses, // [WAVAX, CRV]
+        address[] calldata _rewardTokenAddresses, // [CRV, WAVAX]
         address[] calldata _assets,
         address[] calldata _pTokens,
         address _crvGaugeAddress

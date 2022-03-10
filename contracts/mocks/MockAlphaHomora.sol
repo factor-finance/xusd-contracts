@@ -99,7 +99,7 @@ contract MockSafeBox is ISafeBox, ReentrancyGuard, ERC20 {
         ICERC20 _cToken,
         string memory _name,
         string memory _symbol
-    ) public ERC20(_name, _symbol) {
+    ) ERC20(_name, _symbol) {
         IERC20 _uToken = IERC20(_cToken.underlying());
         cToken = _cToken;
         uToken = _uToken;

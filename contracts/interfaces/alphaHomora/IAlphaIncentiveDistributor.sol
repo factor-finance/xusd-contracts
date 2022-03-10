@@ -5,4 +5,5 @@ interface IAlphaIncentiveDistributor {
     // Returns the address of the token distributed by this contract.
     function token() external view returns (address);
     function claim(address _account, uint256 _reward, bytes32[] calldata _proof) external;
+    function claimed(address _account) external view returns (uint256);
 }

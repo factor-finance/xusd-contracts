@@ -15,6 +15,12 @@ import { IAlphaIncentiveDistributor } from "../interfaces/alphaHomora/IAlphaInce
 
 contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     using SafeERC20 for IERC20;
+
+    event StrategistUpdated(address _address);
+
+    // Address of the Strategist
+    address public strategistAddr = address(0);
+
     address[] public incentiveControllerAddresses;
     mapping(address => bytes32[]) internal _proofs;
     mapping(address => uint256) internal _amounts;
@@ -25,7 +31,7 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
         address[] calldata _rewardTokenAddresses, // [WAVAX, ALPHA]
         address[] calldata _assets,
         address[] calldata _pTokens,
-        address[] calldata _incentiveControllersAddresses // [WAVAXcontrollerAddr, ALPHAcontrollerAddr]
+        address[] calldata _incentiveControllerAddresses // [WAVAXcontrollerAddr, ALPHAcontrollerAddr]
     ) external onlyGovernor initializer {
         require(
             _rewardTokenAddresses.length ==
@@ -49,15 +55,16 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
      * @dev Collect accumulated WAVAX and send to Vault.
      */
     function collectRewardTokens() external override onlyVault nonReentrant {
-        for (uint256 i = 0; i < _rewardTokenAddresses.length; i++) {
-            _incentivesController = IAlphaIncentivesController(
-                incentivesControllerAddresses[i]
+        for (uint256 i = 0; i < rewardTokenAddresses.length; i++) {
+            IAlphaIncentiveDistributor _incentivesController = IAlphaIncentiveDistributor(
+                incentiveControllerAddresses[i]
             );
             require(_incentivesController.token() == rewardTokenAddresses[i]);
-            uint256 amount = _amounts[_rewardTokenAddresses[i]];
-            uint256 _claimed = _incentivesController.claimed[address(this)]; // FIXME: [] or ()?
-            if (_claimed < amount) {
-                _incentivesController.claim(address(this), _amount, proof);
+            uint256 _amount = _amounts[rewardTokenAddresses[i]];
+            bytes32[] memory _proof = _proofs[rewardTokenAddresses[i]];
+            uint256 _claimed = _incentivesController.claimed(address(this));
+            if (_claimed < _amount) {
+                _incentivesController.claim(address(this), _amount, _proof);
                 /* // Transfer rewards to Vault */
                 IERC20 rewardToken = IERC20(rewardTokenAddress);
                 uint256 balance = rewardToken.balanceOf(address(this));
@@ -284,17 +291,35 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
 
     function setProofAndAmount(
         address _address,
-        bytes32[] memory proof,
+        bytes32[] calldata proof,
         uint256 amount
-    ) onlyStrategistOrGovernor {
+    ) external onlyGovernorOrStrategist {
         _proofs[_address] = proof;
         _amounts[_address] = amount;
     }
 
     function getProofAndAmount(address _address)
-        public
-        returns (bytes32[], uint256)
+        external
+        view
+        returns (bytes32[] memory, uint256)
     {
         return (_proofs[_address], _amounts[_address]);
+    }
+
+    modifier onlyGovernorOrStrategist() {
+        require(
+            msg.sender == strategistAddr || isGovernor(),
+            "Caller is not the Strategist or Governor"
+        );
+        _;
+    }
+
+    /**
+     * @dev Set address of Strategist
+     * @param _address Address of Strategist
+     */
+    function setStrategistAddr(address _address) external onlyGovernor {
+        strategistAddr = _address;
+        emit StrategistUpdated(_address);
     }
 }

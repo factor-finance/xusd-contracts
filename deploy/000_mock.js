@@ -108,7 +108,6 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
     contract: "MockSafeBox",
     from: deployerAddr,
   });
-  // TODO Deploy mock IncentivesController
 
   const curveUsdcToken = await ethers.getContract("MockUsdcPair");
 

@@ -24,6 +24,13 @@ module.exports = deploymentWithProposal(
     // Current contract
     const cVaultProxy = await ethers.getContract("VaultProxy");
     const cVault = await ethers.getContractAt("Vault", cVaultProxy.address);
+    let oracleRouter;
+    if (isTest) {
+      oracleRouter = await ethers.getContract("OracleRouter");
+    } else {
+      oracleRouter = await deployWithConfirmation("OracleRouter");
+      log("Deploying oracleRouter with native stablecoins");
+    }
 
     const dAlphaHomoraStrategyProxy = await deployWithConfirmation(
       "AlphaHomoraStrategyProxy"
@@ -88,6 +95,12 @@ module.exports = deploymentWithProposal(
 
     let actions;
     actions = [
+      // deploy new oracle feed with ALPHA
+      {
+        contract: cVault,
+        signature: "setPriceProvider(address)",
+        args: [oracleRouter.address],
+      },
       // claimGovernance using pending set above.
       {
         contract: cAlphaHomoraStrategy,

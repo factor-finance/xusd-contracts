@@ -247,6 +247,7 @@ const getAssetAddresses = async (deployments) => {
       TUSD: addresses.mainnet.TUSD,
       WAVAX: addresses.mainnet.WAVAX,
       CRV: addresses.mainnet.CRV,
+      ALPHA: addresses.mainnet.ALPHA,
       avDAI: addresses.mainnet.avDAI,
       avUSDC: addresses.mainnet.avUSDC,
       avUSDT: addresses.mainnet.avUSDT,

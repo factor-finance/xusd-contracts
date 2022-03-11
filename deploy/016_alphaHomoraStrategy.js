@@ -24,6 +24,11 @@ module.exports = deploymentWithProposal(
     // Current contract
     const cVaultProxy = await ethers.getContract("VaultProxy");
     const cVault = await ethers.getContractAt("Vault", cVaultProxy.address);
+    const cVaultAdmin = await ethers.getContractAt(
+      "VaultAdmin",
+      cVaultProxy.address
+    );
+
     let oracleRouter;
     if (isTest) {
       oracleRouter = await ethers.getContract("OracleRouter");
@@ -36,6 +41,9 @@ module.exports = deploymentWithProposal(
       "AlphaHomoraStrategyProxy"
     );
     const cAlphaHomoraStrategyProxy = await ethers.getContract(
+      "AlphaHomoraStrategyProxy"
+    );
+    const cAaveStrategyProxy = await ethers.getContract(
       "AlphaHomoraStrategyProxy"
     );
     const dAlphaHomoraStrategy = await deployWithConfirmation(
@@ -106,6 +114,17 @@ module.exports = deploymentWithProposal(
         contract: cAlphaHomoraStrategy,
         signature: "claimGovernance()",
         args: [],
+      },
+      {
+        // Move all USDT.e to AH
+        contract: cVaultAdmin,
+        signature: "reallocate(address,address,address[],uint256[])",
+        args: [
+          cAaveStrategyProxy.address, // from
+          cAlphaHomoraStrategyProxy.address, // to
+          [assetAddresses.DAIe], // assets
+          [ethers.utils.parseEther("9.499236")], // amounts
+        ],
       },
     ];
     if (!isTest) {

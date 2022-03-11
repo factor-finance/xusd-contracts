@@ -5,13 +5,22 @@ import { MintableERC20 } from "./MintableERC20.sol";
 
 contract MockAlphaIncentivesController {
     mapping(address => uint256) private rewards;
+    address private vaultAddress;
+    mapping(address => uint256) public claimed;
+    address public token;
     MintableERC20 public REWARD_TOKEN;
 
     constructor(address _reward_token) {
-        REWARD_TOKEN = MintableERC20(_reward_token);
+        token = _reward_token;
+        REWARD_TOKEN = MintableERC20(token);
     }
 
-    function setRewardsBalance(address user, uint256 amount) external {
+
+    function setVault(address _vaultAddress) external {
+        vaultAddress = _vaultAddress;
+    }
+
+    function setRewardBalance(address user, uint256 amount) external {
         rewards[user] = amount;
     }
 
@@ -20,7 +29,7 @@ contract MockAlphaIncentivesController {
      * @param user The address of the user
      * @return The rewards
      **/
-    function getRewardsBalance(address[] calldata assets, address user)
+    function getRewardBalance(address user)
         external
         view
         returns (uint256)
@@ -34,16 +43,21 @@ contract MockAlphaIncentivesController {
      * @param to Address that will be receiving the rewards
      * @return Rewards claimed
      **/
-    function claimRewards(
-        address[] calldata assets,
+    function claim(
+        address to,
         uint256 amount,
-        address to
+        bytes32[] calldata proof
     ) external returns (uint256) {
-        require(amount > 0);
+        if(amount == 0) {
+            return 0;
+        }
         require(rewards[to] == amount);
+        require(proof.length > 0);
+        require(vaultAddress != address(0));
         REWARD_TOKEN.mint(amount);
-        require(REWARD_TOKEN.transfer(to, amount));
+        require(REWARD_TOKEN.transfer(vaultAddress, amount));
         rewards[to] = 0;
+        claimed[to] = claimed[to] + amount;
         return amount;
     }
 }

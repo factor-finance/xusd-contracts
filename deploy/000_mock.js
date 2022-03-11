@@ -170,6 +170,11 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
     contract: "MockChainlinkOracleFeed",
     args: [parseUnits("1", 8).toString(), 18], // 1 CRV = 1 USD, 8 digits decimal.
   });
+  await deploy("MockChainlinkOracleFeedALPHA", {
+    from: deployerAddr,
+    contract: "MockChainlinkOracleFeed",
+    args: [parseUnits("1", 8).toString(), 18], // 1 ALPHA = 1 USD, 8 digits decimal.
+  });
 
   // Deploy mock Uniswap router
   await deploy("MockPangolinRouter", {
@@ -180,7 +185,7 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
     from: deployerAddr,
     args: [],
   });
-  await deploy("MockALPHAToken", {
+  await deploy("MockALPHA", {
     from: deployerAddr,
     args: [],
   });
@@ -190,10 +195,16 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
     from: deployerAddr,
     args: [wavax.address],
   });
-  const alpha = await ethers.getContract("MockALPHAToken");
-  await deploy("MockAlphaIncentivesController", {
+  const alpha = await ethers.getContract("MockALPHA");
+  await deploy("MockAlphaIncentivesControllerALPHA", {
     from: deployerAddr,
+    contract: "MockAlphaIncentivesController",
     args: [alpha.address],
+  });
+  await deploy("MockAlphaIncentivesControllerWAVAX", {
+    from: deployerAddr,
+    contract: "MockAlphaIncentivesController",
+    args: [wavax.address],
   });
 
   await deploy("MockNonRebasing", {

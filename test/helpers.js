@@ -196,6 +196,7 @@ const getOracleAddresses = async (deployments) => {
         USDC_USD: addresses.mainnet.chainlinkUSDC_USD,
         USDCe_USD: addresses.mainnet.chainlinkUSDCe_USD,
         USDT_USD: addresses.mainnet.chainlinkUSDT_USD,
+        ALPHA_USD: addresses.mainnet.chainlinkALPHA_USD,
       },
     };
   } else if (isFuji || isFujiFork) {
@@ -213,6 +214,8 @@ const getOracleAddresses = async (deployments) => {
         AVAX_USD: (await deployments.get("MockChainlinkOracleFeedAVAX"))
           .address,
         WAVAX_USD: (await deployments.get("MockChainlinkOracleFeedWAVAX"))
+          .address,
+        ALPHA_USD: (await deployments.get("MockChainlinkOracleFeedALPHA"))
           .address,
         DAI_USD: (await deployments.get("MockChainlinkOracleFeedDAI")).address,
         USDC_USD: (await deployments.get("MockChainlinkOracleFeedUSDC"))
@@ -253,8 +256,10 @@ const getAssetAddresses = async (deployments) => {
       SafeBoxDAIe: addresses.mainnet.SafeBoxDAIe,
       SafeBoxUSDTe: addresses.mainnet.SafeBoxUSDTe,
       SafeBoxUSDCe: addresses.mainnet.SafeBoxUSDCe,
-      ALPHA_INCENTIVES_CONTROLLER:
-        addresses.mainnet.ALPHA_INCENTIVES_CONTROLLER,
+      ALPHA_INCENTIVES_CONTROLLER_ALPHAe:
+        addresses.mainnet.ALPHA_INCENTIVES_CONTROLLER_ALPHAe,
+      ALPHA_INCENTIVES_CONTROLLER_WAVAX:
+        addresses.mainnet.ALPHA_INCENTIVES_CONTROLLER_WAVAX,
       USDC_native: addresses.mainnet.USDC_native,
       CurveUsdcToken: addresses.mainnet.CurveUsdcToken,
       CurveUsdcPool: addresses.mainnet.CurveUsdcPool,
@@ -287,6 +292,7 @@ const getAssetAddresses = async (deployments) => {
       NonStandardToken: (await deployments.get("MockNonStandardToken")).address,
       WAVAX: (await deployments.get("MockWAVAX")).address,
       CRV: (await deployments.get("MockCRV")).address,
+      ALPHA: (await deployments.get("MockALPHA")).address,
       avDAI: (await deployments.get("MockADAI")).address,
       avUSDC: (await deployments.get("MockAUSDC")).address,
       avUSDT: (await deployments.get("MockAUSDT")).address,
@@ -298,8 +304,11 @@ const getAssetAddresses = async (deployments) => {
       SafeBoxDAIe: (await deployments.get("MockSafeBoxDAI.e")).address,
       SafeBoxUSDTe: (await deployments.get("MockSafeBoxUSDT.e")).address,
       SafeBoxUSDCe: (await deployments.get("MockSafeBoxUSDC.e")).address,
-      ALPHA_INCENTIVES_CONTROLLER: (
-        await deployments.get("MockAlphaIncentivesController")
+      ALPHA_INCENTIVES_CONTROLLER_ALPHAe: (
+        await deployments.get("MockAlphaIncentivesControllerALPHA")
+      ).address,
+      ALPHA_INCENTIVES_CONTROLLER_WAVAX: (
+        await deployments.get("MockAlphaIncentivesControllerWAVAX")
       ).address,
       USDC_native: (await deployments.get("MockUSDCNative")).address,
       CurveUsdcPool: (await deployments.get("MockCurvePool")).address,

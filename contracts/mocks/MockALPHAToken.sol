@@ -3,6 +3,6 @@ pragma solidity ^0.8.0;
 
 import "./MintableERC20.sol";
 
-contract MockALPHAToken is MintableERC20 {
+contract MockALPHA is MintableERC20 {
     constructor() ERC20("ALPHA", "ALPHA") {}
 }

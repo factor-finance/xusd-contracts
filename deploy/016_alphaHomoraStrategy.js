@@ -13,7 +13,7 @@ const addresses = require("../utils/addresses.js");
 
 module.exports = deploymentWithProposal(
   {
-    deployName: "012_alphaHomoraStrategy",
+    deployName: "016_alphaHomoraStrategy",
     skip: () => isFuji || isFujiFork,
   },
   async ({ deployWithConfirmation, ethers, getTxOpts }) => {
@@ -45,23 +45,28 @@ module.exports = deploymentWithProposal(
         []
       )
     );
+
     log("Initialized AlphaHomoraStrategyProxy");
     const initFunctionName =
-      "initialize(address,address,address,address[],address[],address)";
+      "initialize(address,address,address[],address[],address[],address[])";
+
     await withConfirmation(
       cAlphaHomoraStrategy
         .connect(sDeployer)
         [initFunctionName](
           addresses.dead,
           cVaultProxy.address,
-          assetAddresses.WAVAX,
+          [assetAddresses.ALPHA, assetAddresses.WAVAX],
           [assetAddresses.DAIe, assetAddresses.USDTe, assetAddresses.USDCe],
           [
             assetAddresses.SafeBoxDAIe,
             assetAddresses.SafeBoxUSDTe,
             assetAddresses.SafeBoxUSDCe,
           ],
-          assetAddresses.ALPHA_INCENTIVES_CONTROLLER
+          [
+            assetAddresses.ALPHA_INCENTIVES_CONTROLLER_ALPHAe,
+            assetAddresses.ALPHA_INCENTIVES_CONTROLLER_WAVAX,
+          ]
         )
     );
     log("Initialized AlphaHomoraStrategy");

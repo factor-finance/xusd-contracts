@@ -48,8 +48,11 @@ async function defaultFixture() {
     "AlphaHomoraStrategy",
     alphaHomoraStrategyProxy.address
   );
-  const alphaHomoraIncentivesController = await ethers.getContract(
-    "MockAlphaIncentivesController"
+  const alphaHomoraIncentivesControllerALPHA = await ethers.getContract(
+    "MockAlphaIncentivesControllerALPHA"
+  );
+  const alphaHomoraIncentivesControllerWAVAX = await ethers.getContract(
+    "MockAlphaIncentivesControllerWAVAX"
   );
 
   const oracleRouter = await ethers.getContract("OracleRouter");
@@ -125,6 +128,7 @@ async function defaultFixture() {
     usdtSafeBox = await ethers.getContract("MockSafeBoxUSDT.e");
     usdcSafeBox = await ethers.getContract("MockSafeBoxUSDC.e");
     daiSafeBox = await ethers.getContract("MockSafeBoxDAI.e");
+    alphaToken = await ethers.getContract("MockALPHA");
     crv = await ethers.getContract("MockCRV");
     curveUsdcPool = await ethers.getContract("MockCurvePool");
     curveUsdcToken = await ethers.getContract("MockUsdcPair");
@@ -227,7 +231,8 @@ async function defaultFixture() {
     usdtSafeBox,
     usdcSafeBox,
     daiSafeBox,
-    alphaHomoraIncentivesController,
+    alphaHomoraIncentivesControllerALPHA,
+    alphaHomoraIncentivesControllerWAVAX,
 
     crv,
     curveUsdcPool,

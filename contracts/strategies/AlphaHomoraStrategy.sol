@@ -9,17 +9,13 @@ pragma solidity ^0.8.0;
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 import { IERC20, InitializableAbstractStrategy } from "../utils/InitializableAbstractStrategy.sol";
+import { IVault } from "../interfaces/IVault.sol";
 import { ICERC20 } from "../interfaces/alphaHomora/ICERC20.sol";
 import { ISafeBox } from "../interfaces/alphaHomora/ISafeBox.sol";
 import { IAlphaIncentiveDistributor } from "../interfaces/alphaHomora/IAlphaIncentiveDistributor.sol";
 
 contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     using SafeERC20 for IERC20;
-
-    event StrategistUpdated(address _address);
-
-    // Address of the Strategist
-    address public strategistAddr = address(0);
 
     address[] public incentiveControllerAddresses;
     mapping(address => bytes32[]) internal _proofs;
@@ -28,10 +24,10 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     function initialize(
         address _platformAddress, // dead
         address _vaultAddress,
-        address[] calldata _rewardTokenAddresses, // [WAVAX, ALPHA]
+        address[] calldata _rewardTokenAddresses, // [ALPHA, WAVAX]
         address[] calldata _assets,
         address[] calldata _pTokens,
-        address[] calldata _incentiveControllerAddresses // [WAVAXcontrollerAddr, ALPHAcontrollerAddr]
+        address[] calldata _incentiveControllerAddresses // [ALPHAcontrollerAddr, WAVAXcontrollerAddr]
     ) external onlyGovernor initializer {
         require(
             _rewardTokenAddresses.length ==
@@ -52,13 +48,13 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     event SkippedWithdrawal(address asset, uint256 amount);
 
     /**
-     * @dev Collect accumulated WAVAX and send to Vault.
+     * @dev Collect accumulated WAVAX+ALPHA and send to Vault.
      */
     function collectRewardTokens() external override onlyVault nonReentrant {
         for (uint256 i = 0; i < rewardTokenAddresses.length; i++) {
             IAlphaIncentiveDistributor _incentivesController = IAlphaIncentiveDistributor(
-                incentiveControllerAddresses[i]
-            );
+                    incentiveControllerAddresses[i]
+                );
             require(_incentivesController.token() == rewardTokenAddresses[i]);
             uint256 _amount = _amounts[rewardTokenAddresses[i]];
             bytes32[] memory _proof = _proofs[rewardTokenAddresses[i]];
@@ -66,9 +62,13 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
             if (_claimed < _amount) {
                 _incentivesController.claim(address(this), _amount, _proof);
                 /* // Transfer rewards to Vault */
-                IERC20 rewardToken = IERC20(rewardTokenAddress);
+                IERC20 rewardToken = IERC20(rewardTokenAddresses[i]);
                 uint256 balance = rewardToken.balanceOf(address(this));
-                emit RewardTokenCollected(vaultAddress, rewardTokenAddresses[i], balance);
+                emit RewardTokenCollected(
+                    vaultAddress,
+                    rewardTokenAddresses[i],
+                    balance
+                );
                 rewardToken.safeTransfer(vaultAddress, balance);
             }
         }
@@ -289,37 +289,33 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
         amount = (_underlying * 1e18) / exchangeRate;
     }
 
+    /**
+     * @dev Sets the reward amount and merkle proof from off-chain.
+     * @param _rewardTokenAddress The reward token address
+     * @param proof the MerkleProof provided by AlphaHomora
+     */
     function setProofAndAmount(
-        address _address,
+        address _rewardTokenAddress,
         bytes32[] calldata proof,
         uint256 amount
     ) external onlyGovernorOrStrategist {
-        _proofs[_address] = proof;
-        _amounts[_address] = amount;
+        _proofs[_rewardTokenAddress] = proof;
+        _amounts[_rewardTokenAddress] = amount;
     }
 
-    function getProofAndAmount(address _address)
+    function getProofAndAmount(address _rewardTokenAddress)
         external
         view
         returns (bytes32[] memory, uint256)
     {
-        return (_proofs[_address], _amounts[_address]);
+        return (_proofs[_rewardTokenAddress], _amounts[_rewardTokenAddress]);
     }
 
     modifier onlyGovernorOrStrategist() {
         require(
-            msg.sender == strategistAddr || isGovernor(),
+            msg.sender == IVault(vaultAddress).strategistAddr() || isGovernor(),
             "Caller is not the Strategist or Governor"
         );
         _;
-    }
-
-    /**
-     * @dev Set address of Strategist
-     * @param _address Address of Strategist
-     */
-    function setStrategistAddr(address _address) external onlyGovernor {
-        strategistAddr = _address;
-        emit StrategistUpdated(_address);
     }
 }

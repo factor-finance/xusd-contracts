@@ -49,10 +49,13 @@ addresses.mainnet.AAVE_DATA_PROVIDER =
 addresses.mainnet.SafeBoxUSDTe = "0x858D6353A52c25C53Df1869230282d22b41f5790";
 addresses.mainnet.SafeBoxUSDCe = "0xD3843b60e69f958eF93BeC299467e6Ed301CbEeB";
 addresses.mainnet.SafeBoxDAIe = "0x69491FD9a6D9e32f32113cC076B1B69D8B9EBD3F";
-addresses.mainnet.ALPHA = "0x2147efff675e4a4ee1c2f918d181cdbd7a8e208f";
+addresses.mainnet.ALPHAe = "0x2147efff675e4a4ee1c2f918d181cdbd7a8e208f";
+addresses.mainnet.ALPHA = addresses.mainnet.ALPHAe;
 // this value changes every reward period?
-addresses.mainnet.ALPHA_INCENTIVES_CONTROLLER =
+addresses.mainnet.ALPHA_INCENTIVES_CONTROLLER_ALPHAe =
   "0x7424DDc7Ac9f60B3d0f7bCA9e438Dc2c1D44d043";
+addresses.mainnet.ALPHA_INCENTIVES_CONTROLLER_WAVAX =
+  "0xf40d48bb67508538bfab8091a919d2659a944b16";
 
 addresses.mainnet.CRV = "0x249848BeCA43aC405b8102Ec90Dd5F22CA513c06";
 addresses.mainnet.CurveUsdcToken = "0x3a43A5851A3e3E0e25A3c1089670269786be1577";
@@ -79,6 +82,8 @@ addresses.mainnet.chainlinkTUSD_USD =
   "0x827f8a0dc5c943f7524dda178e2e7f275aad743f"; // actually BUSD
 addresses.mainnet.chainlinkCRV_USD =
   "0x7CF8A6090A9053B01F3DF4D4e6CfEdd8c90d9027";
+addresses.mainnet.chainlinkALPHA_USD =
+  "0x7B0ca9A6D03FE0467A31Ca850f5bcA51e027B3aF";
 
 // WAVAX Token
 addresses.mainnet.WAVAX = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";

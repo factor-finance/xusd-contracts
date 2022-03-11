@@ -153,8 +153,11 @@ describe("AlphaHomora Strategy", function () {
       return async function () {
         const fixture = await loadFixture(alphaHomoraVaultFixture);
         const alphaHomoraStrategy = fixture.alphaHomoraStrategy;
-        const alphaHomoraIncentives = fixture.alphaHomoraIncentivesController;
-        const alphaHomora = fixture.alphaHomoraToken;
+        const alphaHomoraIncentives = [
+          fixture.alphaHomoraIncentivesControllerALPHA,
+          fixture.alphaHomoraIncentivesControllerWAVAX,
+        ];
+        const alphaToken = fixture.alphaToken;
         const vault = fixture.vault;
         const governor = fixture.governor;
 
@@ -168,16 +171,30 @@ describe("AlphaHomora Strategy", function () {
         // Setup for test
         // ----
         if (rewardsAmount > 0) {
-          await alphaHomoraIncentives.setRewardsBalance(
+          await alphaHomoraStrategy.connect(governor).setProofAndAmount(
+            alphaToken.address,
+            [
+              // just some random bytes
+              "0x05416460deb76d57af601be17e777b93592d8d4d4a4096c57876a91c84f4a712",
+            ],
+            rewardsAmount
+          );
+          await alphaHomoraIncentives[0].setRewardBalance(
             alphaHomoraStrategy.address,
             rewardsAmount
           );
+          await alphaHomoraIncentives[0].setVault(vault.address);
+          await alphaHomoraIncentives[1].setRewardBalance(
+            alphaHomoraStrategy.address,
+            "0"
+          );
+          await alphaHomoraIncentives[1].setVault(vault.address);
         }
-        const stratAlphaHomora = await alphaHomoraIncentives.getRewardsBalance(
-          [await alphaHomoraIncentives.REWARD_TOKEN()],
-          alphaHomoraStrategy.address
-        );
-        expect(stratAlphaHomora).to.be.equal(
+        const stratAlphaRewardBalance =
+          await alphaHomoraIncentives[0].getRewardBalance(
+            alphaHomoraStrategy.address
+          );
+        expect(stratAlphaRewardBalance).to.be.equal(
           rewardsAmount,
           "ALPHAHOMORA:Strategy"
         );
@@ -191,14 +208,17 @@ describe("AlphaHomora Strategy", function () {
         const { shouldClaimRewards } = verificationOpts;
         let verifyRewardsAmount = shouldClaimRewards ? 0 : rewardsAmount;
 
-        const vaultAlphaHomora = await alphaHomora.balanceOf(vault.address);
-        expect(vaultAlphaHomora).to.equal("0", "ALPHAHOMORA:Vault");
+        const verifyVaultAlphaHomora = await alphaToken.balanceOf(
+          vault.address
+        );
+        const verifyStratAlphaHomora = await alphaToken.balanceOf(
+          alphaHomoraStrategy.address
+        );
+        expect(verifyVaultAlphaHomora).to.equal(
+          rewardsAmount,
+          "ALPHAHOMORA:Vault"
+        );
 
-        const verifyStratAlphaHomora =
-          await alphaHomoraIncentives.getRewardsBalance(
-            [await alphaHomoraIncentives.REWARD_TOKEN()],
-            alphaHomoraStrategy.address
-          );
         expect(verifyStratAlphaHomora).to.be.equal(
           verifyRewardsAmount,
           "ALPHAHOMORA:Strategy"

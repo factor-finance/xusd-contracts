@@ -142,9 +142,11 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
         uint256 balanceBefore = IERC20(_asset).balanceOf(address(this));
         safeBox.withdraw(cTokensToRedeem);
         uint256 balanceAfter = IERC20(_asset).balanceOf(address(this));
+        uint256 erc = cToken.exchangeRateCurrent();
+        uint256 ers = cToken.exchangeRateStored();
         require(
-            balanceAfter - balanceBefore == _amount,
-            "Did not withdraw enough"
+                _amount <= balanceAfter - balanceBefore,
+                "Did not withdraw enough"
         );
         IERC20(_asset).safeTransfer(_recipient, _amount);
     }
@@ -173,7 +175,7 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
     /**
      * @dev Get the total asset value held in the platform
      *      This includes any interest that was generated since depositing
-     *      Compound exchange rate between the cToken and asset gradually increases,
+     *      CREAM exchange rate between the cToken and asset gradually increases,
      *      causing the cToken to be worth more corresponding asset.
      * @param _asset      Address of the asset
      * @return balance    Total value of the asset in the platform

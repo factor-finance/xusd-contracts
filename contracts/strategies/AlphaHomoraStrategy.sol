@@ -142,8 +142,6 @@ contract AlphaHomoraStrategy is InitializableAbstractStrategy {
         uint256 balanceBefore = IERC20(_asset).balanceOf(address(this));
         safeBox.withdraw(cTokensToRedeem);
         uint256 balanceAfter = IERC20(_asset).balanceOf(address(this));
-        uint256 erc = cToken.exchangeRateCurrent();
-        uint256 ers = cToken.exchangeRateStored();
         require(
                 _amount <= balanceAfter - balanceBefore,
                 "Did not withdraw enough"

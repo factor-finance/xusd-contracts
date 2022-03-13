@@ -115,21 +115,21 @@ module.exports = deploymentWithProposal(
         signature: "claimGovernance()",
         args: [],
       },
-      {
-        // Move all USDT.e to AH
-        contract: cVaultAdmin,
-        signature: "reallocate(address,address,address[],uint256[])",
-        args: [
-          cAaveStrategyProxy.address, // from
-          cAlphaHomoraStrategyProxy.address, // to
-          [assetAddresses.DAIe], // assets
-          [ethers.utils.parseEther("9.499236")], // amounts
-        ],
-      },
     ];
     if (!isTest) {
       actions = [
         ...actions,
+        {
+          // Move all USDT.e to AH
+          contract: cVaultAdmin,
+          signature: "reallocate(address,address,address[],uint256[])",
+          args: [
+            cAaveStrategyProxy.address, // from
+            cAlphaHomoraStrategyProxy.address, // to
+            [assetAddresses.DAIe], // assets
+            [ethers.utils.parseEther("9.499236")], // amounts
+          ],
+        },
         {
           contract: cVault,
           signature: "approveStrategy(address)",

@@ -10,5 +10,6 @@
   "011_vaultAdminUpgrade": 1643088424,
   "013_supportNativeUSDC": 1644292422,
   "014_curveUsdcPairStrategy": 1644293953,
-  "015_multipleRewardsOnStrategies": 1647295056
+  "015_multipleRewardsOnStrategies": 1647295056,
+  "016_alphaHomoraStrategy": 1647300021
 }

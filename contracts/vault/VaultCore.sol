@@ -217,7 +217,8 @@ contract VaultCore is VaultStorage {
         // date picture of total assets before allocating to strategies.
         for (uint256 i = 0; i < allStrategies.length; i++) {
             IStrategy strategy = IStrategy(allStrategies[i]);
-            address[] memory rewardTokenAddresses = strategy.getRewardTokenAddresses();
+            address[] memory rewardTokenAddresses = strategy
+                .getRewardTokenAddresses();
             for (uint256 j = 0; j < rewardTokenAddresses.length; j++) {
                 if (rewardTokenAddresses[j] != address(0)) {
                     uint256 liquidationThreshold = strategy

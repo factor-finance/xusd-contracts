@@ -10,6 +10,7 @@ const {
   isMainnet,
   isFork,
   isFuji,
+  isTest,
   getOracleAddresses,
   getAssetAddresses,
   isSmokeTest,
@@ -20,7 +21,6 @@ const {
   storeStorageLayoutForContract,
 } = require("../tasks/storageSlots");
 
-const addresses = require("../utils/addresses.js");
 const { getTxOpts } = require("../utils/tx");
 const { proposeArgs } = require("../utils/governor");
 
@@ -68,8 +68,9 @@ const deployWithConfirmation = async (
   );
 
   // save the new storage slot layout to the repo
-  await storeStorageLayoutForContract(hre, contractName);
-
+  if (!isTest) {
+    await storeStorageLayoutForContract(hre, contractName);
+  }
   log(`Deployed ${contractName}`, result);
   return result;
 };

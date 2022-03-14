@@ -28,6 +28,7 @@ const deployAaveStrategy = async () => {
   );
   const cAaveStrategyProxy = await ethers.getContract("AaveStrategyProxy");
   const dAaveStrategy = await deployWithConfirmation("AaveStrategy");
+
   const cAaveStrategy = await ethers.getContractAt(
     "AaveStrategy",
     dAaveStrategyProxy.address
@@ -39,17 +40,16 @@ const deployAaveStrategy = async () => {
       []
     )
   );
-
   log("Initialized AaveStrategyProxy");
   const initFunctionName =
-    "initialize(address,address,address,address[],address[],address)";
+    "initialize(address,address,address[],address[],address[],address)";
   await withConfirmation(
     cAaveStrategy
       .connect(sGovernor)
       [initFunctionName](
         assetAddresses.AAVE_ADDRESS_PROVIDER,
         cVaultProxy.address,
-        assetAddresses.WAVAX,
+        [assetAddresses.WAVAX],
         [assetAddresses.DAI, assetAddresses.USDT, assetAddresses.USDC],
         [assetAddresses.avDAI, assetAddresses.avUSDT, assetAddresses.avUSDC],
         assetAddresses.AAVE_INCENTIVES_CONTROLLER

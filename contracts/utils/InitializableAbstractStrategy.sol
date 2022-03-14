@@ -184,6 +184,7 @@ abstract contract InitializableAbstractStrategy is Initializable, Governable {
     {
         return rewardTokenAddresses;
     }
+
     /**
      * @dev Provide support for asset by passing its pToken address.
      *      This method can only be called by the system Governor

@@ -11,8 +11,6 @@ module.exports = deploymentWithProposal(
     skip: () => isFuji || isFujiFork,
   },
   async ({ deployWithConfirmation, ethers, getTxOpts }) => {
-    const { deployerAddr, governorAddr } = await hre.getNamedAccounts();
-    const sDeployer = await ethers.provider.getSigner(deployerAddr);
     const assetAddresses = await getAssetAddresses(hre.deployments);
 
     const dVaultAdmin = await deployWithConfirmation(
@@ -32,14 +30,6 @@ module.exports = deploymentWithProposal(
 
     // Current contracts
     const cVaultProxy = await ethers.getContract("VaultProxy");
-    const cVaultAdmin = await ethers.getContractAt(
-      "VaultAdmin",
-      cVaultProxy.address
-    );
-    const cVaultCore = await ethers.getContractAt(
-      "VaultCore",
-      cVaultProxy.address
-    );
     const cVault = await ethers.getContractAt("Vault", cVaultProxy.address);
 
     // Deployer Actions
@@ -52,6 +42,7 @@ module.exports = deploymentWithProposal(
       undefined,
       true // Disable storage slot checking, we are renaming variables in InitializableAbstractStrategy.
     );
+    // got to here and failed
     const dAaveStrategyImpl = await deployWithConfirmation(
       "AaveStrategy",
       undefined,

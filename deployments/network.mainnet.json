@@ -3,7 +3,7 @@
   "chainId": "43114",
   "contracts": {
     "AaveStrategy": {
-      "address": "0xC128072EA9b90AAb5FaD504980B841B24Ed99F06",
+      "address": "0xf4c6314Ca38787A45AC300B4018C4a37C286a86B",
       "abi": [
         {
           "anonymous": false,
@@ -149,8 +149,33 @@
           "inputs": [
             {
               "indexed": false,
+              "internalType": "address[]",
+              "name": "_oldAddresses",
+              "type": "address[]"
+            },
+            {
+              "indexed": false,
+              "internalType": "address[]",
+              "name": "_newAddresses",
+              "type": "address[]"
+            }
+          ],
+          "name": "RewardTokenAddressesUpdated",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
               "internalType": "address",
               "name": "recipient",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "rewardToken",
               "type": "address"
             },
             {
@@ -187,6 +212,19 @@
           ],
           "name": "Withdrawal",
           "type": "event"
+        },
+        {
+          "inputs": [],
+          "name": "_deprecated_rewardTokenAddress",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
         },
         {
           "inputs": [
@@ -235,7 +273,7 @@
         },
         {
           "inputs": [],
-          "name": "collectRewardToken",
+          "name": "collectRewardTokens",
           "outputs": [],
           "stateMutability": "nonpayable",
           "type": "function"
@@ -263,6 +301,19 @@
           "name": "depositAll",
           "outputs": [],
           "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "getRewardTokenAddresses",
+          "outputs": [
+            {
+              "internalType": "address[]",
+              "name": "",
+              "type": "address[]"
+            }
+          ],
+          "stateMutability": "view",
           "type": "function"
         },
         {
@@ -304,9 +355,9 @@
               "type": "address"
             },
             {
-              "internalType": "address",
-              "name": "_rewardTokenAddress",
-              "type": "address"
+              "internalType": "address[]",
+              "name": "_rewardTokenAddresses",
+              "type": "address[]"
             },
             {
               "internalType": "address[]",
@@ -342,9 +393,9 @@
               "type": "address"
             },
             {
-              "internalType": "address",
-              "name": "_rewardTokenAddress",
-              "type": "address"
+              "internalType": "address[]",
+              "name": "_rewardTokenAddresses",
+              "type": "address[]"
             },
             {
               "internalType": "address[]",
@@ -415,8 +466,14 @@
           "type": "function"
         },
         {
-          "inputs": [],
-          "name": "rewardTokenAddress",
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "rewardTokenAddresses",
           "outputs": [
             {
               "internalType": "address",
@@ -468,12 +525,12 @@
         {
           "inputs": [
             {
-              "internalType": "address",
-              "name": "_rewardTokenAddress",
-              "type": "address"
+              "internalType": "address[]",
+              "name": "_rewardTokenAddresses",
+              "type": "address[]"
             }
           ],
-          "name": "setRewardTokenAddress",
+          "name": "setRewardTokenAddresses",
           "outputs": [],
           "stateMutability": "nonpayable",
           "type": "function"
@@ -760,7 +817,7 @@
       ]
     },
     "CurveUsdcStrategy": {
-      "address": "0x8882FAddD440D018EfA15B92d03F3f357eC91D4A",
+      "address": "0xf6561cf3B2Ef18cE38352C173Ff55689D3060E9c",
       "abi": [
         {
           "anonymous": false,
@@ -906,8 +963,33 @@
           "inputs": [
             {
               "indexed": false,
+              "internalType": "address[]",
+              "name": "_oldAddresses",
+              "type": "address[]"
+            },
+            {
+              "indexed": false,
+              "internalType": "address[]",
+              "name": "_newAddresses",
+              "type": "address[]"
+            }
+          ],
+          "name": "RewardTokenAddressesUpdated",
+          "type": "event"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
               "internalType": "address",
               "name": "recipient",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "rewardToken",
               "type": "address"
             },
             {
@@ -944,6 +1026,19 @@
           ],
           "name": "Withdrawal",
           "type": "event"
+        },
+        {
+          "inputs": [],
+          "name": "_deprecated_rewardTokenAddress",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
         },
         {
           "inputs": [
@@ -992,7 +1087,7 @@
         },
         {
           "inputs": [],
-          "name": "collectRewardToken",
+          "name": "collectRewardTokens",
           "outputs": [],
           "stateMutability": "nonpayable",
           "type": "function"
@@ -1024,6 +1119,19 @@
         },
         {
           "inputs": [],
+          "name": "getRewardTokenAddresses",
+          "outputs": [
+            {
+              "internalType": "address[]",
+              "name": "",
+              "type": "address[]"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
           "name": "governor",
           "outputs": [
             {
@@ -1048,9 +1156,9 @@
               "type": "address"
             },
             {
-              "internalType": "address",
-              "name": "_rewardTokenAddress",
-              "type": "address"
+              "internalType": "address[]",
+              "name": "_rewardTokenAddresses",
+              "type": "address[]"
             },
             {
               "internalType": "address[]",
@@ -1086,9 +1194,9 @@
               "type": "address"
             },
             {
-              "internalType": "address",
-              "name": "_rewardTokenAddress",
-              "type": "address"
+              "internalType": "address[]",
+              "name": "_rewardTokenAddresses",
+              "type": "address[]"
             },
             {
               "internalType": "address[]",
@@ -1159,8 +1267,14 @@
           "type": "function"
         },
         {
-          "inputs": [],
-          "name": "rewardTokenAddress",
+          "inputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "rewardTokenAddresses",
           "outputs": [
             {
               "internalType": "address",
@@ -1212,12 +1326,12 @@
         {
           "inputs": [
             {
-              "internalType": "address",
-              "name": "_rewardTokenAddress",
-              "type": "address"
+              "internalType": "address[]",
+              "name": "_rewardTokenAddresses",
+              "type": "address[]"
             }
           ],
-          "name": "setRewardTokenAddress",
+          "name": "setRewardTokenAddresses",
           "outputs": [],
           "stateMutability": "nonpayable",
           "type": "function"
@@ -3387,7 +3501,7 @@
       ]
     },
     "VaultAdmin": {
-      "address": "0xD43fc229C2e76991FB38Ec87058664C373ba8Bc4",
+      "address": "0xD7a4FBB20EeD82D7965F7E88429d3CAe5d4830BA",
       "abi": [
         {
           "anonymous": false,
@@ -4407,7 +4521,7 @@
       ]
     },
     "VaultCore": {
-      "address": "0x724e2233a8662324433d0c893BF944b08A78a689",
+      "address": "0x47A88d20fEa8aC11c5cAa97859b72b058d9420db",
       "abi": [
         {
           "anonymous": false,

@@ -8,6 +8,7 @@ const {
   isFuji,
   isFujiFork,
   isTest,
+  usdtUnits,
 } = require("../test/helpers.js");
 const addresses = require("../utils/addresses.js");
 
@@ -43,9 +44,7 @@ module.exports = deploymentWithProposal(
     const cAlphaHomoraStrategyProxy = await ethers.getContract(
       "AlphaHomoraStrategyProxy"
     );
-    const cAaveStrategyProxy = await ethers.getContract(
-      "AlphaHomoraStrategyProxy"
-    );
+    const cAaveStrategyProxy = await ethers.getContract("AaveStrategyProxy");
     const dAlphaHomoraStrategy = await deployWithConfirmation(
       "AlphaHomoraStrategy"
     );
@@ -119,23 +118,23 @@ module.exports = deploymentWithProposal(
     if (!isTest) {
       actions = [
         ...actions,
-        {
-          // Move all USDT.e to AH
-          contract: cVaultAdmin,
-          signature: "reallocate(address,address,address[],uint256[])",
-          args: [
-            cAaveStrategyProxy.address, // from
-            cAlphaHomoraStrategyProxy.address, // to
-            [assetAddresses.DAIe], // assets
-            [ethers.utils.parseEther("9.499236")], // amounts
-          ],
-        },
+        // approve strategy
         {
           contract: cVault,
           signature: "approveStrategy(address)",
           args: [cAlphaHomoraStrategyProxy.address],
         },
-        // approve strategy
+        // Move all USDT.e to AH
+        {
+          contract: cVaultAdmin,
+          signature: "reallocate(address,address,address[],uint256[])",
+          args: [
+            cAaveStrategyProxy.address, // from
+            cAlphaHomoraStrategyProxy.address, // to
+            [assetAddresses.USDTe], // assets
+            [usdtUnits("5.53")], // amounts
+          ],
+        },
         // initial set USDT.e default
         {
           contract: cVault,

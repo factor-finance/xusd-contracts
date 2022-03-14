@@ -39,7 +39,7 @@ const {
   getAVTokenAddress,
   ercBalanceOf,
 } = require("./tasks/contracts.js");
-const { ahProofUpdate } = require("./tasks/strategies.js");
+const { ahProofUpdate } = require("./tasks/strategies");
 const addresses = require("./utils/addresses.js");
 
 const mnemonic =

@@ -1,17 +1,42 @@
-// curl https://us-central1-alpha-perp.cloudfunctions.net/ahv2_avax_claim_info_avax?address=${AHV2_STRAT_ADDRESS} > avax_claim_info.json
-// curl https://us-central1-alpha-perp.cloudfunctions.net/ahv2_avax_claim_info_alpha?address=${AHV2_STRAT_ADDRESS} > alpha_claim_info.json
+const addresses = require("../utils/addresses");
+const fetch = require("node-fetch");
+
+const PROOF_BASE_HOST = "https://us-central1-alpha-perp.cloudfunctions.net";
+const PROOF_AVAX_URL = `${PROOF_BASE_HOST}/ahv2_avax_claim_info_avax`;
+const PROOF_ALPHA_URL = `${PROOF_BASE_HOST}/ahv2_avax_claim_info_alpha`;
+
+async function ahProofFetch(baseUrl, address) {
+  const url = `${baseUrl}?address=${address}`;
+  const r = await fetch(url);
+  const json = await r.json();
+  return json;
+}
 
 async function ahProofUpdate(taskArguments, hre) {
-  if (hre.network.name !== "localhost") {
-    throw new Error("Only mint rando ERC20s on testnet!");
-  }
+  const { strategistAddr } = await getNamedAccounts();
+  const sStrategist = hre.ethers.provider.getSigner(strategistAddr);
 
-  const { address, from, amount } = taskArguments;
-  const sFrom = hre.ethers.provider.getSigner(from);
+  const ah = await hre.ethers.getContract("AlphaHomoraStrategy");
 
-  const mintable = await hre.ethers.getContractAt("MintableERC20", address);
-  const decimals = await mintable.decimals();
+  const avaxProof = await ahProofFetch(PROOF_AVAX_URL, ah.address);
+  await ah
+    .connect(sStrategist)
+    .setProofAndAmount(
+      addresses.mainnet.WAVAX,
+      avaxProof.proof,
+      avaxProof.amount
+    );
 
-  await mintable.connect(sFrom).mint(parseUnits(amount.toString(), decimals));
-  console.log(`Minted ${amount} x 10^${decimals} of ${address} to ${from}`);
+  const alphaProof = await ahProofFetch(PROOF_ALPHA_URL, ah.address);
+  await ah
+    .connect(sStrategist)
+    .setProofAndAmount(
+      addresses.mainnet.ALPHAe,
+      alphaProof.proof,
+      alphaProof.amount
+    );
 }
+
+module.exports = {
+  ahProofUpdate,
+};

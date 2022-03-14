@@ -11,7 +11,6 @@ import { ICERC20 } from "../interfaces/alphaHomora/ICERC20.sol";
 import { ISafeBox } from "../interfaces/alphaHomora/ISafeBox.sol";
 import { StableMath } from "../utils/StableMath.sol";
 
-
 // https://alphafinancelab.gitbook.io/alpha-homora-developer-doc/become-the-leader-of-alpha-homora-v2
 // 1. User calls 'deposit' (AlphaHomora)
 //  - Deposit their underlying stablecoin[<8;60;9m]

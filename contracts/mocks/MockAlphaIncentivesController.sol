@@ -15,7 +15,6 @@ contract MockAlphaIncentivesController {
         REWARD_TOKEN = MintableERC20(token);
     }
 
-
     function setVault(address _vaultAddress) external {
         vaultAddress = _vaultAddress;
     }
@@ -29,11 +28,7 @@ contract MockAlphaIncentivesController {
      * @param user The address of the user
      * @return The rewards
      **/
-    function getRewardBalance(address user)
-        external
-        view
-        returns (uint256)
-    {
+    function getRewardBalance(address user) external view returns (uint256) {
         return rewards[user];
     }
 
@@ -48,7 +43,7 @@ contract MockAlphaIncentivesController {
         uint256 amount,
         bytes32[] calldata proof
     ) external returns (uint256) {
-        if(amount == 0) {
+        if (amount == 0) {
             return 0;
         }
         require(rewards[to] == amount);

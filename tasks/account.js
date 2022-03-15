@@ -267,7 +267,6 @@ async function mint(taskArguments, hre) {
     isFujiFork,
     isLocalhost,
   } = require("../test/helpers");
-
   if (!isFork && !isLocalhost && !isFuji) {
     throw new Error("Task can only be used on local, fork, or testnet");
   }

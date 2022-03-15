@@ -259,7 +259,9 @@ module.exports = {
     strategistAddr: {
       default: 0,
       localhost:
-        (process.env.FORK === "fuji" && addresses.fuji.Strategist) || 1,
+        (process.env.FORK === "fuji" && addresses.fuji.Strategist) ||
+        (process.env.FORK === "mainnet" && addresses.mainnet.Strategist) ||
+        1,
       "fuji-prod": addresses.fuji.Strategist,
       "mainnet-prod": addresses.mainnet.Strategist,
     },

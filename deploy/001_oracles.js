@@ -68,6 +68,11 @@ const deployOracles = async () => {
     withConfirmation(
       oracleRouter
         .connect(sDeployer)
+        .setFeed(assetAddresses.ALPHA, oracleAddresses.chainlink.ALPHA_USD)
+    );
+    withConfirmation(
+      oracleRouter
+        .connect(sDeployer)
         .setFeed(
           assetAddresses.NonStandardToken,
           oracleAddresses.chainlink.NonStandardToken_USD

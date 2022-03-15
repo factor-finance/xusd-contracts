@@ -29,6 +29,7 @@ module.exports = deploymentWithProposal(
       "VaultAdmin",
       cVaultProxy.address
     );
+    const cAaveStrategyProxy = await ethers.getContract("AaveStrategyProxy");
 
     let oracleRouter;
     if (isTest) {
@@ -44,13 +45,12 @@ module.exports = deploymentWithProposal(
     const cAlphaHomoraStrategyProxy = await ethers.getContract(
       "AlphaHomoraStrategyProxy"
     );
-    const cAaveStrategyProxy = await ethers.getContract("AaveStrategyProxy");
     const dAlphaHomoraStrategy = await deployWithConfirmation(
       "AlphaHomoraStrategy"
     );
     const cAlphaHomoraStrategy = await ethers.getContractAt(
       "AlphaHomoraStrategy",
-      dAlphaHomoraStrategyProxy.address
+      cAlphaHomoraStrategyProxy.address
     );
     await withConfirmation(
       cAlphaHomoraStrategyProxy["initialize(address,address,bytes)"](
@@ -63,7 +63,6 @@ module.exports = deploymentWithProposal(
     log("Initialized AlphaHomoraStrategyProxy");
     const initFunctionName =
       "initialize(address,address,address[],address[],address[],address[])";
-
     await withConfirmation(
       cAlphaHomoraStrategy
         .connect(sDeployer)
@@ -132,7 +131,7 @@ module.exports = deploymentWithProposal(
             cAaveStrategyProxy.address, // from
             cAlphaHomoraStrategyProxy.address, // to
             [assetAddresses.USDTe], // assets
-            [usdtUnits("5.53")], // amounts
+            [usdtUnits("5.53473")], // amounts
           ],
         },
         // initial set USDT.e default

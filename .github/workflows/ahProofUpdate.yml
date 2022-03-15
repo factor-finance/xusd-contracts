@@ -2,7 +2,7 @@ name: Update AH strategy rewards proof
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 0" # once a week on Sunday at midnight
+    - cron: "0 0 * * THU" # once a week on Thursday at midnight
 
 jobs:
   rebase:

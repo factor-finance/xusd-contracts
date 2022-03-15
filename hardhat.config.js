@@ -132,7 +132,11 @@ task("governors", "Get list of governors for all contracts").setAction(
 );
 
 // Strategy tasks
-task("ahProofUpdate", "fetch and update the AH proof", ahProofUpdate);
+task(
+  "ahProofUpdate",
+  "fetch and update the Alpha Homora merkle proof",
+  ahProofUpdate
+);
 
 // util tasks
 task("printHashes", "print hashes needed for storage slots", printHashes);

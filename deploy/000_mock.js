@@ -74,6 +74,41 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
     usdt.address
   );
 
+  // Deploy CTokens aka ibTokens (AlphaHomora)
+  const dCUSDT = await deploy("MockCUSDT.e", {
+    args: [usdt.address],
+    contract: "MockCERC20",
+    from: deployerAddr,
+  });
+  const dCDAI = await deploy("MockCDAI.e", {
+    args: [dai.address],
+    contract: "MockCERC20",
+    from: deployerAddr,
+  });
+  const dCUSDC = await deploy("MockCUSDC.e", {
+    args: [usdc.address],
+    contract: "MockCERC20",
+    from: deployerAddr,
+  });
+  // Deploy SafeBoxes. Perhaps only USDT is useable due to minting
+  await deploy("MockSafeBoxUSDT.e", {
+    args: [dCUSDT.address, "Interest Bearing USDT.e v2", "ibUSDT.ev2"],
+    contract: "MockSafeBox",
+    from: deployerAddr,
+  });
+  // Deploy SafeBoxes
+  await deploy("MockSafeBoxDAI.e", {
+    args: [dCDAI.address, "Interest Bearing DAI.e v2", "ibDAI.ev2"],
+    contract: "MockSafeBox",
+    from: deployerAddr,
+  });
+  // Deploy SafeBoxes
+  await deploy("MockSafeBoxUSDC.e", {
+    args: [dCUSDC.address, "Interest Bearing USDC.e v2", "ibUSDC.ev2"],
+    contract: "MockSafeBox",
+    from: deployerAddr,
+  });
+
   const curveUsdcToken = await ethers.getContract("MockUsdcPair");
 
   // Mock Curve gauge for depositing LP tokens from pool
@@ -134,6 +169,11 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
     contract: "MockChainlinkOracleFeed",
     args: [parseUnits("1", 8).toString(), 18], // 1 CRV = 1 USD, 8 digits decimal.
   });
+  await deploy("MockChainlinkOracleFeedALPHA", {
+    from: deployerAddr,
+    contract: "MockChainlinkOracleFeed",
+    args: [parseUnits("1", 8).toString(), 18], // 1 ALPHA = 1 USD, 8 digits decimal.
+  });
 
   // Deploy mock Uniswap router
   await deploy("MockPangolinRouter", {
@@ -144,10 +184,25 @@ const deployMocks = async ({ getNamedAccounts, deployments }) => {
     from: deployerAddr,
     args: [],
   });
+  await deploy("MockALPHA", {
+    from: deployerAddr,
+    args: [],
+  });
 
   const wavax = await ethers.getContract("MockWAVAX");
   await deploy("MockAaveIncentivesController", {
     from: deployerAddr,
+    args: [wavax.address],
+  });
+  const alpha = await ethers.getContract("MockALPHA");
+  await deploy("MockAlphaIncentivesControllerALPHA", {
+    from: deployerAddr,
+    contract: "MockAlphaIncentivesController",
+    args: [alpha.address],
+  });
+  await deploy("MockAlphaIncentivesControllerWAVAX", {
+    from: deployerAddr,
+    contract: "MockAlphaIncentivesController",
     args: [wavax.address],
   });
 

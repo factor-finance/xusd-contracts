@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
-    
+
 pragma solidity >=0.4.22 <0.9.0;
 
 // This import is automatically injected by Remix
-import "remix_tests.sol"; 
+import "remix_tests.sol";
 
 // This import is required to use custom transaction context
 // Although it may fail compilation in 'Solidity Compiler' plugin
@@ -32,7 +32,7 @@ contract testSuite {
         // Use the return value (true or false) to test the contract
         return true;
     }
-    
+
     function checkFailure() public {
         Assert.notEqual(uint(1), uint(1), "1 should not be equal to 1");
     }

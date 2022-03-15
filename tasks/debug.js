@@ -24,6 +24,9 @@ async function debug(taskArguments, hre) {
   const curveUsdcStrategyProxy = await hre.ethers.getContract(
     "CurveUsdcStrategyProxy"
   );
+  const alphaHomoraProxy = await hre.ethers.getContract(
+    "AlphaHomoraStrategyProxy"
+  );
   const vault = await hre.ethers.getContractAt("IVault", vaultProxy.address);
   const cVault = await hre.ethers.getContract("Vault");
   const vaultAdmin = await hre.ethers.getContract("VaultAdmin");
@@ -40,6 +43,13 @@ async function debug(taskArguments, hre) {
     curveUsdcStrategyProxy.address
   );
   const cCurveUsdcStrategy = await hre.ethers.getContract("CurveUsdcStrategy");
+  const alphaHomoraStrategy = await hre.ethers.getContractAt(
+    "AlphaHomoraStrategy",
+    alphaHomoraProxy.address
+  );
+  const cAlphaHomoraStrategy = await hre.ethers.getContract(
+    "AlphaHomoraStrategy"
+  );
   const oracleRouter = await hre.ethers.getContract("OracleRouter");
 
   const governor = await hre.ethers.getContract("Governor");
@@ -66,6 +76,13 @@ async function debug(taskArguments, hre) {
     `CurveUsdcStrategy impl:  ${await curveUsdcStrategyProxy.implementation()}`
   );
   console.log(`CurveUsdcStrategy:       ${cCurveUsdcStrategy.address}`);
+  console.log(`AlphaHomoraStrategy proxy:      ${alphaHomoraProxy.address}`);
+  console.log(
+    `AlphaHomoraStrategy impl:       ${await alphaHomoraProxy.implementation()}`
+  );
+  console.log(
+    `AlphaHomoraStrategy:            ${cAlphaHomoraStrategy.address}`
+  );
   console.log(`Governor:                ${governor.address}`);
 
   //
@@ -270,6 +287,17 @@ async function debug(taskArguments, hre) {
   }
 
   //
+  // AlphaHomora Strategy
+  //
+  await Promise.all(
+    assets.slice(0, 3).map(async (asset) => {
+      balanceRaw = await alphaHomoraStrategy.checkBalance(asset.address);
+      balance = formatUnits(balanceRaw.toString(), asset.decimals);
+      console.log(`AlphaHomora ${asset.symbol}:\t\t balance=${balance}`);
+    })
+  );
+
+  //
   // Strategies settings
   //
 
@@ -321,6 +349,27 @@ async function debug(taskArguments, hre) {
     console.log(
       `supportsAsset(${asset.symbol}):\t\t`,
       await curveUsdcStrategy.supportsAsset(asset.address)
+    );
+  }
+  console.log("\nAlphaHomora strategy settings");
+  console.log("============================");
+  console.log("vaultAddress:\t\t\t", await alphaHomoraStrategy.vaultAddress());
+  console.log(
+    "platformAddress:\t\t",
+    await alphaHomoraStrategy.platformAddress()
+  );
+  console.log(
+    "rewardTokenAddresses:\t\t",
+    await alphaHomoraStrategy.getRewardTokenAddresses()
+  );
+  console.log(
+    "rewardLiquidationThreshold:\t",
+    (await alphaHomoraStrategy.rewardLiquidationThreshold()).toString()
+  );
+  for (const asset of assets) {
+    console.log(
+      `supportsAsset(${asset.symbol}):\t\t`,
+      await alphaHomoraStrategy.supportsAsset(asset.address)
     );
   }
 }

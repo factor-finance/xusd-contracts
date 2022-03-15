@@ -254,7 +254,7 @@ async function fund(taskArguments, hre) {
 async function mint(taskArguments, hre) {
   const addresses = require("../utils/addresses");
   const {
-    usdtUnits,
+    usdcUnits,
     isFork,
     isMainnet,
     isFuji,
@@ -262,7 +262,6 @@ async function mint(taskArguments, hre) {
     isFujiFork,
     isLocalhost,
   } = require("../test/helpers");
-
   if (!isFork && !isLocalhost && !isFuji) {
     throw new Error("Task can only be used on local, fork, or testnet");
   }
@@ -273,13 +272,16 @@ async function mint(taskArguments, hre) {
   const vaultProxy = await ethers.getContract("VaultProxy");
   const vault = await ethers.getContractAt("IVault", vaultProxy.address);
 
-  let coin;
+  let coin, coinUnits;
   if (isMainnet || isMainnetFork) {
     coin = await hre.ethers.getContractAt(usdcAbi, addresses.mainnet.USDC);
+    coinUnits = usdcUnits;
   } else if (isFuji || isFujiFork) {
     coin = await hre.ethers.getContractAt(usdtAbi, addresses.fuji.USDT);
+    coinUnits = usdtUnits;
   } else {
     coin = await hre.ethers.getContract("MockUSDC");
+    coinUnits = usdcUnits;
   }
 
   const numAccounts = Number(taskArguments.num) || defaultNumAccounts;
@@ -294,7 +296,7 @@ async function mint(taskArguments, hre) {
     const signer = signers[i];
     const address = signer.address;
     console.log(
-      `Minting ${mintAmount} XUSD for account ${i} at address ${address}`
+      `Minting ${mintAmount} XUSD for account ${i} at address ${address} with coin ${coin.address}`
     );
 
     // Ensure the account has sufficient USDT balance to cover the mint.
@@ -319,12 +321,12 @@ async function mint(taskArguments, hre) {
       .approve(vault.address, "0x0", { gasLimit: 270000 });
     await coin
       .connect(signer)
-      .approve(vault.address, usdtUnits(mintAmount), { gasLimit: 470000 });
+      .approve(vault.address, coinUnits(mintAmount), { gasLimit: 470000 });
 
     // Mint.
     await vault
       .connect(signer)
-      .mint(coin.address, usdtUnits(mintAmount), 0, { gasLimit: 8000000 });
+      .mint(coin.address, coinUnits(mintAmount), 0, { gasLimit: 8000000 });
 
     // Show new account's balance.
     const xusdBalance = await xusd.balanceOf(address);

@@ -7,6 +7,12 @@ const daiAbi = require("../test/abi/erc20.json");
 const usdcAbi = require("../test/abi/erc20.json");
 const tusdAbi = require("../test/abi/erc20.json");
 const wavaxAbi = require("../test/abi/erc20.json");
+const coinToAbi = {
+  usdt: usdtAbi,
+  dai: daiAbi,
+  usdc: usdcAbi,
+  tusd: tusdAbi,
+};
 
 // By default we use 10 test accounts.
 const defaultNumAccounts = 10;
@@ -15,13 +21,13 @@ const defaultNumAccounts = 10;
 const defaultAccountIndex = 4;
 
 // By default, fund each test account with 10k worth of each stable coin.
-const defaultFundAmount = "1000";
+const defaultFundAmount = "10000";
 
-// By default, mint 1k worth of XUSD for each test account.
-const defaultMintAmount = "1000";
+// By default, mint 10k worth of XUSD for each test account.
+const defaultMintAmount = "10000";
 
-// By default, redeem 1k worth of XUSD for each test account.
-const defaultRedeemAmount = 1000;
+// By default, redeem 10k worth of XUSD for each test account.
+const defaultRedeemAmount = 10000;
 
 /**
  * Prints test accounts.
@@ -214,7 +220,7 @@ async function fund(taskArguments, hre) {
       contractDataList.map(async (contractData) => {
         const { contract, unitsFn, forkSigner, name } = contractData;
         const usedFundAmount =
-          contract !== null && name != "WAVAX" ? fundAmount : "100";
+          contract !== null && name != "wavax" ? fundAmount : "100";
         if (isFork) {
           // fund avax
           if (!contract) {
@@ -254,7 +260,6 @@ async function fund(taskArguments, hre) {
 async function mint(taskArguments, hre) {
   const addresses = require("../utils/addresses");
   const {
-    usdcUnits,
     isFork,
     isMainnet,
     isFuji,
@@ -272,17 +277,33 @@ async function mint(taskArguments, hre) {
   const vaultProxy = await ethers.getContract("VaultProxy");
   const vault = await ethers.getContractAt("IVault", vaultProxy.address);
 
-  let coin, coinUnits;
+  let coin;
   if (isMainnet || isMainnetFork) {
-    coin = await hre.ethers.getContractAt(usdcAbi, addresses.mainnet.USDC);
-    coinUnits = usdcUnits;
+    if (taskArguments.coinName !== undefined) {
+      const coinNameToCoin = {
+        usdt: await hre.ethers.getContractAt(usdtAbi, addresses.mainnet.USDT),
+        dai: await hre.ethers.getContractAt(daiAbi, addresses.mainnet.DAI),
+        usdc: await hre.ethers.getContractAt(usdcAbi, addresses.mainnet.USDC),
+        usdcNative: await hre.ethers.getContractAt(
+          usdcAbi,
+          addresses.mainnet.USDC_native
+        ),
+      };
+      const coinName = taskArguments.coinName.toLowerCase();
+      coin = coinNameToCoin[coinName];
+      if (coin == undefined) {
+        throw new Error(`Unknown coinName ${coinName}`);
+      }
+    } else {
+      coin = await hre.ethers.getContractAt(usdcAbi, addresses.mainnet.USDC);
+    }
   } else if (isFuji || isFujiFork) {
     coin = await hre.ethers.getContractAt(usdtAbi, addresses.fuji.USDT);
-    coinUnits = usdtUnits;
   } else {
     coin = await hre.ethers.getContract("MockUSDC");
-    coinUnits = usdcUnits;
   }
+  const coinDecimals = await coin.decimals();
+  const coinUnits = (x) => ethers.utils.parseUnits(x, coinDecimals);
 
   const numAccounts = Number(taskArguments.num) || defaultNumAccounts;
   const accountIndex =
@@ -296,7 +317,7 @@ async function mint(taskArguments, hre) {
     const signer = signers[i];
     const address = signer.address;
     console.log(
-      `Minting ${mintAmount} XUSD for account ${i} at address ${address} with coin ${coin.address}`
+      `Minting ${mintAmount} XUSD for account ${i} at address ${address} with ${await coin.symbol()}`
     );
 
     // Ensure the account has sufficient USDT balance to cover the mint.

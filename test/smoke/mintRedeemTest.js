@@ -1,6 +1,8 @@
 const { fund, mint } = require("../../tasks/account");
 const {
   usdcUnits,
+  daiUnits,
+  usdtUnits,
   xusdUnits,
   xusdUnitsFormat,
   isWithinTolerance,
@@ -104,33 +106,69 @@ async function beforeDeploy(hre) {
   // fund stablecoins to the 4th account in signers
   await setup(hre);
 
-  const usdcBeforeMint = await getUsdcBalance();
-  const xusdBeforeMint = await getXusdBalance(signer);
-  const usdcToMint = "1100";
-  await mint(
-    {
-      num: 1,
-      amount: usdcToMint,
-    },
-    hre
+  const balanceFns = {
+    usdc: getUsdcBalance,
+    dai: getDaiBalance,
+    usdt: getUsdtBalance,
+  };
+
+  const unitFns = {
+    usdc: usdcUnits,
+    dai: daiUnits,
+    usdt: usdtUnits,
+  };
+  const coinNames = ["usdc", "dai", "usdt"];
+
+  const balancesBeforeMint = {
+    xusd: await getXusdBalance(signer),
+  };
+  const amountToMint = "1100"; // critically, more than allocate threshold!
+  await Promise.all(
+    coinNames.map(async (coinName) => {
+      balancesBeforeMint[coinName] = await balanceFns[coinName]();
+      return mint(
+        {
+          num: 1,
+          amount: amountToMint,
+          coinName: coinName,
+        },
+        hre
+      );
+    })
   );
 
-  const usdcAfterMint = await getUsdcBalance();
-  const xusdAfterMint = await getXusdBalance(signer);
+  const balancesAfterMint = {
+    xusd: await getXusdBalance(signer),
+  };
+  await Promise.all(
+    coinNames.map(async (coinName) => {
+      balancesAfterMint[coinName] = await balanceFns[coinName]();
+    })
+  );
 
-  const expectedUsdc = usdcBeforeMint.sub(usdcUnits(usdcToMint));
-  if (!usdcAfterMint.eq(expectedUsdc)) {
-    throw new Error(
-      `Incorrect usdc value. Got ${usdcAfterMint.toString()} expected: ${expectedUsdc.toString()}`
+  const expectedAmounts = {};
+
+  coinNames.map((coinName) => {
+    expectedAmounts[coinName] = balancesBeforeMint[coinName].sub(
+      unitFns[coinName](amountToMint)
     );
-  }
+    if (!balancesAfterMint[coinName].eq(expectedAmounts[coinName])) {
+      throw new Error(
+        `Incorrect ${coinName} value. Got ${balancesAfterMint[
+          coinName
+        ].toString()} expected: ${expectedAmounts[coinName].toString()}`
+      );
+    }
+  });
 
-  const expectedXusd = xusdBeforeMint.add(xusdUnits(usdcToMint));
-  assertExpectedXusd(xusdAfterMint, expectedXusd);
+  const expectedXusd = balancesBeforeMint.xusd.add(
+    xusdUnits(amountToMint).mul(coinNames.length)
+  );
+  assertExpectedXusd(balancesAfterMint.xusd, expectedXusd);
 
   return {
-    xusdBeforeMint,
-    xusdAfterMint,
+    xusdBeforeMint: balancesBeforeMint.xusd,
+    xusdAfterMint: balancesAfterMint.xusd,
   };
 }
 

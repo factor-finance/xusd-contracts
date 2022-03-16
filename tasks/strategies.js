@@ -13,6 +13,12 @@ async function ahProofFetch(baseUrl, address) {
 }
 
 async function ahProofUpdate(taskArguments, hre) {
+  const { isMainnet, isMainnetFork } = require("../test/helpers.js");
+
+  if (!isMainnet && !isMainnetFork) {
+    throw new Error("ahProofUpdate task requires mainnet or mainnet fork");
+  }
+
   const { strategistAddr } = await getNamedAccounts();
   const sStrategist = hre.ethers.provider.getSigner(strategistAddr);
 

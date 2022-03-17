@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  rebase:
+  allocate:
     runs-on: ubuntu-latest
     defaults:
       run:

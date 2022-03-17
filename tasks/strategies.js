@@ -23,7 +23,11 @@ async function ahProofUpdate(taskArguments, hre) {
   const { strategistAddr } = await getNamedAccounts();
   const sStrategist = hre.ethers.provider.getSigner(strategistAddr);
 
-  const ah = await hre.ethers.getContract("AlphaHomoraStrategy");
+  const ahProxy = await hre.ethers.getContract("AlphaHomoraStrategyProxy");
+  const ah = await hre.ethers.getContractAt(
+    "AlphaHomoraStrategy",
+    ahProxy.address
+  );
 
   const currentAvaxProof = await ah.getProofAndAmount(addresses.mainnet.WAVAX);
   const currentAlphaProof = await ah.getProofAndAmount(

@@ -39,6 +39,7 @@ const {
   getAVTokenAddress,
   ercBalanceOf,
 } = require("./tasks/contracts.js");
+const { ahProofUpdate } = require("./tasks/strategies");
 const addresses = require("./utils/addresses.js");
 
 const mnemonic =
@@ -130,6 +131,13 @@ task("governors", "Get list of governors for all contracts").setAction(
   governors
 );
 
+// Strategy tasks
+task(
+  "ahProofUpdate",
+  "fetch and update the Alpha Homora merkle proof",
+  ahProofUpdate
+);
+
 // util tasks
 task("printHashes", "print hashes needed for storage slots", printHashes);
 task("mintToken", "Mint mintable token on testest")
@@ -215,6 +223,7 @@ module.exports = {
       accounts: [
         process.env.DEPLOYER_PK || privateKeys[1],
         process.env.GOVERNOR_PK || privateKeys[1],
+        process.env.STRATEGIST_PK || privateKeys[1],
       ],
     },
     "mainnet-prod": {
@@ -224,6 +233,7 @@ module.exports = {
       accounts: [
         process.env.DEPLOYER_PK || privateKeys[0],
         process.env.GOVERNOR_PK || privateKeys[0],
+        process.env.STRATEGIST_PK || privateKeys[0],
       ],
     },
   },

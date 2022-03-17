@@ -34,7 +34,7 @@ const defaultRedeemAmount = 10000;
  */
 async function accounts(taskArguments, hre, privateKeys) {
   const accounts = await hre.ethers.getSigners();
-  const roles = ["Deployer", "Governor"];
+  const roles = ["Deployer", "Governor", "Strategist"];
 
   let i = 0;
   for (const account of accounts) {

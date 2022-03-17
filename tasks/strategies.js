@@ -14,7 +14,7 @@ async function ahProofFetch(baseUrl, address) {
 }
 
 async function ahProofUpdate(taskArguments, hre) {
-  const { isMainnet, isMainnetFork } = require("../test/helpers.js");
+  const { isMainnet, isMainnetFork, isFork } = require("../test/helpers.js");
 
   if (!isMainnet && !isMainnetFork) {
     throw new Error("ahProofUpdate task requires mainnet or mainnet fork");
@@ -42,6 +42,13 @@ async function ahProofUpdate(taskArguments, hre) {
     alphaProofJson.proof,
     parseUnits(alphaProofJson.amount, 18),
   ];
+
+  if (isFork) {
+    await hre.network.provider.request({
+      method: "hardhat_impersonateAccount",
+      params: [strategistAddr],
+    });
+  }
 
   if (JSON.stringify(currentAvaxProof) != JSON.stringify(avaxProof)) {
     await ah

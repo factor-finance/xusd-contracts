@@ -1,5 +1,6 @@
 const addresses = require("../utils/addresses");
 const fetch = require("node-fetch");
+const { parseUnits } = require("ethers").utils;
 
 const PROOF_BASE_HOST = "https://us-central1-alpha-perp.cloudfunctions.net";
 const PROOF_AVAX_URL = `${PROOF_BASE_HOST}/ahv2_avax_claim_info_avax`;
@@ -24,23 +25,39 @@ async function ahProofUpdate(taskArguments, hre) {
 
   const ah = await hre.ethers.getContract("AlphaHomoraStrategy");
 
-  const avaxProof = await ahProofFetch(PROOF_AVAX_URL, ah.address);
-  await ah
-    .connect(sStrategist)
-    .setProofAndAmount(
-      addresses.mainnet.WAVAX,
-      avaxProof.proof,
-      avaxProof.amount
-    );
+  const currentAvaxProof = await ah.getProofAndAmount(addresses.mainnet.WAVAX);
+  const currentAlphaProof = await ah.getProofAndAmount(
+    addresses.mainnet.ALPHAe
+  );
 
-  const alphaProof = await ahProofFetch(PROOF_ALPHA_URL, ah.address);
-  await ah
-    .connect(sStrategist)
-    .setProofAndAmount(
-      addresses.mainnet.ALPHAe,
-      alphaProof.proof,
-      alphaProof.amount
-    );
+  const avaxProofJson = await ahProofFetch(PROOF_AVAX_URL, ah.address);
+  const alphaProofJson = await ahProofFetch(PROOF_ALPHA_URL, ah.address);
+
+  const avaxProof = [avaxProofJson.proof, parseUnits(avaxProofJson.amount, 18)];
+  const alphaProof = [
+    alphaProofJson.proof,
+    parseUnits(alphaProofJson.amount, 18),
+  ];
+
+  if (JSON.stringify(currentAvaxProof) != JSON.stringify(avaxProof)) {
+    await ah
+      .connect(sStrategist)
+      .setProofAndAmount(addresses.mainnet.WAVAX, avaxProof[0], avaxProof[1]);
+  } else {
+    console.log("No update required for WAVAX");
+  }
+
+  if (JSON.stringify(currentAlphaProof) != JSON.stringify(alphaProof)) {
+    await ah
+      .connect(sStrategist)
+      .setProofAndAmount(
+        addresses.mainnet.ALPHAe,
+        alphaProof[0],
+        alphaProof[1]
+      );
+  } else {
+    console.log("No update required for ALPHAe");
+  }
 }
 
 module.exports = {

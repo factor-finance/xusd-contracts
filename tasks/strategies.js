@@ -34,8 +34,8 @@ async function ahProofUpdate(taskArguments, hre) {
     addresses.mainnet.ALPHAe
   );
 
-  const avaxProofJson = await ahProofFetch(PROOF_AVAX_URL, ah.address);
-  const alphaProofJson = await ahProofFetch(PROOF_ALPHA_URL, ah.address);
+  const avaxProofJson = await ahProofFetch(PROOF_AVAX_URL, ahProxy.address);
+  const alphaProofJson = await ahProofFetch(PROOF_ALPHA_URL, ahProxy.address);
 
   const avaxProof = [avaxProofJson.proof, parseUnits(avaxProofJson.amount, 18)];
   const alphaProof = [

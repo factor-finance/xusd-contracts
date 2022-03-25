@@ -1,6 +1,6 @@
 const addresses = require("../utils/addresses");
 const fetch = require("node-fetch");
-const { parseUnits } = require("ethers").utils;
+const BigNumber = require("ethers").BigNumber;
 
 const PROOF_BASE_HOST = "https://us-central1-alpha-perp.cloudfunctions.net";
 const PROOF_AVAX_URL = `${PROOF_BASE_HOST}/ahv2_avax_claim_info_avax`;
@@ -37,10 +37,10 @@ async function ahProofUpdate(taskArguments, hre) {
   const avaxProofJson = await ahProofFetch(PROOF_AVAX_URL, ahProxy.address);
   const alphaProofJson = await ahProofFetch(PROOF_ALPHA_URL, ahProxy.address);
 
-  const avaxProof = [avaxProofJson.proof, parseUnits(avaxProofJson.amount, 18)];
+  const avaxProof = [avaxProofJson.proof, BigNumber.from(avaxProofJson.amount)];
   const alphaProof = [
     alphaProofJson.proof,
-    parseUnits(alphaProofJson.amount, 18),
+    BigNumber.from(alphaProofJson.amount),
   ];
 
   if (isFork) {

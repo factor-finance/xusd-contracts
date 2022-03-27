@@ -19,7 +19,15 @@ async function mintToken(taskArguments, hre) {
 async function ercBalanceOf(taskArguments, hre) {
   const { address } = taskArguments;
   const addresses = require("../utils/addresses");
-  const tokenNames = ["WAVAX", "USDC", "USDT", "DAI"];
+  const tokenNames = [
+    "WAVAX",
+    "USDC",
+    "USDC_native",
+    "USDT",
+    "DAI",
+    "ALPHA",
+    "CRV",
+  ];
   const networkName =
     hre.network.name === "localhost" && process.env.FORK === "mainnet"
       ? "mainnet"

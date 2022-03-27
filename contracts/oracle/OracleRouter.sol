@@ -85,6 +85,12 @@ contract OracleRouter is OracleRouterBase {
         ) {
             // Chainlink: ALPHA/USD
             return address(0x7B0ca9A6D03FE0467A31Ca850f5bcA51e027B3aF);
+        } else if (
+            // CRVe
+            asset == address(0x249848BeCA43aC405b8102Ec90Dd5F22CA513c06)
+        ) {
+            // Chainlink: CRVe/USD
+            return address(0x7CF8A6090A9053B01F3DF4D4e6CfEdd8c90d9027);
         } else {
             revert("Asset not available");
         }

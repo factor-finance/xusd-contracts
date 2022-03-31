@@ -30,7 +30,7 @@ jobs:
       - if: env.PROCEED == '0' && always()
         run: |
           curl -X POST -H "Content-Type: application/json" "$DISCORD_WEBHOOK_URL" \
-            -d "{'content': 'XUSD rebase ${ACTION_STATUS}'}"
+            -d "{\"content\": \"XUSD rebase ${ACTION_STATUS}\"}"
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           ACTION_STATUS: ${{ github.action_status }}

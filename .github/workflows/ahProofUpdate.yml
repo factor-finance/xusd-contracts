@@ -25,7 +25,7 @@ jobs:
       - if: always()
         run: |
           curl -X POST -H "Content-Type: application/json" "$DISCORD_WEBHOOK_URL" \
-            -d "{\"content\": \"XUSD: Alpha Homora strategy rewards proof update ${JOB_STATUS}\"}"
+            -d "{\"content\": \"XUSD Alpha Homora strategy rewards proof update ${JOB_STATUS}\"}"
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           JOB_STATUS: ${{ job.status }}

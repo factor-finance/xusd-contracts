@@ -17,7 +17,7 @@ jobs:
 
       - if: env.PROCEED == '0'
         run: |
-          exit 1
+          exit 0
         env:
           DEPLOYER_PK: ${{ secrets.DEPLOYER_PK }}
 

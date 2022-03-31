@@ -22,8 +22,9 @@ jobs:
         env:
           STRATEGIST_PK: ${{ secrets.STRATEGIST_PK }}
 
-      - run: |
+      - if: always()
+        run: |
           curl -X POST -H "Content-Type: application/json" "$DISCORD_WEBHOOK_URL" \
-            -d '{"content": "XUSD: Alpha Homora strategy rewards proof updated"}'
+            -d '{"content": "XUSD: Alpha Homora strategy rewards proof update ${{ github.action_status }}"}'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}

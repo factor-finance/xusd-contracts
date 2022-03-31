@@ -21,8 +21,9 @@ jobs:
         env:
           DEPLOYER_PK: ${{ secrets.DEPLOYER_PK }}
 
-      - run: |
+      - if: always()
+        run: |
           curl -X POST -H "Content-Type: application/json" "$DISCORD_WEBHOOK_URL" \
-            -d '{"content": "XUSD allocate completed"}'
+            -d '{"content": "XUSD allocate ${{ github.action_status }}"}'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}

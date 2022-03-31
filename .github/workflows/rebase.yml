@@ -13,24 +13,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run: echo "PROCEED=$((RANDOM%2))" >> $GITHUB_ENV
+      - run: echo "PROCEED=0" >> $GITHUB_ENV
 
       - if: env.PROCEED == '0'
         run: |
-          yarn install
-          yarn hardhat compile
-
-      - if: env.PROCEED == '0'
-        run: |
-          sleep $((RANDOM%60))
-          yarn hardhat rebase --network mainnet-prod
+          exit 1
         env:
           DEPLOYER_PK: ${{ secrets.DEPLOYER_PK }}
 
       - if: env.PROCEED == '0' && always()
         run: |
           curl -X POST -H "Content-Type: application/json" "$DISCORD_WEBHOOK_URL" \
-            -d "{\"content\": \"XUSD rebase ${ACTION_STATUS}\"}"
+            -d "{\"content\": \"testing ${ACTION_STATUS}\"}"
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          ACTION_STATUS: ${{ github.action_status }}
+          ACTION_STATUS: ${{ job.status }}
